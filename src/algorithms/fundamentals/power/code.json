@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Power {\n    public double myPow(double x, int n) {\n        if (n < 0) { x = 1 / x; n = -n; }\n        double result = 1;\n        while (n > 0) {\n            if (n % 2 == 1) result *= x;\n            x *= x;\n            n /= 2;\n        }\n        return result;\n    }\n    public static void main(String[] args) {\n        System.out.println(new Power().myPow(2, 10)); // 1024.0\n        System.out.println(new Power().myPow(3, 5));  // 243.0\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\ndouble myPow(double x,int n){if(n<0){x=1/x;n=-n;}double r=1;while(n>0){if(n%2)r*=x;x*=x;n/=2;}return r;}\nint main(){printf(\"%.0f %.0f\\n\",myPow(2,10),myPow(3,5));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\ndouble myPow(double x,int n){if(n<0){x=1/x;n=-n;}double r=1;while(n>0){if(n&1)r*=x;x*=x;n>>=1;}return r;}\nint main(){cout<<myPow(2,10)<<\" \"<<myPow(3,5)<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

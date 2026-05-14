@@ -1,0 +1,44 @@
+{
+  "name": "Staircase / Climbing Stairs",
+  "type": "dp",
+  "description": "Count distinct ways to reach the top of n stairs when you can climb 1 or 2 steps at a time. Classic Fibonacci-like DP.",
+  "aim": "Count ways to climb n stairs: dp[i] = dp[i-1] + dp[i-2] (either come from stair i-1 with one step or stair i-2 with two steps).",
+  "howItWorks": [
+    "Base cases: dp[1]=1, dp[2]=2",
+    "For each stair i from 3 to n:",
+    "  dp[i] = dp[i-1] + dp[i-2]",
+    "  (one step from i-1, or two steps from i-2)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Linear",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "dp array; optimizable to O(1) with two variables",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Number of ways to decode a message (letter combinations)",
+      "Tile placement problems",
+      "Coin combinations for exact change (specific variant)"
+    ],
+    "whenToUse": [
+      "Count distinct ways with choices of 1 or 2",
+      "Any problem with Fibonacci recurrence"
+    ],
+    "alternatives": [
+      "Matrix exponentiation — O(log n) for very large n",
+      "Direct Fibonacci formula — O(1) with floating point"
+    ]
+  },
+  "id": "staircase",
+  "category": "dynamic-programming",
+  "implemented": true
+}

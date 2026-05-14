@@ -1,0 +1,48 @@
+{
+  "id": "reverseLinkedList",
+  "name": "Reverse Linked List",
+  "category": "linked-lists",
+  "type": "linked-list",
+  "implemented": true,
+  "description": "Reverses a singly linked list in-place by changing next pointers. Uses three pointers (prev, curr, next) to reverse each link one at a time.",
+  "aim": "Reverse all next pointers in a linked list so the last node becomes the head, using constant extra space.",
+  "howItWorks": [
+    "Initialize prev=null, curr=head",
+    "While curr is not null:",
+    "  Save next = curr.next",
+    "  Reverse: curr.next = prev",
+    "  Advance: prev = curr, curr = next",
+    "Return prev as new head"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass — must visit every node",
+      "average": "O(n)",
+      "averageCase": "Linear regardless of input",
+      "worst": "O(n)",
+      "worstCase": "Same — no variation"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Three pointer variables — no extra allocation",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Undo operations — reverse history linked list",
+      "Browser back-forward navigation implementation",
+      "Palindrome linked list check (reverse second half)",
+      "Implementing stack using linked list"
+    ],
+    "whenToUse": [
+      "In-place linked list manipulation",
+      "When O(1) extra space is required"
+    ],
+    "alternatives": [
+      "Stack-based reversal — O(n) space but simpler code",
+      "Recursive reversal — elegant but O(n) stack space",
+      "Creating new list — O(n) space, cleaner but wasteful"
+    ]
+  }
+}

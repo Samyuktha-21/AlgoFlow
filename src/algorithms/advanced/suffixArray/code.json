@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Suffix Array - see algorithm textbooks for full implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Suffix Array C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Suffix Array C++ implementation",
+    "lineKeys": {}
+  }
+}

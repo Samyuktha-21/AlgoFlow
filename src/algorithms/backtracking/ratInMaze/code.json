@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class RatInMaze {\n    public List<String> findPaths(int[][] maze) {\n        int n = maze.length;\n        List<String> paths = new ArrayList<>();\n        if (maze[0][0] == 1) solve(maze, 0, 0, n, \"\", paths, new boolean[n][n]);\n        return paths;\n    }\n    void solve(int[][] m, int r, int c, int n, String path, List<String> paths, boolean[][] vis) {\n        if (r==n-1 && c==n-1) { paths.add(path); return; }\n        int[] dr={1,-1,0,0}, dc={0,0,-1,1};\n        char[] dir={'D','U','L','R'};\n        vis[r][c] = true;\n        for (int i=0; i<4; i++) {\n            int nr=r+dr[i], nc=c+dc[i];\n            if (nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&m[nr][nc]==1)\n                solve(m, nr, nc, n, path+dir[i], paths, vis);\n        }\n        vis[r][c] = false;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint maze[4][4]={{1,0,0,0},{1,1,0,1},{0,1,0,0},{0,1,1,1}};\nint vis[4][4]={0},n=4;\nint dr[]={1,-1,0,0},dc[]={0,0,-1,1};char path[100],pi=0;\nvoid solve(int r,int c){if(r==n-1&&c==n-1){path[pi]=0;printf(\"%s\\n\",path);return;}vis[r][c]=1;\nfor(int i=0;i<4;i++){int nr=r+dr[i],nc=c+dc[i];if(nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&maze[nr][nc]){path[pi++]=\"DULR\"[i];solve(nr,nc);pi--;}}vis[r][c]=0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <string>\nusing namespace std;\nint dr[]={1,-1,0,0},dc[]={0,0,-1,1};string dirs=\"DULR\";\nvoid solve(vector<vector<int>>&m,int r,int c,int n,string&p,vector<string>&res,vector<vector<bool>>&vis){if(r==n-1&&c==n-1){res.push_back(p);return;}vis[r][c]=true;for(int i=0;i<4;i++){int nr=r+dr[i],nc=c+dc[i];if(nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&m[nr][nc]){p+=dirs[i];solve(m,nr,nc,n,p,res,vis);p.pop_back();}}vis[r][c]=false;}",
+    "lineKeys": {}
+  }
+}

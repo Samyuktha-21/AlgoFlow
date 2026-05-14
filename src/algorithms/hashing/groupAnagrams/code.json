@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class GroupAnagrams {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> map = new HashMap<>();\n        for (String s : strs) {\n            char[] chars = s.toCharArray();\n            Arrays.sort(chars);\n            String key = new String(chars);\n            map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);\n        }\n        return new ArrayList<>(map.values());\n    }\n    public static void main(String[] args) {\n        String[] s = {\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"};\n        System.out.println(new GroupAnagrams().groupAnagrams(s));\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return *(char*)a-*(char*)b;}\n// Group by sorted key — omitted for brevity in C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <unordered_map>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\nvector<vector<string>> groupAnagrams(vector<string>&strs){unordered_map<string,vector<string>>m;\nfor(auto&s:strs){string k=s;sort(k.begin(),k.end());m[k].push_back(s);}\nvector<vector<string>>res;for(auto&p:m)res.push_back(p.second);return res;}",
+    "lineKeys": {}
+  }
+}

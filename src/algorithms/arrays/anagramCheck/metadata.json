@@ -1,0 +1,45 @@
+{
+  "name": "Anagram Check",
+  "type": "array",
+  "description": "Checks if two strings are anagrams (contain the same characters with the same frequencies) using character frequency counting.",
+  "aim": "Determine if two strings are anagrams by counting character frequencies: two strings are anagrams if their frequency maps are identical.",
+  "howItWorks": [
+    "Count frequency of each character in string 1",
+    "Subtract frequency of each character in string 2",
+    "If all counts are zero: anagrams",
+    "Alternatively: sort both strings and compare"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Frequency counting in linear time",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same — hash map approach"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Fixed-size character frequency array (256 ASCII or 26 letters)",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Spell checkers finding anagram suggestions",
+      "Word game AI (Scrabble, Words with Friends)",
+      "DNA sequence analysis — detecting rearrangements",
+      "Detecting identical content with different encoding"
+    ],
+    "whenToUse": [
+      "Check if two strings are rearrangements",
+      "Group strings that are anagrams of each other"
+    ],
+    "alternatives": [
+      "Sorting approach — O(n log n) but simpler",
+      "Prime product — clever but overflow risk"
+    ]
+  },
+  "id": "anagramCheck",
+  "category": "arrays",
+  "implemented": true
+}

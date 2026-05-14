@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// A* Search - see algorithm textbooks for complete implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// A* Search C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// A* Search C++ implementation",
+    "lineKeys": {}
+  }
+}

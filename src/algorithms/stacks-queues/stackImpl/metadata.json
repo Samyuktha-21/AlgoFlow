@@ -1,0 +1,47 @@
+{
+  "name": "Stack Implementation",
+  "type": "stack",
+  "description": "Implements a stack data structure with push, pop, peek, and isEmpty operations using an array or linked list.",
+  "aim": "Provide LIFO (Last-In-First-Out) access with O(1) push, pop, and peek using an array-based or linked-list-based implementation.",
+  "howItWorks": [
+    "Array-based: maintain top pointer",
+    "push: arr[++top] = val",
+    "pop: return arr[top--]",
+    "peek: return arr[top] without removing",
+    "isEmpty: return top == -1"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All operations constant time",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Dynamic array resize on overflow"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Array or linked list of n elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Function call stack in programming languages",
+      "Undo/redo in text editors",
+      "Expression evaluation and syntax parsing",
+      "Browser back button"
+    ],
+    "whenToUse": [
+      "LIFO access pattern needed",
+      "Recursive algorithm simulation",
+      "Parsing nested structures"
+    ],
+    "alternatives": [
+      "Queue — for FIFO access",
+      "Deque — for both ends access"
+    ]
+  },
+  "id": "stackImpl",
+  "category": "stacks-queues",
+  "implemented": true
+}

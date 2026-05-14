@@ -1,0 +1,39 @@
+{
+  "name": "Suffix Array",
+  "type": "array",
+  "description": "Lexicographically sorted array of all suffixes for fast substring operations",
+  "aim": "Efficiently solve suffix array related problems.",
+  "howItWorks": [
+    "See code implementation for detailed steps"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on variant",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional space",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Suffix Array is used in text processing",
+      "compiler design",
+      "and algorithm research"
+    ],
+    "whenToUse": [
+      "When suffix array capabilities are needed"
+    ],
+    "alternatives": [
+      "Simpler alternatives exist for specific use cases"
+    ]
+  },
+  "id": "suffixArray",
+  "category": "advanced",
+  "implemented": true
+}

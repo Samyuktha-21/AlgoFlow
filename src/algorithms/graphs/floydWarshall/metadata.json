@@ -1,0 +1,46 @@
+{
+  "name": "Floyd-Warshall Algorithm",
+  "type": "graph",
+  "description": "All-pairs shortest path algorithm using dynamic programming. Iteratively considers each vertex as an intermediate node, finding shortest paths between all pairs.",
+  "aim": "Find shortest paths between ALL pairs of vertices using O(V³) DP: dist[i][j] = min(dist[i][j], dist[i][k]+dist[k][j]) for each intermediate vertex k.",
+  "howItWorks": [
+    "Initialize distance matrix with direct edge weights, 0 on diagonal, ∞ for no edge",
+    "For each intermediate vertex k (0 to V-1):",
+    "  For each pair (i,j): update dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])",
+    "After V iterations, dist[i][j] holds shortest path from i to j"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V³)",
+      "bestCase": "Always O(V³) — three nested loops",
+      "average": "O(V³)",
+      "averageCase": "Same",
+      "worst": "O(V³)",
+      "worstCase": "Same — no variation"
+    },
+    "space": "O(V²)",
+    "spaceDescription": "V×V distance matrix",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "All-pairs shortest paths in small networks",
+      "Detecting negative cycles (dist[i][i] < 0)",
+      "Transitive closure of a graph",
+      "Routing protocols in small networks"
+    ],
+    "whenToUse": [
+      "Need ALL pairs shortest paths",
+      "Graph is dense",
+      "V is small (V < 1000)"
+    ],
+    "alternatives": [
+      "Dijkstra from all vertices — O(V(V+E)log V), better for sparse graphs",
+      "Bellman-Ford from all vertices — O(V²E), handles negative edges"
+    ]
+  },
+  "id": "floydWarshall",
+  "category": "graphs",
+  "implemented": true
+}

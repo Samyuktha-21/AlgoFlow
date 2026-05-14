@@ -1,0 +1,46 @@
+{
+  "name": "Heap Sort",
+  "type": "heap",
+  "description": "Sorts using a max-heap: first builds a max-heap, then repeatedly extracts the maximum and places it at the end.",
+  "aim": "Sort array in-place using heap data structure: O(n) build-heap + n × O(log n) extract-max operations = O(n log n) total.",
+  "howItWorks": [
+    "Build max-heap from array in O(n) time",
+    "Swap root (maximum) with last element",
+    "Reduce heap size by 1",
+    "Heapify the new root down",
+    "Repeat until heap size = 1"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Always O(n log n) — no best case improvement",
+      "average": "O(n log n)",
+      "averageCase": "n extractions × O(log n) each",
+      "worst": "O(n log n)",
+      "worstCase": "Same — consistent performance"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place sorting — only O(log n) stack for recursion",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Systems requiring guaranteed O(n log n) with O(1) extra space",
+      "Priority queue drain (sort all elements by priority)",
+      "External sorting when merge sort space unavailable"
+    ],
+    "whenToUse": [
+      "Need guaranteed O(n log n) without extra memory",
+      "Priority-based processing needing final sorted order"
+    ],
+    "alternatives": [
+      "Quick Sort — better cache performance in practice",
+      "Merge Sort — stable, same complexity but O(n) space",
+      "Intro Sort — hybrid (Quick + Heap + Insertion) for production"
+    ]
+  },
+  "id": "heapSortHeap",
+  "category": "heaps",
+  "implemented": true
+}

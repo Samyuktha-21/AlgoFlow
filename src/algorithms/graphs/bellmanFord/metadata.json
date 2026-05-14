@@ -1,0 +1,48 @@
+{
+  "id": "bellmanFord",
+  "name": "Bellman-Ford Algorithm",
+  "category": "graphs",
+  "type": "graph",
+  "implemented": true,
+  "description": "Finds shortest paths from source to all vertices, even with negative edge weights. Detects negative cycles as a side effect. Slower than Dijkstra but more general.",
+  "aim": "Find shortest distances from source by relaxing all edges V-1 times. After V-1 rounds any shorter path must have used a negative cycle.",
+  "howItWorks": [
+    "Initialize dist[source]=0, all others=∞",
+    "Repeat V-1 times: relax every edge (u,v,w): if dist[u]+w < dist[v] then dist[v]=dist[u]+w",
+    "After V-1 iterations, check all edges again",
+    "If any edge still relaxes: NEGATIVE CYCLE detected",
+    "Else: dist[] contains shortest distances"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(VE)",
+      "bestCase": "Always performs V-1 passes over all E edges",
+      "average": "O(VE)",
+      "averageCase": "Same — no early termination possible in general",
+      "worst": "O(VE)",
+      "worstCase": "Same"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Distance array of size V",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Network routing with negative-cost links",
+      "Currency arbitrage detection (negative cycles = profit loop)",
+      "Traffic with toll/reward roads",
+      "Financial risk analysis with negative payoffs"
+    ],
+    "whenToUse": [
+      "Graph has negative edge weights",
+      "Need to detect negative cycles",
+      "When Dijkstra cannot be used (negative weights)"
+    ],
+    "alternatives": [
+      "Dijkstra — O((V+E) log V) but only non-negative weights",
+      "Floyd-Warshall — all-pairs shortest path O(V³)",
+      "Johnson's algorithm — reweights for all-pairs with negative edges"
+    ]
+  }
+}

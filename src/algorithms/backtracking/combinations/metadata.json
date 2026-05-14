@@ -1,0 +1,46 @@
+{
+  "name": "Combinations (C(n,k))",
+  "type": "backtracking",
+  "description": "Generates all combinations of k elements chosen from a set of n using backtracking (choose/skip decisions).",
+  "aim": "Generate all C(n,k) combinations by recursively choosing or skipping each element, maintaining current combination size.",
+  "howItWorks": [
+    "At each position, decide: include or exclude",
+    "Include: add to current, recurse on next",
+    "Exclude: skip, recurse on next",
+    "When combination size reaches k: record it",
+    "Prune: if remaining elements can't fill k: backtrack early"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(C(n,k)×k)",
+      "bestCase": "Generate all combinations",
+      "average": "O(C(n,k)×k)",
+      "averageCase": "Same",
+      "worst": "O(C(n,k)×k)",
+      "worstCase": "Same"
+    },
+    "space": "O(k)",
+    "spaceDescription": "Current combination + recursion depth",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Lottery number selection",
+      "Feature selection in ML",
+      "Card hand generation",
+      "Team formation permutations"
+    ],
+    "whenToUse": [
+      "Generate all subsets of specific size",
+      "Combinatorial search problems"
+    ],
+    "alternatives": [
+      "Iterative with bit mask — for small n",
+      "next_combination — lexicographic iteration"
+    ]
+  },
+  "id": "combinations",
+  "category": "backtracking",
+  "implemented": true
+}

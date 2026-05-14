@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class RemoveNthNode {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n        ListNode fast = dummy, slow = dummy;\n        for (int i = 0; i <= n; i++) fast = fast.next;\n        while (fast != null) { slow = slow.next; fast = fast.next; }\n        slow.next = slow.next.next;\n        return dummy.next;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next;}Node;\nNode* removeNth(Node*head,int n){Node d;d.next=head;Node*f=&d,*s=&d;for(int i=0;i<=n;i++)f=f->next;while(f){s=s->next;f=f->next;}s->next=s->next->next;return d.next;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "struct Node{int v;Node*next;};\nNode* removeNth(Node*h,int n){Node d;d.next=h;Node*f=&d,*s=&d;for(int i=0;i<=n;i++)f=f->next;while(f){s=s->next;f=f->next;}s->next=s->next->next;return d.next;}",
+    "lineKeys": {}
+  }
+}

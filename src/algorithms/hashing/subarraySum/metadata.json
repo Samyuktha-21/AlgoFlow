@@ -1,0 +1,43 @@
+{
+  "name": "Subarray Sum Equals K",
+  "type": "array",
+  "description": "Counts subarrays with sum exactly equal to k using prefix sums and a hash map for O(n) time.",
+  "aim": "Count subarrays summing to k: track prefix sums and use a hash map to find how many previous prefix sums equal (current - k).",
+  "howItWorks": [
+    "Compute running prefix sum",
+    "At each index i: if prefixSum-k was seen before, those subarrays sum to k",
+    "Use map: prefixSum → count of times seen",
+    "Initialize map with {0:1} for subarrays starting at index 0"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Prefix sum frequency map",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Financial analysis: find periods with specific total",
+      "Network traffic: windows summing to threshold"
+    ],
+    "whenToUse": [
+      "Count subarrays with exact sum",
+      "Works for negative numbers too"
+    ],
+    "alternatives": [
+      "Brute O(n²) for small n",
+      "Sliding window — only works for non-negative arrays"
+    ]
+  },
+  "id": "subarraySum",
+  "category": "hashing",
+  "implemented": true
+}

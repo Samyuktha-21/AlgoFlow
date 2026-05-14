@@ -1,0 +1,42 @@
+{
+  "name": "Egyptian Fraction",
+  "type": "array",
+  "description": "Represents a fraction as sum of distinct unit fractions using greedy selection",
+  "aim": "Apply greedy strategy to solve Egyptian Fraction efficiently.",
+  "howItWorks": [
+    "Sort/prioritize by greedy criterion",
+    "Make locally optimal choice",
+    "Repeat until solution complete"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Sorting or heap operations",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional storage",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Egyptian Fraction applied in data compression",
+      "network optimization",
+      "resource allocation"
+    ],
+    "whenToUse": [
+      "Greedy choice property holds",
+      "Optimal substructure exists"
+    ],
+    "alternatives": [
+      "Dynamic programming if greedy fails"
+    ]
+  },
+  "id": "egyptianFraction",
+  "category": "greedy",
+  "implemented": true
+}

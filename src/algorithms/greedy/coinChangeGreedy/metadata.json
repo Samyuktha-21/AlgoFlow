@@ -1,0 +1,42 @@
+{
+  "name": "Coin Change (Greedy)",
+  "type": "array",
+  "description": "Greedily selects the largest denomination coin at each step to minimize total coins. Works for standard currency systems (US, EU) but NOT all coin systems.",
+  "aim": "Make change for target amount using fewest coins by always choosing the largest coin that fits.",
+  "howItWorks": [
+    "Sort coins in descending order",
+    "For each coin denomination:",
+    "  Use as many of this coin as possible (target // coin)",
+    "  Reduce target by amount used"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Linear scan of denominations",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Only counters needed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "ATM cash dispensing (standard denominations)",
+      "Vending machine change for canonical systems"
+    ],
+    "whenToUse": [
+      "Canonical coin systems where greedy works (1,5,10,25)",
+      "When DP is overkill for guaranteed-valid denominations"
+    ],
+    "alternatives": [
+      "Dynamic Programming — O(amount×n) — needed for arbitrary denominations"
+    ]
+  },
+  "id": "coinChangeGreedy",
+  "category": "greedy",
+  "implemented": true
+}

@@ -1,0 +1,51 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class BubbleSort {\n    public void sort(int[] arr) {\n        int n = arr.length;\n        for (int i = 0; i < n - 1; i++) {\n            boolean swapped = false;\n            for (int j = 0; j < n - i - 1; j++) {\n                if (arr[j] > arr[j + 1]) {\n                    int temp = arr[j];\n                    arr[j] = arr[j + 1];\n                    arr[j + 1] = temp;\n                    swapped = true;\n                }\n            }\n            if (!swapped) break;  // Already sorted\n        }\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {64, 34, 25, 12, 22, 11, 90};\n        new BubbleSort().sort(arr);\n        for (int val : arr) System.out.print(val + \" \");\n    }\n}",
+    "lineKeys": {
+      "init": 3,
+      "outerLoop": 4,
+      "swappedInit": 5,
+      "innerLoop": 6,
+      "comparison": 7,
+      "swap1": 8,
+      "swap2": 9,
+      "swap3": 10,
+      "swappedSet": 11,
+      "earlyBreak": 13,
+      "done": 14
+    }
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\n\nvoid bubbleSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        bool swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                int temp = arr[j];\n                arr[j] = arr[j + 1];\n                arr[j + 1] = temp;\n                swapped = true;\n            }\n        }\n        if (!swapped) break;  /* Already sorted */\n    }\n}\n\nint main() {\n    int arr[] = {64, 34, 25, 12, 22, 11, 90};\n    int n = sizeof(arr) / sizeof(arr[0]);\n    bubbleSort(arr, n);\n    for (int i = 0; i < n; i++) printf(\"%d \", arr[i]);\n    return 0;\n}",
+    "lineKeys": {
+      "init": 4,
+      "outerLoop": 5,
+      "swappedInit": 6,
+      "innerLoop": 7,
+      "comparison": 8,
+      "swap1": 9,
+      "swap2": 10,
+      "swap3": 11,
+      "swappedSet": 12,
+      "earlyBreak": 15,
+      "done": 16
+    }
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvoid bubbleSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        bool swapped = false;\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) {\n                swap(arr[j], arr[j + 1]);\n                swapped = true;\n            }\n        }\n        if (!swapped) break;  // Already sorted\n    }\n}\n\nint main() {\n    vector<int> arr = {64, 34, 25, 12, 22, 11, 90};\n    bubbleSort(arr);\n    for (int val : arr) cout << val << \" \";\n    return 0;\n}",
+    "lineKeys": {
+      "init": 5,
+      "outerLoop": 7,
+      "swappedInit": 8,
+      "innerLoop": 9,
+      "comparison": 10,
+      "swap1": 11,
+      "swappedSet": 12,
+      "earlyBreak": 15,
+      "done": 16
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "Min Heap",
+  "type": "heap",
+  "description": "A complete binary tree where every parent is smaller than or equal to its children. The minimum element is always at the root.",
+  "aim": "Maintain a min-heap where the smallest element is always at root, supporting O(log n) insert and O(log n) extract-min.",
+  "howItWorks": [
+    "Insert: add at end, bubble up (sift up) until heap property restored",
+    "Extract-min: remove root, move last element to root, sift down",
+    "Sift-down: compare with children, swap with smaller child if needed",
+    "Build heap: apply sift-down from last non-leaf to root — O(n)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Build heap bottom-up",
+      "average": "O(log n)",
+      "averageCase": "Insert or extract operations",
+      "worst": "O(log n)",
+      "worstCase": "Sift up/down full height"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Array of n elements — compact representation",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Priority queues — process smallest job first",
+      "Dijkstra's algorithm — extract min-distance vertex",
+      "Merge k sorted lists — always pick smallest next element",
+      "Scheduling — shortest job first"
+    ],
+    "whenToUse": [
+      "Need O(log n) insert + O(1) minimum access",
+      "Priority scheduling where smallest = highest priority"
+    ],
+    "alternatives": [
+      "Max-heap — when maximum needs fast access",
+      "Fibonacci heap — O(1) amortized decrease-key for Dijkstra"
+    ]
+  },
+  "id": "minHeap",
+  "category": "heaps",
+  "implemented": true
+}

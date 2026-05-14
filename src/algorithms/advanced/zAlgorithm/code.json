@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class ZAlgorithm {\n    public int[] zFunction(String s) {\n        int n = s.length(); int[] z = new int[n];\n        z[0] = n; int l=0, r=0;\n        for (int i=1; i<n; i++) {\n            if (i < r) z[i] = Math.min(r-i, z[i-l]);\n            while (i+z[i] < n && s.charAt(z[i]) == s.charAt(i+z[i])) z[i]++;\n            if (i+z[i] > r) { l=i; r=i+z[i]; }\n        }\n        return z;\n    }\n    // Pattern matching: search s+##+text, occurrences where z[i]==|pattern|\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid zFunction(char*s,int z[]){int n=strlen(s),l=0,r=0;z[0]=n;\nfor(int i=1;i<n;i++){if(i<r)z[i]=z[i-l]<r-i?z[i-l]:r-i;else z[i]=0;while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i];}}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <vector>\nusing namespace std;\nvector<int> zFunc(string s){int n=s.size(),l=0,r=0;vector<int>z(n);z[0]=n;\nfor(int i=1;i<n;i++){if(i<r)z[i]=min(r-i,z[i-l]);while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i];}}return z;}",
+    "lineKeys": {}
+  }
+}

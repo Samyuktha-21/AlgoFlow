@@ -1,0 +1,42 @@
+{
+  "name": "Count Occurrences",
+  "type": "array",
+  "description": "Counts how many times each element appears in an array using a hash map (frequency table).",
+  "aim": "Build a frequency map: for each element, count how many times it appears in the input array.",
+  "howItWorks": [
+    "Initialize empty frequency map",
+    "For each element: map[element]++ (or initialize to 1)",
+    "Return the frequency map"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(k)",
+    "spaceDescription": "k distinct values in the map",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Word frequency in text",
+      "Most common elements in datasets",
+      "Character frequency for compression"
+    ],
+    "whenToUse": [
+      "Counting duplicates",
+      "Finding most/least frequent element"
+    ],
+    "alternatives": [
+      "Sorting + count — O(n log n) but no extra space"
+    ]
+  },
+  "id": "countOccurrences",
+  "category": "fundamentals",
+  "implemented": true
+}

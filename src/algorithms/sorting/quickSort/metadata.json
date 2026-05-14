@@ -1,0 +1,49 @@
+{
+  "id": "quickSort",
+  "name": "Quick Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Divide-and-conquer sort that picks a pivot, partitions elements around it (smaller left, larger right), then recursively sorts partitions. Excellent cache performance makes it fast in practice.",
+  "aim": "Sort by partitioning: choose a pivot, rearrange so elements ≤ pivot are left and > pivot are right, place pivot in its final position, then recurse on both sides.",
+  "howItWorks": [
+    "Choose pivot (last element)",
+    "Partition: walk with two indices, swap elements out of order",
+    "Place pivot at its final sorted position",
+    "Recursively sort left partition (< pivot)",
+    "Recursively sort right partition (> pivot)",
+    "Base case: size 0 or 1 is sorted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Pivot always splits array into equal halves",
+      "average": "O(n log n)",
+      "averageCase": "Random pivot gives expected O(n log n)",
+      "worst": "O(n²)",
+      "worstCase": "Pivot always smallest or largest (sorted/reverse-sorted input)"
+    },
+    "space": "O(log n)",
+    "spaceDescription": "Recursion stack depth — O(n) in degenerate worst case",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "C stdlib qsort() — most common sort in systems programming",
+      "Java Arrays.sort for primitives",
+      "In-memory sort for large random datasets (best cache behavior)",
+      "Database query engines for in-memory record sorting"
+    ],
+    "whenToUse": [
+      "Large random datasets in memory",
+      "When average-case O(n log n) with good constants is sufficient",
+      "In-place sort needed without stability requirement"
+    ],
+    "alternatives": [
+      "Merge Sort — stable, guaranteed O(n log n), better for linked lists",
+      "Heap Sort — in-place guaranteed O(n log n) but worse cache",
+      "Randomized Quick Sort — avoids O(n²) worst case in practice"
+    ]
+  }
+}

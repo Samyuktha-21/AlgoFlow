@@ -1,0 +1,44 @@
+{
+  "name": "Height of Binary Tree",
+  "type": "tree",
+  "description": "Computes the height (maximum depth) of a binary tree recursively. Height is the number of edges on the longest path from root to a leaf.",
+  "aim": "Find the maximum depth from root to any leaf node using post-order DFS: height = 1 + max(height(left), height(right)).",
+  "howItWorks": [
+    "Base case: null node has height -1 (or 0 for node count)",
+    "Recursively compute height of left subtree",
+    "Recursively compute height of right subtree",
+    "Height of current node = 1 + max(leftHeight, rightHeight)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must visit all nodes",
+      "average": "O(n)",
+      "averageCase": "Each node visited once",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion stack depth = tree height h; O(log n) balanced, O(n) skewed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Balanced tree validation",
+      "AVL tree rotation decisions",
+      "Estimating search complexity of BST"
+    ],
+    "whenToUse": [
+      "Checking if tree is balanced",
+      "Comparing tree structures",
+      "Computing depth of BST"
+    ],
+    "alternatives": [
+      "Iterative BFS — finds height level by level with O(n) space"
+    ]
+  },
+  "id": "treeHeight",
+  "category": "trees",
+  "implemented": true
+}

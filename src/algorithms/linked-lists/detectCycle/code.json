@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class DetectCycle {\n    static class ListNode { int val; ListNode next; ListNode(int v){val=v;} }\n    public boolean hasCycle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true;  // Cycle!\n        }\n        return false;\n    }\n    public ListNode detectCycleStart(ListNode head) {\n        ListNode slow=head, fast=head;\n        while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;if(slow==fast)break;}\n        if(fast==null||fast.next==null) return null;\n        slow=head;\n        while(slow!=fast){slow=slow.next;fast=fast.next;}\n        return slow; // cycle entry point\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\ntypedef struct Node{int val;struct Node* next;}Node;\nint hasCycle(Node* head){Node *s=head,*f=head;\nwhile(f&&f->next){s=s->next;f=f->next->next;if(s==f)return 1;}return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node{int val;Node* next;Node(int v):val(v),next(nullptr){}};\nbool hasCycle(Node* h){Node *s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;if(s==f)return true;}return false;}",
+    "lineKeys": {}
+  }
+}

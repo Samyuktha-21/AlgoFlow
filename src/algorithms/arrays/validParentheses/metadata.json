@@ -1,0 +1,45 @@
+{
+  "name": "Valid Parentheses",
+  "type": "array",
+  "description": "Checks if a string of brackets is valid: every open bracket has a matching close bracket in the correct order. Uses a stack.",
+  "aim": "Verify balanced brackets using a stack: push open brackets, pop+match for close brackets, valid if stack empty at end.",
+  "howItWorks": [
+    "Create empty stack",
+    "For each character: if opening bracket → push",
+    "If closing bracket → check if stack top matches",
+    "  If no match or empty stack: INVALID",
+    "After processing: if stack empty → VALID"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Stack holds at most n/2 elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Compiler syntax checking",
+      "XML/HTML tag validation",
+      "Math expression validation",
+      "Code editor bracket matching"
+    ],
+    "whenToUse": [
+      "Checking balanced delimiters",
+      "Parsing structured text"
+    ],
+    "alternatives": [
+      "Counter approach — only works for single bracket type"
+    ]
+  },
+  "id": "validParentheses",
+  "category": "arrays",
+  "implemented": true
+}

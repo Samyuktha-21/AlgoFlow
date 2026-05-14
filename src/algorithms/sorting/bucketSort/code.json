@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class BucketSort {\n    public void sort(float[] arr) {\n        int n = arr.length;\n        List<Float>[] buckets = new ArrayList[n];\n        for (int i = 0; i < n; i++) buckets[i] = new ArrayList<>();\n        for (float v : arr) buckets[(int)(n * v)].add(v);\n        for (List<Float> b : buckets) Collections.sort(b);\n        int idx = 0;\n        for (List<Float> b : buckets)\n            for (float v : b) arr[idx++] = v;\n    }\n    public static void main(String[] args) {\n        float[] arr = {0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};\n        new BucketSort().sort(arr);\n        for (float v : arr) System.out.printf(\"%.3f \", v);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\nvoid insertionSort(float a[],int n){for(int i=1;i<n;i++){float k=a[i];int j=i-1;while(j>=0&&a[j]>k){a[j+1]=a[j];j--;}a[j+1]=k;}}\nvoid bucketSort(float a[],int n){float buckets[n][n];int cnt[n];for(int i=0;i<n;i++)cnt[i]=0;\nfor(int i=0;i<n;i++){int b=(int)(n*a[i]);buckets[b][cnt[b]++]=a[i];}\nfor(int i=0;i<n;i++)insertionSort(buckets[i],cnt[i]);\nint idx=0;for(int i=0;i<n;i++)for(int j=0;j<cnt[i];j++)a[idx++]=buckets[i][j];}\nint main(){float a[]={0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};bucketSort(a,6);for(int i=0;i<6;i++)printf(\"%.3f \",a[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid bucketSort(vector<float>& arr) {\n    int n=arr.size(); vector<vector<float>> buckets(n);\n    for(float v:arr) buckets[(int)(n*v)].push_back(v);\n    for(auto& b:buckets) sort(b.begin(),b.end());\n    int idx=0; for(auto& b:buckets) for(float v:b) arr[idx++]=v;\n}\nint main(){vector<float> a={0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};bucketSort(a);for(float v:a)printf(\"%.3f \",v);return 0;}",
+    "lineKeys": {}
+  }
+}

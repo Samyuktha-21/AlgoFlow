@@ -1,0 +1,45 @@
+{
+  "name": "LRU Cache",
+  "type": "linked-list",
+  "description": "Least Recently Used cache using a HashMap + Doubly Linked List. Achieves O(1) get and put by combining O(1) hash lookup with O(1) node removal.",
+  "aim": "Implement a cache that evicts the least recently used entry when full. Uses hash map for O(1) access and doubly linked list for O(1) insertion/deletion.",
+  "howItWorks": [
+    "Doubly linked list: most recent at head, least recent at tail",
+    "HashMap: key → node in list",
+    "Get(key): move node to head, return value",
+    "Put(key,val): if exists update+move; else add at head; if over capacity evict tail"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All operations O(1)",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(1)",
+      "worstCase": "Same — hash map + DLL both O(1)"
+    },
+    "space": "O(capacity)",
+    "spaceDescription": "Stores at most capacity key-value pairs",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Browser cache",
+      "CPU memory cache (L1/L2)",
+      "Database query result caching",
+      "CDN content caching"
+    ],
+    "whenToUse": [
+      "Fixed-size cache with recency-based eviction",
+      "Frequent repeated access patterns"
+    ],
+    "alternatives": [
+      "LFU cache — evicts least frequently used",
+      "FIFO cache — simpler, evicts oldest regardless of use"
+    ]
+  },
+  "id": "lruCache",
+  "category": "linked-lists",
+  "implemented": true
+}

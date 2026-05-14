@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class SudokuSolver {\n    public boolean solve(char[][] board) {\n        for (int r = 0; r < 9; r++) for (int c = 0; c < 9; c++) {\n            if (board[r][c] == '.') {\n                for (char d = '1'; d <= '9'; d++) {\n                    if (isValid(board, r, c, d)) {\n                        board[r][c] = d;\n                        if (solve(board)) return true;\n                        board[r][c] = '.'; // backtrack\n                    }\n                }\n                return false; // no digit works\n            }\n        }\n        return true; // all cells filled\n    }\n    boolean isValid(char[][] b, int r, int c, char d) {\n        for (int i = 0; i < 9; i++) {\n            if (b[r][i] == d || b[i][c] == d) return false;\n            int br = 3*(r/3)+i/3, bc = 3*(c/3)+i%3;\n            if (b[br][bc] == d) return false;\n        }\n        return true;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\nchar grid[9][9];\nbool isValid(int r,int c,char d){for(int i=0;i<9;i++){if(grid[r][i]==d||grid[i][c]==d)return false;if(grid[3*(r/3)+i/3][3*(c/3)+i%3]==d)return false;}return true;}\nbool solve(){for(int r=0;r<9;r++)for(int c=0;c<9;c++)if(grid[r][c]=='.'){for(char d='1';d<='9';d++)if(isValid(r,c,d)){grid[r][c]=d;if(solve())return true;grid[r][c]='.';}return false;}return true;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\nusing namespace std;\nbool isValid(vector<vector<char>>&b,int r,int c,char d){for(int i=0;i<9;i++){if(b[r][i]==d||b[i][c]==d)return false;if(b[3*(r/3)+i/3][3*(c/3)+i%3]==d)return false;}return true;}\nbool solve(vector<vector<char>>&b){for(int r=0;r<9;r++)for(int c=0;c<9;c++)if(b[r][c]=='.'){for(char d='1';d<='9';d++)if(isValid(b,r,c,d)){b[r][c]=d;if(solve(b))return true;b[r][c]='.';}return false;}return true;}",
+    "lineKeys": {}
+  }
+}

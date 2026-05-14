@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Fast Fourier Transform - see algorithm textbooks for full implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Fast Fourier Transform C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Fast Fourier Transform C++ implementation",
+    "lineKeys": {}
+  }
+}

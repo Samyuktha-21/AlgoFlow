@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class JobSequencing {\n    public int[] scheduleJobs(int[] profit, int[] deadline) {\n        int n = profit.length, maxD = Arrays.stream(deadline).max().getAsInt();\n        Integer[] idx = new Integer[n];\n        for (int i = 0; i < n; i++) idx[i] = i;\n        Arrays.sort(idx, (a,b) -> profit[b]-profit[a]);\n        int[] slot = new int[maxD+1]; Arrays.fill(slot, -1);\n        int totalProfit = 0, count = 0;\n        for (int i : idx) {\n            for (int j = deadline[i]; j >= 1; j--) {\n                if (slot[j] == -1) { slot[j] = i; totalProfit += profit[i]; count++; break; }\n            }\n        }\n        return new int[]{count, totalProfit};\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int id,profit,deadline;}Job;\nint cmp(const void*a,const void*b){return((Job*)b)->profit-((Job*)a)->profit;}\nvoid schedule(Job jobs[],int n){qsort(jobs,n,sizeof(Job),cmp);int slot[n+1],p=0,c=0;for(int i=0;i<=n;i++)slot[i]=-1;for(int i=0;i<n;i++)for(int j=jobs[i].deadline;j>=1;j--)if(slot[j]==-1){slot[j]=jobs[i].id;p+=jobs[i].profit;c++;break;}printf(\"%d jobs, profit=%d\\n\",c,p);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\npair<int,int> scheduleJobs(vector<int>&p,vector<int>&d){int n=p.size(),mx=*max_element(d.begin(),d.end());\nvector<int>idx(n),slot(mx+1,-1);iota(idx.begin(),idx.end(),0);sort(idx.begin(),idx.end(),[&](int a,int b){return p[a]>p[b];});\nint profit=0,cnt=0;for(int i:idx)for(int j=d[i];j>=1;j--)if(slot[j]==-1){slot[j]=i;profit+=p[i];cnt++;break;}return{cnt,profit};}",
+    "lineKeys": {}
+  }
+}

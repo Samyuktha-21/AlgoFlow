@@ -1,0 +1,49 @@
+{
+  "id": "bubbleSort",
+  "name": "Bubble Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "description": "Simple comparison-based sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+  "aim": "To sort an array by repeatedly comparing and swapping adjacent elements until the entire array is in ascending order. Uses an optimized version that stops early if no swaps were made in a pass (adaptive behavior).",
+  "howItWorks": [
+    "Start from the first element and compare each pair of adjacent elements",
+    "If the left element is greater than the right, swap them",
+    "After each pass, the largest unsorted element 'bubbles up' to its correct position",
+    "Repeat for n-1 passes (where n is array length)",
+    "Stop early if a complete pass makes no swaps (already sorted)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Array is already sorted — only one pass needed with no swaps",
+      "average": "O(n²)",
+      "averageCase": "Random data — roughly n²/2 comparisons on average",
+      "worst": "O(n²)",
+      "worstCase": "Array is sorted in reverse — maximum number of swaps needed"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place sorting — no extra array needed",
+    "stable": true,
+    "adaptive": true
+  },
+  "applications": {
+    "realWorld": [
+      "Educational purposes — simplest sorting algorithm to visualize and teach",
+      "Nearly sorted data — performs close to O(n) when array is almost ordered",
+      "Small datasets — acceptable performance for arrays with fewer than 50 elements",
+      "Embedded systems — minimal memory footprint due to O(1) space complexity"
+    ],
+    "whenToUse": [
+      "Teaching sorting concepts to beginners",
+      "Data is already nearly sorted and n is small",
+      "Simplicity is more important than raw performance",
+      "You need a stable sort with minimal code"
+    ],
+    "alternatives": [
+      "Use Quick Sort for large random datasets — O(n log n) average time",
+      "Use Merge Sort when stability with better performance is needed",
+      "Use Insertion Sort for nearly sorted small arrays (better constant factors)",
+      "Use Counting Sort for integers within a limited range — O(n + k)"
+    ]
+  }
+}

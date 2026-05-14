@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Kosaraju SCC - see algorithm textbooks for complete implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Kosaraju SCC C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Kosaraju SCC C++ implementation",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Same implementation as LinkedList LRU Cache\n// Key component: HashMap<key, DLL_Node> for O(1) access",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Same as linked-lists/lruCache in C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Same as linked-lists/lruCache in C++",
+    "lineKeys": {}
+  }
+}

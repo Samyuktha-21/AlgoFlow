@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class SlidingWindowMax {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        int n = nums.length;\n        int[] result = new int[n - k + 1];\n        Deque<Integer> deque = new ArrayDeque<>(); // stores indices\n        for (int i = 0; i < n; i++) {\n            while (!deque.isEmpty() && deque.peekFirst() < i - k + 1) deque.pollFirst();\n            while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) deque.pollLast();\n            deque.offerLast(i);\n            if (i >= k - 1) result[i - k + 1] = nums[deque.peekFirst()];\n        }\n        return result;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid slidingMax(int a[],int n,int k,int res[]){int dq[n],fr=0,re=0;\nfor(int i=0;i<n;i++){while(fr<re&&dq[fr]<i-k+1)fr++;\nwhile(fr<re&&a[dq[re-1]]<=a[i])re--;dq[re++]=i;if(i>=k-1)res[i-k+1]=a[dq[fr]];}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <deque>\n#include <vector>\nusing namespace std;\nvector<int> maxSlidingWindow(vector<int>&a,int k){int n=a.size();vector<int>res;deque<int>dq;\nfor(int i=0;i<n;i++){while(!dq.empty()&&dq.front()<i-k+1)dq.pop_front();\nwhile(!dq.empty()&&a[dq.back()]<=a[i])dq.pop_back();dq.push_back(i);if(i>=k-1)res.push_back(a[dq.front()]);}return res;}",
+    "lineKeys": {}
+  }
+}

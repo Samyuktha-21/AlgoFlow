@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class PrimeCheck {\n    public boolean isPrime(int n) {\n        if (n < 2) return false;\n        if (n == 2) return true;\n        if (n % 2 == 0) return false;\n        for (int i = 3; i * i <= n; i += 2)\n            if (n % i == 0) return false;\n        return true;\n    }\n    public static void main(String[] args) {\n        PrimeCheck pc = new PrimeCheck();\n        for (int i = 2; i <= 30; i++)\n            if (pc.isPrime(i)) System.out.print(i + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\nbool isPrime(int n){if(n<2)return false;if(n==2)return true;if(n%2==0)return false;for(int i=3;(long long)i*i<=n;i+=2)if(n%i==0)return false;return true;}\nint main(){for(int i=2;i<=30;i++)if(isPrime(i))printf(\"%d \",i);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\nbool isPrime(int n){if(n<2)return false;if(n==2)return true;if(n%2==0)return false;for(int i=3;(long long)i*i<=n;i+=2)if(n%i==0)return false;return true;}\nint main(){for(int i=2;i<=30;i++)if(isPrime(i))cout<<i<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "Remove Nth Node from End",
+  "type": "linked-list",
+  "description": "Removes the nth node from the end of a linked list in one pass using two pointers with a gap of n nodes.",
+  "aim": "Delete the nth-from-last node by maintaining two pointers exactly n nodes apart — when the fast pointer reaches the end, the slow pointer is just before the target.",
+  "howItWorks": [
+    "Create a dummy node pointing to head",
+    "Move fast pointer n+1 steps ahead",
+    "Move both pointers together until fast reaches end",
+    "slow.next is the node to remove",
+    "slow.next = slow.next.next"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Sliding window deletion in data streams",
+      "Cache eviction by position from end"
+    ],
+    "whenToUse": [
+      "Remove element by position from end without knowing length"
+    ],
+    "alternatives": [
+      "Two-pass: find length, then delete at len-n — simpler but two passes",
+      "Recursive — elegant but O(n) stack space"
+    ]
+  },
+  "id": "removeNthNode",
+  "category": "linked-lists",
+  "implemented": true
+}

@@ -1,0 +1,15 @@
+{
+  "id": "serializeDeserialize",
+  "name": "serializeDeserialize",
+  "category": "trees",
+  "type": "tree",
+  "implemented": false,
+  "description": "Visualization coming soon.",
+  "aim": "Coming soon.",
+  "howItWorks": [],
+  "complexity": {
+    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
+    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+  },
+  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+}

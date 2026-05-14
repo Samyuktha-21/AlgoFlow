@@ -1,0 +1,42 @@
+{
+  "name": "Two Sum (Unsorted)",
+  "type": "array",
+  "description": "Finds two indices in an unsorted array whose values sum to target using a hash map for O(n) solution.",
+  "aim": "For each element x, check if (target-x) was seen before. Store each element in a hash map as we scan.",
+  "howItWorks": [
+    "For each element arr[i]:",
+    "  Complement = target - arr[i]",
+    "  If complement in map: found!",
+    "  Else: store arr[i] → i in map"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "First pair found immediately",
+      "average": "O(n)",
+      "averageCase": "Single pass",
+      "worst": "O(n)",
+      "worstCase": "Pair at end"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Hash map stores up to n elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Finding matching transaction pairs",
+      "Password pair validation"
+    ],
+    "whenToUse": [
+      "Unsorted array",
+      "Need O(n) time"
+    ],
+    "alternatives": [
+      "Two pointers on sorted array — O(n log n) total"
+    ]
+  },
+  "id": "twoSumArray",
+  "category": "arrays",
+  "implemented": true
+}

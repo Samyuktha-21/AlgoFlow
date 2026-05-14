@@ -1,0 +1,48 @@
+{
+  "id": "treeTraversal",
+  "name": "Tree Traversals (Inorder/Preorder/Postorder)",
+  "category": "trees",
+  "type": "tree",
+  "implemented": true,
+  "description": "Three fundamental depth-first traversal orders for binary trees: inorder (left-root-right), preorder (root-left-right), and postorder (left-right-root).",
+  "aim": "Visit every node in a binary tree in a specific order to produce different useful sequences: sorted order (inorder on BST), copy order (preorder), or delete order (postorder).",
+  "howItWorks": [
+    "Inorder: recurse left → visit root → recurse right (gives sorted order for BST)",
+    "Preorder: visit root → recurse left → recurse right (root before subtrees)",
+    "Postorder: recurse left → recurse right → visit root (children before parent)",
+    "All three have O(n) time since each node visited once"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must visit all n nodes",
+      "average": "O(n)",
+      "averageCase": "Linear regardless of tree shape",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion stack depth = tree height h; O(log n) balanced, O(n) skewed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Inorder: print BST in sorted order",
+      "Preorder: serialize/copy tree structure",
+      "Postorder: calculate size of directories (process children before parent)",
+      "Expression tree evaluation (postorder)"
+    ],
+    "whenToUse": [
+      "Visiting all nodes in specific order",
+      "BST sorted output (inorder)",
+      "Tree serialization (preorder)",
+      "Bottom-up computation (postorder)"
+    ],
+    "alternatives": [
+      "BFS (level-order) — for breadth-first processing",
+      "Iterative with explicit stack — avoids recursion stack overflow",
+      "Morris traversal — O(1) space iterative traversal"
+    ]
+  }
+}

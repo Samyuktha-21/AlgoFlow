@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Convex Hull (Graham Scan) - see algorithm textbooks for full implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Convex Hull (Graham Scan) C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Convex Hull (Graham Scan) C++ implementation",
+    "lineKeys": {}
+  }
+}

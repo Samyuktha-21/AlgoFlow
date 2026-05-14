@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class EggDrop {\n    public int superEggDrop(int k, int n) {\n        // dp[m][k] = max floors testable with m moves and k eggs\n        int[][] dp = new int[n+1][k+1];\n        int m = 0;\n        while (dp[m][k] < n) {\n            m++;\n            for (int j = 1; j <= k; j++)\n                dp[m][j] = dp[m-1][j-1] + dp[m-1][j] + 1;\n        }\n        return m;\n    }\n    public static void main(String[] args) {\n        System.out.println(new EggDrop().superEggDrop(2, 100)); // 14\n        System.out.println(new EggDrop().superEggDrop(3, 14));  // 4\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint eggDrop(int k,int n){int dp[n+1][k+1],m=0;for(int i=0;i<=n;i++)for(int j=0;j<=k;j++)dp[i][j]=0;\nwhile(dp[m][k]<n){m++;for(int j=1;j<=k;j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;}return m;}\nint main(){printf(\"%d\\n\",eggDrop(2,100));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "int superEggDrop(int k,int n){vector<vector<int>>dp(n+1,vector<int>(k+1,0));int m=0;while(dp[m][k]<n){m++;for(int j=1;j<=k;j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;}return m;}",
+    "lineKeys": {}
+  }
+}

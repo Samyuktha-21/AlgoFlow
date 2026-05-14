@@ -1,0 +1,46 @@
+{
+  "name": "Cycle Detection (DFS)",
+  "type": "graph",
+  "description": "Detects if a directed graph contains a cycle using DFS with a recursion stack. A back edge (edge to an ancestor in DFS tree) indicates a cycle.",
+  "aim": "Detect cycles in a directed graph by running DFS and checking if any edge leads to a node already in the current DFS path (recursion stack).",
+  "howItWorks": [
+    "Run DFS from each unvisited vertex",
+    "Maintain a \"recursion stack\" (current DFS path)",
+    "When visiting a vertex, add to recursion stack",
+    "If we reach a vertex already in stack: CYCLE detected",
+    "When backtracking, remove vertex from stack"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "bestCase": "Cycle found early",
+      "average": "O(V+E)",
+      "averageCase": "Visit all vertices and edges",
+      "worst": "O(V+E)",
+      "worstCase": "Entire graph explored"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Visited array + recursion stack of size V",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Detecting deadlocks in operating systems",
+      "Circular dependency detection in build tools",
+      "Finding loops in state machines",
+      "Dependency validation in package managers"
+    ],
+    "whenToUse": [
+      "Cycle detection in directed graphs",
+      "Topological sort validation (cycle ⟹ no valid ordering)"
+    ],
+    "alternatives": [
+      "Union-Find — for undirected graphs only",
+      "Kahn's topological sort — if result has fewer than V nodes, cycle exists"
+    ]
+  },
+  "id": "cycleDetection",
+  "category": "graphs",
+  "implemented": true
+}

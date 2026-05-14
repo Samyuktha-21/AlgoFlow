@@ -1,0 +1,45 @@
+{
+  "name": "Bipartite Graph Check",
+  "type": "graph",
+  "description": "Determines if a graph can be 2-colored (bipartite) using BFS. A graph is bipartite if and only if it contains no odd-length cycles.",
+  "aim": "Check if graph vertices can be split into two sets where all edges connect vertices from different sets. Uses BFS to 2-color the graph.",
+  "howItWorks": [
+    "Assign start vertex color 0",
+    "BFS: for each unvisited neighbor, assign opposite color",
+    "If a neighbor already has the same color as current: NOT bipartite",
+    "If all vertices 2-colored without conflict: graph IS bipartite"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "bestCase": "Early conflict detection",
+      "average": "O(V+E)",
+      "averageCase": "BFS visits all vertices and edges",
+      "worst": "O(V+E)",
+      "worstCase": "Full graph traversal"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Color array + BFS queue",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Job scheduling: workers vs tasks (matching problems)",
+      "Recommender systems: users vs items",
+      "Two-team tournament scheduling",
+      "Network security: two-tier security zones"
+    ],
+    "whenToUse": [
+      "Check if graph has any odd cycle",
+      "Bipartite matching problems",
+      "Two-coloring problems"
+    ],
+    "alternatives": [
+      "DFS-based 2-coloring — equivalent, same complexity"
+    ]
+  },
+  "id": "bipartiteCheck",
+  "category": "graphs",
+  "implemented": true
+}

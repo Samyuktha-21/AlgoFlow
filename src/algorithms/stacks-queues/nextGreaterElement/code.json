@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class NextGreaterElement {\n    public int[] nextGreater(int[] arr) {\n        int n = arr.length;\n        int[] result = new int[n];\n        Arrays.fill(result, -1);\n        Stack<Integer> stack = new Stack<>(); // stores indices\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && arr[stack.peek()] < arr[i])\n                result[stack.pop()] = arr[i];\n            stack.push(i);\n        }\n        return result;\n    }\n    public static void main(String[] args) {\n        int[] arr = {4, 5, 2, 25};\n        int[] res = new NextGreaterElement().nextGreater(arr);\n        for (int v : res) System.out.print(v + \" \"); // 5 25 25 -1\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid nextGreater(int arr[],int n,int res[]){int stk[n],top=-1;\nfor(int i=0;i<n;i++)res[i]=-1;\nfor(int i=0;i<n;i++){while(top>=0&&arr[stk[top]]<arr[i])res[stk[top--]]=arr[i];stk[++top]=i;}}\nint main(){int a[]={4,5,2,25},r[4];nextGreater(a,4,r);for(int i=0;i<4;i++)printf(\"%d \",r[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\nvector<int> nextGreater(vector<int>& a){int n=a.size();vector<int> r(n,-1);stack<int> s;\nfor(int i=0;i<n;i++){while(!s.empty()&&a[s.top()]<a[i]){r[s.top()]=a[i];s.pop();}s.push(i);}return r;}\nint main(){vector<int> a={4,5,2,25};auto r=nextGreater(a);for(int v:r)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

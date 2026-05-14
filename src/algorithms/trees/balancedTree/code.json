@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class BalancedTree {\n    public boolean isBalanced(TreeNode root) {\n        return checkHeight(root) != -1;\n    }\n    private int checkHeight(TreeNode node) {\n        if (node == null) return 0;\n        int left = checkHeight(node.left);\n        if (left == -1) return -1;  // left subtree unbalanced\n        int right = checkHeight(node.right);\n        if (right == -1) return -1; // right subtree unbalanced\n        if (Math.abs(left - right) > 1) return -1; // current node unbalanced\n        return 1 + Math.max(left, right);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nint checkH(Node* n){if(!n)return 0;int l=checkH(n->l);if(l==-1)return -1;\nint r=checkH(n->r);if(r==-1)return -1;if(abs(l-r)>1)return -1;return 1+(l>r?l:r);}\nint isBalanced(Node* root){return checkH(root)!=-1;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nint checkH(Node*n){if(!n)return 0;int l=checkH(n->l);if(l==-1)return-1;\nint r=checkH(n->r);if(r==-1)return-1;if(abs(l-r)>1)return-1;return 1+max(l,r);}\nbool isBalanced(Node*root){return checkH(root)!=-1;}",
+    "lineKeys": {}
+  }
+}

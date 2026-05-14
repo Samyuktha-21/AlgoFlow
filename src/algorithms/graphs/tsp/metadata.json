@@ -1,0 +1,41 @@
+{
+  "name": "Traveling Salesman (DP)",
+  "type": "graph",
+  "description": "Find minimum cost Hamiltonian cycle using bitmask DP: visit all cities exactly once",
+  "aim": "Efficiently solve Traveling Salesman (DP) problems on graph inputs.",
+  "howItWorks": [
+    "Initialize graph structure",
+    "Apply Traveling Salesman (DP) algorithm steps",
+    "Track visited nodes and optimal paths"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "Depends on graph density",
+      "average": "O((V+E) log V)",
+      "averageCase": "With priority queue",
+      "worst": "O(V²)",
+      "worstCase": "Dense graphs without priority queue"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Traveling Salesman (DP) used in network routing",
+      "GPS navigation",
+      "Operations research"
+    ],
+    "whenToUse": [
+      "When Traveling Salesman (DP) properties needed"
+    ],
+    "alternatives": [
+      "Other graph algorithms depending on constraints"
+    ]
+  },
+  "id": "tsp",
+  "category": "graphs",
+  "implemented": true
+}

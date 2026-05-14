@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Arrays;\npublic class RadixSort {\n    void countSort(int[] arr, int n, int exp) {\n        int[] output = new int[n], count = new int[10];\n        for (int i = 0; i < n; i++) count[(arr[i]/exp)%10]++;\n        for (int i = 1; i < 10; i++) count[i] += count[i-1];\n        for (int i = n-1; i >= 0; i--) output[--count[(arr[i]/exp)%10]] = arr[i];\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n    void sort(int[] arr) {\n        int max = Arrays.stream(arr).max().getAsInt();\n        for (int exp = 1; max/exp > 0; exp *= 10) countSort(arr, arr.length, exp);\n    }\n    public static void main(String[] args) {\n        int[] arr = {170,45,75,90,802,24,2,66};\n        new RadixSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid countSort(int a[],int n,int exp){int out[n],cnt[10]={0};\nfor(int i=0;i<n;i++)cnt[(a[i]/exp)%10]++;\nfor(int i=1;i<10;i++)cnt[i]+=cnt[i-1];\nfor(int i=n-1;i>=0;i--)out[--cnt[(a[i]/exp)%10]]=a[i];\nfor(int i=0;i<n;i++)a[i]=out[i];}\nvoid radixSort(int a[],int n){int mx=a[0];for(int i=1;i<n;i++)if(a[i]>mx)mx=a[i];\nfor(int e=1;mx/e>0;e*=10)countSort(a,n,e);}\nint main(){int a[]={170,45,75,90,802,24,2,66};radixSort(a,8);for(int i=0;i<8;i++)printf(\"%d \",a[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid countSort(vector<int>& a,int exp){int n=a.size();vector<int> out(n),cnt(10,0);\nfor(int v:a)cnt[(v/exp)%10]++;for(int i=1;i<10;i++)cnt[i]+=cnt[i-1];\nfor(int i=n-1;i>=0;i--)out[--cnt[(a[i]/exp)%10]]=a[i];a=out;}\nvoid radixSort(vector<int>& a){int mx=*max_element(a.begin(),a.end());\nfor(int e=1;mx/e>0;e*=10)countSort(a,e);}\nint main(){vector<int> a={170,45,75,90,802,24,2,66};radixSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

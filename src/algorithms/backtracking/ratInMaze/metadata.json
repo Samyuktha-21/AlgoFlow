@@ -1,0 +1,45 @@
+{
+  "name": "Rat in a Maze",
+  "type": "backtracking",
+  "description": "Finds all paths for a rat to travel from the top-left to bottom-right of a maze using backtracking.",
+  "aim": "Navigate an n×n binary maze (1=open, 0=blocked) by trying all 4 directions recursively and backtracking on dead ends.",
+  "howItWorks": [
+    "Start at (0,0)",
+    "Try moving in each direction (D,L,R,U)",
+    "Mark current cell as visited",
+    "If reached (n-1,n-1): path found",
+    "Backtrack: unmark cell, try next direction"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Direct path exists",
+      "average": "O(4^(n²))",
+      "averageCase": "Exponential in maze size",
+      "worst": "O(4^(n²))",
+      "worstCase": "Highly connected maze needing full exploration"
+    },
+    "space": "O(n²)",
+    "spaceDescription": "Visited matrix + recursion stack",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Robot path planning",
+      "Network routing",
+      "Game maze solving"
+    ],
+    "whenToUse": [
+      "Find all paths in a maze",
+      "Constraint satisfaction with spatial layout"
+    ],
+    "alternatives": [
+      "BFS — finds shortest path",
+      "A* — heuristic-guided shortest path"
+    ]
+  },
+  "id": "ratInMaze",
+  "category": "backtracking",
+  "implemented": true
+}

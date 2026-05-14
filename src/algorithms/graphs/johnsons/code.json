@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Johnson's Algorithm - see algorithm textbooks for complete implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Johnson's Algorithm C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Johnson's Algorithm C++ implementation",
+    "lineKeys": {}
+  }
+}

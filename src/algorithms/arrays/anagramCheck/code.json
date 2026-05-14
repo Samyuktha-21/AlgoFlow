@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class AnagramCheck {\n    public boolean isAnagram(String s, String t) {\n        if (s.length() != t.length()) return false;\n        int[] count = new int[26];\n        for (char c : s.toCharArray()) count[c - 'a']++;\n        for (char c : t.toCharArray()) count[c - 'a']--;\n        for (int x : count) if (x != 0) return false;\n        return true;\n    }\n    public static void main(String[] args) {\n        AnagramCheck ac = new AnagramCheck();\n        System.out.println(ac.isAnagram(\"anagram\", \"nagaram\")); // true\n        System.out.println(ac.isAnagram(\"rat\", \"car\"));          // false\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isAnagram(char*s,char*t){if(strlen(s)!=strlen(t))return 0;int cnt[26]={0};\nfor(int i=0;s[i];i++)cnt[s[i]-'a']++;for(int i=0;t[i];i++)cnt[t[i]-'a']--;\nfor(int i=0;i<26;i++)if(cnt[i])return 0;return 1;}\nint main(){printf(\"%d %d\\n\",isAnagram(\"anagram\",\"nagaram\"),isAnagram(\"rat\",\"car\"));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <vector>\nusing namespace std;\nbool isAnagram(string s,string t){if(s.size()!=t.size())return false;vector<int>cnt(26,0);\nfor(char c:s)cnt[c-'a']++;for(char c:t)cnt[c-'a']--;for(int x:cnt)if(x)return false;return true;}",
+    "lineKeys": {}
+  }
+}

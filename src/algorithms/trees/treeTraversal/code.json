@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class TreeTraversals {\n    static class Node { int val; Node left, right; Node(int v){val=v;} }\n    // Inorder: Left → Root → Right\n    void inorder(Node root) {\n        if (root == null) return;\n        inorder(root.left);\n        System.out.print(root.val + \" \");\n        inorder(root.right);\n    }\n    // Preorder: Root → Left → Right\n    void preorder(Node root) {\n        if (root == null) return;\n        System.out.print(root.val + \" \");\n        preorder(root.left);\n        preorder(root.right);\n    }\n    // Postorder: Left → Right → Root\n    void postorder(Node root) {\n        if (root == null) return;\n        postorder(root.left);\n        postorder(root.right);\n        System.out.print(root.val + \" \");\n    }\n    public static void main(String[] args) {\n        Node root = new Node(4);\n        root.left = new Node(2); root.right = new Node(6);\n        root.left.left = new Node(1); root.left.right = new Node(3);\n        root.right.left = new Node(5); root.right.right = new Node(7);\n        TreeTraversals t = new TreeTraversals();\n        t.inorder(root);   System.out.println();\n        t.preorder(root);  System.out.println();\n        t.postorder(root); System.out.println();\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int v;struct Node *l,*r;}Node;\nNode* newNode(int v){Node* n=malloc(sizeof(Node));n->v=v;n->l=n->r=NULL;return n;}\nvoid inorder(Node* n){if(!n)return;inorder(n->l);printf(\"%d \",n->v);inorder(n->r);}\nvoid preorder(Node* n){if(!n)return;printf(\"%d \",n->v);preorder(n->l);preorder(n->r);}\nvoid postorder(Node* n){if(!n)return;postorder(n->l);postorder(n->r);printf(\"%d \",n->v);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node{int v;Node *l,*r;Node(int x):v(x),l(nullptr),r(nullptr){}};\nvoid inorder(Node* n){if(!n)return;inorder(n->l);cout<<n->v<<\" \";inorder(n->r);}\nvoid preorder(Node* n){if(!n)return;cout<<n->v<<\" \";preorder(n->l);preorder(n->r);}\nvoid postorder(Node* n){if(!n)return;postorder(n->l);postorder(n->r);cout<<n->v<<\" \";}",
+    "lineKeys": {}
+  }
+}

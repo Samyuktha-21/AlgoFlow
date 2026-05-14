@@ -1,0 +1,44 @@
+{
+  "name": "Min Stack",
+  "type": "stack",
+  "description": "A stack that supports push, pop, top, and getMin in O(1) time by maintaining a parallel minimum-tracking stack.",
+  "aim": "Support O(1) minimum retrieval at any point by keeping a second \"min stack\" that records the current minimum at each push.",
+  "howItWorks": [
+    "Main stack: standard push/pop",
+    "Min stack: push min(current element, top of min stack) on each push",
+    "On pop: pop from both stacks",
+    "getMin: return top of min stack"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All operations O(1)",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(1)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Two stacks of size n each",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Database query optimizer — track minimum selectivity",
+      "Stock analysis — track running minimum prices",
+      "Game development — track minimum score efficiently"
+    ],
+    "whenToUse": [
+      "Need O(1) minimum tracking in stack",
+      "Undo operations that need to restore minimum"
+    ],
+    "alternatives": [
+      "Single stack with pairs (value, min) — same complexity",
+      "Segment tree — O(log n) if range min needed"
+    ]
+  },
+  "id": "minStack",
+  "category": "stacks-queues",
+  "implemented": true
+}

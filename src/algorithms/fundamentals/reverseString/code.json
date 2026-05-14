@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class ReverseString {\n    public void reverseString(char[] s) {\n        int left = 0, right = s.length - 1;\n        while (left < right) {\n            char temp = s[left]; s[left++] = s[right]; s[right--] = temp;\n        }\n    }\n    public static void main(String[] args) {\n        char[] s = \"hello\".toCharArray();\n        new ReverseString().reverseString(s);\n        System.out.println(new String(s)); // olleh\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid revStr(char*s){int l=0,r=strlen(s)-1;while(l<r){char t=s[l];s[l++]=s[r];s[r--]=t;}}\nint main(){char s[]=\"hello\";revStr(s);printf(\"%s\\n\",s);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nvoid reverseString(string&s){reverse(s.begin(),s.end());}\nint main(){string s=\"hello\";reverseString(s);cout<<s<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "Fractional Knapsack",
+  "type": "array",
+  "description": "Maximizes value in a knapsack by taking fractions of items. Greedy approach: take items in decreasing order of value-to-weight ratio.",
+  "aim": "Maximize total value within weight capacity by greedily choosing items with highest value/weight ratio, taking fractions when needed.",
+  "howItWorks": [
+    "Compute value/weight ratio for each item",
+    "Sort items by ratio in decreasing order",
+    "Greedily take each item:",
+    "  If full item fits: take it entirely",
+    "  Else: take fraction to fill remaining capacity",
+    "Return total value"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Dominated by sorting",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Sorting in-place with O(1) extra",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Resource allocation (can divide resources)",
+      "Budget allocation across divisible projects",
+      "Network bandwidth allocation"
+    ],
+    "whenToUse": [
+      "Items are divisible (liquids, money)",
+      "Maximize value within capacity limit"
+    ],
+    "alternatives": [
+      "0/1 Knapsack — when items are indivisible (DP needed)"
+    ]
+  },
+  "id": "fractionalKnapsack",
+  "category": "greedy",
+  "implemented": true
+}

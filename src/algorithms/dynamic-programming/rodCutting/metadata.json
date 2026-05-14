@@ -1,0 +1,44 @@
+{
+  "name": "Rod Cutting Problem",
+  "type": "dp",
+  "description": "Maximizes revenue from cutting a rod of length n into pieces, given prices for each length. Classic unbounded knapsack DP.",
+  "aim": "Find optimal cut points to maximize total price: dp[i] = max revenue from rod of length i using dp[i] = max over j: price[j] + dp[i-j].",
+  "howItWorks": [
+    "dp[0] = 0 (zero length rod = zero revenue)",
+    "For each rod length i from 1 to n:",
+    "  Try all cuts j from 1 to i",
+    "  dp[i] = max(dp[i], price[j] + dp[i-j])"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n²)",
+      "bestCase": "Fill n×n DP table",
+      "average": "O(n²)",
+      "averageCase": "Same",
+      "worst": "O(n²)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "1D dp array of size n+1",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Stock cutting optimization in manufacturing",
+      "Bandwidth allocation in segments",
+      "Financial product decomposition"
+    ],
+    "whenToUse": [
+      "Maximize value from divisible resource",
+      "Unbounded item selection with length constraint"
+    ],
+    "alternatives": [
+      "Memoized recursion — equivalent",
+      "Greedy — doesn't work: optimal substructure requires DP"
+    ]
+  },
+  "id": "rodCutting",
+  "category": "dynamic-programming",
+  "implemented": true
+}

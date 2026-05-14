@@ -1,0 +1,44 @@
+{
+  "name": "Greatest Common Divisor (Euclid)",
+  "type": "array",
+  "description": "Finds the GCD of two numbers using Euclid's algorithm: gcd(a,b) = gcd(b, a mod b). Runs in O(log min(a,b)) time.",
+  "aim": "Compute GCD by repeatedly replacing (a,b) with (b, a mod b) until remainder is 0 — the last non-zero remainder is the GCD.",
+  "howItWorks": [
+    "If b = 0: return a",
+    "Else: return gcd(b, a mod b)",
+    "Equivalently iterative: while b≠0: (a,b) = (b, a mod b)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "One is divisible by the other",
+      "average": "O(log min(a,b))",
+      "averageCase": "Logarithmic number of divisions",
+      "worst": "O(log min(a,b))",
+      "worstCase": "Consecutive Fibonacci numbers"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Only two variables; O(log n) stack for recursive version",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Fraction simplification (a/b = (a/gcd)/(b/gcd))",
+      "Cryptography (RSA key generation)",
+      "LCD screen resolution calculation",
+      "Gear ratio optimization"
+    ],
+    "whenToUse": [
+      "Simplifying fractions",
+      "Checking if two numbers are coprime",
+      "LCM computation (lcm = a×b/gcd)"
+    ],
+    "alternatives": [
+      "Binary GCD (Stein's) — avoids division, faster on hardware without fast division"
+    ]
+  },
+  "id": "gcd",
+  "category": "fundamentals",
+  "implemented": true
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class MinHeap {\n    int[] heap;\n    int size;\n    MinHeap(int capacity) { heap = new int[capacity]; size = 0; }\n    void insert(int val) {\n        heap[size] = val; size++;\n        int i = size - 1;\n        while (i > 0 && heap[(i-1)/2] > heap[i]) {\n            int tmp = heap[i]; heap[i] = heap[(i-1)/2]; heap[(i-1)/2] = tmp;\n            i = (i-1)/2;\n        }\n    }\n    int extractMin() {\n        int min = heap[0];\n        heap[0] = heap[--size];\n        siftDown(0);\n        return min;\n    }\n    void siftDown(int i) {\n        int smallest = i, l = 2*i+1, r = 2*i+2;\n        if (l < size && heap[l] < heap[smallest]) smallest = l;\n        if (r < size && heap[r] < heap[smallest]) smallest = r;\n        if (smallest != i) {\n            int tmp = heap[i]; heap[i] = heap[smallest]; heap[smallest] = tmp;\n            siftDown(smallest);\n        }\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint heap[100],sz=0;\nvoid insert(int v){heap[sz++]=v;int i=sz-1;\nwhile(i>0&&heap[(i-1)/2]>heap[i]){int t=heap[i];heap[i]=heap[(i-1)/2];heap[(i-1)/2]=t;i=(i-1)/2;}}\nvoid siftDown(int i){int s=i,l=2*i+1,r=2*i+2,t;\nif(l<sz&&heap[l]<heap[s])s=l;if(r<sz&&heap[r]<heap[s])s=r;\nif(s!=i){t=heap[i];heap[i]=heap[s];heap[s]=t;siftDown(s);}}\nint extractMin(){int m=heap[0];heap[0]=heap[--sz];siftDown(0);return m;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct MinHeap{vector<int>h;\nvoid insert(int v){h.push_back(v);push_heap(h.begin(),h.end(),greater<int>());}\nint extractMin(){pop_heap(h.begin(),h.end(),greater<int>());int m=h.back();h.pop_back();return m;}};",
+    "lineKeys": {}
+  }
+}

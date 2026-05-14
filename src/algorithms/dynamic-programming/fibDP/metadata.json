@@ -1,0 +1,47 @@
+{
+  "id": "fibDP",
+  "name": "Fibonacci (Dynamic Programming)",
+  "category": "dynamic-programming",
+  "type": "dp",
+  "implemented": true,
+  "description": "Computes the nth Fibonacci number using dynamic programming — either top-down memoization or bottom-up tabulation. Reduces exponential naive recursion to linear time.",
+  "aim": "Compute fib(n) efficiently by storing previously computed values (memoization) or building up from base cases (tabulation), eliminating redundant recursive calls.",
+  "howItWorks": [
+    "Base cases: dp[0]=0, dp[1]=1",
+    "For each i from 2 to n: dp[i]=dp[i-1]+dp[i-2]",
+    "Each value computed exactly once (vs 2^n in naive recursion)",
+    "Space optimization: only need last two values"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Always computes n values sequentially",
+      "average": "O(n)",
+      "averageCase": "Linear time — each value computed once",
+      "worst": "O(n)",
+      "worstCase": "No variation — always O(n)"
+    },
+    "space": "O(n)",
+    "spaceDescription": "DP array of size n+1; can be optimized to O(1) with two variables",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Number of ways to climb stairs (same recurrence)",
+      "Counting paths in a grid",
+      "Fibonacci search technique",
+      "Phyllotaxis patterns in nature"
+    ],
+    "whenToUse": [
+      "Classic DP teaching example",
+      "Overlapping subproblems with optimal substructure",
+      "Any problem with Fibonacci-like recurrence"
+    ],
+    "alternatives": [
+      "Matrix exponentiation — O(log n) time",
+      "Binet's formula — O(1) but floating-point precision issues",
+      "Naive recursion — O(2^n), never use for n>30"
+    ]
+  }
+}

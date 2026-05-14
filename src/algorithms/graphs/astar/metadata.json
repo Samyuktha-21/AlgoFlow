@@ -1,0 +1,41 @@
+{
+  "name": "A* Search",
+  "type": "graph",
+  "description": "Heuristic best-first search finding shortest path using f(n)=g(n)+h(n)",
+  "aim": "Efficiently solve A* Search problems on graph inputs.",
+  "howItWorks": [
+    "Initialize graph structure",
+    "Apply A* Search algorithm steps",
+    "Track visited nodes and optimal paths"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "Depends on graph density",
+      "average": "O((V+E) log V)",
+      "averageCase": "With priority queue",
+      "worst": "O(V²)",
+      "worstCase": "Dense graphs without priority queue"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "A* Search used in network routing",
+      "GPS navigation",
+      "Operations research"
+    ],
+    "whenToUse": [
+      "When A* Search properties needed"
+    ],
+    "alternatives": [
+      "Other graph algorithms depending on constraints"
+    ]
+  },
+  "id": "astar",
+  "category": "graphs",
+  "implemented": true
+}

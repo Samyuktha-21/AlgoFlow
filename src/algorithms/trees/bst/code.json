@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class BST {\n    Node root;\n    static class Node { int val; Node left, right; Node(int v){val=v;} }\n    void insert(int val) {\n        root = insertRec(root, val);\n    }\n    Node insertRec(Node node, int val) {\n        if (node == null) return new Node(val);\n        if (val < node.val) node.left = insertRec(node.left, val);\n        else if (val > node.val) node.right = insertRec(node.right, val);\n        return node;\n    }\n    boolean search(int val) {\n        Node curr = root;\n        while (curr != null) {\n            if (val == curr.val) return true;\n            curr = val < curr.val ? curr.left : curr.right;\n        }\n        return false;\n    }\n    public static void main(String[] args) {\n        BST tree = new BST();\n        for (int v : new int[]{5,3,7,1,4,6,8}) tree.insert(v);\n        System.out.println(tree.search(4)); // true\n        System.out.println(tree.search(9)); // false\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int v;struct Node *l,*r;}Node;\nNode* insert(Node* n,int v){if(!n){Node* nd=malloc(sizeof(Node));nd->v=v;nd->l=nd->r=NULL;return nd;}\nif(v<n->v)n->l=insert(n->l,v);else if(v>n->v)n->r=insert(n->r,v);return n;}\nint search(Node* n,int v){while(n){if(v==n->v)return 1;n=v<n->v?n->l:n->r;}return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node{int v;Node *l,*r;Node(int x):v(x),l(nullptr),r(nullptr){}};\nNode* insert(Node* n,int v){if(!n)return new Node(v);if(v<n->v)n->l=insert(n->l,v);else if(v>n->v)n->r=insert(n->r,v);return n;}\nbool search(Node* n,int v){while(n){if(v==n->v)return true;n=v<n->v?n->l:n->r;}return false;}",
+    "lineKeys": {}
+  }
+}

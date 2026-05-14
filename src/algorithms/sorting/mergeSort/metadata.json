@@ -1,0 +1,50 @@
+{
+  "id": "mergeSort",
+  "name": "Merge Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Divide-and-conquer algorithm that splits the array in half, recursively sorts each half, then merges the sorted halves. Guarantees O(n log n) in all cases.",
+  "aim": "Sort by recursively splitting until single elements, then merge pairs of sorted sub-arrays, combining the sorted order at each level until the full array is sorted.",
+  "howItWorks": [
+    "Split array at midpoint into left and right halves",
+    "Recursively sort the left half",
+    "Recursively sort the right half",
+    "Merge: compare front elements of both halves, take the smaller",
+    "Continue merging until one sub-array is exhausted, append remainder",
+    "Return merged result"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Always divides evenly — log n levels × n merge work",
+      "average": "O(n log n)",
+      "averageCase": "Divide-and-conquer guarantees log n depth always",
+      "worst": "O(n log n)",
+      "worstCase": "Worst case never degrades — guaranteed performance"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Auxiliary array needed for merging",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Java Arrays.sort for objects — guaranteed stability matters",
+      "Sorting linked lists — merge is natural for linked structure",
+      "External sort — merge sorted chunks from disk",
+      "Parallel processing — halves can be sorted simultaneously"
+    ],
+    "whenToUse": [
+      "Stable O(n log n) sort required",
+      "Sorting linked lists",
+      "External merge sort for large datasets",
+      "Worst-case performance must be guaranteed"
+    ],
+    "alternatives": [
+      "Quick Sort — better cache performance, in-place, but unstable",
+      "Heap Sort — in-place O(n log n) but not stable",
+      "Tim Sort — optimized hybrid used in production (Java, Python)"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class ReverseLinkedList {\n    static class ListNode { int val; ListNode next;\n        ListNode(int v) { val = v; } }\n    public ListNode reverse(ListNode head) {\n        ListNode prev = null, curr = head;\n        while (curr != null) {\n            ListNode next = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = next;\n        }\n        return prev;\n    }\n    public static void main(String[] args) {\n        ListNode head = new ListNode(1);\n        head.next = new ListNode(2);\n        head.next.next = new ListNode(3);\n        head.next.next.next = new ListNode(4);\n        ListNode rev = new ReverseLinkedList().reverse(head);\n        while (rev != null) { System.out.print(rev.val + \" \"); rev = rev.next; }\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\ntypedef struct Node { int val; struct Node* next; } Node;\nNode* reverse(Node* head){Node *prev=NULL,*curr=head,*nxt;\nwhile(curr){nxt=curr->next;curr->next=prev;prev=curr;curr=nxt;}return prev;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node{int val;Node* next;Node(int v):val(v),next(nullptr){}};\nNode* reverse(Node* head){Node *prev=nullptr,*curr=head,*nxt;\nwhile(curr){nxt=curr->next;curr->next=prev;prev=curr;curr=nxt;}return prev;}",
+    "lineKeys": {}
+  }
+}

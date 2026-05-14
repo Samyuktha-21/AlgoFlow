@@ -1,0 +1,44 @@
+{
+  "name": "Job Sequencing with Deadlines",
+  "type": "array",
+  "description": "Schedule jobs to maximize profit when each job has a deadline and profit. Greedy: sort by profit, schedule each job in the latest available slot before its deadline.",
+  "aim": "Maximize total profit by greedily scheduling the most profitable jobs first, placing each in the latest available time slot before its deadline.",
+  "howItWorks": [
+    "Sort jobs by profit (descending)",
+    "For each job: find latest free slot ≤ deadline",
+    "If free slot exists: schedule job there",
+    "Repeat until all jobs processed"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n²)",
+      "bestCase": "Sort + find slot: O(n log n) + O(n²)",
+      "average": "O(n²)",
+      "averageCase": "Same",
+      "worst": "O(n²)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Slot array of size max deadline",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "CPU job scheduling with deadlines",
+      "Project assignment with revenue",
+      "Task scheduling in operations research"
+    ],
+    "whenToUse": [
+      "Maximize revenue with deadline constraints",
+      "Unit time jobs with single-machine scheduling"
+    ],
+    "alternatives": [
+      "Union-Find approach — O(n log n)",
+      "DP — for general job scheduling"
+    ]
+  },
+  "id": "jobSequencing",
+  "category": "greedy",
+  "implemented": true
+}

@@ -1,0 +1,50 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class BinarySearch {\n    public int search(int[] arr, int target) {\n        int low = 0, high = arr.length - 1;\n        \n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            \n            if (arr[mid] == target) {\n                return mid;          // Found!\n            } else if (arr[mid] < target) {\n                low = mid + 1;      // Search right half\n            } else {\n                high = mid - 1;    // Search left half\n            }\n        }\n        return -1;  // Not found\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};\n        BinarySearch bs = new BinarySearch();\n        System.out.println(bs.search(arr, 23));  // Output: 5\n        System.out.println(bs.search(arr, 10));  // Output: -1\n    }\n}",
+    "lineKeys": {
+      "init": 3,
+      "whileLoop": 5,
+      "calcMid": 6,
+      "checkFound": 8,
+      "returnFound": 9,
+      "searchRight": 10,
+      "moveLow": 11,
+      "searchLeft": 12,
+      "moveHigh": 13,
+      "notFound": 16
+    }
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n\nint binarySearch(int arr[], int n, int target) {\n    int low = 0, high = n - 1;\n    \n    while (low <= high) {\n        int mid = low + (high - low) / 2;\n        \n        if (arr[mid] == target) {\n            return mid;          /* Found! */\n        } else if (arr[mid] < target) {\n            low = mid + 1;      /* Search right half */\n        } else {\n            high = mid - 1;    /* Search left half */\n        }\n    }\n    return -1;  /* Not found */\n}\n\nint main() {\n    int arr[] = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};\n    int n = sizeof(arr) / sizeof(arr[0]);\n    printf(\"%d\\n\", binarySearch(arr, n, 23));  /* 5 */\n    printf(\"%d\\n\", binarySearch(arr, n, 10));  /* -1 */\n    return 0;\n}",
+    "lineKeys": {
+      "init": 4,
+      "whileLoop": 6,
+      "calcMid": 7,
+      "checkFound": 9,
+      "returnFound": 10,
+      "searchRight": 11,
+      "moveLow": 12,
+      "searchLeft": 13,
+      "moveHigh": 14,
+      "notFound": 17
+    }
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint binarySearch(const vector<int>& arr, int target) {\n    int low = 0, high = (int)arr.size() - 1;\n    \n    while (low <= high) {\n        int mid = low + (high - low) / 2;\n        \n        if (arr[mid] == target) {\n            return mid;          // Found!\n        } else if (arr[mid] < target) {\n            low = mid + 1;      // Search right half\n        } else {\n            high = mid - 1;    // Search left half\n        }\n    }\n    return -1;  // Not found\n}\n\nint main() {\n    vector<int> arr = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};\n    cout << binarySearch(arr, 23) << endl;  // 5\n    cout << binarySearch(arr, 10) << endl;  // -1\n    return 0;\n}",
+    "lineKeys": {
+      "init": 5,
+      "whileLoop": 7,
+      "calcMid": 8,
+      "checkFound": 10,
+      "returnFound": 11,
+      "searchRight": 12,
+      "moveLow": 13,
+      "searchLeft": 14,
+      "moveHigh": 15,
+      "notFound": 18
+    }
+  }
+}

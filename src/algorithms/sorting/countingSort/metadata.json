@@ -1,0 +1,49 @@
+{
+  "id": "countingSort",
+  "name": "Counting Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Non-comparison sort that counts occurrences of each value, uses running sum to determine positions, then builds the output array. Extremely fast for integers in a small range.",
+  "aim": "Sort by counting how many times each value appears, converting counts to cumulative positions, then placing each element at its determined position in the output.",
+  "howItWorks": [
+    "Find the maximum value k",
+    "Create count array of size k+1, initialize to 0",
+    "Count occurrences: count[arr[i]]++",
+    "Accumulate: count[i] += count[i-1] to get positions",
+    "Place each element in output: output[count[arr[i]]-1] = arr[i]",
+    "Copy output back to original array"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + k)",
+      "bestCase": "Linear — count occurrences and reconstruct",
+      "average": "O(n + k)",
+      "averageCase": "k = range of input values, n = number of elements",
+      "worst": "O(n + k)",
+      "worstCase": "Consistent for any input distribution"
+    },
+    "space": "O(k)",
+    "spaceDescription": "Count array of size k = max value",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Sorting student grades (0-100)",
+      "Radix sort uses counting sort as a subroutine",
+      "Frequency analysis in text processing",
+      "Sorting characters in a string"
+    ],
+    "whenToUse": [
+      "Input integers in a small known range [0..k]",
+      "k = O(n) — range comparable to array size",
+      "Stable sort needed for integers"
+    ],
+    "alternatives": [
+      "Radix Sort — extends counting sort to multi-digit numbers",
+      "Bucket Sort — works on floating-point numbers",
+      "Comparison sorts — when range is too large relative to n"
+    ]
+  }
+}

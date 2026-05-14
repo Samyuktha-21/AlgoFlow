@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class RabinKarp {\n    static final int BASE = 256, MOD = 101;\n    public void search(String text, String pattern) {\n        int n=text.length(), m=pattern.length();\n        int h = (int)Math.pow(BASE, m-1) % MOD;\n        int pH = 0, tH = 0;\n        for (int i=0; i<m; i++) { pH=(BASE*pH+pattern.charAt(i))%MOD; tH=(BASE*tH+text.charAt(i))%MOD; }\n        for (int i=0; i<=n-m; i++) {\n            if (pH==tH && text.substring(i,i+m).equals(pattern)) System.out.println(\"Found at \"+i);\n            if (i<n-m) { tH=(BASE*(tH-text.charAt(i)*h)+text.charAt(i+m))%MOD; if(tH<0)tH+=MOD; }\n        }\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define B 256\n#define M 101\nvoid rabinKarp(char*t,char*p){int n=strlen(t),m=strlen(p),h=1,ph=0,th=0;\nfor(int i=0;i<m-1;i++)h=(h*B)%M;for(int i=0;i<m;i++){ph=(B*ph+p[i])%M;th=(B*th+t[i])%M;}\nfor(int i=0;i<=n-m;i++){if(ph==th){int j=0;while(j<m&&t[i+j]==p[j])j++;if(j==m)printf(\"Found at %d\\n\",i);}if(i<n-m){th=(B*(th-t[i]*h)+t[i+m])%M;if(th<0)th+=M;}}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <iostream>\nusing namespace std;\nvoid rabinKarp(string t,string p){int n=t.size(),m=p.size(),B=256,M=101,h=1,ph=0,th=0;\nfor(int i=0;i<m-1;i++)h=h*B%M;for(int i=0;i<m;i++){ph=(B*ph+p[i])%M;th=(B*th+t[i])%M;}\nfor(int i=0;i<=n-m;i++){if(ph==th&&t.substr(i,m)==p)cout<<\"Found at \"<<i<<endl;if(i<n-m){th=(B*(th-t[i]*h)+t[i+m])%M;if(th<0)th+=M;}}}",
+    "lineKeys": {}
+  }
+}

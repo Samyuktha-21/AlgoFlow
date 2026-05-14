@@ -1,0 +1,42 @@
+{
+  "name": "Longest Common Substring (DP)",
+  "type": "dp",
+  "description": "Finds the longest substring (contiguous) common to two strings using a 2D DP table.",
+  "aim": "Find longest run of matching characters between two strings using dp[i][j] = length of common substring ending at s1[i-1] and s2[j-1].",
+  "howItWorks": [
+    "Build dp[m+1][n+1], init to 0",
+    "If s1[i-1]==s2[j-1]: dp[i][j] = dp[i-1][j-1]+1",
+    "Else: dp[i][j] = 0",
+    "Track maximum dp[i][j] seen"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(mn)",
+      "bestCase": "Always O(mn)",
+      "average": "O(mn)",
+      "averageCase": "Same",
+      "worst": "O(mn)",
+      "worstCase": "Same"
+    },
+    "space": "O(mn)",
+    "spaceDescription": "2D table; can optimize to O(min(m,n)) with rolling array",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Plagiarism detection",
+      "DNA sequence similarity",
+      "Version diff tools"
+    ],
+    "whenToUse": [
+      "Contiguous match required (vs LCS which is subsequence)"
+    ],
+    "alternatives": [
+      "Suffix array — O(n log n) time O(n) space"
+    ]
+  },
+  "id": "longestCommonSubstring",
+  "category": "arrays",
+  "implemented": true
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class PathSum {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        if (root == null) return false;\n        if (root.left == null && root.right == null) return root.val == targetSum;\n        return hasPathSum(root.left,  targetSum - root.val) ||\n               hasPathSum(root.right, targetSum - root.val);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdbool.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nbool hasPath(Node*n,int t){if(!n)return false;if(!n->l&&!n->r)return n->v==t;return hasPath(n->l,t-n->v)||hasPath(n->r,t-n->v);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "struct Node{int v;Node*l,*r;};\nbool hasPath(Node*n,int t){if(!n)return false;if(!n->l&&!n->r)return n->v==t;return hasPath(n->l,t-n->v)||hasPath(n->r,t-n->v);}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,240 @@
+import { motion } from 'framer-motion'
+import { useTheme } from '../../context/ThemeContext'
+
+/* ─── State → visual style ─────────────────────── */
+function getState(idx, { comparing, swapping, sorted, pivot, current }) {
+  if (sorted?.includes(idx))    return 'sorted'
+  if (swapping?.includes(idx))  return 'swapping'
+  if (comparing?.includes(idx)) return 'comparing'
+  if (pivot === idx)            return 'pivot'
+  if (current === idx)          return 'current'
+  return 'default'
+}
+
+/* ─── Water column styles per state ─────────────── */
+const WATER = {
+  default: {
+    background: 'linear-gradient(180deg,rgba(186,230,253,.72) 0%,rgba(56,189,248,.68) 38%,rgba(14,165,233,.75) 72%,rgba(3,105,161,.88) 100%)',
+    border: '1px solid rgba(125,211,252,.45)',
+    boxShadow: '0 0 8px rgba(56,189,248,.22),inset 0 0 12px rgba(255,255,255,.1)',
+  },
+  comparing: {
+    background: 'linear-gradient(180deg,rgba(224,242,254,.92) 0%,rgba(125,211,252,.88) 35%,rgba(56,189,248,.9) 70%,rgba(2,132,199,.95) 100%)',
+    border: '1px solid rgba(186,230,253,.8)',
+    boxShadow: '0 0 22px rgba(125,211,252,.7),0 0 40px rgba(56,189,248,.3)',
+    animation: 'water-turbulence .5s ease-in-out infinite',
+  },
+  swapping: {
+    background: 'linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(224,242,254,.9) 28%,rgba(186,230,253,.9) 60%,rgba(125,211,252,.95) 100%)',
+    border: '1px solid rgba(255,255,255,.9)',
+    boxShadow: '0 0 35px rgba(255,255,255,.8),0 -18px 35px rgba(186,230,253,.6)',
+  },
+  sorted: {
+    background: 'linear-gradient(180deg,rgba(240,253,255,.96) 0%,rgba(224,242,254,.92) 38%,rgba(186,230,253,.88) 75%,rgba(147,213,234,.9) 100%)',
+    border: '1px solid rgba(240,253,255,.8)',
+    boxShadow: '0 0 14px rgba(186,230,253,.55),inset 0 0 22px rgba(255,255,255,.28)',
+  },
+  pivot: {
+    background: 'linear-gradient(180deg,rgba(233,213,255,.9) 0%,rgba(196,181,253,.85) 40%,rgba(139,92,246,.8) 100%)',
+    border: '1px solid rgba(196,181,253,.7)',
+    boxShadow: '0 0 18px rgba(167,139,250,.6)',
+  },
+  current: {
+    background: 'linear-gradient(180deg,rgba(219,234,254,.9) 0%,rgba(147,197,253,.85) 40%,rgba(59,130,246,.8) 100%)',
+    border: '1px solid rgba(147,197,253,.7)',
+    boxShadow: '0 0 18px rgba(96,165,250,.6)',
+  },
+}
+
+/* ─── Generic (dark) bar styles ─────────────────── */
+const DARK = {
+  default:   { bg: '#374151', border: '#4B5563' },
+  comparing: { bg: '#F59E0B', border: '#D97706' },
+  swapping:  { bg: '#EF4444', border: '#DC2626' },
+  sorted:    { bg: '#10B981', border: '#059669' },
+  pivot:     { bg: '#8B5CF6', border: '#7C3AED' },
+  current:   { bg: '#3B82F6', border: '#2563EB' },
+}
+const LIGHT = {
+  default:   { bg: '#E5E7EB', border: '#D1D5DB' },
+  comparing: { bg: '#FCD34D', border: '#F59E0B' },
+  swapping:  { bg: '#F87171', border: '#EF4444' },
+  sorted:    { bg: '#34D399', border: '#10B981' },
+  pivot:     { bg: '#A78BFA', border: '#8B5CF6' },
+  current:   { bg: '#60A5FA', border: '#3B82F6' },
+}
+
+/* ─── Water column component ────────────────────── */
+function WaterBar({ val, height, barW, state, showLabel, idx, showIdx }) {
+  const style = WATER[state]
+
+  return (
+    <div className="flex flex-col items-center" style={{ gap: 3 }}>
+      {/* Value label — white text on water */}
+      {showLabel && (
+        <span className="text-center font-mono font-bold select-none"
+          style={{ color: state === 'default' ? 'rgba(186,230,253,.85)' : state === 'sorted' ? 'rgba(224,242,254,.95)' : '#ffffff',
+            fontSize: barW >= 46 ? 20 : barW >= 34 ? 17 : barW >= 24 ? 13 : 10,
+            textShadow: '0 1px 3px rgba(0,0,80,.5)' }}>
+          {val}
+        </span>
+      )}
+
+      {/* Water column */}
+      <motion.div
+        animate={{ height }}
+        transition={{ duration: 0.28, type: 'spring', stiffness: 300, damping: 25 }}
+        className="relative flex-shrink-0 overflow-hidden"
+        style={{ width: barW, borderRadius: '6px 6px 2px 2px', ...style }}
+      >
+        {/* Surface wave ripple */}
+        <div className="absolute top-0 left-0 right-0 pointer-events-none"
+          style={{ height: 10, overflow: 'hidden' }}>
+          <svg viewBox="0 0 100 10" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,5 C20,0 40,10 60,5 C80,0 90,10 100,5 L100,0 L0,0 Z"
+              fill={state === 'comparing' ? 'rgba(255,255,255,.45)' : 'rgba(255,255,255,.25)'}
+              style={{ animation: state === 'comparing' ? 'wave-flow .8s linear infinite' : 'wave-flow 2s linear infinite' }}
+            />
+          </svg>
+        </div>
+
+        {/* Sheen highlight on left side */}
+        <div className="absolute top-0 left-0 bottom-0"
+          style={{ width: '30%', background: 'linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,.03))', borderRadius: 'inherit' }} />
+
+        {/* Inner micro-bubbles */}
+        {state !== 'default' && [0, 1, 2].map(i => (
+          <div key={i} className="absolute rounded-full"
+            style={{ width: 3, height: 3, left: `${20 + i * 25}%`, bottom: `${8 + i * 12}%`,
+              border: '1px solid rgba(255,255,255,.6)', background: 'rgba(255,255,255,.15)',
+              animation: `bubble-rise ${1.2 + i * .4}s ease-in ${i * .25}s infinite` }} />
+        ))}
+      </motion.div>
+
+      {/* Index label */}
+      {showIdx && (
+        <span className="font-mono select-none"
+          style={{ color: 'rgba(125,211,252,.45)', fontSize: barW >= 40 ? 12 : barW >= 28 ? 11 : 9 }}>
+          {idx}
+        </span>
+      )}
+    </div>
+  )
+}
+
+/* ─── Generic bar (non-water themes) ────────────── */
+function GenericBar({ val, height, barW, state, isDark, showLabel, idx, showIdx }) {
+  const palette = isDark ? DARK : LIGHT
+  const c = palette[state] || palette.default
+
+  return (
+    <motion.div className="flex flex-col items-center" style={{ gap: 2 }}>
+      {showLabel && (
+        <span className={`text-xs font-mono font-semibold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
+          style={{ fontSize: barW < 24 ? 9 : 11 }}>
+          {val}
+        </span>
+      )}
+      <motion.div
+        animate={{ height, backgroundColor: c.bg }}
+        transition={{ duration: 0.24 }}
+        className="rounded-t-md flex-shrink-0"
+        style={{ width: barW, border: `2px solid ${c.border}`,
+          boxShadow: state !== 'default' ? `0 0 8px ${c.bg}88` : 'none' }}
+      />
+      {showIdx && (
+        <span className={`text-xs font-mono ${isDark ? 'text-gray-600' : 'text-gray-400'}`}
+          style={{ fontSize: barW < 24 ? 9 : 11 }}>
+          {idx}
+        </span>
+      )}
+    </motion.div>
+  )
+}
+
+/* ─── Description overlay ────────────────────────── */
+function Desc({ text, isWater, isDark }) {
+  return (
+    <div className="mb-3 px-4 py-2.5 rounded-lg font-medium text-center min-h-[2.5rem] flex items-center justify-center"
+      style={isWater ? {
+        background: 'rgba(3,105,161,.35)',
+        backdropFilter: 'blur(6px)',
+        border: '1px solid rgba(125,211,252,.25)',
+        color: 'rgba(224,242,254,.92)',
+        textShadow: '0 1px 3px rgba(0,0,0,.4)',
+        fontSize: 15,
+      } : { background: isDark ? 'rgba(31,41,55,.6)' : 'rgba(255,255,255,.7)', color: isDark ? '#d1d5db' : '#374151', fontSize: 15 }}>
+      {text || '—'}
+    </div>
+  )
+}
+
+/* ─── Main export ────────────────────────────────── */
+export default function SortVisualizer({ step, themeId }) {
+  const { isDark } = useTheme()
+  const isWater = themeId === 'water'
+
+  if (!step) {
+    return (
+      <div className="flex items-center justify-center h-48">
+        <p style={{ color: isWater ? 'rgba(125,211,252,.6)' : isDark ? '#6b7280' : '#9ca3af', fontSize: 14 }}>
+          Enter an array and click Visualize to start
+        </p>
+      </div>
+    )
+  }
+
+  const { array, comparing = [], swapping = [], sorted = [], pivot = null, current = null, description } = step
+  const maxVal = Math.max(...array, 1)
+  const barW = Math.max(16, Math.min(52, Math.floor(548 / array.length) - 5))
+  const maxH = 210
+
+  const showLabel = array.length <= 25
+  const showIdx   = array.length <= 28
+
+  return (
+    <div className="w-full">
+      <Desc text={description} isWater={isWater} isDark={isDark} />
+
+      {/* Bars */}
+      <div className="flex items-end justify-center gap-1 py-3 px-4"
+        style={{ minHeight: maxH + 50 }}>
+        {array.map((val, idx) => {
+          const state = getState(idx, { comparing, swapping, sorted, pivot, current })
+          const height = Math.max(8, Math.floor((val / maxVal) * maxH))
+
+          return isWater
+            ? <WaterBar key={idx} val={val} height={height} barW={barW} state={state}
+                showLabel={showLabel} idx={idx} showIdx={showIdx} />
+            : <GenericBar key={idx} val={val} height={height} barW={barW} state={state}
+                isDark={isDark} showLabel={showLabel} idx={idx} showIdx={showIdx} />
+        })}
+      </div>
+
+      {/* Legend */}
+      <div className="flex flex-wrap items-center justify-center gap-3 mt-1 px-4">
+        {isWater ? [
+          { label: 'Water',    s: WATER.default },
+          { label: 'Rippling', s: WATER.comparing },
+          { label: 'Splash',   s: WATER.swapping },
+          { label: 'Crystal',  s: WATER.sorted },
+        ].map(({ label, s }) => (
+          <div key={label} className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-sm" style={{ background: s.background, border: s.border }} />
+            <span style={{ fontSize: 11, color: 'rgba(186,230,253,.6)' }}>{label}</span>
+          </div>
+        )) : [
+          { label: 'Default',   bg: '#E5E7EB', b: '#D1D5DB' },
+          { label: 'Comparing', bg: '#FCD34D', b: '#F59E0B' },
+          { label: 'Swapping',  bg: '#F87171', b: '#EF4444' },
+          { label: 'Sorted',    bg: '#34D399', b: '#10B981' },
+        ].map(it => (
+          <div key={it.label} className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-sm" style={{ background: it.bg, border: `1px solid ${it.b}` }} />
+            <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{it.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

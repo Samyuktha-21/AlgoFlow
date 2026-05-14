@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class DutchFlag {\n    public void sort(int[] arr) {\n        int lo = 0, mid = 0, hi = arr.length - 1;\n        while (mid <= hi) {\n            if (arr[mid] == 0) {\n                int tmp = arr[lo]; arr[lo] = arr[mid]; arr[mid] = tmp;\n                lo++; mid++;\n            } else if (arr[mid] == 1) {\n                mid++;\n            } else {\n                int tmp = arr[mid]; arr[mid] = arr[hi]; arr[hi] = tmp;\n                hi--;\n            }\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {2,0,2,1,1,0};\n        new DutchFlag().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid dutchFlag(int arr[],int n){int lo=0,mid=0,hi=n-1,tmp;\nwhile(mid<=hi){if(arr[mid]==0){tmp=arr[lo];arr[lo]=arr[mid];arr[mid]=tmp;lo++;mid++;}\nelse if(arr[mid]==1)mid++;else{tmp=arr[mid];arr[mid]=arr[hi];arr[hi]=tmp;hi--;}}}\nint main(){int a[]={2,0,2,1,1,0};dutchFlag(a,6);for(int i=0;i<6;i++)printf(\"%d \",a[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid dutchFlag(vector<int>& a){int lo=0,mid=0,hi=a.size()-1;\nwhile(mid<=hi){if(a[mid]==0){swap(a[lo++],a[mid++]);}else if(a[mid]==1)mid++;else swap(a[mid],a[hi--]);}}\nint main(){vector<int> a={2,0,2,1,1,0};dutchFlag(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

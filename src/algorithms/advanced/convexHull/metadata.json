@@ -1,0 +1,39 @@
+{
+  "name": "Convex Hull (Graham Scan)",
+  "type": "array",
+  "description": "Smallest convex polygon enclosing all points using O(n log n) Graham scan",
+  "aim": "Efficiently solve convex hull (graham scan) related problems.",
+  "howItWorks": [
+    "See code implementation for detailed steps"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on variant",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional space",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Convex Hull (Graham Scan) is used in text processing",
+      "compiler design",
+      "and algorithm research"
+    ],
+    "whenToUse": [
+      "When convex hull (graham scan) capabilities are needed"
+    ],
+    "alternatives": [
+      "Simpler alternatives exist for specific use cases"
+    ]
+  },
+  "id": "convexHull",
+  "category": "advanced",
+  "implemented": true
+}

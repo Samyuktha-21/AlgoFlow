@@ -1,0 +1,51 @@
+{
+  "id": "bfs",
+  "name": "Breadth-First Search",
+  "category": "graphs",
+  "type": "graph",
+  "description": "Graph traversal algorithm that explores all vertices at the current depth level before moving to vertices at the next depth level. Uses a queue to track the frontier of exploration.",
+  "aim": "To traverse or search a graph level by level starting from a source node, visiting all neighbors of the current node before moving deeper. Guarantees finding the shortest path in unweighted graphs.",
+  "howItWorks": [
+    "Start at the source node, mark it as visited, and add it to a queue",
+    "While the queue is not empty, dequeue the front node",
+    "Process the current node (print it, record it, etc.)",
+    "For each unvisited neighbor of the current node: mark as visited and enqueue",
+    "Repeat until the queue is empty — all reachable nodes have been visited"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V + E)",
+      "bestCase": "Always O(V+E) — must visit all vertices and edges",
+      "average": "O(V + E)",
+      "averageCase": "V = vertices, E = edges — each visited once",
+      "worst": "O(V + E)",
+      "worstCase": "Dense graph with many edges still O(V+E)"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Queue and visited array each hold at most V elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Shortest path in unweighted graphs — GPS navigation, network routing",
+      "Social networks — finding people within N degrees of connection",
+      "Web crawlers — discovering linked pages level by level",
+      "Puzzle solving — finding minimum moves in games like sliding puzzles",
+      "Network broadcast — sending messages to all nodes within k hops"
+    ],
+    "whenToUse": [
+      "Finding shortest path in an unweighted graph",
+      "Exploring nodes closest to source first",
+      "Level-order traversal of a tree",
+      "Checking if a graph is bipartite",
+      "Finding all nodes within a given distance"
+    ],
+    "alternatives": [
+      "Use DFS for topological sort, cycle detection, or path existence checks",
+      "Use Dijkstra's for shortest path in weighted graphs",
+      "Use A* when a heuristic can guide the search (e.g., grids, maps)",
+      "Use Bidirectional BFS to halve the search space for source-to-target queries"
+    ]
+  }
+}

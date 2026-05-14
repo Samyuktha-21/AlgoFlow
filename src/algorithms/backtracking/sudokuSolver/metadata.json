@@ -1,0 +1,47 @@
+{
+  "name": "Sudoku Solver",
+  "type": "backtracking",
+  "description": "Solves a 9×9 Sudoku puzzle by trying each digit 1-9 in empty cells, backtracking when a conflict is detected.",
+  "aim": "Fill a Sudoku grid by recursively placing digits 1-9 in empty cells and backtracking when any row, column, or 3×3 box constraint is violated.",
+  "howItWorks": [
+    "Find the next empty cell",
+    "Try digits 1-9",
+    "Check validity: digit not in same row, column, or 3×3 box",
+    "If valid: place digit, recurse to next empty cell",
+    "If recursion fails: remove digit and try next (backtrack)",
+    "If all cells filled: solution found"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Puzzle has forced moves everywhere",
+      "average": "O(9^m)",
+      "averageCase": "m = number of empty cells",
+      "worst": "O(9^(n²))",
+      "worstCase": "All cells empty — 9^81 combinations"
+    },
+    "space": "O(n²)",
+    "spaceDescription": "Grid storage + recursion stack depth up to n²=81",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Sudoku game engines",
+      "Constraint satisfaction solver benchmark",
+      "Logical deduction engines",
+      "Puzzle generation by solving with backtrack counting"
+    ],
+    "whenToUse": [
+      "Exactly-one constraint satisfaction",
+      "When search space is bounded and constraint propagation helps"
+    ],
+    "alternatives": [
+      "Constraint propagation (Arc Consistency) — prunes far more before backtracking",
+      "Dancing Links (DLX) — Knuth's optimized exact cover algorithm"
+    ]
+  },
+  "id": "sudokuSolver",
+  "category": "backtracking",
+  "implemented": true
+}

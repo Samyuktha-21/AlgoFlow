@@ -1,0 +1,49 @@
+{
+  "id": "linearSearch",
+  "name": "Linear Search",
+  "category": "searching",
+  "type": "searching",
+  "implemented": true,
+  "description": "Sequentially checks each element until the target is found or the array ends. Works on both sorted and unsorted arrays.",
+  "aim": "Find a target by scanning left to right, comparing each element. Return the index when found or -1 if exhausted.",
+  "howItWorks": [
+    "Start at index 0",
+    "Compare current element with target",
+    "If match: return current index",
+    "If no match: advance to next element",
+    "If end reached: return -1 (not found)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Target is at the first position",
+      "average": "O(n)",
+      "averageCase": "Expected n/2 comparisons for random target",
+      "worst": "O(n)",
+      "worstCase": "Target not in array — must check every element"
+    },
+    "space": "O(1)",
+    "spaceDescription": "No extra memory — just a loop counter",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Searching small unsorted lists",
+      "Finding an item in an unindexed file",
+      "Searching linked lists (no random access)",
+      "Fallback when data is too small to justify sorting"
+    ],
+    "whenToUse": [
+      "Unsorted array where sorting overhead is not worth it",
+      "Small arrays (n < 30)",
+      "Searching linked lists or streams",
+      "Single search on an array that won't be searched again"
+    ],
+    "alternatives": [
+      "Binary Search — O(log n) but requires sorted array",
+      "Hash Map — O(1) average for repeated lookups",
+      "Jump Search — O(√n) for sorted arrays"
+    ]
+  }
+}

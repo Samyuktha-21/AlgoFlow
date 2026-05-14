@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class JumpSearch {\n    public int search(int[] arr, int target) {\n        int n = arr.length;\n        int step = (int)Math.sqrt(n), prev = 0;\n        while (arr[Math.min(step, n)-1] < target) {\n            prev = step;\n            step += (int)Math.sqrt(n);\n            if (prev >= n) return -1;\n        }\n        while (arr[prev] < target) {\n            prev++;\n            if (prev == Math.min(step, n)) return -1;\n        }\n        return arr[prev] == target ? prev : -1;\n    }\n    public static void main(String[] args) {\n        int[] arr = {0,1,1,2,3,5,8,13,21,34,55,89,144,233,377};\n        System.out.println(new JumpSearch().search(arr, 55));\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <math.h>\nint jumpSearch(int arr[], int n, int target) {\n    int step=(int)sqrt(n), prev=0;\n    while(arr[(step<n?step:n)-1]<target){prev=step;step+=(int)sqrt(n);if(prev>=n)return -1;}\n    while(arr[prev]<target){prev++;if(prev==(step<n?step:n))return -1;}\n    return arr[prev]==target?prev:-1;\n}\nint main(){int a[]={0,1,1,2,3,5,8,13,21,34,55,89};printf(\"%d\\n\",jumpSearch(a,12,55));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\nint jumpSearch(const vector<int>& a, int t) {\n    int n=a.size(), step=sqrt(n), prev=0;\n    while(a[min(step,n)-1]<t){prev=step;step+=sqrt(n);if(prev>=n)return -1;}\n    while(a[prev]<t){prev++;if(prev==min(step,n))return -1;}\n    return a[prev]==t?prev:-1;\n}\nint main(){vector<int> a={0,1,1,2,3,5,8,13,21,34,55,89};cout<<jumpSearch(a,55)<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

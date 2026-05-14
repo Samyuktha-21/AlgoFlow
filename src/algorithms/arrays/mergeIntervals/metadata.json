@@ -1,0 +1,46 @@
+{
+  "name": "Merge Intervals",
+  "type": "array",
+  "description": "Given a list of intervals, merge all overlapping ones. Sort by start time, then greedily merge intervals that overlap.",
+  "aim": "Reduce overlapping intervals to non-overlapping merged intervals: sort by start, merge if current start ≤ last merged end.",
+  "howItWorks": [
+    "Sort intervals by start time",
+    "Take first interval as current merged",
+    "For each subsequent interval:",
+    "  If it overlaps (start ≤ last end): extend end = max(last end, current end)",
+    "  Else: push merged interval, start new merge"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Dominated by sorting",
+      "average": "O(n log n)",
+      "averageCase": "Sort + single linear merge pass",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Output can be up to n non-overlapping intervals",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Calendar scheduling — consolidate overlapping meetings",
+      "Database range queries — combine overlapping conditions",
+      "Genomics — merge overlapping DNA reads",
+      "Time tracking — consolidate work sessions"
+    ],
+    "whenToUse": [
+      "Simplifying interval datasets",
+      "Finding total coverage of time intervals"
+    ],
+    "alternatives": [
+      "Sweep line — handles more complex interval problems",
+      "Interval tree — for fast overlap queries on large sets"
+    ]
+  },
+  "id": "mergeIntervals",
+  "category": "arrays",
+  "implemented": true
+}

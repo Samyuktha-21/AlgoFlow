@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class LCS_Substring {\n    public int longestCommonSubstring(String s1, String s2) {\n        int m=s1.length(), n=s2.length(), max=0;\n        int[][] dp = new int[m+1][n+1];\n        for (int i=1; i<=m; i++)\n            for (int j=1; j<=n; j++) {\n                if (s1.charAt(i-1) == s2.charAt(j-1)) {\n                    dp[i][j] = dp[i-1][j-1] + 1;\n                    max = Math.max(max, dp[i][j]);\n                }\n            }\n        return max;\n    }\n    public static void main(String[] args) {\n        System.out.println(new LCS_Substring().longestCommonSubstring(\"ABCBDAB\",\"BDCAB\")); // 2\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nint lcsSubstr(char*a,char*b){int m=strlen(a),n=strlen(b),mx=0,dp[m+1][n+1];\nfor(int i=0;i<=m;i++)for(int j=0;j<=n;j++){dp[i][j]=(i&&j&&a[i-1]==b[j-1])?dp[i-1][j-1]+1:0;if(dp[i][j]>mx)mx=dp[i][j];}return mx;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint lcsSubstr(string a,string b){int m=a.size(),n=b.size(),mx=0;vector<vector<int>>dp(m+1,vector<int>(n+1,0));\nfor(int i=1;i<=m;i++)for(int j=1;j<=n;j++){if(a[i-1]==b[j-1]){dp[i][j]=dp[i-1][j-1]+1;mx=max(mx,dp[i][j]);}}return mx;}",
+    "lineKeys": {}
+  }
+}

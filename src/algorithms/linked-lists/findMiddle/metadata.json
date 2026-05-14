@@ -1,0 +1,45 @@
+{
+  "name": "Find Middle Node",
+  "type": "linked-list",
+  "description": "Finds the middle node of a linked list using fast and slow pointer technique in a single pass.",
+  "aim": "Find the middle element without knowing list length: slow pointer moves 1 step, fast pointer moves 2 steps — when fast reaches end, slow is at middle.",
+  "howItWorks": [
+    "Initialize slow = head, fast = head",
+    "While fast and fast.next are not null:",
+    "  slow = slow.next",
+    "  fast = fast.next.next",
+    "When fast reaches end, slow points to middle"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables only",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Merge sort middle split on linked lists",
+      "Palindrome linked list check (compare halves)",
+      "Circular linked list midpoint"
+    ],
+    "whenToUse": [
+      "Need middle without length computation",
+      "Space-efficient middle finding in streams"
+    ],
+    "alternatives": [
+      "Two-pass: count length then traverse to n/2",
+      "Using array: O(n) space"
+    ]
+  },
+  "id": "findMiddle",
+  "category": "linked-lists",
+  "implemented": true
+}

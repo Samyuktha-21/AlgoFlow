@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class PalindromeCheck {\n    public boolean isPalindrome(String s) {\n        int left = 0, right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) return false;\n            left++; right--;\n        }\n        return true;\n    }\n    public static void main(String[] args) {\n        PalindromeCheck pc = new PalindromeCheck();\n        System.out.println(pc.isPalindrome(\"racecar\")); // true\n        System.out.println(pc.isPalindrome(\"hello\"));   // false\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isPalin(char*s){int l=0,r=strlen(s)-1;while(l<r){if(s[l]!=s[r])return 0;l++;r--;}return 1;}\nint main(){printf(\"%d %d\\n\",isPalin(\"racecar\"),isPalin(\"hello\"));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nbool isPalindrome(string s){int l=0,r=s.size()-1;while(l<r){if(s[l]!=s[r])return false;l++;r--;}return true;}",
+    "lineKeys": {}
+  }
+}

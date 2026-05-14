@@ -1,0 +1,46 @@
+{
+  "name": "Permutations & Subsets",
+  "type": "backtracking",
+  "description": "Generates all permutations or subsets of a given set using recursive backtracking with include/exclude decisions.",
+  "aim": "Generate all arrangements (permutations) or all subsets of a given array by making recursive choices: include or exclude each element.",
+  "howItWorks": [
+    "For subsets: at each step, decide to include or exclude current element",
+    "For permutations: at each position, try all unused elements",
+    "Recurse on remaining elements",
+    "Add to result at base case",
+    "Backtrack by undoing the last choice"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(2^n)",
+      "bestCase": "Subsets: always 2^n subsets",
+      "average": "O(n!)",
+      "averageCase": "Permutations: n! arrangements",
+      "worst": "O(n!)",
+      "worstCase": "n! permutations for n elements"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Recursion depth n + current path of size n",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Generating test cases",
+      "All possible configurations in combinatorial search",
+      "Anagram generation",
+      "Password combination testing (authorized use)"
+    ],
+    "whenToUse": [
+      "Need all possible arrangements",
+      "Combinatorial search problems"
+    ],
+    "alternatives": [
+      "Iterative with next_permutation — O(n) per step",
+      "Lexicographic generation — more efficient enumeration"
+    ]
+  },
+  "id": "permutations",
+  "category": "backtracking",
+  "implemented": true
+}

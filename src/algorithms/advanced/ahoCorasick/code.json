@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Aho-Corasick - see algorithm textbooks for full implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Aho-Corasick C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Aho-Corasick C++ implementation",
+    "lineKeys": {}
+  }
+}

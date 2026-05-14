@@ -1,0 +1,49 @@
+{
+  "id": "maximumSubarray",
+  "name": "Kadane's Algorithm (Maximum Subarray)",
+  "category": "arrays",
+  "type": "array",
+  "implemented": true,
+  "description": "Finds the contiguous subarray with the maximum sum in O(n) time. The elegant insight: at each element, either extend the previous subarray or start fresh.",
+  "aim": "Find the contiguous subarray with the largest sum by tracking current running sum and the global maximum, resetting when the running sum goes negative.",
+  "howItWorks": [
+    "Initialize maxSum = arr[0], currentSum = arr[0]",
+    "For each element from index 1:",
+    "  currentSum = max(arr[i], currentSum + arr[i])",
+    "  maxSum = max(maxSum, currentSum)",
+    "If currentSum < 0: reset to current element (start fresh)",
+    "Return maxSum"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Always single pass through array",
+      "average": "O(n)",
+      "averageCase": "Linear regardless of input",
+      "worst": "O(n)",
+      "worstCase": "No best/worst variation"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two variables: currentSum and maxSum",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Stock trading — maximum profit from one buy-sell period",
+      "Signal processing — find strongest signal window",
+      "Image processing — maximum sum rectangle subproblem",
+      "Finance — best performing time window"
+    ],
+    "whenToUse": [
+      "Maximum sum contiguous subarray",
+      "1D optimization problems with negative values possible",
+      "Base problem for 2D maximum rectangle problem"
+    ],
+    "alternatives": [
+      "Divide and Conquer — O(n log n), not needed here",
+      "Prefix sum — O(n) space, less elegant",
+      "Brute force O(n²) — never use when Kadane's is available"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Stack;\npublic class MinStack {\n    Stack<Integer> stack = new Stack<>();\n    Stack<Integer> minStack = new Stack<>();\n    public void push(int val) {\n        stack.push(val);\n        int min = minStack.isEmpty() ? val : Math.min(val, minStack.peek());\n        minStack.push(min);\n    }\n    public void pop() { stack.pop(); minStack.pop(); }\n    public int top() { return stack.peek(); }\n    public int getMin() { return minStack.peek(); }\n    public static void main(String[] args) {\n        MinStack ms = new MinStack();\n        ms.push(-2); ms.push(0); ms.push(-3);\n        System.out.println(ms.getMin()); // -3\n        ms.pop();\n        System.out.println(ms.getMin()); // -2\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint main_stack[100],min_stack[100],top=-1;\nvoid push(int v){main_stack[++top]=v;min_stack[top]=top==0?v:(v<min_stack[top-1]?v:min_stack[top-1]);}\nvoid pop(){top--;}\nint getMin(){return min_stack[top];}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <stack>\nusing namespace std;\nstruct MinStack{stack<int>s,ms;\nvoid push(int v){s.push(v);ms.push(ms.empty()?v:min(v,ms.top()));}\nvoid pop(){s.pop();ms.pop();}\nint top(){return s.top();}\nint getMin(){return ms.top();}};",
+    "lineKeys": {}
+  }
+}

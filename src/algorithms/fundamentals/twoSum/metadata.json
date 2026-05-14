@@ -1,0 +1,50 @@
+{
+  "id": "twoSum",
+  "name": "Two Sum (Two Pointers)",
+  "category": "fundamentals",
+  "type": "array",
+  "implemented": true,
+  "description": "Given a sorted array and target, find two indices whose values sum to the target. Uses two pointers (left and right) to solve in O(n) time.",
+  "aim": "Find pair of elements summing to target by moving left pointer right when sum is too small and right pointer left when sum is too large.",
+  "howItWorks": [
+    "Sort the array (or start with sorted)",
+    "Set left=0, right=n-1",
+    "While left < right:",
+    "  sum = arr[left] + arr[right]",
+    "  If sum == target: return [left, right]",
+    "  If sum < target: left++ (need larger sum)",
+    "  If sum > target: right-- (need smaller sum)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "First two elements sum to target",
+      "average": "O(n)",
+      "averageCase": "Linear scan with two pointers",
+      "worst": "O(n)",
+      "worstCase": "Pair at center or no pair exists"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables only (assumes array is sorted)",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Two-sum variant in interviews",
+      "Finding pairs with specific difference in sorted data",
+      "Removing duplicates from sorted array",
+      "Checking if sorted array can form arithmetic sequence"
+    ],
+    "whenToUse": [
+      "Pair search in sorted array",
+      "Two-pointer pattern problems",
+      "When O(n) solution needed with O(1) space"
+    ],
+    "alternatives": [
+      "Hash Map — O(n) time and space, works on unsorted arrays",
+      "Brute force O(n²) — only for very small inputs",
+      "Binary search — O(n log n) total, for each element binary search complement"
+    ]
+  }
+}

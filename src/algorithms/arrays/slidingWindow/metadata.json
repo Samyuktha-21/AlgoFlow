@@ -1,0 +1,46 @@
+{
+  "name": "Sliding Window Maximum",
+  "type": "array",
+  "description": "Finds the maximum in every sliding window of size k using a deque (monotonic decreasing queue). Achieves O(n) time.",
+  "aim": "For each window position, find maximum in O(1) by maintaining a deque of indices in decreasing order of values.",
+  "howItWorks": [
+    "Maintain a deque storing indices of useful elements",
+    "Front of deque always holds index of window maximum",
+    "Remove front if outside current window",
+    "Remove rear while rear element ≤ current element",
+    "Add current index to rear"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass through array",
+      "average": "O(n)",
+      "averageCase": "Each element added and removed from deque at most once",
+      "worst": "O(n)",
+      "worstCase": "Same — amortized O(1) per element"
+    },
+    "space": "O(k)",
+    "spaceDescription": "Deque holds at most k indices",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Stock market moving average",
+      "Image processing maximum filter",
+      "Monitoring maximum temperature in rolling window",
+      "Network packet analysis"
+    ],
+    "whenToUse": [
+      "Maximum/minimum in all windows of size k",
+      "Any problem requiring monotonic queue pattern"
+    ],
+    "alternatives": [
+      "Segment tree — O(log n) per query, supports updates",
+      "Sparse table — O(n log n) build, O(1) static queries"
+    ]
+  },
+  "id": "slidingWindow",
+  "category": "arrays",
+  "implemented": true
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class ShellSort {\n    public void sort(int[] arr) {\n        int n = arr.length;\n        for (int gap = n/2; gap > 0; gap /= 2) {\n            for (int i = gap; i < n; i++) {\n                int temp = arr[i], j = i;\n                while (j >= gap && arr[j - gap] > temp) {\n                    arr[j] = arr[j - gap];\n                    j -= gap;\n                }\n                arr[j] = temp;\n            }\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {12,34,54,2,3};\n        new ShellSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid shellSort(int a[], int n) {\n    for(int gap=n/2;gap>0;gap/=2)\n        for(int i=gap;i<n;i++){int t=a[i],j=i;\n            while(j>=gap&&a[j-gap]>t){a[j]=a[j-gap];j-=gap;}a[j]=t;}\n}\nint main(){int a[]={12,34,54,2,3};shellSort(a,5);for(int i=0;i<5;i++)printf(\"%d \",a[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid shellSort(vector<int>& a){int n=a.size();\n    for(int gap=n/2;gap>0;gap/=2)\n        for(int i=gap;i<n;i++){int t=a[i],j=i;\n            while(j>=gap&&a[j-gap]>t){a[j]=a[j-gap];j-=gap;}a[j]=t;}}\nint main(){vector<int> a={12,34,54,2,3};shellSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

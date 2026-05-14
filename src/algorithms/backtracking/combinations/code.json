@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class Combinations {\n    public List<List<Integer>> combine(int n, int k) {\n        List<List<Integer>> result = new ArrayList<>();\n        backtrack(1, n, k, new ArrayList<>(), result);\n        return result;\n    }\n    void backtrack(int start, int n, int k, List<Integer> current, List<List<Integer>> result) {\n        if (current.size() == k) { result.add(new ArrayList<>(current)); return; }\n        for (int i = start; i <= n-(k-current.size())+1; i++) { // pruning\n            current.add(i);\n            backtrack(i+1, n, k, current, result);\n            current.remove(current.size()-1);\n        }\n    }\n    public static void main(String[] args) {\n        System.out.println(new Combinations().combine(4, 2));\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint n,k,combo[20],ci=0,res=0;\nvoid combine(int start){if(ci==k){res++;for(int i=0;i<k;i++)printf(\"%d \",combo[i]);printf(\"\\n\");return;}\nfor(int i=start;i<=n-(k-ci)+1;i++){combo[ci++]=i;combine(i+1);ci--;}}\nint main(){n=4;k=2;combine(1);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid combine(int start,int n,int k,vector<int>&cur,vector<vector<int>>&res){if((int)cur.size()==k){res.push_back(cur);return;}for(int i=start;i<=n-(k-cur.size())+1;i++){cur.push_back(i);combine(i+1,n,k,cur,res);cur.pop_back();}}",
+    "lineKeys": {}
+  }
+}

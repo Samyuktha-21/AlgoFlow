@@ -1,0 +1,48 @@
+{
+  "id": "dutchFlag",
+  "name": "Dutch National Flag",
+  "category": "arrays",
+  "type": "array",
+  "implemented": true,
+  "description": "Sorts an array of three distinct values (0s, 1s, 2s) in a single pass using three pointers. Also known as 3-way partitioning.",
+  "aim": "Partition array into three sections [0s | 1s | 2s] in O(n) time and O(1) space using lo, mid, and hi pointers.",
+  "howItWorks": [
+    "Initialize lo=0, mid=0, hi=n-1",
+    "While mid ≤ hi:",
+    "  arr[mid]=0: swap(arr[lo], arr[mid]), lo++, mid++",
+    "  arr[mid]=1: mid++ (1s stay in place)",
+    "  arr[mid]=2: swap(arr[mid], arr[hi]), hi-- (no mid++)",
+    "Array partitioned when mid > hi"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass regardless of input",
+      "average": "O(n)",
+      "averageCase": "Linear time always",
+      "worst": "O(n)",
+      "worstCase": "Same — no variation"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Three pointer variables only",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Three-way QuickSort partition step",
+      "Sorting RGB pixels by red/green/blue flag",
+      "Segregating negative/zero/positive numbers",
+      "Load balancing: low/medium/high priority tasks"
+    ],
+    "whenToUse": [
+      "Partition array into exactly three groups in one pass",
+      "Base for 3-way QuickSort on arrays with many duplicates"
+    ],
+    "alternatives": [
+      "Counting sort — O(n+k), works for any k values",
+      "Standard sort — O(n log n), not necessary for 3 values",
+      "Two-pass partition — simpler but requires 2 passes"
+    ]
+  }
+}

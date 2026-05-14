@@ -1,0 +1,49 @@
+{
+  "id": "detectCycle",
+  "name": "Detect Cycle (Floyd's)",
+  "category": "linked-lists",
+  "type": "linked-list",
+  "implemented": true,
+  "description": "Floyd's tortoise-and-hare algorithm: uses two pointers moving at different speeds to detect cycles in O(n) time and O(1) space.",
+  "aim": "Detect if a linked list has a cycle using two pointers — slow moves one step, fast moves two steps. If they ever meet, a cycle exists.",
+  "howItWorks": [
+    "Initialize slow=head, fast=head",
+    "While fast and fast.next are not null:",
+    "  slow = slow.next (one step)",
+    "  fast = fast.next.next (two steps)",
+    "  If slow == fast: CYCLE DETECTED",
+    "If fast reaches null: NO CYCLE",
+    "To find entry: reset slow to head, advance both one step at a time"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Cycle detected or no cycle found early",
+      "average": "O(n)",
+      "averageCase": "Proportional to cycle start position",
+      "worst": "O(n)",
+      "worstCase": "Entire list traversed"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables only",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Detecting infinite loops in state machines",
+      "Memory leak detection (circular references)",
+      "Finding duplicate numbers in O(1) space (array-as-linked-list)",
+      "Detecting loops in filesystem directory structure"
+    ],
+    "whenToUse": [
+      "Cycle detection in O(1) space",
+      "When hashing visited nodes is too costly"
+    ],
+    "alternatives": [
+      "Hash Set — store visited nodes, O(n) space but simpler",
+      "Node marking — modify nodes, destructive",
+      "Brent's algorithm — variant with slightly better constants"
+    ]
+  }
+}

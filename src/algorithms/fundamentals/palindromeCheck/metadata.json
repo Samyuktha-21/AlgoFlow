@@ -1,0 +1,47 @@
+{
+  "name": "Palindrome Check",
+  "type": "array",
+  "description": "Checks if a string reads the same forwards and backwards. Efficient O(n) using two-pointer approach or O(1) space with index comparison.",
+  "aim": "Determine if a string is a palindrome by comparing characters from both ends simultaneously.",
+  "howItWorks": [
+    "Set left = 0, right = length-1",
+    "While left < right:",
+    "  Compare str[left] and str[right]",
+    "  If not equal: NOT palindrome",
+    "  Else: move left++, right--",
+    "If loop ends: PALINDROME"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "First and last characters differ",
+      "average": "O(n)",
+      "averageCase": "Check n/2 pairs",
+      "worst": "O(n)",
+      "worstCase": "String is palindrome or near-palindrome"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables only",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "DNA palindrome detection (restriction sites)",
+      "Word game validity checking",
+      "Numerical palindromes in cryptography",
+      "Input validation"
+    ],
+    "whenToUse": [
+      "Check if sequence reads same forward/backward",
+      "RNA/DNA sequence analysis"
+    ],
+    "alternatives": [
+      "Reverse and compare — O(n) space but simpler code",
+      "Dynamic programming — overkill for simple check"
+    ]
+  },
+  "id": "palindromeCheck",
+  "category": "fundamentals",
+  "implemented": true
+}

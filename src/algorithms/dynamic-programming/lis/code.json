@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Arrays;\npublic class LIS {\n    public int lengthOfLIS(int[] nums) {\n        int n = nums.length;\n        int[] dp = new int[n];\n        Arrays.fill(dp, 1);\n        int maxLen = 1;\n        for (int i = 1; i < n; i++) {\n            for (int j = 0; j < i; j++) {\n                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);\n            }\n            maxLen = Math.max(maxLen, dp[i]);\n        }\n        return maxLen;\n    }\n    public static void main(String[] args) {\n        System.out.println(new LIS().lengthOfLIS(new int[]{10,9,2,5,3,7,101,18})); // 4\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint lis(int a[],int n){int dp[n],mx=1;for(int i=0;i<n;i++)dp[i]=1;\nfor(int i=1;i<n;i++){for(int j=0;j<i;j++)if(a[j]<a[i]&&dp[j]+1>dp[i])dp[i]=dp[j]+1;if(dp[i]>mx)mx=dp[i];}return mx;}\nint main(){int a[]={10,9,2,5,3,7,101,18};printf(\"%d\\n\",lis(a,8));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nint lengthOfLIS(vector<int>&nums){int n=nums.size(),mx=1;vector<int>dp(n,1);\nfor(int i=1;i<n;i++){for(int j=0;j<i;j++)if(nums[j]<nums[i])dp[i]=max(dp[i],dp[j]+1);mx=max(mx,dp[i]);}return mx;}",
+    "lineKeys": {}
+  }
+}

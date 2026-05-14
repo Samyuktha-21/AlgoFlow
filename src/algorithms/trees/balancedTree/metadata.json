@@ -1,0 +1,44 @@
+{
+  "name": "Balanced Tree Check",
+  "type": "tree",
+  "description": "Checks if a binary tree is height-balanced: for every node, the height difference between left and right subtrees is at most 1.",
+  "aim": "Determine if a binary tree is balanced by checking that |height(left) - height(right)| ≤ 1 at every node, using a single-pass O(n) approach.",
+  "howItWorks": [
+    "For each node, compute heights of left and right subtrees",
+    "If height difference > 1: mark as unbalanced",
+    "If any subtree is already unbalanced: propagate -1 (early exit)",
+    "Return -1 if unbalanced, actual height otherwise"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass checking all nodes",
+      "average": "O(n)",
+      "averageCase": "Each node visited once with early termination",
+      "worst": "O(n)",
+      "worstCase": "Unbalanced discovered late"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion depth = tree height h",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Database index validation — ensure BST stays balanced",
+      "AVL/Red-Black tree operations need balance checks",
+      "Compiler AST optimization"
+    ],
+    "whenToUse": [
+      "Before deciding to rebalance a BST",
+      "Validating tree structure",
+      "Before operations that assume balanced trees"
+    ],
+    "alternatives": [
+      "Level-order BFS — O(n) iterative balance check"
+    ]
+  },
+  "id": "balancedTree",
+  "category": "trees",
+  "implemented": true
+}

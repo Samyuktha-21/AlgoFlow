@@ -1,0 +1,43 @@
+{
+  "name": "Path Sum",
+  "type": "tree",
+  "description": "Checks if there exists a root-to-leaf path in a binary tree whose values sum to the given target.",
+  "aim": "DFS from root to leaves, tracking running sum. At each leaf, check if sum equals target.",
+  "howItWorks": [
+    "Subtract current node value from target",
+    "If leaf node and remaining target=0: path found!",
+    "Recursively check left and right subtrees",
+    "Return true if any path found"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Root is leaf with matching value",
+      "average": "O(n)",
+      "averageCase": "Check all nodes",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion depth = tree height h",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Decision tree path evaluation",
+      "Parse tree expression evaluation",
+      "Budget path analysis"
+    ],
+    "whenToUse": [
+      "Root-to-leaf sum check",
+      "Path constraints in trees"
+    ],
+    "alternatives": [
+      "BFS with running sum — iterative approach"
+    ]
+  },
+  "id": "pathSum",
+  "category": "trees",
+  "implemented": true
+}

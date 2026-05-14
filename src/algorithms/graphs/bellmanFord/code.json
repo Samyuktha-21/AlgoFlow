@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class BellmanFord {\n    int[] bellmanFord(int v, int[][] edges, int src) {\n        int[] dist = new int[v];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n        for (int i = 0; i < v - 1; i++)\n            for (int[] e : edges) {\n                int u=e[0], w=e[1], wt=e[2];\n                if (dist[u] != Integer.MAX_VALUE && dist[u] + wt < dist[w])\n                    dist[w] = dist[u] + wt;\n            }\n        // Check negative cycle\n        for (int[] e : edges)\n            if (dist[e[0]] != Integer.MAX_VALUE && dist[e[0]] + e[2] < dist[e[1]])\n                System.out.println(\"Negative cycle detected!\");\n        return dist;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\n#define E 8\ntypedef struct{int u,v,w;}Edge;\nvoid bellmanFord(Edge edges[],int src){int dist[V];for(int i=0;i<V;i++)dist[i]=INT_MAX;dist[src]=0;\nfor(int i=0;i<V-1;i++)for(int j=0;j<E;j++)if(dist[edges[j].u]!=INT_MAX&&dist[edges[j].u]+edges[j].w<dist[edges[j].v])dist[edges[j].v]=dist[edges[j].u]+edges[j].w;\nfor(int i=0;i<V;i++)printf(\"%d \",dist[i]);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\nvector<int> bellmanFord(int V,vector<tuple<int,int,int>>& edges,int src){\n    vector<int> d(V,INT_MAX);d[src]=0;\n    for(int i=0;i<V-1;i++)for(auto [u,v,w]:edges) if(d[u]!=INT_MAX&&d[u]+w<d[v]) d[v]=d[u]+w;\n    return d;\n}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "Egg Drop Problem",
+  "type": "dp",
+  "description": "Find the minimum number of trials needed to determine the critical floor in a building with n floors and k eggs, in worst case.",
+  "aim": "Minimize worst-case trials: dp[k][n] = min trials with k eggs and n floors. Use dp[k][m] = floors testable with k eggs in m moves.",
+  "howItWorks": [
+    "Reframe: given k eggs and m moves, max floors you can test",
+    "dp[k][m] = dp[k-1][m-1] + dp[k][m-1] + 1",
+    "Binary search on answer: find min m where dp[k][m] >= n"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(k log n)",
+      "bestCase": "Binary search approach",
+      "average": "O(k log n)",
+      "averageCase": "Same",
+      "worst": "O(k×n)",
+      "worstCase": "Naive DP approach"
+    },
+    "space": "O(k×n)",
+    "spaceDescription": "DP table of size k×n",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Software testing: minimum test cases",
+      "Material science: stress threshold determination",
+      "Version bisection with limited resources"
+    ],
+    "whenToUse": [
+      "Worst-case minimum with limited resources",
+      "Binary search on answer with constraint"
+    ],
+    "alternatives": [
+      "Naive DP O(kn²) — simpler to understand",
+      "Binary search on moves — O(k log n)"
+    ]
+  },
+  "id": "eggDrop",
+  "category": "dynamic-programming",
+  "implemented": true
+}

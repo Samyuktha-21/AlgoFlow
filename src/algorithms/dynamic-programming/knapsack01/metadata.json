@@ -1,0 +1,48 @@
+{
+  "id": "knapsack01",
+  "name": "0/1 Knapsack",
+  "category": "dynamic-programming",
+  "type": "dp",
+  "implemented": true,
+  "description": "Classic DP problem: given items with weights and values, find maximum value achievable within a weight capacity. Each item can be taken at most once (0 or 1).",
+  "aim": "Maximize total value of selected items without exceeding weight capacity, using a 2D DP table where dp[i][w] = max value using first i items with capacity w.",
+  "howItWorks": [
+    "Build dp[n+1][W+1] table initialized to 0",
+    "For each item i and capacity w:",
+    "  If weight[i] > w: dp[i][w] = dp[i-1][w] (skip item)",
+    "  Else: dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])",
+    "Trace back through table to find which items were selected"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(nW)",
+      "bestCase": "Always fills n×W table",
+      "average": "O(nW)",
+      "averageCase": "Pseudo-polynomial — linear in n and W",
+      "worst": "O(nW)",
+      "worstCase": "Same — pseudo-polynomial not truly polynomial"
+    },
+    "space": "O(nW)",
+    "spaceDescription": "2D table of size (n+1)×(W+1); can optimize to O(W) with 1D array",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Resource allocation — maximize ROI within budget",
+      "Portfolio optimization — select investments within capital limit",
+      "Cargo loading — maximize value within weight limit",
+      "Project selection with limited resources"
+    ],
+    "whenToUse": [
+      "Items have integer weights",
+      "Capacity is reasonably bounded (not too large)",
+      "Each item chosen at most once"
+    ],
+    "alternatives": [
+      "Fractional Knapsack — O(n log n) greedy if items are divisible",
+      "Greedy won't work here — counterexamples exist",
+      "Branch and Bound — for larger instances with pruning"
+    ]
+  }
+}

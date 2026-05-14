@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class TopKFrequent {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer,Integer> freq = new HashMap<>();\n        for (int n : nums) freq.merge(n, 1, Integer::sum);\n        PriorityQueue<Integer> heap = new PriorityQueue<>((a,b) -> freq.get(a)-freq.get(b));\n        for (int n : freq.keySet()) { heap.offer(n); if (heap.size() > k) heap.poll(); }\n        return heap.stream().mapToInt(Integer::intValue).toArray();\n    }\n    public static void main(String[] args) {\n        System.out.println(Arrays.toString(new TopKFrequent().topKFrequent(new int[]{1,1,1,2,2,3}, 2)));\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid topK(int a[],int n,int k){int freq[1000]={0};for(int i=0;i<n;i++)freq[a[i]]++;\n// Extract top k by frequency\nint res[k],ri=0;for(int f=n;f>=1&&ri<k;f--)for(int i=0;i<1000&&ri<k;i++)if(freq[i]==f){res[ri++]=i;}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <unordered_map>\n#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> topKFrequent(vector<int>&nums,int k){unordered_map<int,int>f;for(int x:nums)f[x]++;\nauto cmp=[&](int a,int b){return f[a]>f[b];};priority_queue<int,vector<int>,decltype(cmp)>h(cmp);\nfor(auto&[v,_]:f){h.push(v);if((int)h.size()>k)h.pop();}\nvector<int>r;while(!h.empty()){r.push_back(h.top());h.pop();}return r;}",
+    "lineKeys": {}
+  }
+}

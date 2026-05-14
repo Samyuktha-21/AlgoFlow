@@ -1,0 +1,49 @@
+{
+  "id": "hashMapImpl",
+  "name": "Hash Table Operations",
+  "category": "hashing",
+  "type": "array",
+  "implemented": true,
+  "description": "Demonstrates fundamental hash table operations: insert, search, and delete using a simple hash function with separate chaining for collision handling.",
+  "aim": "Implement O(1) average-time insert, search, and delete using a hash function to map keys to bucket indices, with chaining to handle collisions.",
+  "howItWorks": [
+    "Choose table size (prime number reduces collisions)",
+    "Hash function: index = key % tableSize",
+    "Insert: compute index, add to bucket chain",
+    "Search: compute index, scan chain for key",
+    "Delete: compute index, remove from chain",
+    "Load factor = n/m; rehash when load factor > threshold"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "No collisions — direct access",
+      "average": "O(1)",
+      "averageCase": "With good hash function and load factor < 0.75",
+      "worst": "O(n)",
+      "worstCase": "All keys hash to same bucket — degenerates to linked list"
+    },
+    "space": "O(n)",
+    "spaceDescription": "O(n) for n key-value pairs plus table array",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Python dict and Java HashMap implementation",
+      "Database index structures (hash index)",
+      "Caches — fast O(1) lookup by key",
+      "Compiler symbol tables — variable name lookup"
+    ],
+    "whenToUse": [
+      "Frequent insert, delete, search operations needed",
+      "Keys can be hashed",
+      "O(1) average performance more important than worst-case"
+    ],
+    "alternatives": [
+      "BST/Red-Black Tree — O(log n) guaranteed, ordered iteration",
+      "Trie — for string keys with prefix operations",
+      "Perfect hashing — O(1) worst case for static key sets"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "Queue Implementation",
+  "type": "stack",
+  "description": "Implements a queue (FIFO) data structure with enqueue, dequeue, and front operations using an array with front/rear pointers or a linked list.",
+  "aim": "Provide FIFO (First-In-First-Out) access: enqueue adds to rear, dequeue removes from front, all in O(1) time.",
+  "howItWorks": [
+    "Circular array: front and rear pointers with modulo wrapping",
+    "enqueue: arr[rear] = val; rear = (rear+1) % capacity",
+    "dequeue: val = arr[front]; front = (front+1) % capacity",
+    "size: (rear - front + capacity) % capacity"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All operations constant time with circular array",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(1)",
+      "worstCase": "Same for circular array"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Array of capacity n",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "BFS traversal order",
+      "Task scheduling in OS (round-robin)",
+      "Print spooler — first job in, first printed",
+      "Network packet buffering"
+    ],
+    "whenToUse": [
+      "FIFO processing order needed",
+      "BFS graph traversal",
+      "Job/request queuing"
+    ],
+    "alternatives": [
+      "Stack — for LIFO",
+      "Priority queue — when order based on priority not arrival"
+    ]
+  },
+  "id": "queueImpl",
+  "category": "stacks-queues",
+  "implemented": true
+}

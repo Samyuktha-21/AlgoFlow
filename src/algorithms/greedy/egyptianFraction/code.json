@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Egyptian Fraction implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Egyptian Fraction C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Egyptian Fraction C++",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "selectionSort",
+  "name": "Selection Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Repeatedly selects the minimum element from the unsorted portion and swaps it to the front. Makes only O(n) swaps, which is its main advantage over Bubble Sort.",
+  "aim": "Sort an array by finding the minimum element from the unsorted region and moving it to its correct position, extending the sorted region one element per pass.",
+  "howItWorks": [
+    "Mark entire array as unsorted",
+    "Scan unsorted region to find minimum element",
+    "Swap minimum with first element of unsorted region",
+    "Shrink unsorted region by one",
+    "Repeat until unsorted region is empty"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n²)",
+      "bestCase": "Always n(n-1)/2 comparisons — no early exit",
+      "average": "O(n²)",
+      "averageCase": "Same comparisons regardless of input order",
+      "worst": "O(n²)",
+      "worstCase": "No difference from best/average"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place — constant extra memory",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Useful when memory writes are costly — only O(n) swaps made",
+      "Embedded systems requiring predictable comparison counts",
+      "Small datasets where simplicity beats performance"
+    ],
+    "whenToUse": [
+      "Array of < 20 elements",
+      "When minimizing memory writes matters more than comparisons",
+      "Simple in-place sort needed with no stability requirement"
+    ],
+    "alternatives": [
+      "Insertion Sort — better on nearly-sorted data (adaptive)",
+      "Quick Sort — O(n log n) average for large data",
+      "Bubble Sort — similar complexity but more swaps"
+    ]
+  }
+}

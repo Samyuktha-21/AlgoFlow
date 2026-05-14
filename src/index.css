@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+/* Class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 3px; }
+
+html, body, #root { height: 100%; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+/* ─── Element state colors ─── */
+.el-default   { background: #E5E7EB; }
+.el-comparing { background: #FCD34D; }
+.el-swapping  { background: #F87171; }
+.el-sorted    { background: #34D399; }
+.el-current   { background: #60A5FA; }
+.el-pivot     { background: #A78BFA; }
+.el-inactive  { background: #9CA3AF; opacity: 0.4; }
+.el-found     { background: #34D399; }
+.el-eliminated{ background: #D1D5DB; opacity: 0.35; }
+
+/* ─── Code line highlight ─── */
+.code-line-highlight {
+  background: rgba(251, 191, 36, 0.18);
+  display: block;
+  width: 100%;
+  border-left: 3px solid #F59E0B;
+  margin-left: -3px;
+  padding-left: 3px;
+}
+
+/* ─── Algorithm page theme backgrounds (light) ─── */
+.theme-bg-water   { background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); }
+.theme-bg-light   { background: linear-gradient(135deg, #fefce8 0%, #fff7ed 100%); }
+.theme-bg-forest  { background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); }
+.theme-bg-network { background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%); }
+.theme-bg-compass { background: linear-gradient(135deg, #f0f4ff 0%, #eff6ff 100%); }
+.theme-bg-puzzle  { background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%); }
+.theme-bg-chain   { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
+.theme-bg-books   { background: linear-gradient(135deg, #fefdf8 0%, #fef9ed 100%); }
+.theme-bg-cabinet { background: linear-gradient(135deg, #f0fdf4 0%, #f7fee7 100%); }
+.theme-bg-mountain{ background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
+.theme-bg-target  { background: linear-gradient(135deg, #fff1f2 0%, #fff7ed 100%); }
+.theme-bg-blocks  { background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%); }
+.theme-bg-maze    { background: linear-gradient(135deg, #f0fdf4 0%, #f7fee7 100%); }
+.theme-bg-circuit { background: linear-gradient(135deg, #eff6ff 0%, #f0f4ff 100%); }
+
+/* ─── HOMEPAGE ─── */
+.homepage-root {
+  background: #0A0E27;
+  color: #F9FAFB;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f093fb 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 5s ease infinite;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fde68a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card glassmorphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+/* Per-theme card glow on hover */
+.card-glow-compass:hover  { box-shadow: 0 20px 60px rgba(201, 162, 39, 0.45), 0 0 0 1px rgba(201, 162, 39, 0.3); }
+.card-glow-water:hover    { box-shadow: 0 20px 60px rgba(56, 189, 248, 0.50), 0 0 0 1px rgba(56, 189, 248, 0.35); }
+.card-glow-light:hover    { box-shadow: 0 20px 60px rgba(251, 191, 36, 0.50), 0 0 0 1px rgba(251, 191, 36, 0.35); }
+.card-glow-puzzle:hover   { box-shadow: 0 20px 60px rgba(168, 85, 247, 0.50), 0 0 0 1px rgba(168, 85, 247, 0.35); }
+.card-glow-chain:hover    { box-shadow: 0 20px 60px rgba(148, 163, 184, 0.40), 0 0 0 1px rgba(148, 163, 184, 0.3); }
+.card-glow-books:hover    { box-shadow: 0 20px 60px rgba(217, 119, 6, 0.45), 0 0 0 1px rgba(217, 119, 6, 0.3); }
+.card-glow-cabinet:hover  { box-shadow: 0 20px 60px rgba(74, 222, 128, 0.45), 0 0 0 1px rgba(74, 222, 128, 0.3); }
+.card-glow-forest:hover   { box-shadow: 0 20px 60px rgba(34, 197, 94, 0.50), 0 0 0 1px rgba(34, 197, 94, 0.35); }
+.card-glow-mountain:hover { box-shadow: 0 20px 60px rgba(148, 163, 184, 0.40), 0 0 0 1px rgba(148, 163, 184, 0.3); }
+.card-glow-network:hover  { box-shadow: 0 20px 60px rgba(96, 165, 250, 0.55), 0 0 0 1px rgba(96, 165, 250, 0.4); }
+.card-glow-target:hover   { box-shadow: 0 20px 60px rgba(248, 113, 113, 0.50), 0 0 0 1px rgba(248, 113, 113, 0.35); }
+.card-glow-blocks:hover   { box-shadow: 0 20px 60px rgba(245, 158, 11, 0.50), 0 0 0 1px rgba(245, 158, 11, 0.35); }
+.card-glow-maze:hover     { box-shadow: 0 20px 60px rgba(74, 222, 128, 0.45), 0 0 0 1px rgba(74, 222, 128, 0.3); }
+.card-glow-circuit:hover  { box-shadow: 0 20px 60px rgba(34, 211, 238, 0.55), 0 0 0 1px rgba(34, 211, 238, 0.4); }
+
+/* ─── KEYFRAMES ─── */
+
+/* Hero */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@keyframes hero-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(102,126,234,.4), 0 0 60px rgba(240,147,251,.2); }
+  50%       { text-shadow: 0 0 40px rgba(102,126,234,.8), 0 0 100px rgba(240,147,251,.4); }
+}
+@keyframes bounce-down {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+@keyframes fade-in-up {
+  0%   { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Water / Bubbles */
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  15%  { opacity: 0.7; }
+  85%  { opacity: 0.5; }
+  100% { transform: translateY(-100px) scale(1.1); opacity: 0; }
+}
+@keyframes ripple-expand {
+  0%   { transform: scale(0.2); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+@keyframes wave-flow {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Stars / Network */
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50%       { opacity: 1; transform: scale(1.3); }
+}
+@keyframes shooting-star {
+  0%   { transform: translateX(0) translateY(0); opacity: 1; }
+  100% { transform: translateX(200px) translateY(200px); opacity: 0; }
+}
+@keyframes orbit {
+  0%   { transform: rotate(0deg) translateX(30px); }
+  100% { transform: rotate(360deg) translateX(30px); }
+}
+
+/* Leaves / Forest */
+@keyframes leaf-drift {
+  0%   { transform: translateX(0) translateY(-40px) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateX(60px) translateY(120px) rotate(540deg); opacity: 0; }
+}
+@keyframes leaf-drift-reverse {
+  0%   { transform: translateX(0) translateY(-40px) rotate(0deg);   opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateX(-60px) translateY(120px) rotate(-400deg); opacity: 0; }
+}
+@keyframes tree-sway {
+  0%, 100% { transform-origin: bottom; transform: rotate(-1.5deg); }
+  50%       { transform-origin: bottom; transform: rotate(1.5deg); }
+}
+
+/* Compass */
+@keyframes needle-sweep {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(200deg); }
+  30%  { transform: rotate(180deg); }
+  45%  { transform: rotate(185deg); }
+  60%  { transform: rotate(180deg); }
+  100% { transform: rotate(180deg); }
+}
+@keyframes compass-spin-slow {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Light / Spotlight */
+@keyframes spotlight-sweep {
+  0%, 100% { transform: rotate(-25deg) scaleX(1); }
+  50%       { transform: rotate(25deg) scaleX(1.1); }
+}
+@keyframes dust-mote {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  20%       { opacity: 0.6; }
+  80%       { opacity: 0.3; }
+  100%      { transform: translateY(-40px) translateX(15px); opacity: 0; }
+}
+
+/* Blocks / DP */
+@keyframes block-appear {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes block-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Chain */
+@keyframes link-connect {
+  0%   { stroke-dashoffset: 60; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes chain-sway {
+  0%, 100% { transform: rotate(-4deg); transform-origin: top; }
+  50%       { transform: rotate(4deg);  transform-origin: top; }
+}
+
+/* Circuit */
+@keyframes trace-light {
+  0%   { stroke-dashoffset: 300; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.7; }
+  100% { stroke-dashoffset: 0; opacity: 0.5; }
+}
+@keyframes node-blink {
+  0%, 100% { opacity: 0.3; r: 3; }
+  50%       { opacity: 1;   r: 5; }
+}
+@keyframes data-flow {
+  0%   { offset-distance: 0%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* Mountains */
+@keyframes peak-rise {
+  0%   { transform: scaleY(0); transform-origin: bottom center; }
+  100% { transform: scaleY(1); transform-origin: bottom center; }
+}
+@keyframes snow-particle {
+  0%   { transform: translateY(0) translateX(0); opacity: 0.8; }
+  100% { transform: translateY(40px) translateX(10px); opacity: 0; }
+}
+
+/* Target / Greedy */
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50%       { transform: scale(1.06); opacity: 0.9; }
+}
+@keyframes arrow-fly {
+  0%   { transform: translateX(-60px) translateY(0) rotate(0deg); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0.9; }
+}
+
+/* Maze / Backtracking */
+@keyframes path-light {
+  0%   { stroke-dashoffset: 500; opacity: 0; }
+  30%  { opacity: 0.9; }
+  100% { stroke-dashoffset: 0; opacity: 0.7; }
+}
+@keyframes path-backtrack {
+  0%   { stroke-dashoffset: 0; opacity: 0.7; }
+  100% { stroke-dashoffset: 500; opacity: 0; }
+}
+
+/* Books */
+@keyframes book-slide-up {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes book-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-2deg); }
+  75%       { transform: rotate(2deg); }
+}
+
+/* Cabinet */
+@keyframes drawer-open {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(12px); }
+}
+
+/* Puzzle */
+@keyframes puzzle-shift {
+  0%, 100% { transform: translate(0, 0); }
+  25%       { transform: translate(4px, -4px); }
+  75%       { transform: translate(-4px, 4px); }
+}
+
+/* Generic float / glow */
+/* ─── Water column animations ─── */
+@keyframes water-turbulence {
+  0%,100% { transform: scaleX(1) scaleY(1); }
+  25%      { transform: scaleX(1.04) scaleY(.97); }
+  75%      { transform: scaleX(.97) scaleY(1.03); }
+}
+@keyframes wave-flow {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) scale(.5); opacity: 0; }
+  15%  { opacity: .7; }
+  85%  { opacity: .4; }
+  100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+}
+@keyframes float-up   { 0%,100%{ transform:translateY(0); opacity:.25; } 50%{ transform:translateY(-18px); opacity:.55; } }
+@keyframes twinkle    { 0%,100%{ opacity:.15; } 50%{ opacity:.7; } }
+@keyframes ripple-out { 0%{ transform:scale(0.6); opacity:.5; } 100%{ transform:scale(2.8); opacity:0; } }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px currentColor; }
+  50%       { box-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+}
+@keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.anim-float   { animation: float-up   var(--dur,5s) ease-in-out infinite; }
+.anim-twinkle { animation: twinkle    var(--dur,3s) ease-in-out infinite; }
+.anim-ripple  { animation: ripple-out var(--dur,4s) ease-out  infinite; }

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Huffman Coding implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Huffman Coding C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Huffman Coding C++",
+    "lineKeys": {}
+  }
+}

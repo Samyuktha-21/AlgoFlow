@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class TopologicalSort {\n    public List<Integer> topoSort(int v, List<List<Integer>> adj) {\n        int[] inDeg = new int[v];\n        for (List<Integer> nbrs : adj)\n            for (int nb : nbrs) inDeg[nb]++;\n        Queue<Integer> q = new LinkedList<>();\n        for (int i = 0; i < v; i++) if (inDeg[i] == 0) q.offer(i);\n        List<Integer> order = new ArrayList<>();\n        while (!q.isEmpty()) {\n            int node = q.poll();\n            order.add(node);\n            for (int nb : adj.get(node)) if (--inDeg[nb] == 0) q.offer(nb);\n        }\n        if (order.size() != v) System.out.println(\"Cycle detected!\");\n        return order;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define MAX 10\nint inDeg[MAX],adj[MAX][MAX],cnt[MAX],q[MAX],front,rear;\nvoid topoSort(int v){front=rear=0;for(int i=0;i<v;i++)if(!inDeg[i])q[rear++]=i;\nint result[MAX],ri=0;\nwhile(front<rear){int u=q[front++];result[ri++]=u;for(int j=0;j<v;j++)if(adj[u][j]&&--inDeg[j]==0)q[rear++]=j;}\nfor(int i=0;i<ri;i++)printf(\"%d \",result[i]);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\nvector<int> topoSort(int V, vector<vector<int>>& adj){\n    vector<int> in(V,0);\n    for(auto& nbrs:adj) for(int nb:nbrs) in[nb]++;\n    queue<int> q; for(int i=0;i<V;i++) if(!in[i]) q.push(i);\n    vector<int> res;\n    while(!q.empty()){int u=q.front();q.pop();res.push_back(u);for(int nb:adj[u]) if(--in[nb]==0) q.push(nb);}\n    return res;\n}",
+    "lineKeys": {}
+  }
+}

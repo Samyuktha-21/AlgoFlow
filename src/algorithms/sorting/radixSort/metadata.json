@@ -1,0 +1,48 @@
+{
+  "id": "radixSort",
+  "name": "Radix Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Sorts integers by processing each digit from least significant to most significant, using a stable sort (counting sort) at each digit position. Linear time for fixed-width integers.",
+  "aim": "Sort by digit: perform stable counting sort on units digit, then tens, then hundreds, etc. Since counting sort is stable, relative order from previous passes is preserved.",
+  "howItWorks": [
+    "Find maximum value to determine number of digits d",
+    "For each digit position (ones, tens, hundreds…)",
+    "Apply counting sort using only that digit as the key",
+    "Stable sort preserves order from previous digit passes",
+    "After processing all digits, array is fully sorted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(d·(n+k))",
+      "bestCase": "d = number of digits, k = base (usually 10)",
+      "average": "O(d·(n+k))",
+      "averageCase": "Linear in n for fixed number of digits",
+      "worst": "O(d·(n+k))",
+      "worstCase": "Consistent regardless of input distribution"
+    },
+    "space": "O(n+k)",
+    "spaceDescription": "Auxiliary arrays for each digit pass",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Sorting IP addresses and MAC addresses",
+      "Sorting fixed-length strings (e.g., phone numbers)",
+      "Suffix array construction algorithms",
+      "Sorting large datasets of integers with known range"
+    ],
+    "whenToUse": [
+      "Integers with a fixed number of digits",
+      "When linear-time sorting is required",
+      "Keys can be decomposed into digits or characters"
+    ],
+    "alternatives": [
+      "Counting Sort — simpler for single-pass integer sorting",
+      "Bucket Sort — better for floating-point uniform distributions",
+      "Merge/Quick Sort — when digit decomposition is expensive"
+    ]
+  }
+}

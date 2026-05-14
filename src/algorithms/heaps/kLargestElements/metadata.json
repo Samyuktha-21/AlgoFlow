@@ -1,0 +1,45 @@
+{
+  "name": "K Largest Elements",
+  "type": "heap",
+  "description": "Finds the k largest elements in an array using a min-heap of size k. The heap always holds the k largest seen so far.",
+  "aim": "Find k largest elements in O(n log k) time by maintaining a min-heap of size k: replace minimum if new element is larger.",
+  "howItWorks": [
+    "Insert first k elements into min-heap",
+    "For each remaining element: if element > heap minimum, replace minimum and heapify",
+    "After processing all elements, heap contains k largest",
+    "Extract all k elements"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log k)",
+      "bestCase": "Process all n elements with O(log k) heap operations",
+      "average": "O(n log k)",
+      "averageCase": "Better than O(n log n) when k << n",
+      "worst": "O(n log k)",
+      "worstCase": "Same"
+    },
+    "space": "O(k)",
+    "spaceDescription": "Min-heap of size k only",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Top-k search results",
+      "K most popular posts/products",
+      "Leaderboards: top k scores",
+      "K nearest neighbors in databases"
+    ],
+    "whenToUse": [
+      "k much smaller than n",
+      "Streaming data where you can't store all elements"
+    ],
+    "alternatives": [
+      "Quick Select — O(n) average but not for streaming",
+      "Full sort + take k — O(n log n) simpler but slower"
+    ]
+  },
+  "id": "kLargestElements",
+  "category": "heaps",
+  "implemented": true
+}

@@ -1,0 +1,48 @@
+{
+  "id": "editDistance",
+  "name": "Edit Distance (Levenshtein)",
+  "category": "dynamic-programming",
+  "type": "dp",
+  "implemented": true,
+  "description": "Minimum operations (insert, delete, replace) to transform one string into another. Classic DP problem with applications from spell checking to DNA sequencing.",
+  "aim": "Find the minimum number of single-character edits (insertions, deletions, or substitutions) required to change one word into another.",
+  "howItWorks": [
+    "Build dp[m+1][n+1] where dp[i][j] = edit distance for first i chars of s1 and j chars of s2",
+    "Base cases: dp[i][0]=i (delete i chars), dp[0][j]=j (insert j chars)",
+    "If s1[i-1]==s2[j-1]: dp[i][j]=dp[i-1][j-1] (no cost)",
+    "Else: dp[i][j] = 1 + min(dp[i-1][j] (delete), dp[i][j-1] (insert), dp[i-1][j-1] (replace))"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(mn)",
+      "bestCase": "Always fills m×n table",
+      "average": "O(mn)",
+      "averageCase": "m×n cells each O(1)",
+      "worst": "O(mn)",
+      "worstCase": "Same"
+    },
+    "space": "O(mn)",
+    "spaceDescription": "2D table (m+1)×(n+1); can optimize to O(min(m,n)) with two rows",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Spell checkers — suggest closest dictionary word",
+      "Git diff — minimum edit operations",
+      "DNA/protein sequence alignment",
+      "Plagiarism detection — similarity score",
+      "Auto-correct on mobile keyboards"
+    ],
+    "whenToUse": [
+      "Minimum edit operations between two strings",
+      "String similarity/distance metric",
+      "Sequence alignment problems"
+    ],
+    "alternatives": [
+      "Hamming distance — same length strings, only substitutions",
+      "Jaro-Winkler — better for name matching",
+      "LCS — related: editDist = m+n - 2*LCS"
+    ]
+  }
+}

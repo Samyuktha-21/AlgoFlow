@@ -1,0 +1,48 @@
+{
+  "id": "interpolationSearch",
+  "name": "Interpolation Search",
+  "category": "searching",
+  "type": "searching",
+  "implemented": true,
+  "description": "Improved binary search that estimates the target's position using a formula similar to how humans search a phone book — probe where the value is likely to be based on its magnitude.",
+  "aim": "Search sorted array by estimating position: probe = low + (target-arr[low])/(arr[high]-arr[low]) × (high-low). Adjust search range based on comparison.",
+  "howItWorks": [
+    "Set low=0, high=n-1",
+    "Estimate probe position using linear interpolation formula",
+    "Compare arr[probe] with target",
+    "If match: return probe",
+    "If arr[probe] < target: search right (low = probe+1)",
+    "If arr[probe] > target: search left (high = probe-1)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Target at exactly the interpolated position",
+      "average": "O(log log n)",
+      "averageCase": "Uniformly distributed data converges fast",
+      "worst": "O(n)",
+      "worstCase": "Worst case: exponentially clustered values"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Only index variables needed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Searching uniformly distributed data like timestamps",
+      "Phone book lookups — page estimate based on alphabetical position",
+      "Searching large sorted numeric datasets with uniform distribution"
+    ],
+    "whenToUse": [
+      "Sorted array with uniformly distributed values",
+      "Large datasets where O(log log n) matters",
+      "Known distribution of data"
+    ],
+    "alternatives": [
+      "Binary Search — guaranteed O(log n), no assumptions about distribution",
+      "Jump Search — simpler with O(√n)",
+      "Hash Tables — O(1) average for exact matches"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Red-Black Tree - see algorithm textbooks for full implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Red-Black Tree C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Red-Black Tree C++ implementation",
+    "lineKeys": {}
+  }
+}

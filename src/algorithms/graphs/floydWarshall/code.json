@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class FloydWarshall {\n    static final int INF = 99999;\n    public void floydWarshall(int[][] dist, int V) {\n        for (int k = 0; k < V; k++)\n            for (int i = 0; i < V; i++)\n                for (int j = 0; j < V; j++)\n                    if (dist[i][k] + dist[k][j] < dist[i][j])\n                        dist[i][j] = dist[i][k] + dist[k][j];\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define INF 99999\nvoid floydWarshall(int d[][10],int V){for(int k=0;k<V;k++)for(int i=0;i<V;i++)for(int j=0;j<V;j++)if(d[i][k]+d[k][j]<d[i][j])d[i][j]=d[i][k]+d[k][j];}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid floydWarshall(vector<vector<int>>&d){int V=d.size();for(int k=0;k<V;k++)for(int i=0;i<V;i++)for(int j=0;j<V;j++)if(d[i][k]!=1e9&&d[k][j]!=1e9)d[i][j]=min(d[i][j],d[i][k]+d[k][j]);}",
+    "lineKeys": {}
+  }
+}

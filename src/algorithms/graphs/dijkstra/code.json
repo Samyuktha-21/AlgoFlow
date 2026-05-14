@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class Dijkstra {\n    public int[] dijkstra(int[][] graph, int src) {\n        int n = graph.length;\n        int[] dist = new int[n];\n        boolean[] visited = new boolean[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0]-b[0]);\n        pq.offer(new int[]{0, src});\n        while (!pq.isEmpty()) {\n            int[] curr = pq.poll();\n            int u = curr[1];\n            if (visited[u]) continue;\n            visited[u] = true;\n            for (int v = 0; v < n; v++) {\n                if (graph[u][v] != 0 && !visited[v] && dist[u] + graph[u][v] < dist[v]) {\n                    dist[v] = dist[u] + graph[u][v];\n                    pq.offer(new int[]{dist[v], v});\n                }\n            }\n        }\n        return dist;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 9\nint minDist(int d[],int vis[]){int mn=INT_MAX,idx=0;for(int v=0;v<V;v++)if(!vis[v]&&d[v]<=mn){mn=d[v];idx=v;}return idx;}\nvoid dijkstra(int g[V][V],int src){int dist[V];int vis[V]={0};for(int i=0;i<V;i++)dist[i]=INT_MAX;dist[src]=0;\nfor(int c=0;c<V-1;c++){int u=minDist(dist,vis);vis[u]=1;for(int v=0;v<V;v++)if(!vis[v]&&g[u][v]&&dist[u]!=INT_MAX&&dist[u]+g[u][v]<dist[v])dist[v]=dist[u]+g[u][v];}\nfor(int i=0;i<V;i++)printf(\"%d \",dist[i]);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <climits>\nusing namespace std;\nvector<int> dijkstra(vector<vector<pair<int,int>>>& g, int src){\n    int n=g.size(); vector<int> d(n,INT_MAX); d[src]=0;\n    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq; pq.push({0,src});\n    while(!pq.empty()){auto[du,u]=pq.top();pq.pop();if(du>d[u])continue;\n        for(auto[v,w]:g[u]) if(d[u]+w<d[v]){d[v]=d[u]+w;pq.push({d[v],v});}}\n    return d;\n}",
+    "lineKeys": {}
+  }
+}

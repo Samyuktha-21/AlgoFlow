@@ -1,0 +1,45 @@
+{
+  "name": "Two Sum with Hash Map",
+  "type": "array",
+  "description": "Finds two indices in an unsorted array whose values sum to the target. Uses a hash map for O(1) lookups.",
+  "aim": "Find pair summing to target: for each element x, check if (target-x) already exists in the hash map, achieving O(n) overall.",
+  "howItWorks": [
+    "Create empty hash map: value → index",
+    "For each element arr[i]:",
+    "  Complement = target - arr[i]",
+    "  If complement in map: return [map[complement], i]",
+    "  Else: map[arr[i]] = i"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "First two elements sum to target",
+      "average": "O(n)",
+      "averageCase": "Single pass through array",
+      "worst": "O(n)",
+      "worstCase": "Target pair is at end"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Hash map stores up to n entries",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Financial transaction matching",
+      "Finding complementary items in inventory",
+      "Duplicate detection variants"
+    ],
+    "whenToUse": [
+      "Unsorted array — can't use two pointers directly",
+      "Single pass O(n) needed"
+    ],
+    "alternatives": [
+      "Two pointers on sorted array — O(n log n) total",
+      "Brute force O(n²) — only for tiny inputs"
+    ]
+  },
+  "id": "twoSumHash",
+  "category": "hashing",
+  "implemented": true
+}

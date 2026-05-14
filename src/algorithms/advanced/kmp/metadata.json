@@ -1,0 +1,47 @@
+{
+  "name": "KMP Pattern Matching",
+  "type": "array",
+  "description": "Knuth-Morris-Pratt string searching algorithm finds all occurrences of a pattern in a text in O(n+m) time using a failure function.",
+  "aim": "Search for pattern P in text T without redundant comparisons: precompute the failure function (longest proper prefix that is also a suffix) to skip re-checking.",
+  "howItWorks": [
+    "Precompute failure function lps[]: lps[i] = length of longest proper prefix of pattern[0..i] that is also a suffix",
+    "Search: if pattern[j] == text[i]: advance both",
+    "If mismatch and j>0: use lps[j-1] to avoid going back in text",
+    "If j == pattern.length: match found!"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n+m)",
+      "bestCase": "Always O(n+m) — failure function ensures no revisiting",
+      "average": "O(n+m)",
+      "averageCase": "Same",
+      "worst": "O(n+m)",
+      "worstCase": "Same — guaranteed linear"
+    },
+    "space": "O(m)",
+    "spaceDescription": "Failure function array of size m (pattern length)",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Text search in editors (VS Code, vim)",
+      "DNA sequence matching",
+      "Intrusion detection pattern matching",
+      "Log file search utilities"
+    ],
+    "whenToUse": [
+      "Pattern appears multiple times",
+      "Pattern has repeated structure (KMP excels here)",
+      "Linear time guarantee required"
+    ],
+    "alternatives": [
+      "Boyer-Moore — often faster in practice for long patterns",
+      "Rabin-Karp — good for multiple patterns",
+      "Z-algorithm — simpler implementation, same complexity"
+    ]
+  },
+  "id": "kmp",
+  "category": "advanced",
+  "implemented": true
+}

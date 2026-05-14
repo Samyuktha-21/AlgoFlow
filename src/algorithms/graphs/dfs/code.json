@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class DFS {\n    public void dfs(List<List<Integer>> graph, int start) {\n        int n = graph.size();\n        boolean[] visited = new boolean[n];\n        Stack<Integer> stack = new Stack<>();\n        stack.push(start);\n        while (!stack.isEmpty()) {\n            int node = stack.pop();\n            if (visited[node]) continue;\n            visited[node] = true;\n            System.out.print(node + \" \");\n            for (int neighbor : graph.get(node))\n                if (!visited[neighbor]) stack.push(neighbor);\n        }\n    }\n    public static void main(String[] args) {\n        List<List<Integer>> g = new ArrayList<>();\n        for(int i=0;i<6;i++) g.add(new ArrayList<>());\n        g.get(0).addAll(Arrays.asList(1,2));\n        g.get(1).addAll(Arrays.asList(0,3,4));\n        g.get(2).addAll(Arrays.asList(0,5));\n        new DFS().dfs(g, 0);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define MAX 100\nint graph[MAX][MAX], visited[MAX], stack[MAX], top=-1;\nvoid dfs(int n, int start) {\n    stack[++top]=start;\n    while(top>=0){\n        int node=stack[top--];\n        if(visited[node]) continue;\n        visited[node]=1; printf(\"%d \",node);\n        for(int i=n-1;i>=0;i--) if(graph[node][i]&&!visited[i]) stack[++top]=i;\n    }\n}\nint main(){/* Add edges and call dfs(6, 0) */ return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\nvoid dfs(const vector<vector<int>>& g, int start){\n    int n=g.size(); vector<bool> vis(n,false); stack<int> st;\n    st.push(start);\n    while(!st.empty()){int node=st.top();st.pop();\n        if(vis[node])continue;vis[node]=true;cout<<node<<\" \";\n        for(int nb:g[node]) if(!vis[nb]) st.push(nb);}\n}\nint main(){vector<vector<int>> g={{1,2},{0,3,4},{0,5},{1},{1},{2}};dfs(g,0);return 0;}",
+    "lineKeys": {}
+  }
+}

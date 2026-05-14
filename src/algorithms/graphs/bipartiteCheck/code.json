@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class BipartiteCheck {\n    public boolean isBipartite(int[][] adj, int V) {\n        int[] color = new int[V]; Arrays.fill(color, -1);\n        for (int start = 0; start < V; start++) {\n            if (color[start] != -1) continue;\n            color[start] = 0;\n            Queue<Integer> q = new LinkedList<>();\n            q.offer(start);\n            while (!q.isEmpty()) {\n                int u = q.poll();\n                for (int v : adj[u]) {\n                    if (color[v] == -1) { color[v] = 1 - color[u]; q.offer(v); }\n                    else if (color[v] == color[u]) return false;\n                }\n            }\n        }\n        return true;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define V 6\nint adj[V][V],color[V];\nbool isBipartite(){memset(color,-1,sizeof(color));int q[V],fr=0,re=0;\ncolor[0]=0;q[re++]=0;while(fr<re){int u=q[fr++];for(int v=0;v<V;v++)if(adj[u][v]){if(color[v]==-1){color[v]=1-color[u];q[re++]=v;}else if(color[v]==color[u])return false;}}return true;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nbool isBipartite(vector<vector<int>>&adj){int V=adj.size();vector<int>col(V,-1);\nfor(int s=0;s<V;s++){if(col[s]!=-1)continue;col[s]=0;queue<int>q;q.push(s);\nwhile(!q.empty()){int u=q.front();q.pop();for(int v:adj[u]){if(col[v]==-1){col[v]=1-col[u];q.push(v);}else if(col[v]==col[u])return false;}}}return true;}",
+    "lineKeys": {}
+  }
+}

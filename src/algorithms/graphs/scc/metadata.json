@@ -1,0 +1,41 @@
+{
+  "name": "Kosaraju SCC",
+  "type": "graph",
+  "description": "Finds strongly connected components using two DFS passes: forward and on transposed graph",
+  "aim": "Efficiently solve Kosaraju SCC problems on graph inputs.",
+  "howItWorks": [
+    "Initialize graph structure",
+    "Apply Kosaraju SCC algorithm steps",
+    "Track visited nodes and optimal paths"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "Depends on graph density",
+      "average": "O((V+E) log V)",
+      "averageCase": "With priority queue",
+      "worst": "O(V²)",
+      "worstCase": "Dense graphs without priority queue"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Kosaraju SCC used in network routing",
+      "GPS navigation",
+      "Operations research"
+    ],
+    "whenToUse": [
+      "When Kosaraju SCC properties needed"
+    ],
+    "alternatives": [
+      "Other graph algorithms depending on constraints"
+    ]
+  },
+  "id": "scc",
+  "category": "graphs",
+  "implemented": true
+}

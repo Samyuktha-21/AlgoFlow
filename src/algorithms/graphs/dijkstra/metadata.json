@@ -1,0 +1,49 @@
+{
+  "id": "dijkstra",
+  "name": "Dijkstra's Algorithm",
+  "category": "graphs",
+  "type": "graph",
+  "implemented": true,
+  "description": "Finds shortest paths from a source vertex to all other vertices in a weighted graph with non-negative edge weights. Uses a greedy approach with a min-priority queue.",
+  "aim": "Find shortest distances from source to all vertices by greedily selecting the unvisited vertex with minimum distance, then relaxing its neighbors.",
+  "howItWorks": [
+    "Initialize distances: dist[source]=0, all others=∞",
+    "Add source to min-priority queue with priority 0",
+    "Extract vertex with minimum distance (greedy choice)",
+    "For each neighbor: if dist[u]+weight < dist[v], update dist[v]",
+    "Add updated neighbors to priority queue",
+    "Repeat until queue empty — all shortest paths found"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "With binary heap priority queue",
+      "average": "O((V+E) log V)",
+      "averageCase": "Standard heap implementation",
+      "worst": "O(V²)",
+      "worstCase": "Dense graph with simple array priority queue"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Distance array + priority queue hold at most V elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "GPS/navigation systems — shortest driving route",
+      "Network routing protocols (OSPF, IS-IS)",
+      "Airline flight path optimization",
+      "Video games — NPC pathfinding on weighted grids"
+    ],
+    "whenToUse": [
+      "Single-source shortest path in weighted graph",
+      "All edge weights non-negative",
+      "Finding shortest path in road/network maps"
+    ],
+    "alternatives": [
+      "Bellman-Ford — when negative weights exist",
+      "Floyd-Warshall — when all-pairs shortest paths needed",
+      "A* — when heuristic available for target-specific search"
+    ]
+  }
+}

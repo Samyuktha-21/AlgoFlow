@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class HeapSort {\n    void heapify(int[] arr, int n, int i) {\n        int largest = i, l = 2*i+1, r = 2*i+2;\n        if (l < n && arr[l] > arr[largest]) largest = l;\n        if (r < n && arr[r] > arr[largest]) largest = r;\n        if (largest != i) {\n            int tmp = arr[i]; arr[i] = arr[largest]; arr[largest] = tmp;\n            heapify(arr, n, largest);\n        }\n    }\n    void sort(int[] arr) {\n        int n = arr.length;\n        for (int i = n/2 - 1; i >= 0; i--) heapify(arr, n, i);\n        for (int i = n-1; i > 0; i--) {\n            int tmp = arr[0]; arr[0] = arr[i]; arr[i] = tmp;\n            heapify(arr, i, 0);\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {12,11,13,5,6,7};\n        new HeapSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid heapify(int a[],int n,int i){int lg=i,l=2*i+1,r=2*i+2,tmp;\nif(l<n&&a[l]>a[lg])lg=l;if(r<n&&a[r]>a[lg])lg=r;\nif(lg!=i){tmp=a[i];a[i]=a[lg];a[lg]=tmp;heapify(a,n,lg);}}\nvoid heapSort(int a[],int n){for(int i=n/2-1;i>=0;i--)heapify(a,n,i);\nfor(int i=n-1;i>0;i--){int t=a[0];a[0]=a[i];a[i]=t;heapify(a,i,0);}}\nint main(){int a[]={12,11,13,5,6,7};heapSort(a,6);for(int i=0;i<6;i++)printf(\"%d \",a[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid heapify(vector<int>& a,int n,int i){int lg=i,l=2*i+1,r=2*i+2;\nif(l<n&&a[l]>a[lg])lg=l;if(r<n&&a[r]>a[lg])lg=r;\nif(lg!=i){swap(a[i],a[lg]);heapify(a,n,lg);}}\nvoid heapSort(vector<int>& a){int n=a.size();for(int i=n/2-1;i>=0;i--)heapify(a,n,i);\nfor(int i=n-1;i>0;i--){swap(a[0],a[i]);heapify(a,i,0);}}\nint main(){vector<int> a={12,11,13,5,6,7};heapSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

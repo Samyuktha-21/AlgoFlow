@@ -1,0 +1,42 @@
+{
+  "name": "MST Greedy (Prim-like)",
+  "type": "array",
+  "description": "Greedy selection of minimum edges for spanning tree",
+  "aim": "Apply greedy strategy to solve MST Greedy (Prim-like) efficiently.",
+  "howItWorks": [
+    "Sort/prioritize by greedy criterion",
+    "Make locally optimal choice",
+    "Repeat until solution complete"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Sorting or heap operations",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional storage",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "MST Greedy (Prim-like) applied in data compression",
+      "network optimization",
+      "resource allocation"
+    ],
+    "whenToUse": [
+      "Greedy choice property holds",
+      "Optimal substructure exists"
+    ],
+    "alternatives": [
+      "Dynamic programming if greedy fails"
+    ]
+  },
+  "id": "mstGreedy",
+  "category": "greedy",
+  "implemented": true
+}

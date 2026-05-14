@@ -1,0 +1,49 @@
+{
+  "id": "dfs",
+  "name": "Depth-First Search",
+  "category": "graphs",
+  "type": "graph",
+  "implemented": true,
+  "description": "Graph traversal that explores as far as possible along each branch before backtracking. Uses a stack (explicit or call stack via recursion).",
+  "aim": "Traverse or search a graph by exploring each branch fully before trying the next. Essential for cycle detection, topological sort, path finding, and SCC algorithms.",
+  "howItWorks": [
+    "Mark start node as visited, push to stack",
+    "Pop node, process it (visit)",
+    "Push all unvisited neighbors onto the stack",
+    "Repeat until stack is empty",
+    "Unvisited nodes → new connected component"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "bestCase": "Always must visit all reachable vertices and edges",
+      "average": "O(V+E)",
+      "averageCase": "V=vertices, E=edges — each visited once",
+      "worst": "O(V+E)",
+      "worstCase": "Dense graph still O(V+E)"
+    },
+    "space": "O(V)",
+    "spaceDescription": "Stack and visited array — O(V) in worst case for a path graph",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Topological sort in build systems (Makefile, webpack)",
+      "Cycle detection in dependency graphs",
+      "Solving puzzles with unique solutions (mazes, sudoku)",
+      "Finding strongly connected components (Tarjan/Kosaraju)"
+    ],
+    "whenToUse": [
+      "Topological ordering needed",
+      "Detecting cycles",
+      "Path existence problems (not shortest)",
+      "Exploring all possibilities with backtracking"
+    ],
+    "alternatives": [
+      "BFS — finds shortest path in unweighted graphs",
+      "Dijkstra — shortest path in weighted graphs",
+      "A* — when heuristic available for guided search"
+    ]
+  }
+}

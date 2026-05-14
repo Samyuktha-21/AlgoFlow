@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class EditDistance {\n    public int minDistance(String s1, String s2) {\n        int m=s1.length(), n=s2.length();\n        int[][] dp = new int[m+1][n+1];\n        for (int i=0; i<=m; i++) dp[i][0] = i;\n        for (int j=0; j<=n; j++) dp[0][j] = j;\n        for (int i=1; i<=m; i++)\n            for (int j=1; j<=n; j++)\n                dp[i][j] = s1.charAt(i-1)==s2.charAt(j-1)\n                    ? dp[i-1][j-1]\n                    : 1 + Math.min(dp[i-1][j], Math.min(dp[i][j-1], dp[i-1][j-1]));\n        return dp[m][n];\n    }\n    public static void main(String[] args) {\n        System.out.println(new EditDistance().minDistance(\"horse\",\"ros\")); // 3\n        System.out.println(new EditDistance().minDistance(\"intention\",\"execution\")); // 5\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define min(a,b) ((a)<(b)?(a):(b))\nint editDist(char* s1,char* s2){int m=strlen(s1),n=strlen(s2),dp[m+1][n+1];\nfor(int i=0;i<=m;i++)dp[i][0]=i;for(int j=0;j<=n;j++)dp[0][j]=j;\nfor(int i=1;i<=m;i++)for(int j=1;j<=n;j++)dp[i][j]=s1[i-1]==s2[j-1]?dp[i-1][j-1]:1+min(dp[i-1][j],min(dp[i][j-1],dp[i-1][j-1]));\nreturn dp[m][n];}\nint main(){printf(\"%d\\n\",editDist(\"horse\",\"ros\"));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint editDist(const string& a,const string& b){int m=a.size(),n=b.size();vector<vector<int>>dp(m+1,vector<int>(n+1));\nfor(int i=0;i<=m;i++)dp[i][0]=i;for(int j=0;j<=n;j++)dp[0][j]=j;\nfor(int i=1;i<=m;i++)for(int j=1;j<=n;j++)dp[i][j]=a[i-1]==b[j-1]?dp[i-1][j-1]:1+min({dp[i-1][j],dp[i][j-1],dp[i-1][j-1]});\nreturn dp[m][n];}\nint main(){cout<<editDist(\"horse\",\"ros\")<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

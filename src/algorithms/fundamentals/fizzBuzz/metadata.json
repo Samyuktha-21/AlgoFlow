@@ -1,0 +1,44 @@
+{
+  "name": "FizzBuzz",
+  "type": "array",
+  "description": "Prints 1 to n, replacing multiples of 3 with Fizz, multiples of 5 with Buzz, multiples of both with FizzBuzz.",
+  "aim": "Classic programming exercise: iterate 1 to n and apply modulo rules to decide the output for each number.",
+  "howItWorks": [
+    "For each i from 1 to n:",
+    "  If i%15==0: print FizzBuzz",
+    "  Else if i%3==0: print Fizz",
+    "  Else if i%5==0: print Buzz",
+    "  Else: print i"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Always linear",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Constant space for printing",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Classic coding interview screening question",
+      "Conditional logic exercise",
+      "Loop + modulo arithmetic demonstration"
+    ],
+    "whenToUse": [
+      "Teaching conditional logic",
+      "Demonstrating loop + modulo"
+    ],
+    "alternatives": [
+      "Using array of strings indexed by i%15"
+    ]
+  },
+  "id": "fizzBuzz",
+  "category": "fundamentals",
+  "implemented": true
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class WordBreak {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        Set<String> dict = new HashSet<>(wordDict);\n        int n = s.length();\n        boolean[] dp = new boolean[n + 1];\n        dp[0] = true;\n        for (int i = 1; i <= n; i++)\n            for (int j = 0; j < i; j++)\n                if (dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }\n        return dp[n];\n    }\n    public static void main(String[] args) {\n        System.out.println(new WordBreak().wordBreak(\"leetcode\", Arrays.asList(\"leet\",\"code\"))); // true\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nint wordBreak(char*s,char*words[],int wc){int n=strlen(s),dp[n+1];dp[0]=1;\nfor(int i=1;i<=n;i++){dp[i]=0;for(int j=0;j<wc&&!dp[i];j++){int l=strlen(words[j]);if(i>=l&&dp[i-l]&&!strncmp(s+i-l,words[j],l))dp[i]=1;}}return dp[n];}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <vector>\n#include <unordered_set>\nusing namespace std;\nbool wordBreak(string s,vector<string>&d){unordered_set<string>dict(d.begin(),d.end());int n=s.size();vector<bool>dp(n+1,false);dp[0]=true;\nfor(int i=1;i<=n;i++)for(int j=0;j<i;j++)if(dp[j]&&dict.count(s.substr(j,i-j))){dp[i]=true;break;}return dp[n];}",
+    "lineKeys": {}
+  }
+}

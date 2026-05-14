@@ -1,0 +1,44 @@
+{
+  "name": "Factorial",
+  "type": "array",
+  "description": "Computes n! = n × (n-1) × ... × 1. Demonstrates recursion vs iteration and the rapid growth of factorials.",
+  "aim": "Calculate n factorial iteratively or recursively, illustrating how recursion creates a call stack and how memoization avoids recomputation.",
+  "howItWorks": [
+    "Base case: 0! = 1! = 1",
+    "Recursive: n! = n × (n-1)!",
+    "Iterative: multiply 1×2×3×...×n"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Linear — must multiply n times",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Iterative uses O(1); recursive uses O(n) stack",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Combinatorics — permutations and combinations",
+      "Probability calculations",
+      "Taylor series terms",
+      "Big number libraries"
+    ],
+    "whenToUse": [
+      "Computing exact combinatorial values",
+      "When intermediate results are also needed"
+    ],
+    "alternatives": [
+      "Stirling approximation — O(1) approximate for large n",
+      "Log-gamma function for floating point accuracy"
+    ]
+  },
+  "id": "factorial",
+  "category": "fundamentals",
+  "implemented": true
+}

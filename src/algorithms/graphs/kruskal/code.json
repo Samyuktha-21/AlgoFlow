@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class Kruskal {\n    int[] parent, rank;\n    int find(int x) { return parent[x]==x ? x : (parent[x]=find(parent[x])); }\n    boolean union(int x, int y) {\n        int rx=find(x), ry=find(y);\n        if(rx==ry) return false;\n        if(rank[rx]<rank[ry]) parent[rx]=ry; else if(rank[rx]>rank[ry]) parent[ry]=rx; else{parent[ry]=rx;rank[rx]++;}\n        return true;\n    }\n    public List<int[]> mst(int V, int[][] edges) {\n        Arrays.sort(edges, (a,b)->a[2]-b[2]);\n        parent=new int[V]; rank=new int[V];\n        for(int i=0;i<V;i++) parent[i]=i;\n        List<int[]> mst=new ArrayList<>();\n        for(int[] e:edges) if(union(e[0],e[1])) mst.add(e);\n        return mst;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int u,v,w;}Edge;int par[100],rnk[100];\nint find(int x){return par[x]==x?x:(par[x]=find(par[x]));}\nint unite(int a,int b){int ra=find(a),rb=find(b);if(ra==rb)return 0;if(rnk[ra]<rnk[rb])par[ra]=rb;else if(rnk[ra]>rnk[rb])par[rb]=ra;else{par[rb]=ra;rnk[ra]++;}return 1;}\nint cmp(const void*a,const void*b){return((Edge*)a)->w-((Edge*)b)->w;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct Edge{int u,v,w;};\nvector<int>par,rnk;int find(int x){return par[x]==x?x:(par[x]=find(par[x]));}\nvector<Edge> kruskal(int V,vector<Edge>&edges){par.resize(V);rnk.resize(V,0);iota(par.begin(),par.end(),0);sort(edges.begin(),edges.end(),[](auto&a,auto&b){return a.w<b.w;});vector<Edge>mst;for(auto&e:edges){int ra=find(e.u),rb=find(e.v);if(ra!=rb){if(rnk[ra]<rnk[rb])par[ra]=rb;else if(rnk[ra]>rnk[rb])par[rb]=ra;else{par[rb]=ra;rnk[ra]++;}mst.push_back(e);}}return mst;}",
+    "lineKeys": {}
+  }
+}

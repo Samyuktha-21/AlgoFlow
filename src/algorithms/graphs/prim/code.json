@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Prim's MST - see algorithm textbooks for complete implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Prim's MST C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Prim's MST C++ implementation",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "bst",
+  "name": "Binary Search Tree (BST)",
+  "category": "trees",
+  "type": "tree",
+  "implemented": true,
+  "description": "Binary tree with BST property: left subtree < node < right subtree. Supports O(h) insert, search, and delete where h is tree height.",
+  "aim": "Maintain a binary tree where left children are smaller and right children are larger, enabling efficient O(log n) average search/insert/delete.",
+  "howItWorks": [
+    "Search: start at root, go left if target < node, right if larger",
+    "Insert: follow search path, insert at appropriate null child position",
+    "Delete: three cases — leaf (remove directly), one child (bypass), two children (replace with inorder successor)",
+    "Height determines performance: O(log n) balanced, O(n) skewed"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(log n)",
+      "bestCase": "Perfectly balanced BST",
+      "average": "O(log n)",
+      "averageCase": "Random insertions produce ~O(log n) average height",
+      "worst": "O(n)",
+      "worstCase": "Sorted insertions create linked list (skewed)"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Each node stores value + two child pointers",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Database index (B-tree variant)",
+      "Sorted set/map implementations (Java TreeMap)",
+      "Auto-complete feature (BST of words)",
+      "Priority queues with ordered traversal"
+    ],
+    "whenToUse": [
+      "Frequent search, insert, delete on ordered data",
+      "In-order traversal needed",
+      "Sorted order with dynamic updates"
+    ],
+    "alternatives": [
+      "AVL Tree or Red-Black Tree — guaranteed O(log n) by balancing",
+      "Hash Map — O(1) average but no ordering",
+      "Skip List — probabilistic O(log n), simpler to implement"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Queue {\n    int[] arr;\n    int front = 0, rear = 0, size = 0, capacity;\n    Queue(int capacity) { arr = new int[capacity]; this.capacity = capacity; }\n    void enqueue(int val) {\n        arr[rear] = val;\n        rear = (rear + 1) % capacity;\n        size++;\n    }\n    int dequeue() {\n        int val = arr[front];\n        front = (front + 1) % capacity;\n        size--;\n        return val;\n    }\n    int front() { return arr[front]; }\n    boolean isEmpty() { return size == 0; }\n    public static void main(String[] args) {\n        Queue q = new Queue(10);\n        q.enqueue(1); q.enqueue(2); q.enqueue(3);\n        System.out.println(q.dequeue()); // 1\n        System.out.println(q.front());   // 2\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint arr[100],fr=0,re=0;\nvoid enqueue(int v){arr[re++]=v;}\nint dequeue(){return arr[fr++];}\nint front(){return arr[fr];}\nint main(){enqueue(1);enqueue(2);enqueue(3);printf(\"%d %d\\n\",dequeue(),front());return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nint main(){queue<int>q;q.push(1);q.push(2);q.push(3);cout<<q.front()<<\" \";q.pop();cout<<q.front()<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

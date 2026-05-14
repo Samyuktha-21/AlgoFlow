@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// MST Greedy (Prim-like) implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// MST Greedy (Prim-like) C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// MST Greedy (Prim-like) C++",
+    "lineKeys": {}
+  }
+}

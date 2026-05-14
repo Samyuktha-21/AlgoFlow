@@ -1,0 +1,47 @@
+{
+  "id": "activitySelection",
+  "name": "Activity Selection",
+  "category": "greedy",
+  "type": "greedy",
+  "implemented": true,
+  "description": "Selects maximum number of non-overlapping activities from a set, each with a start and end time. Greedy choice: always pick the activity that finishes earliest.",
+  "aim": "Maximize the number of activities that can be performed by always choosing the activity with the earliest finish time that does not conflict with previously selected activities.",
+  "howItWorks": [
+    "Sort all activities by finish time",
+    "Select first activity (earliest finish)",
+    "For each remaining activity: if start ≥ end of last selected, select it",
+    "Repeat until all activities processed"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Dominated by sorting step",
+      "average": "O(n log n)",
+      "averageCase": "Sort then linear scan",
+      "worst": "O(n log n)",
+      "worstCase": "Same — sort dominates"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place after sorting — only track last selected activity end time",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Classroom scheduling — max events in a room",
+      "CPU scheduling — maximize completed jobs",
+      "Sports event planning — maximize games on one field",
+      "Interval scheduling maximization in operations research"
+    ],
+    "whenToUse": [
+      "Maximize number of non-overlapping intervals",
+      "Interval scheduling problems",
+      "When greedy choice (earliest finish) provably optimal"
+    ],
+    "alternatives": [
+      "Dynamic programming — needed for weighted activities (maximize total value)",
+      "Network flow — for more complex scheduling constraints",
+      "Sweep line algorithm — for detecting overlaps"
+    ]
+  }
+}

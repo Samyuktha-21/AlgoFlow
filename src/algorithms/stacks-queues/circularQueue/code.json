@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class CircularQueue {\n    int[] arr; int front=0, rear=0, size=0, cap;\n    CircularQueue(int k) { arr = new int[k]; cap = k; }\n    boolean enQueue(int val) {\n        if (size == cap) return false;\n        arr[rear] = val;\n        rear = (rear + 1) % cap;\n        size++;\n        return true;\n    }\n    int deQueue() {\n        if (size == 0) return -1;\n        int val = arr[front];\n        front = (front + 1) % cap;\n        size--;\n        return val;\n    }\n    int Front() { return size == 0 ? -1 : arr[front]; }\n    boolean isEmpty() { return size == 0; }\n    boolean isFull()  { return size == cap; }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint arr[10],fr=0,re=0,sz=0,cap=10;\nint enq(int v){if(sz==cap)return 0;arr[re]=v;re=(re+1)%cap;sz++;return 1;}\nint deq(){if(!sz)return -1;int v=arr[fr];fr=(fr+1)%cap;sz--;return v;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\nusing namespace std;\nstruct CirQ{vector<int>a;int fr=0,re=0,sz=0;CirQ(int k):a(k){}\nbool enq(int v){if(sz==(int)a.size())return false;a[re]=v;re=(re+1)%a.size();sz++;return true;}\nint deq(){if(!sz)return -1;int v=a[fr];fr=(fr+1)%a.size();sz--;return v;}};",
+    "lineKeys": {}
+  }
+}

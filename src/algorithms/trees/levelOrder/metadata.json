@@ -1,0 +1,47 @@
+{
+  "name": "Level Order Traversal (BFS)",
+  "type": "tree",
+  "description": "Visits all nodes level by level using a queue (BFS on tree). Produces nodes in breadth-first order.",
+  "aim": "Traverse a binary tree level by level from root to leaves, visiting all nodes at depth d before any node at depth d+1.",
+  "howItWorks": [
+    "Enqueue root",
+    "While queue not empty: dequeue front node, visit it",
+    "Enqueue left child (if exists)",
+    "Enqueue right child (if exists)",
+    "Repeat — all nodes at depth k processed before depth k+1"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must visit all n nodes",
+      "average": "O(n)",
+      "averageCase": "Each node enqueued and dequeued once",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(w)",
+    "spaceDescription": "w = max width of tree; O(n) for complete binary tree",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "File system directory listing by depth",
+      "Social network: find people within k connections",
+      "Shortest path in unweighted trees",
+      "Serialization in level-order format"
+    ],
+    "whenToUse": [
+      "Level-by-level processing needed",
+      "Minimum depth of binary tree",
+      "Connect nodes at same level"
+    ],
+    "alternatives": [
+      "DFS — when depth-first order needed",
+      "Iterative DFS — for topological-like processing"
+    ]
+  },
+  "id": "levelOrder",
+  "category": "trees",
+  "implemented": true
+}

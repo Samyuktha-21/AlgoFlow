@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Knapsack01 {\n    public int knapsack(int W, int[] wt, int[] val, int n) {\n        int[][] dp = new int[n + 1][W + 1];\n        for (int i = 1; i <= n; i++) {\n            for (int w = 0; w <= W; w++) {\n                dp[i][w] = dp[i-1][w]; // skip item i\n                if (wt[i-1] <= w)\n                    dp[i][w] = Math.max(dp[i][w], dp[i-1][w-wt[i-1]] + val[i-1]);\n            }\n        }\n        return dp[n][W];\n    }\n    public static void main(String[] args) {\n        int[] val={60,100,120}, wt={10,20,30};\n        System.out.println(new Knapsack01().knapsack(50, wt, val, 3)); // 220\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define max(a,b) ((a)>(b)?(a):(b))\nint knapsack(int W,int wt[],int val[],int n){\n    int dp[n+1][W+1];\n    for(int i=0;i<=n;i++) for(int w=0;w<=W;w++){\n        dp[i][w]= i==0||w==0?0:dp[i-1][w];\n        if(i>0&&wt[i-1]<=w) dp[i][w]=max(dp[i][w],dp[i-1][w-wt[i-1]]+val[i-1]);\n    }\n    return dp[n][W];\n}\nint main(){int v[]={60,100,120},w[]={10,20,30};printf(\"%d\\n\",knapsack(50,w,v,3));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint knapsack(int W, vector<int>& wt, vector<int>& val){\n    int n=wt.size(); vector<vector<int>> dp(n+1,vector<int>(W+1,0));\n    for(int i=1;i<=n;i++) for(int w=0;w<=W;w++){\n        dp[i][w]=dp[i-1][w];\n        if(wt[i-1]<=w) dp[i][w]=max(dp[i][w],dp[i-1][w-wt[i-1]]+val[i-1]);\n    }\n    return dp[n][W];\n}\nint main(){vector<int> v={60,100,120},w={10,20,30};cout<<knapsack(50,w,v)<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

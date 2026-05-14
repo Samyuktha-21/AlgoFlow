@@ -1,0 +1,45 @@
+{
+  "name": "Power Function (Fast Exponentiation)",
+  "type": "array",
+  "description": "Computes x^n in O(log n) time using binary exponentiation (repeated squaring). Much faster than the naive O(n) multiplication.",
+  "aim": "Calculate x^n efficiently: if n is even, x^n = (x²)^(n/2); if odd, x^n = x × x^(n-1). Halves the problem each step.",
+  "howItWorks": [
+    "If n=0: return 1",
+    "If n is even: return power(x*x, n/2)",
+    "If n is odd: return x × power(x*x, (n-1)/2)",
+    "Or iteratively: square x and use n's binary representation"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "n=0 or n=1",
+      "average": "O(log n)",
+      "averageCase": "Halve n each step",
+      "worst": "O(log n)",
+      "worstCase": "Same — always logarithmic"
+    },
+    "space": "O(log n)",
+    "spaceDescription": "Recursive stack depth; O(1) for iterative version",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Modular exponentiation in RSA encryption",
+      "Matrix fast power for Fibonacci in O(log n)",
+      "Polynomial evaluation",
+      "Computer graphics — 3D rotations"
+    ],
+    "whenToUse": [
+      "Large exponents where O(n) is too slow",
+      "Modular arithmetic (x^n mod m)"
+    ],
+    "alternatives": [
+      "Naive multiplication — O(n) simple but slow",
+      "Matrix exponentiation — O(log n) × O(matrix size³)"
+    ]
+  },
+  "id": "power",
+  "category": "fundamentals",
+  "implemented": true
+}

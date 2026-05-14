@@ -1,0 +1,43 @@
+{
+  "name": "Mirror / Invert Binary Tree",
+  "type": "tree",
+  "description": "Creates a mirror image of a binary tree by swapping left and right children at every node recursively.",
+  "aim": "Invert the binary tree by recursively swapping the left and right subtrees of every node using a simple post-order traversal.",
+  "howItWorks": [
+    "Base case: null node returns null",
+    "Recursively invert left subtree",
+    "Recursively invert right subtree",
+    "Swap: node.left = invertedRight, node.right = invertedLeft"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must process all n nodes",
+      "average": "O(n)",
+      "averageCase": "Each node processed once",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion stack = tree height h",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Image mirroring algorithms",
+      "Symmetric tree validation",
+      "Building symmetric data structures"
+    ],
+    "whenToUse": [
+      "Need mirror/reflection of a tree structure",
+      "Palindrome tree checks"
+    ],
+    "alternatives": [
+      "Iterative BFS — swap children level by level"
+    ]
+  },
+  "id": "mirrorTree",
+  "category": "trees",
+  "implemented": true
+}

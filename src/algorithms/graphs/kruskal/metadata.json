@@ -1,0 +1,45 @@
+{
+  "name": "Kruskal's MST Algorithm",
+  "type": "graph",
+  "description": "Finds the Minimum Spanning Tree by greedily adding the cheapest edge that doesn't create a cycle, using Union-Find.",
+  "aim": "Build MST by sorting all edges by weight and adding each edge if it connects two different components (detected via Union-Find).",
+  "howItWorks": [
+    "Sort all edges by weight ascending",
+    "Initialize Union-Find with each vertex as own set",
+    "For each edge (u,v,w): if u and v in different components: add to MST",
+    "If adding causes cycle (same component): skip",
+    "Repeat until MST has V-1 edges"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(E log E)",
+      "bestCase": "Sort edges dominates",
+      "average": "O(E log E)",
+      "averageCase": "Same",
+      "worst": "O(E log E)",
+      "worstCase": "Same"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Edge list + Union-Find arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Network cable laying — minimum cost connections",
+      "Cluster analysis",
+      "Circuit board design"
+    ],
+    "whenToUse": [
+      "Minimum spanning tree in sparse graphs",
+      "When sorting edges is efficient"
+    ],
+    "alternatives": [
+      "Prim's — better for dense graphs",
+      "Boruvka's — parallel-friendly MST"
+    ]
+  },
+  "id": "kruskal",
+  "category": "graphs",
+  "implemented": true
+}

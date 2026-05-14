@@ -1,0 +1,41 @@
+{
+  "name": "Valid Parentheses (Stack)",
+  "type": "stack",
+  "description": "Validates balanced bracket sequences using a stack. Equivalent to the array version but emphasizes the stack data structure.",
+  "aim": "Check balanced brackets by pushing open brackets and verifying matching close brackets match the stack top.",
+  "howItWorks": [
+    "Push open brackets onto stack",
+    "For close bracket: if stack empty or top doesn't match → invalid",
+    "If loop ends and stack empty → valid"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "First character is mismatched close bracket",
+      "average": "O(n)",
+      "averageCase": "Single pass",
+      "worst": "O(n)",
+      "worstCase": "Valid string of length n"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Stack holds at most n/2 elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "HTML/XML tag validation",
+      "Code syntax checking",
+      "Expression parsing"
+    ],
+    "whenToUse": [
+      "Bracket/delimiter matching problems"
+    ],
+    "alternatives": [
+      "Counter for single bracket type only"
+    ]
+  },
+  "id": "validParenthesesStack",
+  "category": "stacks-queues",
+  "implemented": true
+}

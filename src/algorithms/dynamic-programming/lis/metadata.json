@@ -1,0 +1,44 @@
+{
+  "name": "Longest Increasing Subsequence (LIS)",
+  "type": "dp",
+  "description": "Finds the length of the longest strictly increasing subsequence. O(n²) DP solution: dp[i] = length of LIS ending at index i.",
+  "aim": "Find the longest subsequence where every element is strictly greater than the previous one, using dp[i] = 1 + max(dp[j]) for all j<i where arr[j]<arr[i].",
+  "howItWorks": [
+    "Initialize dp[i] = 1 for all i (each element alone is LIS of length 1)",
+    "For each i from 1 to n-1:",
+    "  For each j < i: if arr[j] < arr[i], dp[i] = max(dp[i], dp[j]+1)",
+    "Answer is max(dp[i]) for all i"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Binary search approach (patience sorting)",
+      "average": "O(n²)",
+      "averageCase": "O(n²) DP approach",
+      "worst": "O(n²)",
+      "worstCase": "All elements decreasing — no early exit"
+    },
+    "space": "O(n)",
+    "spaceDescription": "dp array of size n",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Finding longest sorted run in data",
+      "RNA secondary structure prediction",
+      "Patience card game — optimal strategy",
+      "Box stacking problem (variant)"
+    ],
+    "whenToUse": [
+      "Finding longest non-decreasing sequence",
+      "Problems requiring monotone subsequences"
+    ],
+    "alternatives": [
+      "O(n log n) with patience sort/binary search for large n"
+    ]
+  },
+  "id": "lis",
+  "category": "dynamic-programming",
+  "implemented": true
+}

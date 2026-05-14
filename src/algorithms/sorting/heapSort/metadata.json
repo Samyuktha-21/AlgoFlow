@@ -1,0 +1,48 @@
+{
+  "id": "heapSort",
+  "name": "Heap Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Uses a max-heap data structure to sort. First builds a max-heap from the array, then repeatedly extracts the maximum element and places it at the end.",
+  "aim": "Sort by building a max-heap from the input array (O(n)), then repeatedly swapping the root (maximum) with the last unsorted element and heapifying down (n × O(log n)).",
+  "howItWorks": [
+    "Build a max-heap from the array using bottom-up heapification",
+    "Swap root (maximum) with last element — last element is now sorted",
+    "Reduce heap size by 1",
+    "Heapify down the new root to restore max-heap property",
+    "Repeat from step 2 until heap size is 1",
+    "Array is sorted in ascending order"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Building heap is O(n), n extractions each O(log n)",
+      "average": "O(n log n)",
+      "averageCase": "Consistent performance across all input types",
+      "worst": "O(n log n)",
+      "worstCase": "No worst-case degradation unlike Quick Sort"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place using the input array as heap storage",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Systems requiring guaranteed O(n log n) with O(1) space",
+      "Priority queue operations requiring sorted output",
+      "Sorting in embedded systems with limited memory"
+    ],
+    "whenToUse": [
+      "Guaranteed O(n log n) with no extra space required",
+      "When worst-case matters and memory is tight",
+      "Heap sort is preferred over Quick Sort when worst case must be avoided"
+    ],
+    "alternatives": [
+      "Quick Sort — faster in practice due to cache effects",
+      "Merge Sort — stable with same complexity but O(n) space",
+      "Intro Sort — hybrid that combines Quick + Heap + Insertion (used in C++ STL)"
+    ]
+  }
+}

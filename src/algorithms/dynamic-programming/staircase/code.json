@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Staircase {\n    public int climbStairs(int n) {\n        if (n <= 2) return n;\n        int[] dp = new int[n + 1];\n        dp[1] = 1; dp[2] = 2;\n        for (int i = 3; i <= n; i++) dp[i] = dp[i-1] + dp[i-2];\n        return dp[n];\n    }\n    public static void main(String[] args) {\n        Staircase s = new Staircase();\n        System.out.println(s.climbStairs(5));  // 8\n        System.out.println(s.climbStairs(10)); // 89\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint climbStairs(int n){if(n<=2)return n;int dp[n+1];dp[1]=1;dp[2]=2;\nfor(int i=3;i<=n;i++)dp[i]=dp[i-1]+dp[i-2];return dp[n];}\nint main(){printf(\"%d\\n%d\\n\",climbStairs(5),climbStairs(10));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "int climbStairs(int n){if(n<=2)return n;int a=1,b=2,c;\nfor(int i=3;i<=n;i++){c=a+b;a=b;b=c;}return b;}",
+    "lineKeys": {}
+  }
+}

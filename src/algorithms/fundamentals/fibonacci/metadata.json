@@ -1,0 +1,44 @@
+{
+  "name": "Fibonacci Sequence",
+  "type": "array",
+  "description": "Generates the Fibonacci sequence where each number is the sum of the two preceding ones: 0,1,1,2,3,5,8,13,...",
+  "aim": "Compute the nth Fibonacci number iteratively or recursively, demonstrating the difference between O(n) DP and O(2^n) naive recursion.",
+  "howItWorks": [
+    "F(0)=0, F(1)=1",
+    "F(n) = F(n-1) + F(n-2) for n ≥ 2",
+    "Iterative: use two variables a,b; update a=b, b=a+b"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Iterative or memoized: O(n)",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(2^n)",
+      "worstCase": "Naive recursion without memoization"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Iterative with two variables; O(n) for array version",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Algorithm analysis benchmark",
+      "Phyllotaxis in nature (spiral arrangements)",
+      "Financial Fibonacci retracement levels",
+      "Dynamic programming introduction"
+    ],
+    "whenToUse": [
+      "Teaching recursion vs dynamic programming",
+      "Sequence generation problems with simple recurrence"
+    ],
+    "alternatives": [
+      "Matrix exponentiation — O(log n)",
+      "Binet's formula — O(1) but floating point precision issues"
+    ]
+  },
+  "id": "fibonacci",
+  "category": "fundamentals",
+  "implemented": true
+}

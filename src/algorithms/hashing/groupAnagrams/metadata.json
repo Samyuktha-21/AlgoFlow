@@ -1,0 +1,43 @@
+{
+  "name": "Group Anagrams",
+  "type": "array",
+  "description": "Groups strings that are anagrams of each other by using sorted string as a hash key.",
+  "aim": "Cluster anagrams together: sort each string as a canonical key, group all strings with the same sorted key.",
+  "howItWorks": [
+    "For each string: sort its characters to get a canonical key",
+    "Use sorted string as hash map key",
+    "Append original string to the group for its key",
+    "Return all groups (values of the map)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n × L log L)",
+      "bestCase": "n strings each of max length L",
+      "average": "O(n × L log L)",
+      "averageCase": "Sorting each string dominates",
+      "worst": "O(n × L log L)",
+      "worstCase": "Same"
+    },
+    "space": "O(n × L)",
+    "spaceDescription": "Store all strings in hash map groups",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Autocomplete with anagram alternatives",
+      "Dictionary organization",
+      "Word game suggestion engine"
+    ],
+    "whenToUse": [
+      "Group strings by character composition",
+      "Find all anagrams in a list of words"
+    ],
+    "alternatives": [
+      "Character frequency tuple as key — avoids sorting, still O(n×L)"
+    ]
+  },
+  "id": "groupAnagrams",
+  "category": "hashing",
+  "implemented": true
+}

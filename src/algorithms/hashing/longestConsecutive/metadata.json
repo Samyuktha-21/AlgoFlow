@@ -1,0 +1,43 @@
+{
+  "name": "Longest Consecutive Sequence",
+  "type": "array",
+  "description": "Finds the length of the longest sequence of consecutive integers in O(n) time using a hash set.",
+  "aim": "Find longest consecutive run [n, n+1, n+2, ...] by checking if each number is a sequence start (n-1 not in set), then extend.",
+  "howItWorks": [
+    "Insert all numbers into a hash set",
+    "For each number n: if (n-1) not in set, n is start of a sequence",
+    "Count how many consecutive n+1, n+2, ... are in set",
+    "Track maximum streak length"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Single pass through set",
+      "average": "O(n)",
+      "averageCase": "Insert n + n lookups",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Hash set stores all n elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Finding consecutive date ranges",
+      "Network IP address range detection",
+      "Game: find longest streak"
+    ],
+    "whenToUse": [
+      "Unsorted array, need O(n) consecutive sequence"
+    ],
+    "alternatives": [
+      "Sort then scan — O(n log n) but simpler",
+      "Union-Find — elegant O(n α(n)) approach"
+    ]
+  },
+  "id": "longestConsecutive",
+  "category": "hashing",
+  "implemented": true
+}

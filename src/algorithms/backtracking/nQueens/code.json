@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class NQueens {\n    List<List<String>> solutions = new ArrayList<>();\n    public List<List<String>> solve(int n) {\n        int[] queens = new int[n]; Arrays.fill(queens, -1);\n        backtrack(queens, n, 0);\n        return solutions;\n    }\n    void backtrack(int[] queens, int n, int row) {\n        if (row == n) { solutions.add(buildBoard(queens, n)); return; }\n        for (int col = 0; col < n; col++) {\n            if (isSafe(queens, row, col)) {\n                queens[row] = col;\n                backtrack(queens, n, row + 1);\n                queens[row] = -1; // backtrack\n            }\n        }\n    }\n    boolean isSafe(int[] queens, int row, int col) {\n        for (int r = 0; r < row; r++) {\n            if (queens[r] == col || Math.abs(queens[r] - col) == row - r) return false;\n        }\n        return true;\n    }\n    List<String> buildBoard(int[] queens, int n) {\n        List<String> board = new ArrayList<>();\n        for (int r = 0; r < n; r++) {\n            char[] row = new char[n]; Arrays.fill(row, '.'); row[queens[r]] = 'Q';\n            board.add(new String(row));\n        }\n        return board;\n    }\n    public static void main(String[] args) { System.out.println(new NQueens().solve(4).size()); }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <math.h>\nint queens[20],n,solutions=0;\nint isSafe(int row,int col){for(int r=0;r<row;r++)if(queens[r]==col||abs(queens[r]-col)==row-r)return 0;return 1;}\nvoid solve(int row){if(row==n){solutions++;return;}for(int c=0;c<n;c++)if(isSafe(row,c)){queens[row]=c;solve(row+1);queens[row]=-1;}}\nint main(){n=4;solve(0);printf(\"%d solutions\\n\",solutions);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\nint solutions=0;\nbool isSafe(vector<int>& q,int row,int col){for(int r=0;r<row;r++)if(q[r]==col||abs(q[r]-col)==row-r)return false;return true;}\nvoid solve(vector<int>& q,int n,int row){if(row==n){solutions++;return;}for(int c=0;c<n;c++)if(isSafe(q,row,c)){q[row]=c;solve(q,n,row+1);q[row]=-1;}}\nint main(){int n=4;vector<int> q(n,-1);solve(q,n,0);cout<<solutions<<\" solutions\"<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "coinChangeDP",
+  "name": "Coin Change (Minimum Coins)",
+  "category": "dynamic-programming",
+  "type": "dp",
+  "implemented": true,
+  "description": "Given coin denominations, find the minimum number of coins needed to make a target amount. Classic DP with optimal substructure.",
+  "aim": "Find fewest coins to make amount using dp[i] = minimum coins for amount i, built bottom-up from 0 to target.",
+  "howItWorks": [
+    "Initialize dp[0]=0, dp[1..amount]=∞",
+    "For each amount from 1 to target:",
+    "  Try every coin denomination c",
+    "  If c ≤ current amount and dp[amount-c]+1 < dp[amount]: update",
+    "Return dp[amount] — or -1 if no solution"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(amount × coins)",
+      "bestCase": "Always iterates over all amounts and coins",
+      "average": "O(amount × coins)",
+      "averageCase": "Pseudo-polynomial time",
+      "worst": "O(amount × coins)",
+      "worstCase": "No pruning possible"
+    },
+    "space": "O(amount)",
+    "spaceDescription": "1D dp array of size amount+1",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "ATM cash dispensing — minimum bills",
+      "Vending machine change",
+      "Currency exchange — minimum note combinations",
+      "Telecommunications — minimum packet sizes"
+    ],
+    "whenToUse": [
+      "Coin denominations have arbitrary values (greedy fails)",
+      "Need minimum count, not just any combination",
+      "Integer denominations with bounded amount"
+    ],
+    "alternatives": [
+      "Greedy — only works for canonical coin systems (US/EU denominations)",
+      "BFS — equivalent for small amounts",
+      "Recursion with memoization — top-down equivalent"
+    ]
+  }
+}

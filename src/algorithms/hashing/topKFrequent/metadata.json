@@ -1,0 +1,45 @@
+{
+  "name": "Top K Frequent Elements",
+  "type": "array",
+  "description": "Finds the k most frequently occurring elements using a frequency map and bucket sort or min-heap.",
+  "aim": "Count element frequencies, then extract k elements with highest counts using a min-heap of size k or bucket sort.",
+  "howItWorks": [
+    "Count frequencies using hash map",
+    "Use min-heap of size k: push elements, pop when size>k",
+    "Or use bucket sort: bucket[freq] stores elements with that frequency",
+    "Collect top k from buckets"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log k)",
+      "bestCase": "Heap approach: O(n) count + O(n log k) heap",
+      "average": "O(n log k)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "k=n: full sort equivalent"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Frequency map of n entries",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Top search terms",
+      "Most popular products",
+      "Trending hashtags",
+      "Log analysis — most common errors"
+    ],
+    "whenToUse": [
+      "Find top-k by frequency",
+      "When k << n"
+    ],
+    "alternatives": [
+      "Sort by frequency — O(n log n) simpler",
+      "Quick Select — O(n) average"
+    ]
+  },
+  "id": "topKFrequent",
+  "category": "hashing",
+  "implemented": true
+}

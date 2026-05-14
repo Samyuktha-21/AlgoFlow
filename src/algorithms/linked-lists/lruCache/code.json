@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class LRUCache {\n    int cap;\n    LinkedHashMap<Integer,Integer> cache;\n    LRUCache(int capacity) {\n        this.cap = capacity;\n        cache = new LinkedHashMap<>(capacity, 0.75f, true) {\n            protected boolean removeEldestEntry(Map.Entry e) { return size() > cap; }\n        };\n    }\n    public int get(int key) { return cache.getOrDefault(key, -1); }\n    public void put(int key, int value) { cache.put(key, value); }\n    public static void main(String[] args) {\n        LRUCache c = new LRUCache(2);\n        c.put(1,1); c.put(2,2); System.out.println(c.get(1));\n        c.put(3,3); System.out.println(c.get(2)); // -1 evicted\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n// Simplified LRU with array (educational)\n#define CAP 3\nint keys[CAP],vals[CAP],order[CAP],ord=0,n=0;\nvoid put(int k,int v){for(int i=0;i<n;i++)if(keys[i]==k){vals[i]=v;order[i]=ord++;return;}if(n<CAP){keys[n]=k;vals[n]=v;order[n]=ord++;n++;}else{int mn=0;for(int i=1;i<n;i++)if(order[i]<order[mn])mn=i;keys[mn]=k;vals[mn]=v;order[mn]=ord++;}}\nint get(int k){for(int i=0;i<n;i++)if(keys[i]==k){order[i]=ord++;return vals[i];}return -1;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache{int cap;list<pair<int,int>>lst;unordered_map<int,list<pair<int,int>>::iterator>mp;\nLRUCache(int c):cap(c){}\nint get(int k){if(!mp.count(k))return-1;lst.splice(lst.begin(),lst,mp[k]);return mp[k]->second;}\nvoid put(int k,int v){if(mp.count(k)){lst.splice(lst.begin(),lst,mp[k]);mp[k]->second=v;return;}if((int)lst.size()==cap){mp.erase(lst.back().first);lst.pop_back();}lst.push_front({k,v});mp[k]=lst.begin();}};",
+    "lineKeys": {}
+  }
+}

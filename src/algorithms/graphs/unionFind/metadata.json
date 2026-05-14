@@ -1,0 +1,49 @@
+{
+  "id": "unionFind",
+  "name": "Union-Find (DSU)",
+  "category": "graphs",
+  "type": "graph",
+  "implemented": true,
+  "description": "Disjoint Set Union data structure supporting near-constant-time union and find operations using path compression and union by rank.",
+  "aim": "Maintain a partition of elements into disjoint sets, supporting efficient union (merge two sets) and find (which set contains an element) operations.",
+  "howItWorks": [
+    "Initialize each element as its own set (parent[i]=i, rank[i]=0)",
+    "Find(x): follow parent pointers to root; apply path compression (parent[x]=root)",
+    "Union(x,y): find roots of x and y; attach shorter tree under taller (rank)",
+    "Path compression makes future finds faster",
+    "Union by rank keeps tree shallow — O(log n) depth"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Find on already-compressed path",
+      "average": "O(α(n))",
+      "averageCase": "α is inverse Ackermann — effectively O(1)",
+      "worst": "O(log n)",
+      "worstCase": "Without path compression"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Parent and rank arrays — one entry per element",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Kruskal's MST algorithm — detect cycle before adding edge",
+      "Connected components in dynamic graphs",
+      "Network connectivity — are two nodes connected?",
+      "Image segmentation — group similar pixels"
+    ],
+    "whenToUse": [
+      "Dynamic connectivity queries",
+      "Minimum spanning tree with Kruskal",
+      "Detecting cycles in undirected graphs",
+      "Grouping elements into disjoint sets"
+    ],
+    "alternatives": [
+      "BFS/DFS — static connectivity, O(V+E)",
+      "Spanning tree algorithms — for specific MST problems",
+      "Link-cut trees — for dynamic graphs with deletions"
+    ]
+  }
+}

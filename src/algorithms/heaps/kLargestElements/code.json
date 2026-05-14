@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.PriorityQueue;\npublic class KLargest {\n    public int[] kLargest(int[] arr, int k) {\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (int num : arr) {\n            minHeap.offer(num);\n            if (minHeap.size() > k) minHeap.poll();\n        }\n        int[] result = new int[k];\n        for (int i = k-1; i >= 0; i--) result[i] = minHeap.poll();\n        return result;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n// Simple O(n*k) approach for clarity\nvoid kLargest(int a[],int n,int k){for(int i=0;i<k;i++){int mx=i;for(int j=i+1;j<n;j++)if(a[j]>a[mx])mx=j;int t=a[i];a[i]=a[mx];a[mx]=t;printf(\"%d \",a[i]);}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> kLargest(vector<int>&a,int k){priority_queue<int,vector<int>,greater<int>>h;\nfor(int x:a){h.push(x);if((int)h.size()>k)h.pop();}\nvector<int>r;while(!h.empty()){r.push_back(h.top());h.pop();}return r;}",
+    "lineKeys": {}
+  }
+}

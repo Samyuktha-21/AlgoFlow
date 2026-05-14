@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class HashTable {\n    static final int SIZE = 11;\n    List<int[]>[] table = new ArrayList[SIZE];\n    HashTable() { for(int i=0;i<SIZE;i++) table[i]=new ArrayList<>(); }\n    int hash(int key) { return key % SIZE; }\n    void put(int key, int val) {\n        int idx = hash(key);\n        for (int[] kv : table[idx]) if (kv[0] == key) { kv[1] = val; return; }\n        table[idx].add(new int[]{key, val});\n    }\n    Integer get(int key) {\n        for (int[] kv : table[hash(key)]) if (kv[0] == key) return kv[1];\n        return null;\n    }\n    boolean remove(int key) {\n        List<int[]> bucket = table[hash(key)];\n        return bucket.removeIf(kv -> kv[0] == key);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define SIZE 11\ntypedef struct Node{int key,val;struct Node* next;}Node;\nNode* table[SIZE]={0};\nint hash(int k){return k%SIZE;}\nvoid put(int k,int v){int i=hash(k);for(Node* n=table[i];n;n=n->next)if(n->key==k){n->val=v;return;}\nNode* n=(Node*)malloc(sizeof(Node));n->key=k;n->val=v;n->next=table[i];table[i]=n;}\nint get(int k){for(Node* n=table[hash(k)];n;n=n->next)if(n->key==k)return n->val;return -1;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <list>\n#include <vector>\nusing namespace std;\nclass HashTable{int sz;vector<list<pair<int,int>>>t;int h(int k){return abs(k)%sz;}\npublic:HashTable(int s=11):sz(s),t(s){}\nvoid put(int k,int v){auto&b=t[h(k)];for(auto&p:b)if(p.first==k){p.second=v;return;}b.push_back({k,v});}\nint get(int k){for(auto&p:t[h(k)])if(p.first==k)return p.second;return -1;}};",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "nQueens",
+  "name": "N-Queens Problem",
+  "category": "backtracking",
+  "type": "backtracking",
+  "implemented": true,
+  "description": "Place N queens on an N×N chessboard so no two queens threaten each other (no two in same row, column, or diagonal). Classic backtracking problem.",
+  "aim": "Find all valid arrangements of N non-attacking queens on an N×N board by placing queens row by row and backtracking when a conflict is detected.",
+  "howItWorks": [
+    "Try placing a queen in each column of the current row",
+    "Check if placement is safe (no row, column, diagonal conflict)",
+    "If safe: place queen, recurse to next row",
+    "If next row succeeds: record solution",
+    "If no safe column: backtrack — remove queen, try next column",
+    "Continue until all rows filled (solution found) or all options exhausted"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(N!)",
+      "bestCase": "Must explore all possibilities — no shortcut",
+      "average": "O(N!)",
+      "averageCase": "Pruning reduces constant factor but still factorial",
+      "worst": "O(N!)",
+      "worstCase": "Explores all N! permutations in worst case"
+    },
+    "space": "O(N)",
+    "spaceDescription": "Recursion depth N + queens array of size N",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Constraint satisfaction problems — placement with no-conflict rules",
+      "Circuit board component placement",
+      "Exam scheduling — no conflicts in same room/time",
+      "Parallel processing — independent task assignment"
+    ],
+    "whenToUse": [
+      "Constraint satisfaction with backtracking",
+      "When solution space is finite and must be searched exhaustively",
+      "Problems reducible to placing non-attacking elements"
+    ],
+    "alternatives": [
+      "Dancing Links (DLX) — Knuth's exact cover, faster in practice",
+      "Arc consistency — constraint propagation for CSPs",
+      "Genetic algorithms — for very large N where exact solution impractical"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class CycleDetection {\n    boolean hasCycle(int[][] adj, int V) {\n        boolean[] visited = new boolean[V];\n        boolean[] recStack = new boolean[V];\n        for (int i = 0; i < V; i++)\n            if (!visited[i] && dfs(adj, i, visited, recStack)) return true;\n        return false;\n    }\n    boolean dfs(int[][] adj, int v, boolean[] vis, boolean[] rec) {\n        vis[v] = true; rec[v] = true;\n        for (int u : adj[v]) {\n            if (!vis[u] && dfs(adj, u, vis, rec)) return true;\n            else if (rec[u]) return true; // back edge = cycle\n        }\n        rec[v] = false;\n        return false;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define V 5\nbool adj[V][V],vis[V],rec[V];\nbool dfs(int v){vis[v]=rec[v]=true;for(int u=0;u<V;u++)if(adj[v][u]){if(!vis[u]&&dfs(u))return true;if(rec[u])return true;}rec[v]=false;return false;}\nbool hasCycle(){for(int i=0;i<V;i++)if(!vis[i]&&dfs(i))return true;return false;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\nusing namespace std;\nbool dfs(int v,vector<vector<int>>&adj,vector<bool>&vis,vector<bool>&rec){\nvis[v]=rec[v]=true;for(int u:adj[v]){if(!vis[u]&&dfs(u,adj,vis,rec))return true;if(rec[u])return true;}rec[v]=false;return false;}\nbool hasCycle(vector<vector<int>>&adj){int V=adj.size();vector<bool>vis(V),rec(V);for(int i=0;i<V;i++)if(!vis[i]&&dfs(i,adj,vis,rec))return true;return false;}",
+    "lineKeys": {}
+  }
+}

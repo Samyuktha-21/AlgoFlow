@@ -1,0 +1,43 @@
+{
+  "name": "Circular Queue",
+  "type": "stack",
+  "description": "A queue implemented as a fixed-size circular buffer where the rear wraps around to the front using modulo arithmetic.",
+  "aim": "Implement efficient O(1) enqueue/dequeue in a fixed array by treating it as circular: index = (index + 1) % capacity.",
+  "howItWorks": [
+    "Maintain front, rear, and size pointers",
+    "Enqueue: arr[rear] = val; rear = (rear+1)%cap; size++",
+    "Dequeue: val = arr[front]; front = (front+1)%cap; size--",
+    "Full: size == capacity; Empty: size == 0"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All operations O(1)",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(1)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Fixed array of size n",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "CPU scheduling round-robin",
+      "Network packet buffers",
+      "Audio/video streaming buffers"
+    ],
+    "whenToUse": [
+      "Fixed-size FIFO with wraparound",
+      "Bounded buffer producer-consumer"
+    ],
+    "alternatives": [
+      "Linked list queue — dynamic size but pointer overhead"
+    ]
+  },
+  "id": "circularQueue",
+  "category": "stacks-queues",
+  "implemented": true
+}

@@ -1,0 +1,46 @@
+{
+  "id": "exponentialSearch",
+  "name": "Exponential Search",
+  "category": "searching",
+  "type": "searching",
+  "implemented": true,
+  "description": "Finds the range where the target lies by doubling the index (1,2,4,8,16…), then performs binary search in that range. Especially efficient when target is near the beginning.",
+  "aim": "Search by first finding a range [2^(k-1), 2^k] containing the target through exponential jumps, then applying binary search within that range.",
+  "howItWorks": [
+    "Start with index i=1",
+    "Double i while arr[i] < target and i < n",
+    "Apply binary search in range [i/2, min(i, n-1)]",
+    "Return index if found, -1 otherwise"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Target found in first block",
+      "average": "O(log n)",
+      "averageCase": "Doubles range until target found, then binary search",
+      "worst": "O(log n)",
+      "worstCase": "Same as binary search once range is found"
+    },
+    "space": "O(1)",
+    "spaceDescription": "No extra space beyond index variables",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Searching unbounded/infinite arrays",
+      "Searching very large sorted datasets where target may be near start",
+      "Used in certain string matching algorithms"
+    ],
+    "whenToUse": [
+      "Sorted array where target is near the beginning",
+      "Unbounded arrays (unknown size)",
+      "When binary search would start with too large a range"
+    ],
+    "alternatives": [
+      "Binary Search — simpler when size is known",
+      "Jump Search — similar but fixed step size √n",
+      "Interpolation Search — better for uniform distributions"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Aho-Corasick",
+  "type": "array",
+  "description": "Multi-pattern string matching using a finite automaton built from a trie",
+  "aim": "Efficiently solve aho-corasick related problems.",
+  "howItWorks": [
+    "See code implementation for detailed steps"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on variant",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional space",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Aho-Corasick is used in text processing",
+      "compiler design",
+      "and algorithm research"
+    ],
+    "whenToUse": [
+      "When aho-corasick capabilities are needed"
+    ],
+    "alternatives": [
+      "Simpler alternatives exist for specific use cases"
+    ]
+  },
+  "id": "ahoCorasick",
+  "category": "advanced",
+  "implemented": true
+}

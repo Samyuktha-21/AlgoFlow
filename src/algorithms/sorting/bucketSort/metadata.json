@@ -1,0 +1,47 @@
+{
+  "id": "bucketSort",
+  "name": "Bucket Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Distributes elements into numbered buckets, sorts each bucket (with insertion sort), then concatenates. Excellent average-case performance for uniformly distributed data.",
+  "aim": "Sort by distributing elements into buckets based on value range, sort each bucket individually, then concatenate all buckets in order.",
+  "howItWorks": [
+    "Determine bucket count and range",
+    "Distribute each element into its bucket",
+    "Sort each bucket (typically with insertion sort)",
+    "Concatenate all buckets in order",
+    "Result is a sorted array"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n + k)",
+      "bestCase": "Uniform distribution — elements spread evenly across buckets",
+      "average": "O(n + k)",
+      "averageCase": "k = number of buckets, n elements processed linearly",
+      "worst": "O(n²)",
+      "worstCase": "All elements fall into same bucket — degenerates to insertion sort"
+    },
+    "space": "O(n + k)",
+    "spaceDescription": "Storage for n elements and k bucket lists",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Sorting floating-point numbers in [0, 1)",
+      "Processing sensor data with known uniform distribution",
+      "Sorting exam scores (0-100) using 10 buckets"
+    ],
+    "whenToUse": [
+      "Input uniformly distributed over a known range",
+      "Floating-point numbers in [0, 1)",
+      "Can afford O(n + k) extra space"
+    ],
+    "alternatives": [
+      "Counting Sort — simpler for integers in small range",
+      "Radix Sort — better for integers with many distinct values",
+      "Comparison sorts — when distribution is unknown or skewed"
+    ]
+  }
+}

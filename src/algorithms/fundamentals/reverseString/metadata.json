@@ -1,0 +1,45 @@
+{
+  "name": "Reverse String",
+  "type": "array",
+  "description": "Reverses a string in-place using two pointers. Swap characters from both ends moving toward the center.",
+  "aim": "Reverse a string without extra allocation by swapping arr[left] and arr[right] while converging from both ends.",
+  "howItWorks": [
+    "Set left=0, right=n-1",
+    "While left < right: swap arr[left] and arr[right]",
+    "Advance left++, right--",
+    "When they meet/cross: string is reversed"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must swap n/2 pairs",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointer variables — in-place swap",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "String manipulation in compilers",
+      "Palindrome checking preprocessing",
+      "Data serialization reversal",
+      "In-place text processing"
+    ],
+    "whenToUse": [
+      "Reverse array/string in O(1) space",
+      "Foundation for many string algorithms"
+    ],
+    "alternatives": [
+      "Stack-based reversal — O(n) space but same O(n) time",
+      "Built-in reverse functions in high-level languages"
+    ]
+  },
+  "id": "reverseString",
+  "category": "fundamentals",
+  "implemented": true
+}

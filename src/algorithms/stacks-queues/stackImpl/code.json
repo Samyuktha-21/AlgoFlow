@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Stack {\n    int[] arr;\n    int top = -1;\n    Stack(int capacity) { arr = new int[capacity]; }\n    void push(int val) {\n        if (top == arr.length - 1) throw new RuntimeException(\"Stack overflow\");\n        arr[++top] = val;\n    }\n    int pop() {\n        if (top == -1) throw new RuntimeException(\"Stack underflow\");\n        return arr[top--];\n    }\n    int peek() { return arr[top]; }\n    boolean isEmpty() { return top == -1; }\n    public static void main(String[] args) {\n        Stack s = new Stack(10);\n        s.push(1); s.push(2); s.push(3);\n        System.out.println(s.pop()); // 3\n        System.out.println(s.peek()); // 2\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint arr[100],top=-1;\nvoid push(int v){arr[++top]=v;}\nint pop(){return arr[top--];}\nint peek(){return arr[top];}\nint isEmpty(){return top==-1;}\nint main(){push(1);push(2);push(3);printf(\"%d %d\\n\",pop(),peek());return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <stack>\n#include <iostream>\nusing namespace std;\nint main(){stack<int>s;s.push(1);s.push(2);s.push(3);cout<<s.top()<<\" \";s.pop();cout<<s.top()<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

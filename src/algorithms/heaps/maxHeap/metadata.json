@@ -1,0 +1,48 @@
+{
+  "id": "maxHeap",
+  "name": "Build Max Heap",
+  "category": "heaps",
+  "type": "heap",
+  "implemented": true,
+  "description": "Builds a max-heap from an unsorted array in O(n) time using the bottom-up heapification approach. Root is always the maximum element.",
+  "aim": "Rearrange array into a max-heap where every parent node is greater than or equal to its children, enabling O(log n) extract-max operations.",
+  "howItWorks": [
+    "Start from last non-leaf node: index n/2-1",
+    "Apply heapify-down for each node from n/2-1 down to 0",
+    "Heapify-down: compare node with children, swap with largest child if smaller",
+    "Recursively heapify down the swapped subtree",
+    "After all nodes processed, array satisfies max-heap property"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Build heap is O(n) — tight analysis, not O(n log n)",
+      "average": "O(n)",
+      "averageCase": "Geometric series sum gives O(n)",
+      "worst": "O(n)",
+      "worstCase": "O(n) for any input — not O(n log n) as might be expected"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place — no extra array needed, just recursive stack O(log n)",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Heap Sort — foundation algorithm",
+      "Priority queues in Dijkstra, Prim, and other algorithms",
+      "Finding K largest elements efficiently",
+      "Real-time scheduling — always access highest priority task"
+    ],
+    "whenToUse": [
+      "Need O(log n) insert and O(log n) extract-max",
+      "Priority queue implementation",
+      "K largest/smallest elements from a stream"
+    ],
+    "alternatives": [
+      "Sorted array — O(n log n) build, O(1) max, O(n) insert",
+      "BST — O(log n) all ops but more complex",
+      "Fibonacci heap — better amortized for Dijkstra"
+    ]
+  }
+}

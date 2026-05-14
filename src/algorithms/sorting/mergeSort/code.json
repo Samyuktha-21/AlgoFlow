@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class MergeSort {\n    public void sort(int[] arr, int left, int right) {\n        if (left < right) {\n            int mid = left + (right - left) / 2;\n            sort(arr, left, mid);\n            sort(arr, mid + 1, right);\n            merge(arr, left, mid, right);\n        }\n    }\n    void merge(int[] arr, int left, int mid, int right) {\n        int n1 = mid - left + 1, n2 = right - mid;\n        int[] L = new int[n1], R = new int[n2];\n        for (int i = 0; i < n1; i++) L[i] = arr[left + i];\n        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];\n        int i = 0, j = 0, k = left;\n        while (i < n1 && j < n2)\n            arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];\n        while (i < n1) arr[k++] = L[i++];\n        while (j < n2) arr[k++] = R[j++];\n    }\n    public static void main(String[] args) {\n        int[] arr = {38, 27, 43, 3, 9, 82, 10};\n        MergeSort ms = new MergeSort();\n        ms.sort(arr, 0, arr.length - 1);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid merge(int arr[], int l, int m, int r) {\n    int n1=m-l+1, n2=r-m, L[n1], R[n2];\n    for(int i=0;i<n1;i++) L[i]=arr[l+i];\n    for(int j=0;j<n2;j++) R[j]=arr[m+1+j];\n    int i=0,j=0,k=l;\n    while(i<n1&&j<n2) arr[k++]=(L[i]<=R[j])?L[i++]:R[j++];\n    while(i<n1) arr[k++]=L[i++];\n    while(j<n2) arr[k++]=R[j++];\n}\nvoid mergeSort(int arr[], int l, int r) {\n    if(l<r){int m=l+(r-l)/2;mergeSort(arr,l,m);mergeSort(arr,m+1,r);merge(arr,l,m,r);}\n}\nint main(){int arr[]={38,27,43,3,9,82,10};mergeSort(arr,0,6);for(int i=0;i<7;i++)printf(\"%d \",arr[i]);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid merge(vector<int>& arr, int l, int m, int r) {\n    vector<int> L(arr.begin()+l, arr.begin()+m+1), R(arr.begin()+m+1, arr.begin()+r+1);\n    int i=0,j=0,k=l;\n    while(i<(int)L.size()&&j<(int)R.size()) arr[k++]=(L[i]<=R[j])?L[i++]:R[j++];\n    while(i<(int)L.size()) arr[k++]=L[i++];\n    while(j<(int)R.size()) arr[k++]=R[j++];\n}\nvoid mergeSort(vector<int>& arr, int l, int r) {\n    if(l<r){int m=l+(r-l)/2;mergeSort(arr,l,m);mergeSort(arr,m+1,r);merge(arr,l,m,r);}\n}\nint main(){vector<int> arr={38,27,43,3,9,82,10};mergeSort(arr,0,6);for(int v:arr)cout<<v<<\" \";return 0;}",
+    "lineKeys": {}
+  }
+}

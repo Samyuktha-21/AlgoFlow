@@ -1,0 +1,50 @@
+{
+  "id": "topologicalSort",
+  "name": "Topological Sort (Kahn's)",
+  "category": "graphs",
+  "type": "graph",
+  "implemented": true,
+  "description": "Orders vertices of a directed acyclic graph (DAG) so every directed edge u→v has u before v. Uses Kahn's BFS-based algorithm with in-degree tracking.",
+  "aim": "Produce a linear ordering of vertices in a DAG such that for every directed edge (u,v), vertex u comes before v. Detect cycles as a side effect.",
+  "howItWorks": [
+    "Compute in-degree of every vertex",
+    "Enqueue all vertices with in-degree 0",
+    "Dequeue vertex, add to result",
+    "Decrease in-degree of all neighbors",
+    "Enqueue neighbors whose in-degree becomes 0",
+    "If result has fewer than V vertices, graph has a cycle"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(V+E)",
+      "bestCase": "Process every vertex and edge once",
+      "average": "O(V+E)",
+      "averageCase": "BFS visits all vertices and edges",
+      "worst": "O(V+E)",
+      "worstCase": "Complete DAG still O(V+E)"
+    },
+    "space": "O(V)",
+    "spaceDescription": "In-degree array + queue hold O(V) elements",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Build systems — compile order of source files",
+      "Package managers — install dependency order",
+      "Task scheduling — prerequisite ordering",
+      "Course prerequisite validation"
+    ],
+    "whenToUse": [
+      "Scheduling with prerequisites",
+      "Dependency resolution",
+      "Detecting cycles in directed graphs",
+      "Compiling programs with inter-module dependencies"
+    ],
+    "alternatives": [
+      "DFS-based topological sort — same complexity, different traversal",
+      "Kahns can detect cycles; DFS uses recursion stack",
+      "If cycle present, neither works — use SCC first"
+    ]
+  }
+}

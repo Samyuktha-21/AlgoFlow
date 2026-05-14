@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Arrays;\npublic class FractionalKnapsack {\n    static class Item { int weight, value; double ratio; Item(int w,int v){weight=w;value=v;ratio=(double)v/w;} }\n    public double maxValue(int W, int[] wt, int[] val) {\n        Item[] items = new Item[wt.length];\n        for (int i = 0; i < wt.length; i++) items[i] = new Item(wt[i], val[i]);\n        Arrays.sort(items, (a,b) -> Double.compare(b.ratio, a.ratio));\n        double total = 0;\n        for (Item item : items) {\n            if (W >= item.weight) { total += item.value; W -= item.weight; }\n            else { total += item.ratio * W; break; }\n        }\n        return total;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int w,v;double r;}Item;\nint cmp(const void*a,const void*b){return ((Item*)b)->r>((Item*)a)->r?1:-1;}\ndouble fracKnapsack(int W,int wt[],int v[],int n){Item it[n];for(int i=0;i<n;i++){it[i].w=wt[i];it[i].v=v[i];it[i].r=(double)v[i]/wt[i];}\nqsort(it,n,sizeof(Item),cmp);double tot=0;for(int i=0;i<n&&W>0;i++){if(W>=it[i].w){tot+=it[i].v;W-=it[i].w;}else{tot+=it[i].r*W;W=0;}}return tot;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\ndouble fracKnapsack(int W,vector<int>&wt,vector<int>&v){int n=wt.size();\nvector<pair<double,int>>items;for(int i=0;i<n;i++)items.push_back({(double)v[i]/wt[i],i});\nsort(items.rbegin(),items.rend());double tot=0;\nfor(auto[r,i]:items){if(W>=wt[i]){tot+=v[i];W-=wt[i];}else{tot+=r*W;break;}}return tot;}",
+    "lineKeys": {}
+  }
+}

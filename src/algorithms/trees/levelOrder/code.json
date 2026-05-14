@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class LevelOrder {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        List<List<Integer>> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int size = queue.size();\n            List<Integer> level = new ArrayList<>();\n            for (int i = 0; i < size; i++) {\n                TreeNode node = queue.poll();\n                level.add(node.val);\n                if (node.left  != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(level);\n        }\n        return result;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int val;struct Node*l,*r;}Node;\n// BFS using array as queue\nvoid levelOrder(Node* root){if(!root)return;Node*q[100];int fr=0,re=0;q[re++]=root;\nwhile(fr<re){Node*n=q[fr++];printf(\"%d \",n->val);if(n->l)q[re++]=n->l;if(n->r)q[re++]=n->r;}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <queue>\nusing namespace std;\nstruct Node{int val;Node*l,*r;Node(int v):val(v),l(nullptr),r(nullptr){}};\nvoid levelOrder(Node* root){if(!root)return;queue<Node*>q;q.push(root);\nwhile(!q.empty()){Node*n=q.front();q.pop();cout<<n->val<<\" \";if(n->l)q.push(n->l);if(n->r)q.push(n->r);}}",
+    "lineKeys": {}
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "Lowest Common Ancestor (LCA)",
+  "type": "tree",
+  "description": "Finds the deepest node that is an ancestor of both given nodes. Classic recursive solution checks if target nodes are in left/right subtrees.",
+  "aim": "Find the LCA of two nodes p and q: the deepest node that has both p and q as descendants (a node is a descendant of itself).",
+  "howItWorks": [
+    "If root is null or equals p or q: return root",
+    "Recursively search left subtree",
+    "Recursively search right subtree",
+    "If both sides return non-null: current node is LCA",
+    "If only one side returns: propagate that result up"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Must potentially search all nodes",
+      "average": "O(n)",
+      "averageCase": "Each node visited once",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(h)",
+    "spaceDescription": "Recursion stack = tree height h",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Version control: find common ancestor of two commits",
+      "Taxonomy: closest common ancestor in classification tree",
+      "Network routing: find common router"
+    ],
+    "whenToUse": [
+      "Finding relationship between two nodes in any tree",
+      "Graph problems reducible to tree LCA"
+    ],
+    "alternatives": [
+      "Binary lifting — O(log n) per query after O(n log n) preprocessing",
+      "Euler tour + RMQ — O(1) per query after O(n) preprocessing"
+    ]
+  },
+  "id": "lca",
+  "category": "trees",
+  "implemented": true
+}

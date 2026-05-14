@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Traveling Salesman (DP) - see algorithm textbooks for complete implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Traveling Salesman (DP) C implementation",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Traveling Salesman (DP) C++ implementation",
+    "lineKeys": {}
+  }
+}

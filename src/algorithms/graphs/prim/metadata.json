@@ -1,0 +1,41 @@
+{
+  "name": "Prim's MST",
+  "type": "graph",
+  "description": "Grows MST from a start vertex by always adding the minimum weight edge connecting tree to non-tree vertex",
+  "aim": "Efficiently solve Prim's MST problems on graph inputs.",
+  "howItWorks": [
+    "Initialize graph structure",
+    "Apply Prim's MST algorithm steps",
+    "Track visited nodes and optimal paths"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "Depends on graph density",
+      "average": "O((V+E) log V)",
+      "averageCase": "With priority queue",
+      "worst": "O(V²)",
+      "worstCase": "Dense graphs without priority queue"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Prim's MST used in network routing",
+      "GPS navigation",
+      "Operations research"
+    ],
+    "whenToUse": [
+      "When Prim's MST properties needed"
+    ],
+    "alternatives": [
+      "Other graph algorithms depending on constraints"
+    ]
+  },
+  "id": "prim",
+  "category": "graphs",
+  "implemented": true
+}

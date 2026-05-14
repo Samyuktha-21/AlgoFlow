@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class Permutations {\n    List<List<Integer>> result = new ArrayList<>();\n    public List<List<Integer>> permute(int[] nums) {\n        backtrack(nums, new ArrayList<>(), new boolean[nums.length]);\n        return result;\n    }\n    void backtrack(int[] nums, List<Integer> current, boolean[] used) {\n        if (current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }\n        for (int i = 0; i < nums.length; i++) {\n            if (!used[i]) {\n                used[i] = true; current.add(nums[i]);\n                backtrack(nums, current, used);\n                used[i] = false; current.remove(current.size()-1); // backtrack\n            }\n        }\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint a[10],used[10],n,path[10],pi=0;\nvoid permute(int depth){if(depth==n){for(int i=0;i<n;i++)printf(\"%d \",path[i]);printf(\"\\n\");return;}\nfor(int i=0;i<n;i++)if(!used[i]){used[i]=1;path[pi++]=a[i];permute(depth+1);used[i]=0;pi--;}}\nint main(){a[0]=1;a[1]=2;a[2]=3;n=3;permute(0);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid permute(vector<int>&nums,vector<int>&cur,vector<bool>&used,vector<vector<int>>&res){\nif(cur.size()==nums.size()){res.push_back(cur);return;}\nfor(int i=0;i<(int)nums.size();i++)if(!used[i]){used[i]=true;cur.push_back(nums[i]);permute(nums,cur,used,res);used[i]=false;cur.pop_back();}}",
+    "lineKeys": {}
+  }
+}

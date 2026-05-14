@@ -1,0 +1,46 @@
+{
+  "name": "Prefix Sum Array",
+  "type": "array",
+  "description": "Builds a prefix sum array where prefix[i] = sum of arr[0..i]. Enables O(1) range sum queries after O(n) preprocessing.",
+  "aim": "Precompute cumulative sums so any range [l,r] sum can be answered in O(1): rangeSum = prefix[r] - prefix[l-1].",
+  "howItWorks": [
+    "prefix[0] = arr[0]",
+    "prefix[i] = prefix[i-1] + arr[i] for i from 1 to n-1",
+    "Range sum [l,r] = prefix[r] - (l>0 ? prefix[l-1] : 0)",
+    "Build once, answer any range query in O(1)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Build phase always O(n)",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Prefix sum array of same size as input",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Range sum queries in databases",
+      "Sliding window maximum/minimum",
+      "2D prefix sum for image processing",
+      "Equilibrium index finding"
+    ],
+    "whenToUse": [
+      "Multiple range sum queries on same array",
+      "Subarray sum problems",
+      "When building O(n) for O(1) queries is worthwhile"
+    ],
+    "alternatives": [
+      "Segment tree — O(log n) build+query, handles updates",
+      "Fenwick tree — O(log n) updates + queries"
+    ]
+  },
+  "id": "prefixSum",
+  "category": "arrays",
+  "implemented": true
+}

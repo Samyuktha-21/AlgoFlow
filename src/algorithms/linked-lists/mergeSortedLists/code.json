@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class MergeSortedLists {\n    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode(0), curr = dummy;\n        while (l1 != null && l2 != null) {\n            if (l1.val <= l2.val) { curr.next = l1; l1 = l1.next; }\n            else                  { curr.next = l2; l2 = l2.next; }\n            curr = curr.next;\n        }\n        curr.next = (l1 != null) ? l1 : l2;\n        return dummy.next;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next;}Node;\nNode* merge(Node*a,Node*b){Node d,*c=&d;d.next=NULL;while(a&&b){if(a->v<=b->v){c->next=a;a=a->next;}else{c->next=b;b=b->next;}c=c->next;}c->next=a?a:b;return d.next;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "using namespace std;\nstruct Node{int v;Node*next;Node(int x):v(x),next(nullptr){}};\nNode* merge(Node*a,Node*b){Node d(0);Node*c=&d;while(a&&b){if(a->v<=b->v){c->next=a;a=a->next;}else{c->next=b;b=b->next;}c=c->next;}c->next=a?a:b;return d.next;}",
+    "lineKeys": {}
+  }
+}

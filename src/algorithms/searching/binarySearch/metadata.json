@@ -1,0 +1,52 @@
+{
+  "id": "binarySearch",
+  "name": "Binary Search",
+  "category": "searching",
+  "type": "searching",
+  "description": "Efficient search algorithm that finds a target value in a sorted array by repeatedly halving the search space. Compares the target to the middle element and eliminates half the remaining elements each step.",
+  "aim": "To locate a target value in a sorted array in O(log n) time by repeatedly dividing the search interval in half, leveraging the sorted property to eliminate large portions of the array.",
+  "howItWorks": [
+    "Requires a sorted array as input",
+    "Set low = 0 and high = n-1 (the full array range)",
+    "Calculate mid = low + (high - low) / 2 to avoid integer overflow",
+    "If arr[mid] == target, return mid (found!)",
+    "If arr[mid] < target, search the right half: set low = mid + 1",
+    "If arr[mid] > target, search the left half: set high = mid - 1",
+    "Repeat until low > high (not found) or target is found"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Target is at the middle of the array on the first check",
+      "average": "O(log n)",
+      "averageCase": "Target is found after log₂(n) comparisons on average",
+      "worst": "O(log n)",
+      "worstCase": "Target is at the edge or not present — requires full halving"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Iterative version uses constant space — no recursion stack",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Dictionary lookups — searching through alphabetically sorted words",
+      "Database indexing — B-trees use binary search on sorted keys",
+      "Version control bisect — git bisect uses binary search to find bad commits",
+      "Game mechanics — finding optimal difficulty settings or balance points",
+      "Network routing — finding IP address ranges in routing tables"
+    ],
+    "whenToUse": [
+      "Data is sorted (or can be sorted once and searched many times)",
+      "Random access to elements is available (arrays, not linked lists)",
+      "Need guaranteed O(log n) search time",
+      "Searching repeatedly in a static sorted dataset"
+    ],
+    "alternatives": [
+      "Use Linear Search for unsorted arrays or very small datasets — O(n) but no sorting required",
+      "Use Hash Maps for O(1) average lookup when exact match is needed",
+      "Use Interpolation Search for uniformly distributed data — can approach O(log log n)",
+      "Use a Trie for prefix-based string searching"
+    ]
+  }
+}

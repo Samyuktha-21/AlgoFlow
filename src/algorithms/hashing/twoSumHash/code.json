@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.HashMap;\npublic class TwoSumHash {\n    public int[] twoSum(int[] nums, int target) {\n        HashMap<Integer, Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (map.containsKey(complement)) return new int[]{map.get(complement), i};\n            map.put(nums[i], i);\n        }\n        return new int[]{-1, -1};\n    }\n    public static void main(String[] args) {\n        int[] result = new TwoSumHash().twoSum(new int[]{2,7,11,15}, 9);\n        System.out.println(result[0] + \", \" + result[1]); // 0, 1\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#define MOD 1007\nint ht[MOD],hv[MOD];\nint twoSum(int a[],int n,int t){for(int i=0;i<n;i++){int c=t-a[i];if(hv[((c%MOD)+MOD)%MOD]==c)printf(\"[%d,%d]\",ht[((c%MOD)+MOD)%MOD],i);int h=((a[i]%MOD)+MOD)%MOD;ht[h]=i;hv[h]=a[i];}return -1;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nvector<int> twoSum(vector<int>&a,int t){unordered_map<int,int>m;for(int i=0;i<(int)a.size();i++){int c=t-a[i];if(m.count(c))return{m[c],i};m[a[i]]=i;}return{-1,-1};}",
+    "lineKeys": {}
+  }
+}

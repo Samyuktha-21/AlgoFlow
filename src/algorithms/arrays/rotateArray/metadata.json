@@ -1,0 +1,45 @@
+{
+  "name": "Rotate Array",
+  "type": "array",
+  "description": "Rotates an array to the right by k positions in O(n) time and O(1) space using the three-reversal technique.",
+  "aim": "Rotate array right by k: reverse entire array, then reverse first k elements, then reverse remaining n-k elements.",
+  "howItWorks": [
+    "Normalize k = k mod n",
+    "Reverse entire array",
+    "Reverse first k elements",
+    "Reverse remaining n-k elements"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Three passes through array",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place with only index variables",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Circular buffer head pointer management",
+      "Image rotation by 90° (2D variant)",
+      "Round-robin scheduling rotation",
+      "String rotation detection"
+    ],
+    "whenToUse": [
+      "In-place rotation needed",
+      "O(1) extra space required"
+    ],
+    "alternatives": [
+      "Cyclic replacement — O(n) time O(1) space, different approach",
+      "Using extra array — O(n) time O(n) space, simpler code"
+    ]
+  },
+  "id": "rotateArray",
+  "category": "arrays",
+  "implemented": true
+}

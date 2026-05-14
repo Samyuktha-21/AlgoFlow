@@ -1,0 +1,49 @@
+{
+  "id": "nextGreaterElement",
+  "name": "Next Greater Element",
+  "category": "stacks-queues",
+  "type": "stack",
+  "implemented": true,
+  "description": "For each element in an array, find the next greater element (first element to its right that is greater). Uses a monotonic decreasing stack for O(n) solution.",
+  "aim": "Compute NGE[i] = nearest element to right of arr[i] that is greater than arr[i], or -1 if none exists, using a stack in O(n) time.",
+  "howItWorks": [
+    "Initialize empty stack, result array with -1s",
+    "For each element right to left (or left to right with stack):",
+    "  Pop elements from stack while top ≤ current element",
+    "  If stack non-empty: result[i] = stack top (NGE found)",
+    "  Push current element",
+    "Result array has NGE for each index"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Linear — each element pushed and popped at most once",
+      "average": "O(n)",
+      "averageCase": "Amortized O(n) — total operations = 2n",
+      "worst": "O(n)",
+      "worstCase": "Same — amortized analysis guarantees O(n)"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Stack holds at most n elements in worst case (decreasing array)",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Stock span problem — days until price higher than today",
+      "Histogram analysis — find wider bars",
+      "Next warmer day weather prediction",
+      "Building visibility problems"
+    ],
+    "whenToUse": [
+      "Find next greater/smaller element in O(n)",
+      "When brute force O(n²) is too slow",
+      "Monotonic stack pattern problems"
+    ],
+    "alternatives": [
+      "Brute force — O(n²), simple but slow",
+      "Binary search + sorted structure — O(n log n)",
+      "Segment tree — O(n log n) with range queries"
+    ]
+  }
+}

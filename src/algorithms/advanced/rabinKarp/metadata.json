@@ -1,0 +1,44 @@
+{
+  "name": "Rabin-Karp Algorithm",
+  "type": "array",
+  "description": "String searching algorithm using rolling hash to find pattern in text in O(n+m) average time.",
+  "aim": "Use polynomial rolling hash to quickly identify potential pattern matches, then verify with direct comparison.",
+  "howItWorks": [
+    "Compute hash of pattern",
+    "Compute rolling hash of text windows",
+    "Compare hashes O(1); verify character-by-character on match",
+    "Roll hash: remove leftmost char, add new rightmost char"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n+m)",
+      "bestCase": "No hash collisions",
+      "average": "O(n+m)",
+      "averageCase": "Expected linear with good hash",
+      "worst": "O(nm)",
+      "worstCase": "All positions are spurious hash collisions"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Only hash values needed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Plagiarism detection (multiple pattern search)",
+      "DNA sequence fingerprinting",
+      "File content deduplication"
+    ],
+    "whenToUse": [
+      "Multiple pattern search in same text",
+      "When preprocessing for many queries"
+    ],
+    "alternatives": [
+      "KMP — deterministic O(n+m)",
+      "Boyer-Moore — faster in practice for long patterns"
+    ]
+  },
+  "id": "rabinKarp",
+  "category": "advanced",
+  "implemented": true
+}

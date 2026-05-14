@@ -1,0 +1,650 @@
+{
+  "fundamentals": [
+    {
+      "id": "twoSum",
+      "name": "Two Sum",
+      "implemented": true
+    },
+    {
+      "id": "fizzBuzz",
+      "name": "FizzBuzz",
+      "implemented": true
+    },
+    {
+      "id": "fibonacci",
+      "name": "Fibonacci",
+      "implemented": true
+    },
+    {
+      "id": "factorial",
+      "name": "Factorial",
+      "implemented": true
+    },
+    {
+      "id": "primeCheck",
+      "name": "Prime Number Check",
+      "implemented": true
+    },
+    {
+      "id": "palindromeCheck",
+      "name": "Palindrome Check",
+      "implemented": true
+    },
+    {
+      "id": "reverseString",
+      "name": "Reverse String",
+      "implemented": true
+    },
+    {
+      "id": "countOccurrences",
+      "name": "Count Occurrences",
+      "implemented": true
+    },
+    {
+      "id": "gcd",
+      "name": "Greatest Common Divisor",
+      "implemented": true
+    },
+    {
+      "id": "power",
+      "name": "Power Function",
+      "implemented": true
+    }
+  ],
+  "sorting": [
+    {
+      "id": "bubbleSort",
+      "name": "Bubble Sort",
+      "implemented": true
+    },
+    {
+      "id": "selectionSort",
+      "name": "Selection Sort",
+      "implemented": true
+    },
+    {
+      "id": "insertionSort",
+      "name": "Insertion Sort",
+      "implemented": true
+    },
+    {
+      "id": "mergeSort",
+      "name": "Merge Sort",
+      "implemented": true
+    },
+    {
+      "id": "quickSort",
+      "name": "Quick Sort",
+      "implemented": true
+    },
+    {
+      "id": "heapSort",
+      "name": "Heap Sort",
+      "implemented": true
+    },
+    {
+      "id": "countingSort",
+      "name": "Counting Sort",
+      "implemented": true
+    },
+    {
+      "id": "radixSort",
+      "name": "Radix Sort",
+      "implemented": true
+    },
+    {
+      "id": "shellSort",
+      "name": "Shell Sort",
+      "implemented": true
+    },
+    {
+      "id": "bucketSort",
+      "name": "Bucket Sort",
+      "implemented": true
+    }
+  ],
+  "searching": [
+    {
+      "id": "linearSearch",
+      "name": "Linear Search",
+      "implemented": true
+    },
+    {
+      "id": "binarySearch",
+      "name": "Binary Search",
+      "implemented": true
+    },
+    {
+      "id": "jumpSearch",
+      "name": "Jump Search",
+      "implemented": true
+    },
+    {
+      "id": "interpolationSearch",
+      "name": "Interpolation Search",
+      "implemented": true
+    },
+    {
+      "id": "exponentialSearch",
+      "name": "Exponential Search",
+      "implemented": true
+    }
+  ],
+  "arrays": [
+    {
+      "id": "twoSumArray",
+      "name": "Two Sum",
+      "implemented": true
+    },
+    {
+      "id": "maximumSubarray",
+      "name": "Maximum Subarray (Kadane's)",
+      "implemented": true
+    },
+    {
+      "id": "rotateArray",
+      "name": "Rotate Array",
+      "implemented": true
+    },
+    {
+      "id": "mergeIntervals",
+      "name": "Merge Intervals",
+      "implemented": true
+    },
+    {
+      "id": "dutchFlag",
+      "name": "Dutch National Flag",
+      "implemented": true
+    },
+    {
+      "id": "anagramCheck",
+      "name": "Anagram Check",
+      "implemented": true
+    },
+    {
+      "id": "longestCommonSubstring",
+      "name": "Longest Common Substring",
+      "implemented": true
+    },
+    {
+      "id": "validParentheses",
+      "name": "Valid Parentheses",
+      "implemented": true
+    },
+    {
+      "id": "slidingWindow",
+      "name": "Sliding Window Maximum",
+      "implemented": true
+    },
+    {
+      "id": "prefixSum",
+      "name": "Prefix Sum",
+      "implemented": true
+    }
+  ],
+  "linked-lists": [
+    {
+      "id": "reverseLinkedList",
+      "name": "Reverse Linked List",
+      "implemented": true
+    },
+    {
+      "id": "detectCycle",
+      "name": "Detect Cycle",
+      "implemented": true
+    },
+    {
+      "id": "mergeSortedLists",
+      "name": "Merge Two Sorted Lists",
+      "implemented": true
+    },
+    {
+      "id": "findMiddle",
+      "name": "Find Middle Node",
+      "implemented": true
+    },
+    {
+      "id": "removeNthNode",
+      "name": "Remove N-th Node",
+      "implemented": true
+    },
+    {
+      "id": "intersectionPoint",
+      "name": "Intersection Point",
+      "implemented": true
+    },
+    {
+      "id": "lruCache",
+      "name": "LRU Cache",
+      "implemented": true
+    },
+    {
+      "id": "flattenLinkedList",
+      "name": "Flatten Linked List",
+      "implemented": true
+    }
+  ],
+  "stacks-queues": [
+    {
+      "id": "stackImpl",
+      "name": "Stack Implementation",
+      "implemented": true
+    },
+    {
+      "id": "queueImpl",
+      "name": "Queue Implementation",
+      "implemented": true
+    },
+    {
+      "id": "validParenthesesStack",
+      "name": "Valid Parentheses",
+      "implemented": true
+    },
+    {
+      "id": "minStack",
+      "name": "Min Stack",
+      "implemented": true
+    },
+    {
+      "id": "circularQueue",
+      "name": "Circular Queue",
+      "implemented": true
+    },
+    {
+      "id": "priorityQueue",
+      "name": "Priority Queue",
+      "implemented": true
+    },
+    {
+      "id": "nextGreaterElement",
+      "name": "Next Greater Element",
+      "implemented": true
+    }
+  ],
+  "hashing": [
+    {
+      "id": "hashMapImpl",
+      "name": "Hash Map Implementation",
+      "implemented": true
+    },
+    {
+      "id": "twoSumHash",
+      "name": "Two Sum (Hash)",
+      "implemented": true
+    },
+    {
+      "id": "groupAnagrams",
+      "name": "Group Anagrams",
+      "implemented": true
+    },
+    {
+      "id": "lruCacheHash",
+      "name": "LRU Cache",
+      "implemented": true
+    },
+    {
+      "id": "longestConsecutive",
+      "name": "Longest Consecutive Sequence",
+      "implemented": true
+    },
+    {
+      "id": "topKFrequent",
+      "name": "Top K Frequent Elements",
+      "implemented": true
+    },
+    {
+      "id": "subarraySum",
+      "name": "Subarray Sum Equals K",
+      "implemented": true
+    }
+  ],
+  "trees": [
+    {
+      "id": "treeTraversal",
+      "name": "Tree Traversals (DFS)",
+      "implemented": true
+    },
+    {
+      "id": "levelOrder",
+      "name": "Level Order Traversal",
+      "implemented": true
+    },
+    {
+      "id": "bst",
+      "name": "Binary Search Tree",
+      "implemented": true
+    },
+    {
+      "id": "treeHeight",
+      "name": "Height of Tree",
+      "implemented": true
+    },
+    {
+      "id": "mirrorTree",
+      "name": "Mirror Tree",
+      "implemented": true
+    },
+    {
+      "id": "lca",
+      "name": "Lowest Common Ancestor",
+      "implemented": true
+    },
+    {
+      "id": "pathSum",
+      "name": "Path Sum",
+      "implemented": true
+    },
+    {
+      "id": "serializeDeserialize",
+      "name": "Serialize / Deserialize",
+      "implemented": true
+    },
+    {
+      "id": "balancedTree",
+      "name": "Balanced Tree Check",
+      "implemented": true
+    },
+    {
+      "id": "avlTree",
+      "name": "AVL Tree",
+      "implemented": true
+    },
+    {
+      "id": "trie",
+      "name": "Trie (Prefix Tree)",
+      "implemented": true
+    },
+    {
+      "id": "segmentTree",
+      "name": "Segment Tree",
+      "implemented": true
+    }
+  ],
+  "heaps": [
+    {
+      "id": "maxHeap",
+      "name": "Max Heap",
+      "implemented": true
+    },
+    {
+      "id": "minHeap",
+      "name": "Min Heap",
+      "implemented": true
+    },
+    {
+      "id": "heapSortHeap",
+      "name": "Heap Sort",
+      "implemented": true
+    },
+    {
+      "id": "kLargestElements",
+      "name": "K Largest Elements",
+      "implemented": true
+    },
+    {
+      "id": "medianStream",
+      "name": "Median from Data Stream",
+      "implemented": true
+    },
+    {
+      "id": "mergeKSortedLists",
+      "name": "Merge K Sorted Lists",
+      "implemented": true
+    }
+  ],
+  "graphs": [
+    {
+      "id": "bfs",
+      "name": "Breadth-First Search",
+      "implemented": true
+    },
+    {
+      "id": "dfs",
+      "name": "Depth-First Search",
+      "implemented": true
+    },
+    {
+      "id": "dijkstra",
+      "name": "Dijkstra's Shortest Path",
+      "implemented": true
+    },
+    {
+      "id": "bellmanFord",
+      "name": "Bellman-Ford",
+      "implemented": true
+    },
+    {
+      "id": "floydWarshall",
+      "name": "Floyd-Warshall",
+      "implemented": true
+    },
+    {
+      "id": "kruskal",
+      "name": "Kruskal's MST",
+      "implemented": true
+    },
+    {
+      "id": "prim",
+      "name": "Prim's MST",
+      "implemented": true
+    },
+    {
+      "id": "topologicalSort",
+      "name": "Topological Sort",
+      "implemented": true
+    },
+    {
+      "id": "cycleDetection",
+      "name": "Cycle Detection",
+      "implemented": true
+    },
+    {
+      "id": "bipartiteCheck",
+      "name": "Bipartite Check",
+      "implemented": true
+    },
+    {
+      "id": "scc",
+      "name": "Strongly Connected Components",
+      "implemented": true
+    },
+    {
+      "id": "astar",
+      "name": "A* Search",
+      "implemented": true
+    },
+    {
+      "id": "unionFind",
+      "name": "Union Find (DSU)",
+      "implemented": true
+    },
+    {
+      "id": "johnsons",
+      "name": "Johnson's Algorithm",
+      "implemented": true
+    },
+    {
+      "id": "tsp",
+      "name": "Traveling Salesman (Approx)",
+      "implemented": true
+    }
+  ],
+  "greedy": [
+    {
+      "id": "activitySelection",
+      "name": "Activity Selection",
+      "implemented": true
+    },
+    {
+      "id": "fractionalKnapsack",
+      "name": "Fractional Knapsack",
+      "implemented": true
+    },
+    {
+      "id": "huffman",
+      "name": "Huffman Coding",
+      "implemented": true
+    },
+    {
+      "id": "jobSequencing",
+      "name": "Job Sequencing",
+      "implemented": true
+    },
+    {
+      "id": "coinChangeGreedy",
+      "name": "Coin Change (Greedy)",
+      "implemented": true
+    },
+    {
+      "id": "mstGreedy",
+      "name": "Minimum Spanning Tree",
+      "implemented": true
+    },
+    {
+      "id": "egyptianFraction",
+      "name": "Egyptian Fraction",
+      "implemented": true
+    },
+    {
+      "id": "fileMerge",
+      "name": "Optimal File Merge",
+      "implemented": true
+    }
+  ],
+  "dynamic-programming": [
+    {
+      "id": "fibDP",
+      "name": "Fibonacci (Memoization)",
+      "implemented": true
+    },
+    {
+      "id": "lcs",
+      "name": "Longest Common Subsequence",
+      "implemented": true
+    },
+    {
+      "id": "lis",
+      "name": "Longest Increasing Subsequence",
+      "implemented": true
+    },
+    {
+      "id": "knapsack01",
+      "name": "0/1 Knapsack",
+      "implemented": true
+    },
+    {
+      "id": "coinChangeDP",
+      "name": "Coin Change (DP)",
+      "implemented": true
+    },
+    {
+      "id": "matrixChain",
+      "name": "Matrix Chain Multiplication",
+      "implemented": true
+    },
+    {
+      "id": "editDistance",
+      "name": "Edit Distance",
+      "implemented": true
+    },
+    {
+      "id": "rodCutting",
+      "name": "Rod Cutting",
+      "implemented": true
+    },
+    {
+      "id": "subsetSum",
+      "name": "Subset Sum",
+      "implemented": true
+    },
+    {
+      "id": "staircase",
+      "name": "Staircase Problem",
+      "implemented": true
+    },
+    {
+      "id": "wordBreak",
+      "name": "Word Break",
+      "implemented": true
+    },
+    {
+      "id": "eggDrop",
+      "name": "Egg Drop Problem",
+      "implemented": true
+    }
+  ],
+  "backtracking": [
+    {
+      "id": "nQueens",
+      "name": "N-Queens",
+      "implemented": true
+    },
+    {
+      "id": "sudokuSolver",
+      "name": "Sudoku Solver",
+      "implemented": true
+    },
+    {
+      "id": "ratInMaze",
+      "name": "Rat in a Maze",
+      "implemented": true
+    },
+    {
+      "id": "permutations",
+      "name": "Permutations",
+      "implemented": true
+    },
+    {
+      "id": "combinations",
+      "name": "Combinations",
+      "implemented": true
+    },
+    {
+      "id": "wordSearch",
+      "name": "Word Search",
+      "implemented": true
+    }
+  ],
+  "advanced": [
+    {
+      "id": "kmp",
+      "name": "KMP Algorithm",
+      "implemented": true
+    },
+    {
+      "id": "rabinKarp",
+      "name": "Rabin-Karp",
+      "implemented": true
+    },
+    {
+      "id": "zAlgorithm",
+      "name": "Z Algorithm",
+      "implemented": true
+    },
+    {
+      "id": "ahoCorasick",
+      "name": "Aho-Corasick",
+      "implemented": true
+    },
+    {
+      "id": "suffixArray",
+      "name": "Suffix Array",
+      "implemented": true
+    },
+    {
+      "id": "convexHull",
+      "name": "Convex Hull",
+      "implemented": true
+    },
+    {
+      "id": "fft",
+      "name": "Fast Fourier Transform",
+      "implemented": true
+    },
+    {
+      "id": "redBlackTree",
+      "name": "Red-Black Tree",
+      "implemented": true
+    }
+  ]
+}

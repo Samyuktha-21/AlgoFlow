@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Factorial {\n    public long factorial(int n) {\n        long result = 1;\n        for (int i = 2; i <= n; i++) result *= i;\n        return result;\n    }\n    public long factorialRecursive(int n) {\n        return n <= 1 ? 1 : n * factorialRecursive(n - 1);\n    }\n    public static void main(String[] args) {\n        Factorial f = new Factorial();\n        System.out.println(f.factorial(10)); // 3628800\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nlong long fact(int n){long long r=1;for(int i=2;i<=n;i++)r*=i;return r;}\nint main(){printf(\"%lld\\n\",fact(10));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\nusing namespace std;\nlong long fact(int n){return n<=1?1:n*fact(n-1);}\nint main(){cout<<fact(10)<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

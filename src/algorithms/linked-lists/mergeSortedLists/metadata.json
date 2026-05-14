@@ -1,0 +1,46 @@
+{
+  "name": "Merge Two Sorted Linked Lists",
+  "type": "linked-list",
+  "description": "Merges two sorted linked lists into a single sorted list by comparing heads and linking the smaller one.",
+  "aim": "Produce a single sorted linked list from two sorted lists without extra allocation by re-linking existing nodes.",
+  "howItWorks": [
+    "Compare heads of both lists",
+    "Link the smaller head to result",
+    "Advance the pointer of the smaller list",
+    "Repeat until one list is exhausted",
+    "Append remainder of non-empty list"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n+m)",
+      "bestCase": "Must traverse both lists",
+      "average": "O(n+m)",
+      "averageCase": "Same",
+      "worst": "O(n+m)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place pointer manipulation — no new nodes",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Merge phase of merge sort",
+      "Combining sorted database query results",
+      "Merging sorted log files",
+      "Priority queue merge"
+    ],
+    "whenToUse": [
+      "Merging two already-sorted linked lists",
+      "Merge sort implementation on linked lists"
+    ],
+    "alternatives": [
+      "Convert to arrays, merge, convert back — O(n+m) time and space",
+      "Recursive merge — elegant but O(n+m) stack space"
+    ]
+  },
+  "id": "mergeSortedLists",
+  "category": "linked-lists",
+  "implemented": true
+}

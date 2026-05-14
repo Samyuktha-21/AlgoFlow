@@ -1,0 +1,46 @@
+{
+  "name": "Prime Number Check",
+  "type": "array",
+  "description": "Determines if a number is prime by trial division up to √n. Efficient enough for numbers up to ~10^12.",
+  "aim": "Check primality by testing divisibility from 2 to √n. If no divisor found, the number is prime.",
+  "howItWorks": [
+    "Handle edge cases: n<2 = not prime",
+    "If n=2: prime; if n even: not prime",
+    "Check divisors from 3 to √n, step by 2 (skip evens)",
+    "If divisible: not prime",
+    "If loop ends without divisor: prime"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "Even numbers detected immediately",
+      "average": "O(√n)",
+      "averageCase": "Check up to √n",
+      "worst": "O(√n)",
+      "worstCase": "n is prime or odd composite near √n"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Only a few variables needed",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "RSA key generation — needs large primes",
+      "Password salt generation",
+      "Hashing table size selection (prime table sizes reduce collisions)",
+      "Random number generators"
+    ],
+    "whenToUse": [
+      "Check single number primality",
+      "n is not extremely large (up to ~10^12)"
+    ],
+    "alternatives": [
+      "Miller-Rabin — probabilistic O(k log² n), good for large primes",
+      "Sieve of Eratosthenes — O(n log log n) for all primes up to n"
+    ]
+  },
+  "id": "primeCheck",
+  "category": "fundamentals",
+  "implemented": true
+}

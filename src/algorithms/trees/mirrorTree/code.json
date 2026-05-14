@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class MirrorTree {\n    public TreeNode mirror(TreeNode root) {\n        if (root == null) return null;\n        TreeNode left  = mirror(root.left);\n        TreeNode right = mirror(root.right);\n        root.left  = right;\n        root.right = left;\n        return root;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nvoid mirror(Node* n){if(!n)return;Node*t=n->l;n->l=n->r;n->r=t;mirror(n->l);mirror(n->r);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <algorithm>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nvoid mirror(Node* n){if(!n)return;swap(n->l,n->r);mirror(n->l);mirror(n->r);}",
+    "lineKeys": {}
+  }
+}

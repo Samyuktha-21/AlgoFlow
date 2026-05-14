@@ -1,0 +1,53 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\n\npublic class BFS {\n    public void bfs(List<List<Integer>> graph, int start) {\n        int n = graph.size();\n        boolean[] visited = new boolean[n];\n        Queue<Integer> queue = new LinkedList<>();\n        \n        visited[start] = true;\n        queue.offer(start);\n        \n        while (!queue.isEmpty()) {\n            int node = queue.poll();\n            System.out.print(node + \" \");\n            \n            for (int neighbor : graph.get(node)) {\n                if (!visited[neighbor]) {\n                    visited[neighbor] = true;\n                    queue.offer(neighbor);\n                }\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        List<List<Integer>> graph = new ArrayList<>();\n        for (int i = 0; i < 6; i++) graph.add(new ArrayList<>());\n        graph.get(0).addAll(Arrays.asList(1, 2));\n        graph.get(1).addAll(Arrays.asList(0, 3, 4));\n        graph.get(2).addAll(Arrays.asList(0, 5));\n        new BFS().bfs(graph, 0);  // Output: 0 1 2 3 4 5\n    }\n}",
+    "lineKeys": {
+      "init": 5,
+      "markStart": 9,
+      "enqueueStart": 10,
+      "whileLoop": 12,
+      "dequeue": 13,
+      "process": 14,
+      "forNeighbors": 16,
+      "checkVisited": 17,
+      "markVisited": 18,
+      "enqueue": 19,
+      "done": 22
+    }
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <stdbool.h>\n#define MAX 100\n\nvoid bfs(int graph[MAX][MAX], int n, int start) {\n    bool visited[MAX] = {false};\n    int queue[MAX], front = 0, rear = 0;\n    \n    visited[start] = true;\n    queue[rear++] = start;\n    \n    while (front < rear) {\n        int node = queue[front++];\n        printf(\"%d \", node);\n        \n        for (int i = 0; i < n; i++) {\n            if (graph[node][i] && !visited[i]) {\n                visited[i] = true;\n                queue[rear++] = i;\n            }\n        }\n    }\n}\n\nint main() {\n    int graph[MAX][MAX] = {0};\n    /* Add edges */\n    graph[0][1] = graph[1][0] = 1;\n    graph[0][2] = graph[2][0] = 1;\n    graph[1][3] = graph[3][1] = 1;\n    bfs(graph, 6, 0);\n    return 0;\n}",
+    "lineKeys": {
+      "init": 6,
+      "markStart": 10,
+      "enqueueStart": 11,
+      "whileLoop": 13,
+      "dequeue": 14,
+      "process": 15,
+      "forNeighbors": 17,
+      "checkVisited": 18,
+      "markVisited": 19,
+      "enqueue": 20,
+      "done": 22
+    }
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nvoid bfs(const vector<vector<int>>& graph, int start) {\n    int n = graph.size();\n    vector<bool> visited(n, false);\n    queue<int> q;\n    \n    visited[start] = true;\n    q.push(start);\n    \n    while (!q.empty()) {\n        int node = q.front(); q.pop();\n        cout << node << \" \";\n        \n        for (int neighbor : graph[node]) {\n            if (!visited[neighbor]) {\n                visited[neighbor] = true;\n                q.push(neighbor);\n            }\n        }\n    }\n}\n\nint main() {\n    vector<vector<int>> graph = {\n        {1, 2},    // 0\n        {0, 3, 4}, // 1\n        {0, 5},    // 2\n        {1}, {1}, {2}\n    };\n    bfs(graph, 0);  // Output: 0 1 2 3 4 5\n    return 0;\n}",
+    "lineKeys": {
+      "init": 6,
+      "markStart": 11,
+      "enqueueStart": 12,
+      "whileLoop": 14,
+      "dequeue": 15,
+      "process": 16,
+      "forNeighbors": 18,
+      "checkVisited": 19,
+      "markVisited": 20,
+      "enqueue": 21,
+      "done": 23
+    }
+  }
+}

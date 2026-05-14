@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class UnionFind {\n    int[] parent, rank;\n    UnionFind(int n) {\n        parent = new int[n]; rank = new int[n];\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n    int find(int x) {\n        if (parent[x] != x) parent[x] = find(parent[x]); // path compression\n        return parent[x];\n    }\n    boolean union(int x, int y) {\n        int rx = find(x), ry = find(y);\n        if (rx == ry) return false; // same set — cycle\n        if (rank[rx] < rank[ry]) parent[rx] = ry;\n        else if (rank[rx] > rank[ry]) parent[ry] = rx;\n        else { parent[ry] = rx; rank[rx]++; }\n        return true;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint parent[100],rnk[100];\nint find(int x){return parent[x]==x?x:(parent[x]=find(parent[x]));}\nint unionSets(int x,int y){int rx=find(x),ry=find(y);if(rx==ry)return 0;\nif(rnk[rx]<rnk[ry])parent[rx]=ry;else if(rnk[rx]>rnk[ry])parent[ry]=rx;else{parent[ry]=rx;rnk[rx]++;}return 1;}\nvoid init(int n){for(int i=0;i<n;i++){parent[i]=i;rnk[i]=0;}}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nstruct DSU {\n    vector<int> p,r;\n    DSU(int n):p(n),r(n,0){iota(p.begin(),p.end(),0);}\n    int find(int x){return p[x]==x?x:(p[x]=find(p[x]));}\n    bool unite(int a,int b){a=find(a);b=find(b);if(a==b)return false;\n        if(r[a]<r[b])swap(a,b);p[b]=a;if(r[a]==r[b])r[a]++;return true;}\n};",
+    "lineKeys": {}
+  }
+}

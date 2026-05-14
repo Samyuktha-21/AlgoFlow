@@ -1,0 +1,47 @@
+{
+  "id": "insertionSort",
+  "name": "Insertion Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Builds a sorted portion one element at a time by inserting each new element into its correct position. Like sorting playing cards — pick up a card, slide it into the right spot.",
+  "aim": "Sort by maintaining a growing sorted sub-array at the left. For each unsorted element, shift all greater sorted elements right and insert the element in its correct position.",
+  "howItWorks": [
+    "Treat index 0 as sorted",
+    "Take arr[i] as key",
+    "Walk left through sorted portion, shifting elements greater than key rightward",
+    "Insert key where a smaller element is found or at index 0",
+    "Repeat for i = 1 to n-1"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Array already sorted — zero shifts needed",
+      "average": "O(n²)",
+      "averageCase": "~n²/4 comparisons and shifts on average",
+      "worst": "O(n²)",
+      "worstCase": "Reverse-sorted — maximum shifts for every element"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Single key variable for temporary storage",
+    "stable": true,
+    "adaptive": true
+  },
+  "applications": {
+    "realWorld": [
+      "Used in TimSort (Python/Java) for small sub-arrays",
+      "Online sorting — handles incoming stream one element at a time",
+      "Nearly sorted data appears frequently in real-world applications"
+    ],
+    "whenToUse": [
+      "Small arrays or nearly-sorted inputs",
+      "Stable sort with O(1) extra space",
+      "Online algorithm — can sort as data arrives"
+    ],
+    "alternatives": [
+      "Shell Sort — improves by comparing distant elements first",
+      "Merge Sort — stable O(n log n) for larger datasets",
+      "Tim Sort — hybrid that uses insertion sort for small runs"
+    ]
+  }
+}

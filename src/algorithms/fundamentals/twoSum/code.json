@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Arrays;\npublic class TwoPointers {\n    public int[] twoSum(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n        while (left < right) {\n            int sum = arr[left] + arr[right];\n            if (sum == target) return new int[]{left, right};\n            else if (sum < target) left++;\n            else right--;\n        }\n        return new int[]{-1, -1}; // no pair found\n    }\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 4, 6, 8, 9, 14, 15};\n        int[] result = new TwoPointers().twoSum(arr, 13);\n        System.out.println(result[0] + \", \" + result[1]); // 0, 6\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nvoid twoSum(int arr[],int n,int target){int l=0,r=n-1;\nwhile(l<r){int s=arr[l]+arr[r];if(s==target){printf(\"%d+%d=%d at [%d,%d]\",arr[l],arr[r],target,l,r);return;}\nelse if(s<target)l++;else r--;} printf(\"No pair found\");}\nint main(){int a[]={1,2,4,6,8,9,14,15};twoSum(a,8,13);return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\npair<int,int> twoSum(vector<int>& a, int t){int l=0,r=a.size()-1;\nwhile(l<r){int s=a[l]+a[r];if(s==t)return{l,r};else if(s<t)l++;else r--;}return{-1,-1};}\nint main(){vector<int> a={1,2,4,6,8,9,14,15};auto [l,r]=twoSum(a,13);cout<<l<<\",\"<<r<<endl;return 0;}",
+    "lineKeys": {}
+  }
+}

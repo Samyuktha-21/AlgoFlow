@@ -1,0 +1,39 @@
+{
+  "name": "Fast Fourier Transform",
+  "type": "array",
+  "description": "O(n log n) frequency analysis using divide-and-conquer on complex exponentials",
+  "aim": "Efficiently solve fast fourier transform related problems.",
+  "howItWorks": [
+    "See code implementation for detailed steps"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on variant",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional space",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Fast Fourier Transform is used in text processing",
+      "compiler design",
+      "and algorithm research"
+    ],
+    "whenToUse": [
+      "When fast fourier transform capabilities are needed"
+    ],
+    "alternatives": [
+      "Simpler alternatives exist for specific use cases"
+    ]
+  },
+  "id": "fft",
+  "category": "advanced",
+  "implemented": true
+}

@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.Stack;\npublic class ValidParentheses {\n    public boolean isValid(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(' || c == '[' || c == '{') { stack.push(c); }\n            else {\n                if (stack.isEmpty()) return false;\n                char top = stack.pop();\n                if (c == ')' && top != '(') return false;\n                if (c == ']' && top != '[') return false;\n                if (c == '}' && top != '{') return false;\n            }\n        }\n        return stack.isEmpty();\n    }\n    public static void main(String[] args) {\n        System.out.println(new ValidParentheses().isValid(\"({[]})\"));  // true\n        System.out.println(new ValidParentheses().isValid(\"([)]\"));    // false\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isValid(char*s){char stk[100];int top=-1;\nfor(int i=0;s[i];i++){char c=s[i];if(c=='('||c=='['||c=='{')stk[++top]=c;\nelse{if(top<0)return 0;char t=stk[top--];if((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return 0;}}return top==-1;}\nint main(){printf(\"%d %d\\n\",isValid(\"({[]})\"),isValid(\"([)]\"));return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s){stack<char>stk;for(char c:s){if(c=='('||c=='['||c=='{')stk.push(c);else{if(stk.empty())return false;char t=stk.top();stk.pop();if((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return false;}}return stk.empty();}",
+    "lineKeys": {}
+  }
+}

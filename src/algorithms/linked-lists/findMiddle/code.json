@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class FindMiddle {\n    public ListNode findMiddle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n    public static void main(String[] args) {\n        // Create list 1->2->3->4->5\n        // findMiddle returns node 3\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next;}Node;\nNode* findMiddle(Node*h){Node*s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;}return s;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "struct Node{int v;Node*next;};\nNode* findMiddle(Node*h){Node*s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;}return s;}",
+    "lineKeys": {}
+  }
+}

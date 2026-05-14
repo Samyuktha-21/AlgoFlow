@@ -1,0 +1,40 @@
+{
+  "name": "LRU Cache (Hash + DLL)",
+  "type": "linked-list",
+  "description": "Same LRU Cache implementation, categorized under hashing to show the HashMap component.",
+  "aim": "Same as LRU Cache — demonstrating the hash map role for O(1) lookup.",
+  "howItWorks": [
+    "Same as LRU Cache in linked-lists category"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(1)",
+      "bestCase": "All ops O(1)",
+      "average": "O(1)",
+      "averageCase": "Same",
+      "worst": "O(1)",
+      "worstCase": "Same"
+    },
+    "space": "O(cap)",
+    "spaceDescription": "Capacity nodes stored",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Browser cache",
+      "CPU cache",
+      "Database caching"
+    ],
+    "whenToUse": [
+      "O(1) cache with LRU eviction"
+    ],
+    "alternatives": [
+      "LFU cache",
+      "Time-based TTL cache"
+    ]
+  },
+  "id": "lruCacheHash",
+  "category": "hashing",
+  "implemented": true
+}

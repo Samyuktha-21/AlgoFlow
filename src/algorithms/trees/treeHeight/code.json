@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class TreeHeight {\n    public int height(TreeNode root) {\n        if (root == null) return -1;  // -1 for edge count\n        int leftH  = height(root.left);\n        int rightH = height(root.right);\n        return 1 + Math.max(leftH, rightH);\n    }\n    public static void main(String[] args) {\n        TreeNode root = new TreeNode(1);\n        root.left = new TreeNode(2);\n        root.right = new TreeNode(3);\n        root.left.left = new TreeNode(4);\n        System.out.println(new TreeHeight().height(root)); // 2\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nint height(Node* n){if(!n)return -1;int l=height(n->l),r=height(n->r);return 1+(l>r?l:r);}\nint main(){/* build tree and call height(root) */ return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <iostream>\n#include <algorithm>\nusing namespace std;\nstruct Node{int v;Node*l,*r;Node(int x):v(x),l(nullptr),r(nullptr){}};\nint height(Node* n){if(!n)return -1;return 1+max(height(n->l),height(n->r));}",
+    "lineKeys": {}
+  }
+}

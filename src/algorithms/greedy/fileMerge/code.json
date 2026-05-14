@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "// Optimal File Merging implementation",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "// Optimal File Merging C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "// Optimal File Merging C++",
+    "lineKeys": {}
+  }
+}

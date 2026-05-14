@@ -1,0 +1,45 @@
+{
+  "name": "Word Search in Grid",
+  "type": "backtracking",
+  "description": "Finds if a word exists in a 2D character grid by exploring adjacent cells (up/down/left/right) using DFS with backtracking.",
+  "aim": "Search the grid by DFS from each cell matching the first character, extending to neighbors for subsequent characters.",
+  "howItWorks": [
+    "For each grid cell matching word[0]: start DFS",
+    "DFS: check if current cell matches word[index]",
+    "Mark cell as visited (temporarily)",
+    "Recursively check all 4 neighbors for word[index+1]",
+    "Unmark cell (backtrack)",
+    "Return true if full word found"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n×m)",
+      "bestCase": "Word not found quickly",
+      "average": "O(n×m×4^L)",
+      "averageCase": "L = word length",
+      "worst": "O(n×m×4^L)",
+      "worstCase": "Large grid with many partial matches"
+    },
+    "space": "O(L)",
+    "spaceDescription": "Recursion depth = word length L",
+    "stable": false,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Word search puzzle games",
+      "Crossword puzzle validation",
+      "Pattern recognition in matrices"
+    ],
+    "whenToUse": [
+      "Find path/word in 2D grid",
+      "Connected-cell problems"
+    ],
+    "alternatives": [
+      "Trie-based search for multiple words simultaneously (Aho-Corasick)"
+    ]
+  },
+  "id": "wordSearch",
+  "category": "backtracking",
+  "implemented": true
+}

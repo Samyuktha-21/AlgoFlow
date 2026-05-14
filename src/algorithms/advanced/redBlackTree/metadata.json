@@ -1,0 +1,39 @@
+{
+  "name": "Red-Black Tree",
+  "type": "array",
+  "description": "Self-balancing BST maintaining O(log n) for all operations via color-based rules",
+  "aim": "Efficiently solve red-black tree related problems.",
+  "howItWorks": [
+    "See code implementation for detailed steps"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on variant",
+      "average": "O(n log n)",
+      "averageCase": "Same",
+      "worst": "O(n log n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Input-proportional space",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Red-Black Tree is used in text processing",
+      "compiler design",
+      "and algorithm research"
+    ],
+    "whenToUse": [
+      "When red-black tree capabilities are needed"
+    ],
+    "alternatives": [
+      "Simpler alternatives exist for specific use cases"
+    ]
+  },
+  "id": "redBlackTree",
+  "category": "advanced",
+  "implemented": true
+}

@@ -1,0 +1,41 @@
+{
+  "name": "Linked List Intersection Point",
+  "type": "linked-list",
+  "description": "Finds the node where two linked lists intersect using the two-pointer equalization technique.",
+  "aim": "Find the intersection by having both pointers travel the same total distance: when one list ends, redirect to the other list's head.",
+  "howItWorks": [
+    "Use two pointers p1 (starts at head1) and p2 (starts at head2)",
+    "Advance both one step at a time",
+    "When either reaches null, redirect to the other list's head",
+    "They will meet at the intersection node (or both become null = no intersection)"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n+m)",
+      "bestCase": "Intersection found early",
+      "average": "O(n+m)",
+      "averageCase": "Each pointer traverses at most n+m nodes",
+      "worst": "O(n+m)",
+      "worstCase": "Same"
+    },
+    "space": "O(1)",
+    "spaceDescription": "Two pointers only",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Detecting shared objects in memory graphs",
+      "Finding common prefix in file system paths"
+    ],
+    "whenToUse": [
+      "Find merge point of two linked lists in O(1) space"
+    ],
+    "alternatives": [
+      "Hash set — store all nodes of one list, scan other O(n+m) time O(n) space"
+    ]
+  },
+  "id": "intersectionPoint",
+  "category": "linked-lists",
+  "implemented": true
+}

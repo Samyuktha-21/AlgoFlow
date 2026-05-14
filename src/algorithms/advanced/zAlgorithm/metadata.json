@@ -1,0 +1,44 @@
+{
+  "name": "Z-Algorithm",
+  "type": "array",
+  "description": "Builds the Z-array for a string where Z[i] is the length of the longest substring starting from position i that matches a prefix of the string.",
+  "aim": "Compute Z-array in O(n) using a window [L,R] of the longest Z-box found so far, reusing previous computations.",
+  "howItWorks": [
+    "Z[0] = n (the whole string matches prefix of itself)",
+    "Maintain Z-box [L,R]: longest matching window found",
+    "For each i: if inside Z-box, use previous Z values",
+    "Extend match beyond R, update Z-box"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Always linear",
+      "average": "O(n)",
+      "averageCase": "Same",
+      "worst": "O(n)",
+      "worstCase": "Same"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Z-array of size n",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Pattern matching in O(n+m)",
+      "Finding all occurrences of a pattern",
+      "Computing string periods"
+    ],
+    "whenToUse": [
+      "Pattern matching alternative to KMP",
+      "When Z-array has additional utility"
+    ],
+    "alternatives": [
+      "KMP — same complexity, widely taught",
+      "Suffix array — more powerful but harder to implement"
+    ]
+  },
+  "id": "zAlgorithm",
+  "category": "advanced",
+  "implemented": true
+}

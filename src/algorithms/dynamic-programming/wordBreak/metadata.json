@@ -1,0 +1,44 @@
+{
+  "name": "Word Break",
+  "type": "dp",
+  "description": "Determines if a string can be segmented into words from a given dictionary using DP.",
+  "aim": "Check if string s can be broken into dictionary words: dp[i] = can s[0..i-1] be segmented?",
+  "howItWorks": [
+    "dp[0] = true (empty string)",
+    "For each position i from 1 to n:",
+    "  For each word in dictionary:",
+    "    If dp[i-word.length] and s ends with word: dp[i] = true"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n²)",
+      "bestCase": "Match found early",
+      "average": "O(n × dictSize × maxWordLen)",
+      "averageCase": "Iterate positions × dictionary",
+      "worst": "O(n³)",
+      "worstCase": "Many substrings to check"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Boolean dp array of size n+1",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Text segmentation for NLP",
+      "Spell checker suggestions",
+      "URL parsing without delimiters"
+    ],
+    "whenToUse": [
+      "Check if string decomposes into known words",
+      "Text/URL segmentation"
+    ],
+    "alternatives": [
+      "BFS — find shortest path in word graph",
+      "Tries — fast dictionary lookup"
+    ]
+  },
+  "id": "wordBreak",
+  "category": "dynamic-programming",
+  "implemented": true
+}

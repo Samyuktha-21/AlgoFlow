@@ -1,0 +1,47 @@
+{
+  "id": "shellSort",
+  "name": "Shell Sort",
+  "category": "sorting",
+  "type": "sorting",
+  "implemented": true,
+  "description": "Generalization of insertion sort that allows swapping of elements far apart. Reduces inversion count quickly by sorting elements separated by a gap, then reducing the gap.",
+  "aim": "Sort by first comparing and sorting elements that are gap positions apart (starting with a large gap), then halving the gap repeatedly until gap=1 (regular insertion sort).",
+  "howItWorks": [
+    "Choose initial gap (n/2 for Shell's original; Knuth: 1,4,13,40…)",
+    "Apply insertion sort on elements separated by gap",
+    "Reduce gap by dividing by 2 (or next Knuth value)",
+    "Repeat until gap = 1",
+    "Final gap=1 pass finishes sorting with very few inversions remaining"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O(n log n)",
+      "bestCase": "Depends on gap sequence — Knuth sequence gives O(n^{3/2})",
+      "average": "O(n^{3/2})",
+      "averageCase": "Gap sequences like Knuth's give practical O(n^1.5)",
+      "worst": "O(n²)",
+      "worstCase": "Original Shell sequence; better sequences improve this"
+    },
+    "space": "O(1)",
+    "spaceDescription": "In-place — no auxiliary array needed",
+    "stable": false,
+    "adaptive": true
+  },
+  "applications": {
+    "realWorld": [
+      "Unix sort command historically used Shell Sort",
+      "Embedded systems where complex algorithms are hard to implement",
+      "Sorting small to medium arrays where simplicity and good performance are both needed"
+    ],
+    "whenToUse": [
+      "Medium-sized arrays (up to ~5000 elements)",
+      "When insertion sort would be used but slightly better performance is needed",
+      "In-place sort required without recursion overhead"
+    ],
+    "alternatives": [
+      "Insertion Sort — simpler, better for already-sorted data",
+      "Quick Sort — better average case for large data",
+      "Merge Sort — guaranteed O(n log n) stable sort"
+    ]
+  }
+}

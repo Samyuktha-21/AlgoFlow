@@ -1,0 +1,41 @@
+{
+  "name": "Johnson's Algorithm",
+  "type": "graph",
+  "description": "All-pairs shortest paths handling negative weights by reweighting with Bellman-Ford then running Dijkstra",
+  "aim": "Efficiently solve Johnson's Algorithm problems on graph inputs.",
+  "howItWorks": [
+    "Initialize graph structure",
+    "Apply Johnson's Algorithm algorithm steps",
+    "Track visited nodes and optimal paths"
+  ],
+  "complexity": {
+    "time": {
+      "best": "O((V+E) log V)",
+      "bestCase": "Depends on graph density",
+      "average": "O((V+E) log V)",
+      "averageCase": "With priority queue",
+      "worst": "O(V²)",
+      "worstCase": "Dense graphs without priority queue"
+    },
+    "space": "O(V+E)",
+    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "stable": true,
+    "adaptive": false
+  },
+  "applications": {
+    "realWorld": [
+      "Johnson's Algorithm used in network routing",
+      "GPS navigation",
+      "Operations research"
+    ],
+    "whenToUse": [
+      "When Johnson's Algorithm properties needed"
+    ],
+    "alternatives": [
+      "Other graph algorithms depending on constraints"
+    ]
+  },
+  "id": "johnsons",
+  "category": "graphs",
+  "implemented": true
+}
