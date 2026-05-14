@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.PriorityQueue;\npublic class PriorityQueueDemo {\n    public static void main(String[] args) {\n        PriorityQueue<Integer> pq = new PriorityQueue<>(); // min priority\n        pq.offer(5); pq.offer(1); pq.offer(3); pq.offer(9); pq.offer(2);\n        while (!pq.isEmpty()) System.out.print(pq.poll() + \" \");\n        // Output: 1 2 3 5 9\n\n        // Max priority queue\n        PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a,b)->b-a);\n        maxPQ.offer(5); maxPQ.offer(1); maxPQ.offer(3);\n        System.out.println(maxPQ.peek()); // 5\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint heap[100],sz=0;\nvoid push(int v){heap[sz++]=v;int i=sz-1;while(i>0){int p=(i-1)/2;if(heap[p]>heap[i]){int t=heap[p];heap[p]=heap[i];heap[i]=t;i=p;}else break;}}\nint pop(){int m=heap[0];heap[0]=heap[--sz];int i=0;while(1){int l=2*i+1,r=2*i+2,s=i;if(l<sz&&heap[l]<heap[s])s=l;if(r<sz&&heap[r]<heap[s])s=r;if(s==i)break;int t=heap[i];heap[i]=heap[s];heap[s]=t;i=s;}return m;}\nint main(){push(5);push(1);push(3);push(9);push(2);while(sz)printf(\"%d \",pop());return 0;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nint main(){priority_queue<int,vector<int>,greater<int>>pq;pq.push(5);pq.push(1);pq.push(3);pq.push(9);pq.push(2);while(!pq.empty()){cout<<pq.top()<<\" \";pq.pop();}return 0;}",
+    "lineKeys": {}
+  }
+}

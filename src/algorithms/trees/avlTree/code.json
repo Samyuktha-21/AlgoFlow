@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class AVLTree {\n    class Node { int val, height; Node left, right;\n        Node(int v){val=v;height=1;} }\n    int height(Node n){return n==null?0:n.height;}\n    int balance(Node n){return n==null?0:height(n.left)-height(n.right);}\n    Node rotateRight(Node y){Node x=y.left,T2=x.right;x.right=y;y.left=T2;y.height=1+Math.max(height(y.left),height(y.right));x.height=1+Math.max(height(x.left),height(x.right));return x;}\n    Node rotateLeft(Node x){Node y=x.right,T2=y.left;y.left=x;x.right=T2;x.height=1+Math.max(height(x.left),height(x.right));y.height=1+Math.max(height(y.left),height(y.right));return y;}\n    Node insert(Node node,int key){if(node==null)return new Node(key);if(key<node.val)node.left=insert(node.left,key);else if(key>node.val)node.right=insert(node.right,key);else return node;node.height=1+Math.max(height(node.left),height(node.right));int bf=balance(node);if(bf>1&&key<node.left.val)return rotateRight(node);if(bf<-1&&key>node.right.val)return rotateLeft(node);if(bf>1&&key>node.left.val){node.left=rotateLeft(node.left);return rotateRight(node);}if(bf<-1&&key<node.right.val){node.right=rotateRight(node.right);return rotateLeft(node);}return node;}\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\n// AVL Tree with LL, RR, LR, RL rotations",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <algorithm>\nusing namespace std;\nstruct Node{int v,h;Node*l,*r;Node(int x):v(x),h(1),l(nullptr),r(nullptr){}};\nint ht(Node*n){return n?n->h:0;}\nint bf(Node*n){return n?ht(n->l)-ht(n->r):0;}\nNode* rR(Node*y){Node*x=y->l;y->l=x->r;x->r=y;y->h=1+max(ht(y->l),ht(y->r));x->h=1+max(ht(x->l),ht(x->r));return x;}\nNode* rL(Node*x){Node*y=x->r;x->r=y->l;y->l=x;x->h=1+max(ht(x->l),ht(x->r));y->h=1+max(ht(y->l),ht(y->r));return y;}",
+    "lineKeys": {}
+  }
+}

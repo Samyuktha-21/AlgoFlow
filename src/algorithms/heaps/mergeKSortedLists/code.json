@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class MergeKLists {\n    public int[] merge(int[][] lists) {\n        PriorityQueue<int[]> heap = new PriorityQueue<>((a,b)->a[0]-b[0]);\n        for (int i = 0; i < lists.length; i++)\n            if (lists[i].length > 0) heap.offer(new int[]{lists[i][0], i, 0});\n        List<Integer> result = new ArrayList<>();\n        while (!heap.isEmpty()) {\n            int[] curr = heap.poll(); result.add(curr[0]);\n            int i=curr[1], j=curr[2]+1;\n            if (j < lists[i].length) heap.offer(new int[]{lists[i][j], i, j});\n        }\n        return result.stream().mapToInt(Integer::intValue).toArray();\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n// Min-heap based K-way merge",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> mergeK(vector<vector<int>>&lists){auto cmp=[](auto&a,auto&b){return a[0]>b[0];};priority_queue<vector<int>,vector<vector<int>>,decltype(cmp)>h(cmp);for(int i=0;i<(int)lists.size();i++)if(!lists[i].empty())h.push({lists[i][0],i,0});vector<int>res;while(!h.empty()){auto cur=h.top();h.pop();res.push_back(cur[0]);int i=cur[1],j=cur[2]+1;if(j<(int)lists[i].size())h.push({lists[i][j],i,j});}return res;}",
+    "lineKeys": {}
+  }
+}

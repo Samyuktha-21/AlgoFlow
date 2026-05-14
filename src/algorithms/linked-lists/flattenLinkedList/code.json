@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class FlattenLL {\n    static class Node { int val; Node next, child;\n        Node(int v){val=v;} }\n    public Node flatten(Node head) {\n        if (head == null) return null;\n        Node curr = head;\n        while (curr != null) {\n            if (curr.child != null) {\n                Node child = curr.child;\n                Node next = curr.next;\n                curr.next = child;\n                child = flatten(child);\n                while (child.next != null) child = child.next;\n                child.next = next;\n                curr.child = null;\n            }\n            curr = curr.next;\n        }\n        return head;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next,*child;}Node;\n// Flatten by connecting child lists inline",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "struct Node{int v;Node*next,*child;};\nNode* flatten(Node*h){if(!h)return h;Node*c=h;while(c){if(c->child){Node*ch=c->child,*nx=c->next;c->next=ch;Node*tail=flatten(ch);while(tail->next)tail=tail->next;tail->next=nx;c->child=nullptr;}c=c->next;}return h;}",
+    "lineKeys": {}
+  }
+}

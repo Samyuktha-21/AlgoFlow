@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "import java.util.*;\npublic class MedianStream {\n    PriorityQueue<Integer> low = new PriorityQueue<>(Collections.reverseOrder()); // max-heap\n    PriorityQueue<Integer> high = new PriorityQueue<>(); // min-heap\n    public void addNum(int num) {\n        low.offer(num);\n        high.offer(low.poll());\n        if (low.size() < high.size()) low.offer(high.poll());\n    }\n    public double findMedian() {\n        return low.size() > high.size() ? low.peek() : (low.peek() + high.peek()) / 2.0;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n// Two-heap approach simplified for C",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nstruct MedianStream{priority_queue<int>low;priority_queue<int,vector<int>,greater<int>>high;\nvoid add(int n){low.push(n);high.push(low.top());low.pop();if(low.size()<high.size()){low.push(high.top());high.pop();}}\ndouble median(){return low.size()>high.size()?low.top():(low.top()+high.top())/2.0;}};",
+    "lineKeys": {}
+  }
+}

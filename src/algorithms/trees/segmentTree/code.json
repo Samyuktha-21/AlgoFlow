@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class SegmentTree {\n    int[] tree;\n    int n;\n    SegmentTree(int[] arr) {\n        n = arr.length;\n        tree = new int[4 * n];\n        build(arr, 0, 0, n - 1);\n    }\n    void build(int[] arr, int node, int start, int end) {\n        if (start == end) { tree[node] = arr[start]; return; }\n        int mid = (start + end) / 2;\n        build(arr, 2*node+1, start, mid);\n        build(arr, 2*node+2, mid+1, end);\n        tree[node] = tree[2*node+1] + tree[2*node+2];\n    }\n    int query(int node, int start, int end, int l, int r) {\n        if (r < start || end < l) return 0;\n        if (l <= start && end <= r) return tree[node];\n        int mid = (start + end) / 2;\n        return query(2*node+1,start,mid,l,r) + query(2*node+2,mid+1,end,l,r);\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\nint tree[100];\nvoid build(int arr[],int n,int nd,int s,int e){if(s==e){tree[nd]=arr[s];return;}int m=(s+e)/2;build(arr,n,2*nd+1,s,m);build(arr,n,2*nd+2,m+1,e);tree[nd]=tree[2*nd+1]+tree[2*nd+2];}\nint query(int nd,int s,int e,int l,int r){if(r<s||e<l)return 0;if(l<=s&&e<=r)return tree[nd];int m=(s+e)/2;return query(2*nd+1,s,m,l,r)+query(2*nd+2,m+1,e,l,r);}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <vector>\nusing namespace std;\nstruct SegTree{vector<int>t;int n;\nSegTree(vector<int>&a):n(a.size()),t(4*a.size()){build(a,0,0,n-1);}\nvoid build(vector<int>&a,int nd,int s,int e){if(s==e){t[nd]=a[s];return;}int m=(s+e)/2;build(a,2*nd+1,s,m);build(a,2*nd+2,m+1,e);t[nd]=t[2*nd+1]+t[2*nd+2];}\nint q(int nd,int s,int e,int l,int r){if(r<s||e<l)return 0;if(l<=s&&e<=r)return t[nd];int m=(s+e)/2;return q(2*nd+1,s,m,l,r)+q(2*nd+2,m+1,e,l,r);}};",
+    "lineKeys": {}
+  }
+}

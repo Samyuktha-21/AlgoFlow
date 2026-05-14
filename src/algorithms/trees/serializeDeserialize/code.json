@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Codec {\n    public String serialize(TreeNode root) {\n        if (root == null) return \"null,\";\n        return root.val + \",\" + serialize(root.left) + serialize(root.right);\n    }\n    public TreeNode deserialize(String data) {\n        Queue<String> q = new LinkedList<>(Arrays.asList(data.split(\",\")));\n        return helper(q);\n    }\n    TreeNode helper(Queue<String> q) {\n        String val = q.poll();\n        if (val.equals(\"null\")) return null;\n        TreeNode node = new TreeNode(Integer.parseInt(val));\n        node.left = helper(q); node.right = helper(q);\n        return node;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n// Serialize to preorder string, deserialize recursively",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <string>\n#include <sstream>\n#include <queue>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nstring serialize(Node*r){if(!r)return \"N,\";return to_string(r->v)+\",\"+serialize(r->l)+serialize(r->r);}",
+    "lineKeys": {}
+  }
+}

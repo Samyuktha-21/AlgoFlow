@@ -71,9 +71,10 @@ function StarNode({ node, state }) {
   )
 }
 
-function ConstellationEdge({ from, to, isTraversed, isActive }) {
+function ConstellationEdge({ from, to, isTraversed, isActive, edgeKey }) {
   const color = isTraversed ? '#38BDF8' : 'rgba(96,165,250,.2)'
   const w = isTraversed ? 1.8 : 0.8
+  const len = Math.sqrt((to.x-from.x)**2+(to.y-from.y)**2)
 
   return (
     <g>
@@ -83,10 +84,22 @@ function ConstellationEdge({ from, to, isTraversed, isActive }) {
           stroke="rgba(56,189,248,.35)" strokeWidth={6}
           style={{ filter: 'blur(3px)' }} />
       )}
-      {/* Main line */}
+      {/* Main line with constellation-draw animation for traversed */}
       <line x1={from.x} y1={from.y} x2={to.x} y2={to.y}
         stroke={color} strokeWidth={w}
-        strokeDasharray={isTraversed ? 'none' : '3,5'} />
+        strokeDasharray={isTraversed ? `${len} ${len}` : '3,5'}
+        strokeDashoffset={isTraversed ? 0 : undefined}
+        style={isTraversed ? { animation: `constellation-draw .8s ease-out forwards` } : {}} />
+
+      {/* Energy pulse dot travelling along traversed edge */}
+      {isTraversed && (
+        <circle r="3" fill="#38bdf8" style={{
+          filter: 'drop-shadow(0 0 4px #38bdf8)',
+          offsetPath: `path("M ${from.x} ${from.y} L ${to.x} ${to.y}")`,
+          animation: 'energy-travel 1.5s ease-in-out infinite',
+        }} />
+      )}
+
       {/* Edge weight if present */}
       {from.weight !== undefined && (
         <text x={(from.x + to.x) / 2} y={(from.y + to.y) / 2 - 6}

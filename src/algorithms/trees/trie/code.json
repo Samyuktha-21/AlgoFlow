@@ -1,0 +1,17 @@
+{
+  "java": {
+    "language": "java",
+    "code": "public class Trie {\n    class TrieNode { TrieNode[] children = new TrieNode[26]; boolean end; }\n    TrieNode root = new TrieNode();\n    public void insert(String word) {\n        TrieNode node = root;\n        for (char c : word.toCharArray()) {\n            if (node.children[c-'a'] == null) node.children[c-'a'] = new TrieNode();\n            node = node.children[c-'a'];\n        }\n        node.end = true;\n    }\n    public boolean search(String word) {\n        TrieNode node = root;\n        for (char c : word.toCharArray()) {\n            if (node.children[c-'a'] == null) return false;\n            node = node.children[c-'a'];\n        }\n        return node.end;\n    }\n    public boolean startsWith(String prefix) {\n        TrieNode node = root;\n        for (char c : prefix.toCharArray()) {\n            if (node.children[c-'a'] == null) return false;\n            node = node.children[c-'a'];\n        }\n        return true;\n    }\n}",
+    "lineKeys": {}
+  },
+  "c": {
+    "language": "c",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define ALPHA 26\ntypedef struct Node{struct Node*ch[ALPHA];int end;}Trie;\nvoid insert(Trie*root,char*w){Trie*n=root;for(int i=0;w[i];i++){int c=w[i]-'a';if(!n->ch[c])n->ch[c]=calloc(1,sizeof(Trie));n=n->ch[c];}n->end=1;}\nint search(Trie*root,char*w){Trie*n=root;for(int i=0;w[i];i++){int c=w[i]-'a';if(!n->ch[c])return 0;n=n->ch[c];}return n->end;}",
+    "lineKeys": {}
+  },
+  "cpp": {
+    "language": "cpp",
+    "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie{array<Trie*,26>ch{};bool end=false;};\nvoid insert(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])n->ch[c-'a']=new Trie();n=n->ch[c-'a'];}n->end=true;}\nbool search(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])return false;n=n->ch[c-'a'];}return n->end;}",
+    "lineKeys": {}
+  }
+}
