@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Moon, Sun, GitBranch, Zap } from 'lucide-react'
+import { Moon, Sun, GitBranch } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 
 export default function Header({ isHomepage }) {
   const { isDark, toggle } = useTheme()
@@ -70,7 +71,10 @@ export default function Header({ isHomepage }) {
           </span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Beginner toggle — shows on non-homepage pages */}
+          <BeginnerToggleCompact />
+
           <a
             href="https://github.com"
             target="_blank"

@@ -1,5 +1,6 @@
 import { Clock, Database, CheckCircle2, XCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import { useBeginner } from '../../context/BeginnerContext'
 
 /* Color for each complexity case */
 const CASE_COLORS = {
@@ -37,8 +38,23 @@ function CaseRow({ label, value, desc, caseKey, isDark }) {
   )
 }
 
+/* Speed label from Big-O notation */
+function speedRating(bigO) {
+  if (!bigO) return { label: '?', color: '#94a3b8', emoji: '❓' }
+  const s = bigO.toLowerCase().replace(/\s/g, '')
+  if (s === 'o(1)') return { label: 'Instant', color: '#34d399', emoji: '⚡' }
+  if (s.includes('loglogn')) return { label: 'Very Fast', color: '#4ade80', emoji: '🚀' }
+  if (s.includes('logn') && !s.includes('nlogn')) return { label: 'Very Fast', color: '#4ade80', emoji: '🚀' }
+  if (s.includes('nlogn')) return { label: 'Fast', color: '#a3e635', emoji: '✅' }
+  if (s === 'o(n)') return { label: 'Linear', color: '#fbbf24', emoji: '🚶' }
+  if (s.includes('n²') || s.includes('n^2') || s.includes('ve')) return { label: 'Slow for large data', color: '#fb923c', emoji: '🐢' }
+  if (s.includes('n³') || s.includes('n^3') || s.includes('2^n')) return { label: 'Very Slow', color: '#f87171', emoji: '🐌' }
+  return { label: 'Varies', color: '#94a3b8', emoji: '📊' }
+}
+
 export default function ComplexityPanel({ metadata }) {
   const { isDark } = useTheme()
+  const { beginner } = useBeginner()
   const c = metadata?.complexity
   if (!c) return null
 
@@ -49,8 +65,36 @@ export default function ComplexityPanel({ metadata }) {
   const cardBg        = isDark ? 'rgba(31,41,55,.6)' : '#ffffff'
   const cardBorder    = isDark ? 'rgba(75,85,99,.5)' : '#e5e7eb'
 
+  /* Beginner speed summary */
+  const bestSpeed  = speedRating(c.time?.best)
+  const worstSpeed = speedRating(c.time?.worst)
+
   return (
     <div className="space-y-7">
+
+      {/* ── Beginner speed overview ── */}
+      {beginner && (
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12,
+          padding: '16px', borderRadius: 14,
+          background: isDark ? 'rgba(31,41,55,.5)' : '#f8fafc',
+          border: isDark ? '1px solid rgba(75,85,99,.4)' : '1px solid #e5e7eb',
+          marginBottom: 4,
+        }}>
+          <div className="text-center">
+            <div style={{ fontSize: 28 }}>{bestSpeed.emoji}</div>
+            <div style={{ fontSize: 12, color: isDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Best case</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: bestSpeed.color }}>{bestSpeed.label}</div>
+            <code style={{ fontSize: 13, color: isDark ? '#d1d5db' : '#374151' }}>{c.time.best}</code>
+          </div>
+          <div className="text-center">
+            <div style={{ fontSize: 28 }}>{worstSpeed.emoji}</div>
+            <div style={{ fontSize: 12, color: isDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Worst case</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: worstSpeed.color }}>{worstSpeed.label}</div>
+            <code style={{ fontSize: 13, color: isDark ? '#d1d5db' : '#374151' }}>{c.time.worst}</code>
+          </div>
+        </div>
+      )}
 
       {/* ── Time Complexity ── */}
       <div>

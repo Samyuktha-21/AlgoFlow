@@ -5,14 +5,17 @@ import './index.css'
 import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { VisualizationProvider } from './context/VisualizationContext.jsx'
+import { BeginnerProvider } from './context/BeginnerContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <VisualizationProvider>
-          <App />
-        </VisualizationProvider>
+        <BeginnerProvider>
+          <VisualizationProvider>
+            <App />
+          </VisualizationProvider>
+        </BeginnerProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,

@@ -1,5 +1,4 @@
 import { useVisualization } from '../../context/VisualizationContext'
-import ThemeBackground from './ThemeBackground'
 import SortVisualizer from './SortVisualizer'
 import SearchVisualizer from './SearchVisualizer'
 import GraphVisualizer from './GraphVisualizer'
@@ -38,7 +37,14 @@ export default function VisualizerCanvas({ algorithmType, themeId, metadata }) {
   const VisualizerComponent = VISUALIZER_MAP[algorithmType] || ArrayVisualizer
 
   return (
-    <ThemeBackground themeId={themeId} className={`border ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
+    <div style={{
+      background: 'rgba(0,0,0,0.28)',
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
+      border: '1px solid rgba(255,255,255,0.12)',
+      borderRadius: 16,
+      overflow: 'hidden',
+    }}>
       <div className="p-4 min-h-[420px] flex flex-col">
         <VisualizerComponent
           step={currentStep}
@@ -46,6 +52,6 @@ export default function VisualizerCanvas({ algorithmType, themeId, metadata }) {
           metadata={metadata}
         />
       </div>
-    </ThemeBackground>
+    </div>
   )
 }

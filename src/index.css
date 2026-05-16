@@ -13,7 +13,109 @@
 ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 3px; }
 
 html, body, #root { height: 100%; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* ════════════════════════════════════════════
+   COLOR SYSTEM — dark (default) + light mode
+════════════════════════════════════════════ */
+:root, .dark {
+  --color-text-primary:   #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted:     #94a3b8;
+  --color-text-heading:   #f8fafc;
+  --color-text-accent:    #7dd3fc;
+
+  --color-bg-primary:     #0f172a;
+  --color-bg-secondary:   #1e293b;
+  --color-bg-card:        #1e293b;
+  --color-bg-input:       #1e293b;
+  --color-bg-hover:       #334155;
+
+  --color-border:         #334155;
+  --color-border-focus:   #60a5fa;
+
+  --color-btn-primary:    #3b82f6;
+  --color-btn-text:       #ffffff;
+
+  /* Tab accent colors */
+  --color-tab-aim:        #60a5fa;
+  --color-tab-code:       #34d399;
+  --color-tab-complexity: #fbbf24;
+  --color-tab-apps:       #c084fc;
+
+  /* Complexity badges */
+  --color-best:    #86efac;
+  --color-best-bg: rgba(16,185,129,0.15);
+  --color-avg:     #fcd34d;
+  --color-avg-bg:  rgba(245,158,11,0.15);
+  --color-worst:   #fca5a5;
+  --color-worst-bg:rgba(239,68,68,0.15);
+
+  /* Code block (always dark) */
+  --color-code-bg:   #0d1117;
+  --color-code-text: #e6edf3;
+}
+
+.light {
+  --color-text-primary:   #0f172a;
+  --color-text-secondary: #1e293b;
+  --color-text-muted:     #475569;
+  --color-text-heading:   #0f172a;
+  --color-text-accent:    #0369a1;
+
+  --color-bg-primary:     #f8fafc;
+  --color-bg-secondary:   #f1f5f9;
+  --color-bg-card:        #ffffff;
+  --color-bg-input:       #ffffff;
+  --color-bg-hover:       #e2e8f0;
+
+  --color-border:         #cbd5e1;
+  --color-border-focus:   #3b82f6;
+
+  --color-btn-primary:    #0369a1;
+  --color-btn-text:       #ffffff;
+
+  --color-tab-aim:        #1d4ed8;
+  --color-tab-code:       #15803d;
+  --color-tab-complexity: #b45309;
+  --color-tab-apps:       #7c3aed;
+
+  --color-best:    #166534;
+  --color-best-bg: rgba(22,101,52,0.1);
+  --color-avg:     #92400e;
+  --color-avg-bg:  rgba(146,64,14,0.1);
+  --color-worst:   #991b1b;
+  --color-worst-bg:rgba(153,27,27,0.1);
+
+  --color-code-bg:   #0d1117;
+  --color-code-text: #e6edf3;
+}
+
+/* Utility classes using variables */
+.color-primary   { color: var(--color-text-primary); }
+.color-secondary { color: var(--color-text-secondary); }
+.color-muted     { color: var(--color-text-muted); }
+.color-accent    { color: var(--color-text-accent); }
+.bg-card         { background: var(--color-bg-card); }
+.border-themed   { border-color: var(--color-border); }
+.complexity-best-badge  { color: var(--color-best);  background: var(--color-best-bg); }
+.complexity-avg-badge   { color: var(--color-avg);   background: var(--color-avg-bg); }
+.complexity-worst-badge { color: var(--color-worst); background: var(--color-worst-bg); }
+
+/* Input fields */
+input, textarea, select {
+  background: var(--color-bg-input);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+input::placeholder, textarea::placeholder {
+  color: var(--color-text-muted);
+}
 
 /* ─── Element state colors ─── */
 .el-default   { background: #E5E7EB; }

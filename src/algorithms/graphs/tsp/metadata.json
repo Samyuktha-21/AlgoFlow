@@ -1,41 +1,52 @@
 {
+  "id": "tsp",
   "name": "Traveling Salesman (DP)",
+  "category": "graphs",
   "type": "graph",
-  "description": "Find minimum cost Hamiltonian cycle using bitmask DP: visit all cities exactly once",
-  "aim": "Efficiently solve Traveling Salesman (DP) problems on graph inputs.",
+  "implemented": true,
+  "description": "Find the minimum-cost Hamiltonian cycle — visit every city exactly once and return to the start — using Held-Karp bitmask DP.",
+  "aim": "Given n cities and pairwise travel costs, compute the shortest tour that visits every city exactly once and returns to the origin.",
   "howItWorks": [
-    "Initialize graph structure",
-    "Apply Traveling Salesman (DP) algorithm steps",
-    "Track visited nodes and optimal paths"
+    "Represent visited-city subsets as bitmasks (2ⁿ possible subsets)",
+    "dp[mask][u] = minimum cost to reach city u having visited exactly the cities in mask",
+    "Base: dp[{0}][0] = 0 — start at city 0 with cost 0",
+    "Transition: for each mask and last city u, try extending to unvisited city v",
+    "After filling all dp states, find minimum dp[FULL][u] + dist[u][0] over all u",
+    "Backtrack through par[][] table to reconstruct the optimal route"
   ],
   "complexity": {
     "time": {
-      "best": "O((V+E) log V)",
-      "bestCase": "Depends on graph density",
-      "average": "O((V+E) log V)",
-      "averageCase": "With priority queue",
-      "worst": "O(V²)",
-      "worstCase": "Dense graphs without priority queue"
+      "best": "O(n²·2ⁿ)",
+      "bestCase": "Held-Karp always runs in O(n²·2ⁿ) regardless of input",
+      "average": "O(n²·2ⁿ)",
+      "averageCase": "Each of 2ⁿ subsets × n cities × n transitions",
+      "worst": "O(n²·2ⁿ)",
+      "worstCase": "Complete graph; practical limit is n ≈ 20"
     },
-    "space": "O(V+E)",
-    "spaceDescription": "Graph storage plus algorithm-specific arrays",
-    "stable": true,
+    "space": "O(n·2ⁿ)",
+    "spaceDescription": "DP table of size 2ⁿ × n storing minimum costs and parent pointers",
+    "stable": false,
     "adaptive": false
   },
   "applications": {
     "realWorld": [
-      "Traveling Salesman (DP) used in network routing",
-      "GPS navigation",
-      "Operations research"
+      "Logistics: optimizing delivery routes for couriers",
+      "PCB manufacturing: minimizing drill-head travel distance",
+      "DNA sequencing: shortest superstring problem",
+      "Telescope scheduling: minimizing slew time between targets",
+      "Circuit board testing: efficient probe path planning"
     ],
     "whenToUse": [
-      "When Traveling Salesman (DP) properties needed"
+      "When n ≤ 20 and an exact optimal solution is required",
+      "When exponential time is acceptable (small instances)",
+      "When tour cost must be globally minimal, not approximate",
+      "When you need to reconstruct the full optimal path"
     ],
     "alternatives": [
-      "Other graph algorithms depending on constraints"
+      "Nearest-neighbor heuristic O(n²): fast, ~25% above optimal",
+      "Christofides algorithm O(n³): guarantees within 1.5× optimal",
+      "Lin-Kernighan heuristic: high quality for large n",
+      "Branch-and-bound: exact but variable performance"
     ]
-  },
-  "id": "tsp",
-  "category": "graphs",
-  "implemented": true
+  }
 }

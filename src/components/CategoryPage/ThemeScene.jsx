@@ -4,49 +4,54 @@ import { useEffect, useRef } from 'react'
    PER-THEME CANVAS CONFIGS  (14 visual identities)
 ════════════════════════════════════════════════════ */
 
-// ── FIRE (sorting) ──────────────────────────────────
-function fireCfg(w, h) {
-  return Array.from({ length: 130 }, () => mkFireP(w, h))
-}
-function mkFireP(w, h) {
-  const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.9
-  const speed = 1.2 + Math.random() * 3.5
-  return {
+// ── SNOW BLIZZARD (sorting) ─────────────────────────
+function snowflakeCfg(w, h) {
+  return Array.from({ length: 220 }, () => ({
     x: Math.random() * w,
-    y: h + Math.random() * 60,
-    vx: Math.cos(angle) * speed * 0.5 + (Math.random() - 0.5) * 1,
-    vy: -speed,
-    size: 4 + Math.random() * 22,
-    life: Math.random() * 0.3,
-    decay: 0.005 + Math.random() * 0.009,
-    hue: Math.random() * 22,
-    alpha: 0.45 + Math.random() * 0.4,
-  }
+    y: Math.random() * h - h,
+    vx: (Math.random() - 0.5) * 1.8,
+    vy: 0.8 + Math.random() * 2.5,
+    size: 2 + Math.random() * 9,
+    opacity: 0.3 + Math.random() * 0.65,
+    rotation: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.05,
+    wobble: Math.random() * Math.PI * 2,
+    wobbleSpeed: 0.018 + Math.random() * 0.018,
+    isFlake: Math.random() < 0.35,
+  }))
 }
-function updateFire(p, w, h) {
-  p.x += p.vx + Math.sin(p.life * 9) * 0.7
+function updateSnowflake(p, w, h, t) {
+  p.wobble += p.wobbleSpeed
+  p.x += p.vx + Math.sin(p.wobble) * 1.2
   p.y += p.vy
-  p.life += p.decay
-  p.size *= 0.993
-  p.hue = Math.min(58, p.hue + 0.45)
-  if (p.y < -p.size * 3 || p.life >= 1 || p.size < 0.4) {
-    Object.assign(p, mkFireP(w, h))
-  }
+  p.rotation += p.rotSpeed
+  if (p.y > h + 20) { p.y = -20; p.x = Math.random() * w }
+  if (p.x < -20) p.x = w + 20; if (p.x > w + 20) p.x = -20
 }
-function drawFire(ctx, p) {
-  const a = (1 - p.life) * p.alpha
-  if (a <= 0.01) return
+function drawSnowflake(ctx, p) {
   ctx.save()
-  ctx.globalAlpha = a
-  const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size)
-  g.addColorStop(0, `hsla(${p.hue + 48}, 100%, 90%, 1)`)
-  g.addColorStop(0.3, `hsla(${p.hue + 25}, 100%, 65%, 0.8)`)
-  g.addColorStop(1, `hsla(${p.hue}, 90%, 35%, 0)`)
-  ctx.fillStyle = g
-  ctx.beginPath()
-  ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.restore()
+  ctx.translate(p.x, p.y)
+  ctx.rotate(p.rotation)
+  ctx.globalAlpha = p.opacity
+  if (p.isFlake && p.size > 4) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)'
+    ctx.lineWidth = 1.2
+    for (let i = 0; i < 6; i++) {
+      ctx.save(); ctx.rotate((i / 6) * Math.PI * 2)
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -p.size)
+      ctx.moveTo(0, -p.size * 0.55); ctx.lineTo(p.size * 0.28, -p.size * 0.72)
+      ctx.moveTo(0, -p.size * 0.55); ctx.lineTo(-p.size * 0.28, -p.size * 0.72)
+      ctx.stroke(); ctx.restore()
+    }
+  } else {
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size)
+    g.addColorStop(0, 'rgba(255,255,255,0.95)')
+    g.addColorStop(0.6, 'rgba(220,240,255,0.5)')
+    g.addColorStop(1, 'rgba(200,230,255,0)')
+    ctx.fillStyle = g
+    ctx.beginPath(); ctx.arc(0, 0, p.size, 0, Math.PI * 2); ctx.fill()
+  }
+  ctx.restore(); ctx.globalAlpha = 1
 }
 
 // ── RAIN / STORM (searching) ────────────────────────
@@ -415,59 +420,79 @@ function drawConstellations(ctx, stars) {
   }
 }
 
-// ── FIREFLIES (backtracking) ─────────────────────────
-function fireflyBigCfg(w, h) {
+// ── HEARTS / LOVE (backtracking) ─────────────────────
+function heartsCfg(w, h) {
   return Array.from({ length: 90 }, () => ({
-    x: Math.random() * w, y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.55, vy: (Math.random() - 0.5) * 0.55,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.025 + Math.random() * 0.04,
-    r: 1.8 + Math.random() * 2.5,
+    x: Math.random() * w,
+    y: h + Math.random() * 80,
+    vx: (Math.random() - 0.5) * 1.2,
+    vy: -(0.5 + Math.random() * 1.8),
+    size: 8 + Math.random() * 18,
+    hue: 325 + Math.random() * 40,
+    alpha: 0.4 + Math.random() * 0.5,
     wobble: Math.random() * Math.PI * 2,
-    wobbleSpeed: 0.01 + Math.random() * 0.01,
-    hue: 58 + Math.random() * 30,
-    alpha: 0,
+    wobbleSpeed: 0.015 + Math.random() * 0.015,
+    rotation: (Math.random() - 0.5) * 0.5,
   }))
 }
-function updateFirefly(p, w, h) {
-  p.phase += p.speed; p.wobble += p.wobbleSpeed
-  p.alpha = 0.35 + 0.65 * Math.abs(Math.sin(p.phase))
-  p.x += p.vx + Math.sin(p.wobble) * 0.5
-  p.y += p.vy + Math.cos(p.wobble * 0.7) * 0.4
-  if (p.x < 0) p.x = w; if (p.x > w) p.x = 0
-  if (p.y < 0) p.y = h; if (p.y > h) p.y = 0
+function updateHeart(p, w, h) {
+  p.wobble += p.wobbleSpeed
+  p.x += p.vx + Math.sin(p.wobble) * 0.6
+  p.y += p.vy
+  p.alpha -= 0.003
+  if (p.y < -p.size * 3 || p.alpha <= 0) {
+    p.y = h + p.size; p.x = Math.random() * w
+    p.alpha = 0.4 + Math.random() * 0.5
+    p.vy = -(0.5 + Math.random() * 1.8)
+  }
 }
-function drawFirefly(ctx, p) {
-  if (p.alpha < 0.05) return
-  const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5)
-  g.addColorStop(0, `hsla(${p.hue}, 100%, 70%, ${p.alpha})`)
-  g.addColorStop(0.4, `hsla(${p.hue}, 100%, 70%, ${p.alpha * 0.3})`)
-  g.addColorStop(1, 'rgba(0,0,0,0)')
-  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 5, 0, Math.PI * 2); ctx.fill()
-  ctx.fillStyle = `rgba(255,255,255,${p.alpha})`
-  ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill()
+function drawHeart(ctx, p) {
+  ctx.save()
+  ctx.translate(p.x, p.y); ctx.rotate(p.rotation)
+  ctx.globalAlpha = p.alpha
+  const s = p.size / 12
+  ctx.beginPath()
+  ctx.moveTo(0, s * 4)
+  ctx.bezierCurveTo(-s * 12, -s * 2, -s * 12, -s * 12, 0, -s * 6)
+  ctx.bezierCurveTo(s * 12, -s * 12, s * 12, -s * 2, 0, s * 4)
+  ctx.closePath()
+  const g = ctx.createRadialGradient(0, -s * 2, 0, 0, 0, s * 12)
+  g.addColorStop(0, `hsla(${p.hue}, 100%, 82%, 1)`)
+  g.addColorStop(0.5, `hsla(${p.hue - 10}, 100%, 62%, 0.8)`)
+  g.addColorStop(1, `hsla(${p.hue - 20}, 100%, 42%, 0.3)`)
+  ctx.fillStyle = g
+  ctx.shadowBlur = 10; ctx.shadowColor = `hsla(${p.hue}, 100%, 62%, 0.5)`
+  ctx.fill()
+  ctx.restore(); ctx.shadowBlur = 0; ctx.globalAlpha = 1
 }
 
-// ── SNOW / ICE CRYSTALS (dp) ─────────────────────────
-function snowCfg(w, h) {
-  return Array.from({ length: 120 }, () => ({
-    x: Math.random() * w, y: Math.random() * h,
-    r: 1 + Math.random() * 3.5,
-    vx: (Math.random() - 0.5) * 0.5, vy: 0.3 + Math.random() * 0.8,
-    alpha: 0.3 + Math.random() * 0.55,
-    phase: Math.random() * Math.PI * 2,
-  }))
+// ── HIGHWAY STREAKS (dp) ────────────────────────────
+function highwayCfg(w, h) {
+  return Array.from({ length: 50 }, () => mkHighwayStreakP(w, h))
 }
-function updateSnow(p, w, h) {
-  p.phase += 0.012; p.x += p.vx + Math.sin(p.phase) * 0.25; p.y += p.vy
-  if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w }
-  if (p.x < 0) p.x = w; if (p.x > w) p.x = 0
+function mkHighwayStreakP(w, h) {
+  const goRight = Math.random() > 0.5
+  return {
+    x: goRight ? -60 : w + 60,
+    y: h * (0.38 + Math.random() * 0.47),
+    vx: goRight ? (2.5 + Math.random() * 5) : -(2.5 + Math.random() * 5),
+    len: 25 + Math.random() * 55,
+    color: Math.random() > 0.5 ? '#fbbf24' : '#f9fafb',
+    alpha: 0.25 + Math.random() * 0.45,
+  }
 }
-function drawSnow(ctx, p) {
-  ctx.save()
-  ctx.shadowBlur = 4; ctx.shadowColor = 'rgba(150,220,255,0.5)'
-  ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-  ctx.fillStyle = `rgba(200,235,255,${p.alpha})`; ctx.fill()
+function updateHighwayStreak(p, w, h) {
+  p.x += p.vx
+  if (p.vx > 0 && p.x > w + 70) Object.assign(p, mkHighwayStreakP(w, h), { x: -60, vx: Math.abs(p.vx) })
+  if (p.vx < 0 && p.x < -70) Object.assign(p, mkHighwayStreakP(w, h), { x: w + 60, vx: -Math.abs(p.vx) })
+}
+function drawHighwayStreak(ctx, p) {
+  ctx.save(); ctx.globalAlpha = p.alpha
+  const x0 = p.vx > 0 ? p.x - p.len : p.x
+  const x1 = p.vx > 0 ? p.x : p.x + p.len
+  const grad = ctx.createLinearGradient(x0, p.y, x1, p.y)
+  grad.addColorStop(0, p.color + '00'); grad.addColorStop(1, p.color)
+  ctx.fillStyle = grad; ctx.fillRect(x0, p.y - 1.8, p.len, 3.6)
   ctx.restore()
 }
 
@@ -557,7 +582,7 @@ function ThemeCanvas({ themeId }) {
       w = canvas.width  = canvas.offsetWidth
       h = canvas.height = canvas.offsetHeight
       switch (themeId) {
-        case 'water':    particles = fireCfg(w, h);          break
+        case 'water':    particles = snowflakeCfg(w, h);      break
         case 'light':    particles = rainCfg(w, h);          break
         case 'compass':  particles = oceanCfg(w, h);         break
         case 'puzzle':   particles = butterflyCfg(w, h);     break
@@ -568,8 +593,8 @@ function ThemeCanvas({ themeId }) {
         case 'mountain': particles = lavaCfg(w, h);          break
         case 'network':  particles = starCfg(w, h, 220);     break
         case 'target':   particles = starCfg(w, h, 120);     break
-        case 'blocks':   particles = snowCfg(w, h);          break
-        case 'maze':     particles = fireflyBigCfg(w, h);    break
+        case 'blocks':   particles = highwayCfg(w, h);       break
+        case 'maze':     particles = heartsCfg(w, h);        break
         case 'circuit':  particles = plasmaCfg(w, h);        break
         default:         particles = starCfg(w, h, 100)
       }
@@ -587,7 +612,7 @@ function ThemeCanvas({ themeId }) {
       } else {
         for (const p of particles) {
           switch (themeId) {
-            case 'water':    updateFire(p, w, h);         drawFire(ctx, p);        break
+            case 'water':    updateSnowflake(p, w, h, t);  drawSnowflake(ctx, p);   break
             case 'light':    updateRain(p, w, h);         drawRain(ctx, p);        break
             case 'puzzle':   updateButterfly(p, w, h);    drawButterfly(ctx, p);   break
             case 'chain':    updateBlossom(p, w, h);      drawBlossom(ctx, p);     break
@@ -597,8 +622,8 @@ function ThemeCanvas({ themeId }) {
             case 'mountain': updateLava(p, w, h);         drawLava(ctx, p);        break
             case 'network':  updateStar(p, w, h, t);      drawStar(ctx, p);        break
             case 'target':   updateStar(p, w, h, t);      drawStar(ctx, p);        break
-            case 'blocks':   updateSnow(p, w, h);         drawSnow(ctx, p);        break
-            case 'maze':     updateFirefly(p, w, h);      drawFirefly(ctx, p);     break
+            case 'blocks':   updateHighwayStreak(p, w, h); drawHighwayStreak(ctx, p); break
+            case 'maze':     updateHeart(p, w, h);        drawHeart(ctx, p);       break
             case 'circuit':  updatePlasma(p, w, h);       drawPlasma(ctx, p);      break
           }
         }
@@ -620,7 +645,7 @@ function ThemeCanvas({ themeId }) {
    THEME BACKGROUNDS  (gradient per identity)
 ════════════════════════════════════════════════════ */
 const THEME_BG = {
-  water:    'linear-gradient(180deg,#1a0500 0%,#2d0a00 40%,#3d0d00 70%,#0a0200 100%)',
+  water:    'linear-gradient(180deg,#e0f2fe 0%,#bae6fd 35%,#7dd3fc 65%,#38bdf8 100%)',
   light:    'linear-gradient(180deg,#06091a 0%,#0a0f1e 40%,#0f172a 70%,#1a2540 100%)',
   compass:  'linear-gradient(180deg,#0ea5e9 0%,#0284c7 35%,#0369a1 65%,#0c4a6e 100%)',
   puzzle:   'linear-gradient(135deg,#fdf4ff 0%,#f0e6ff 40%,#e8d5ff 70%,#ddd0ff 100%)',
@@ -631,8 +656,8 @@ const THEME_BG = {
   mountain: 'linear-gradient(180deg,#1c0a00 0%,#2d1000 40%,#1a0800 70%,#0a0300 100%)',
   network:  'radial-gradient(ellipse at center,#1e3a5f 0%,#0f172a 60%,#000000 100%)',
   target:   'linear-gradient(180deg,#020617 0%,#050d1e 50%,#0a1628 100%)',
-  blocks:   'linear-gradient(180deg,#0a1628 0%,#0f2044 40%,#1a3060 70%,#0f2044 100%)',
-  maze:     'radial-gradient(circle at 50% 60%,#061a0a 0%,#041208 50%,#020c04 100%)',
+  blocks:   'linear-gradient(180deg,#0f172a 0%,#1e293b 40%,#334155 60%,#1e293b 100%)',
+  maze:     'linear-gradient(180deg,#4a0020 0%,#7f1d4a 40%,#9d174d 70%,#4a0020 100%)',
   circuit:  'radial-gradient(circle at 50% 50%,#0f1629 0%,#030712 80%)',
 }
 
@@ -640,25 +665,22 @@ const THEME_BG = {
    SVG OVERLAYS
 ════════════════════════════════════════════════════ */
 
-function FireSVG() {
+function SnowSVG() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{zIndex:1}}>
-      {/* Ember glow at bottom */}
-      <div className="absolute bottom-0 left-0 right-0" style={{
-        height:'45%',
-        background:'radial-gradient(ellipse at 50% 100%,rgba(249,115,22,0.25) 0%,rgba(220,38,38,0.1) 50%,transparent 80%)'}} />
-      {/* Heat shimmer bands */}
-      {[22,45,68].map((x,i) => (
-        <div key={i} className="absolute" style={{
-          left:`${x}%`,top:0,width:60+i*30,height:'80%',
-          background:'linear-gradient(180deg,rgba(255,100,20,0.06) 0%,transparent 100%)',
-          transform:`rotate(${(i%2===0?-1:1)*3}deg)`,transformOrigin:'bottom center',
-          animation:`light-ray-breathe ${3+i*.8}s ease-in-out ${i*.7}s infinite`}} />
+      {/* Blizzard wind streaks */}
+      {[12,28,45,62,78].map((y,i) => (
+        <div key={i} className="absolute left-0 right-0" style={{
+          top:`${y}%`,height:2,
+          background:`linear-gradient(90deg,transparent,rgba(255,255,255,${0.14+i*.04}),transparent)`,
+          animation:`aurora-wave ${3+i*.5}s ease-in-out ${i*.4}s infinite`}} />
       ))}
-      {/* Glow at top (rising heat) */}
-      <div className="absolute top-0 left-0 right-0" style={{
-        height:'35%',
-        background:'radial-gradient(ellipse at 50% 0%,rgba(251,146,60,0.08) 0%,transparent 70%)'}} />
+      {/* Snow on ground */}
+      <div className="absolute bottom-0 left-0 right-0" style={{height:32,
+        background:'rgba(255,255,255,0.72)',borderRadius:'60% 60% 0 0'}} />
+      {/* Cool sky top */}
+      <div className="absolute top-0 left-0 right-0" style={{height:'30%',
+        background:'radial-gradient(ellipse at 50% 0%,rgba(224,242,254,0.28) 0%,transparent 70%)'}} />
     </div>
   )
 }
@@ -871,53 +893,49 @@ function AuroraSVG() {
   )
 }
 
-function IceSVG() {
+function HighwaySVG() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{zIndex:1}}>
-      {/* Frost corners */}
-      <div className="absolute inset-0" style={{
-        background:`
-          radial-gradient(ellipse at 0% 0%,rgba(150,210,255,0.14) 0%,transparent 40%),
-          radial-gradient(ellipse at 100% 100%,rgba(150,210,255,0.14) 0%,transparent 40%)
-        `}} />
-      {/* Ice crystal SVG */}
-      <svg className="absolute inset-0 w-full h-full" opacity={0.06}>
-        {[[10,20],[30,60],[70,30],[85,75],[50,85],[20,80]].map(([x,y],i) => (
-          <g key={i} transform={`translate(${x}%,${y}%)`}>
-            {[0,60,120].map(a => (
-              <line key={a} x1="0" y1="0" x2={`${Math.cos(a*Math.PI/180)*25}`} y2={`${Math.sin(a*Math.PI/180)*25}`}
-                stroke="#67e8f9" strokeWidth="1.5"/>
-            ))}
-            <circle cx="0" cy="0" r="3" fill="#67e8f9" />
-          </g>
-        ))}
+      {/* Road surface */}
+      <div className="absolute left-0 right-0" style={{
+        top:'35%',height:'50%',background:'rgba(55,65,81,0.9)'}} />
+      {/* Road edges */}
+      <div className="absolute left-0 right-0" style={{top:'35%',height:2,background:'rgba(255,255,255,0.55)'}} />
+      <div className="absolute left-0 right-0" style={{top:'85%',height:2,background:'rgba(255,255,255,0.55)'}} />
+      {/* City skyline */}
+      <svg className="absolute top-0 left-0 w-full" style={{height:'36%'}}>
+        <path d="M0,100 L0,60 L8,60 L8,30 L12,30 L12,50 L18,50 L18,15 L22,15 L22,45 L28,45 L28,25 L32,25 L32,55 L40,55 L40,20 L44,20 L44,40 L50,40 L50,10 L54,10 L54,35 L60,35 L60,50 L68,50 L68,22 L72,22 L72,45 L80,45 L80,30 L85,30 L85,55 L92,55 L92,35 L100,35 L100,100"
+          fill="rgba(15,23,42,0.92)" vectorEffect="non-scaling-stroke" />
       </svg>
+      {/* Lane markers */}
+      {[48,61,74].map((y,i) => (
+        <div key={i} className="absolute left-0 right-0" style={{
+          top:`${y}%`,height:2,opacity:0.55,
+          background:'repeating-linear-gradient(90deg,#fbbf24 0,#fbbf24 25px,transparent 25px,transparent 45px)'}} />
+      ))}
     </div>
   )
 }
 
-function NightSVG() {
+function HeartsSVG() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{zIndex:1}}>
-      {/* Moon */}
-      <div className="absolute" style={{
-        top:'9%',right:'14%',width:60,height:60,
-        background:'radial-gradient(circle at 35% 35%,#fffde7,#fef9c3,#fef08a)',
-        borderRadius:'50%',
-        boxShadow:'0 0 30px rgba(254,240,138,0.3)'}} />
-      {/* Ground fog */}
-      <div className="absolute bottom-0 left-0 right-0" style={{
-        height:'28%',
-        background:'linear-gradient(0deg,rgba(20,40,25,0.7) 0%,transparent 100%)'}} />
-      {/* Sparse tree silhouettes */}
-      <div className="absolute bottom-0 left-0 right-0" style={{height:70}}>
-        <svg viewBox="0 0 1200 70" className="w-full h-full" preserveAspectRatio="none">
-          <polygon points="80,70 100,10 120,70" fill="rgba(2,12,4,0.7)" />
-          <polygon points="200,70 220,20 240,70" fill="rgba(2,12,4,0.65)" />
-          <polygon points="900,70 920,5 940,70" fill="rgba(2,12,4,0.7)" />
-          <polygon points="1050,70 1075,15 1100,70" fill="rgba(2,12,4,0.6)" />
-        </svg>
-      </div>
+      {/* Pulsing center glow */}
+      <div className="absolute inset-0" style={{
+        background:'radial-gradient(ellipse at 50% 50%,rgba(236,72,153,0.2) 0%,rgba(190,24,93,0.07) 50%,transparent 80%)',
+        animation:'lava-pulse 2s ease-in-out infinite'}} />
+      {/* Sparkle dots */}
+      {[[15,25],[70,15],[30,65],[80,55],[50,80],[85,30]].map(([x,y],i) => (
+        <div key={i} className="absolute rounded-full" style={{
+          left:`${x}%`,top:`${y}%`,width:5,height:5,
+          background:`hsl(${320+i*10},100%,75%)`,
+          boxShadow:`0 0 10px hsl(${320+i*10},100%,70%)`,
+          animation:`firefly-blink ${1.5+i*.4}s ease-in-out ${i*.3}s infinite`}} />
+      ))}
+      {/* Top vignette */}
+      <div className="absolute top-0 left-0 right-0" style={{
+        height:'30%',
+        background:'linear-gradient(180deg,rgba(74,0,32,0.45) 0%,transparent 100%)'}} />
     </div>
   )
 }
@@ -950,7 +968,7 @@ function PlasmaSVG() {
 }
 
 const OVERLAYS = {
-  water:   FireSVG,
+  water:   SnowSVG,
   light:   StormSVG,
   compass: OceanSVG,
   puzzle:  ButterflyBgSVG,
@@ -961,8 +979,8 @@ const OVERLAYS = {
   mountain:VolcanoSVG,
   network: GalaxySVG,
   target:  AuroraSVG,
-  blocks:  IceSVG,
-  maze:    NightSVG,
+  blocks:  HighwaySVG,
+  maze:    HeartsSVG,
   circuit: PlasmaSVG,
 }
 

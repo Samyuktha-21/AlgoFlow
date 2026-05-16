@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
@@ -5,6 +6,16 @@ import Home from './pages/Home'
 import Category from './pages/Category'
 import Algorithm from './pages/Algorithm'
 import { useTheme } from './context/ThemeContext'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [pathname])
+  return null
+}
 
 function App() {
   const { isDark } = useTheme()
@@ -17,6 +28,7 @@ function App() {
         ? 'homepage-root flex flex-col'
         : `min-h-screen flex flex-col ${isDark ? 'dark bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`
     }>
+      <ScrollToTop />
       <Header isHomepage={isHomepage} />
       <main className="flex-1">
         <Routes>
