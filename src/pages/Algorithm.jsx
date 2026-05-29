@@ -9,6 +9,7 @@ import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/val
 
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 import { BeginnerToggleBanner } from '../context/BeginnerContext'
+import AlgorithmComments from '../components/AlgorithmComments'
 import VisualizerCanvas from '../components/Visualizer/VisualizerCanvas'
 import PlaybackControls from '../components/Visualizer/PlaybackControls'
 import InputPanel from '../components/Visualizer/InputPanel'
@@ -198,6 +199,8 @@ export default function Algorithm() {
   const textMuted   = isLight ? '#334155' : 'rgba(255,255,255,0.6)'
 
   useEffect(() => {
+    let cancelled = false   // stale-flag: prevents state updates if we navigate away
+
     setIsLoading(true); setMetadata(null); setCodeData(null)
     setStepsModule(null); setSteps([]); setNotImplemented(false)
 
@@ -205,18 +208,27 @@ export default function Algorithm() {
     const codePath  = `../algorithms/${categoryId}/${algorithmId}/code.json`
     const stepsPath = `../algorithms/${categoryId}/${algorithmId}/steps.js`
 
-    if (!metaModules[metaPath]) { setNotImplemented(true); setIsLoading(false); return }
+    if (!metaModules[metaPath]) {
+      if (!cancelled) { setNotImplemented(true); setIsLoading(false) }
+      return () => { cancelled = true }
+    }
 
     Promise.all([
       metaModules[metaPath](),
       metaModules[codePath] ? metaModules[codePath]() : Promise.resolve(null),
       stepsModules[stepsPath] ? stepsModules[stepsPath]() : Promise.resolve(null),
     ]).then(([meta, code, steps]) => {
+      if (cancelled) return
       setMetadata(meta?.default || meta)
       setCodeData(code?.default || code)
       setStepsModule(steps)
       setIsLoading(false)
-    }).catch(() => { setNotImplemented(true); setIsLoading(false) })
+    }).catch((err) => {
+      console.error('Algorithm load error:', err)
+      if (!cancelled) { setNotImplemented(true); setIsLoading(false) }
+    })
+
+    return () => { cancelled = true }
   }, [categoryId, algorithmId])
 
   const currentCode     = codeData?.[language]?.code || ''
@@ -266,10 +278,11 @@ export default function Algorithm() {
         <ThemeBackground themeId={themeId} variant="page" />
         <div style={{ position:'relative', zIndex:10, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'100vh', gap:16, padding:'0 24px' }}>
           <div style={{ ...glass, padding:'40px 48px', textAlign:'center' }}>
-            <p style={{ fontSize:48, marginBottom:12 }}>🚧</p>
-            <h2 style={{ fontSize:24, fontWeight:700, color: textPrimary, marginBottom:8 }}>Coming Soon</h2>
+            <p style={{ fontSize:48, marginBottom:12 }}>🔍</p>
+            <h2 style={{ fontSize:24, fontWeight:700, color: textPrimary, marginBottom:8 }}>Algorithm Not Found</h2>
             <p style={{ color: textMuted, maxWidth:400, lineHeight:1.6 }}>
-              This algorithm visualization is being built.
+              The page <code style={{ fontSize:13, padding:'2px 6px', borderRadius:4, background:'rgba(255,255,255,0.1)' }}>/{categoryId}/{algorithmId}</code> doesn't match any known algorithm.
+              Try navigating from the category page.
             </p>
             <div style={{ display:'flex', gap:12, justifyContent:'center', marginTop:20 }}>
               <Link to={`/category/${categoryId}`}
@@ -408,6 +421,11 @@ export default function Algorithm() {
                 {activeTab === 'applications' && <ApplicationsPanel metadata={metadata} />}
               </motion.div>
             </AnimatePresence>
+          </div>
+
+          {/* ── Comments section ── */}
+          <div style={{ ...glass, overflow:'hidden', marginTop: 0 }}>
+            <AlgorithmComments algorithmId={algorithmId} />
           </div>
 
         </div>

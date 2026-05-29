@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Environment variables - never commit these
+.env
+.env.local
+.env.production
+.env.*.local

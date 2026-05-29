@@ -21,25 +21,30 @@ export function BeginnerToggleCompact() {
   return (
     <button
       onClick={() => setBeginner(b => !b)}
-      title={beginner ? 'Switch to Technical Mode' : 'Switch to Beginner Mode'}
+      title={beginner ? 'Switch to Expert Mode' : 'Switch to Beginner Mode'}
       style={{
-        display: 'flex', alignItems: 'center', gap: 6,
-        padding: '5px 12px',
-        background: beginner ? 'rgba(52,211,153,0.18)' : 'rgba(255,255,255,0.07)',
-        border: `1px solid ${beginner ? 'rgba(52,211,153,0.45)' : 'rgba(255,255,255,0.18)'}`,
-        borderRadius: 20,
+        display: 'flex', alignItems: 'center', gap: 7,
+        padding: '7px 14px',
+        background: beginner
+          ? 'linear-gradient(135deg,#10b981,#059669)'
+          : 'linear-gradient(135deg,#4f46e5,#7c3aed)',
+        border: 'none',
+        borderRadius: 24,
         cursor: 'pointer',
         transition: 'all 0.25s',
         userSelect: 'none',
+        boxShadow: beginner
+          ? '0 0 18px rgba(16,185,129,0.55)'
+          : '0 0 18px rgba(79,70,229,0.5)',
       }}
     >
       <span style={{ fontSize: 15 }}>{beginner ? '🧒' : '🎓'}</span>
       <span style={{
-        fontSize: 12, fontWeight: 600,
-        color: beginner ? '#34d399' : 'rgba(255,255,255,0.6)',
+        fontSize: 12, fontWeight: 700,
+        color: '#ffffff',
         whiteSpace: 'nowrap',
       }}>
-        {beginner ? 'Beginner' : 'Beginner'}
+        {beginner ? 'Beginner' : 'Expert'}
       </span>
       {/* Mini pill */}
       <div style={{

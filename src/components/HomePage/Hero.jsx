@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { ChevronDown, Sparkles } from 'lucide-react'
 import ParticleBackground from './ParticleBackground'
+import { SearchTriggerHero } from '../Search/SearchTrigger'
 
 export default function Hero() {
   return (
@@ -28,7 +29,7 @@ export default function Hero() {
             border border-purple-500/30 bg-purple-500/10 text-purple-300 text-sm font-medium"
         >
           <Sparkles size={14} className="text-purple-400" />
-          100+ Algorithms • 14 Themed Categories • Step-by-Step Animations
+          124 Algorithms • 14 Themed Categories • Interview Hub
         </motion.div>
 
         {/* Main title */}
@@ -67,12 +68,22 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-base mb-12 max-w-lg mx-auto leading-relaxed"
+          className="text-base max-w-lg mx-auto leading-relaxed"
           style={{ color: '#64748b' }}
         >
           Master algorithms through beautiful step-by-step visualizations.
           Watch code execute in real-time with synchronized highlighting.
         </motion.p>
+
+        {/* ── Hero search bar ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.55 }}
+          style={{ margin: '28px auto 0', width: '100%', maxWidth: 560, display: 'flex', justifyContent: 'center' }}
+        >
+          <SearchTriggerHero />
+        </motion.div>
 
         {/* Stats row */}
         <motion.div
@@ -82,10 +93,10 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-6 mb-14"
         >
           {[
-            { value: '100+', label: 'Algorithms'  },
-            { value: '14',   label: 'Categories'  },
-            { value: '3',    label: 'Languages'   },
-            { value: '∞',    label: 'Step Control' },
+            { value: '124',  label: 'Algorithms'    },
+            { value: '14',   label: 'Categories'    },
+            { value: '3',    label: 'Languages'     },
+            { value: '50+',  label: 'Interview Qs'  },
           ].map(stat => (
             <div key={stat.label} className="text-center">
               <div className="gradient-text-gold font-black text-2xl">{stat.value}</div>
