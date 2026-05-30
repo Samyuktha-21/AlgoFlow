@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Optimal File Merging implementation",
+    "code": "import java.util.*;\npublic class OptimalFileMerge {\n    public static long minCost(int[] files) {\n        PriorityQueue<Long> pq = new PriorityQueue<>();\n        for (int f : files) pq.add((long)f);\n        long totalCost = 0;\n        while (pq.size() > 1) {\n            long a = pq.poll(), b = pq.poll();\n            totalCost += a + b;\n            pq.add(a + b);\n        }\n        return totalCost;\n    }\n    public static void main(String[] args) {\n        int[] files = {2, 3, 4, 5, 6};\n        System.out.println(\"Minimum merge cost: \" + minCost(files));\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Optimal File Merging C",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\nlong minMergeCost(int* files, int n) {\n    /* Use min-heap — simplified with sorted array for small n */\n    long total=0, arr[100]; for(int i=0;i<n;i++) arr[i]=files[i];\n    for(int cnt=n;cnt>1;cnt--) {\n        /* sort and take two smallest */\n        for(int i=0;i<cnt-1;i++) for(int j=0;j<cnt-i-1;j++) if(arr[j]>arr[j+1]){long t=arr[j];arr[j]=arr[j+1];arr[j+1]=t;}\n        long m=arr[0]+arr[1]; total+=m;\n        arr[0]=m; for(int i=1;i<cnt-1;i++) arr[i]=arr[i+1]; cnt--;\n    }\n    return total;\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Optimal File Merging C++",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nlong long minMergeCost(vector<int>& files) {\n    priority_queue<long long, vector<long long>, greater<long long>> pq(files.begin(), files.end());\n    long long total = 0;\n    while (pq.size() > 1) {\n        auto a = pq.top(); pq.pop();\n        auto b = pq.top(); pq.pop();\n        total += a + b; pq.push(a + b);\n    }\n    return total;\n}",
     "lineKeys": {}
   }
 }

@@ -1,5 +1,5 @@
 import { computeLayout } from '../bfs/steps.js'
-const DEFAULT_WEIGHTED={nodes:[{id:0,label:'0'},{id:1,label:'1'},{id:2,label:'2'},{id:3,label:'3'},{id:4,label:'4'}],edges:[{from:0,to:1,weight:6},{from:0,to:2,weight:7},{from:1,to:2,weight8:-4},{from:1,to:3,weight:5},{from:2,to:4,weight:9},{from:3,to:4,weight:-3},{from:4,to:1,weight:2}]}
+const DEFAULT_WEIGHTED={nodes:[{id:0,label:'0'},{id:1,label:'1'},{id:2,label:'2'},{id:3,label:'3'},{id:4,label:'4'}],edges:[{from:0,to:1,weight:6},{from:0,to:2,weight:7},{from:1,to:2,weight:-4},{from:1,to:3,weight:5},{from:2,to:4,weight:9},{from:3,to:4,weight:-3},{from:4,to:1,weight:2}]}
 export function generateSteps(inputNodes=null,inputEdges=null,src=0){
   const nodes=inputNodes||[{id:0,label:'A'},{id:1,label:'B'},{id:2,label:'C'},{id:3,label:'D'},{id:4,label:'E'}]
   const edges=inputEdges||[{from:0,to:1,weight:6},{from:0,to:2,weight:7},{from:1,to:3,weight:5},{from:2,to:1,weight:-4},{from:3,to:4,weight:-3},{from:4,to:1,weight:2}]

@@ -19,7 +19,7 @@
       "average": "O(n)",
       "averageCase": "Linear time — each value computed once",
       "worst": "O(n)",
-      "worstCase": "No variation — always O(n)"
+      "worstCase": "Iterative DP: O(n). Naive recursive (not shown) would be O(2^n)."
     },
     "space": "O(n)",
     "spaceDescription": "DP array of size n+1; can be optimized to O(1) with two variables",

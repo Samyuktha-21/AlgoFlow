@@ -40,5 +40,6 @@
   },
   "id": "wordBreak",
   "category": "dynamic-programming",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString"
 }

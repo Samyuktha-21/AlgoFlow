@@ -1,38 +1,42 @@
 {
-  "name": "Kosaraju SCC",
+  "name": "Kosaraju's Algorithm (SCC)",
   "type": "graph",
-  "description": "Finds strongly connected components using two DFS passes: forward and on transposed graph",
-  "aim": "Efficiently solve Kosaraju SCC problems on graph inputs.",
+  "description": "Finds all Strongly Connected Components using two DFS passes. Pass 1: DFS on original graph to record finish order. Pass 2: DFS on reversed graph in reverse finish order — each DFS tree is one SCC.",
+  "aim": "Find all Strongly Connected Components (SCCs) in a directed graph — groups of nodes where every node can reach every other node. Uses two DFS passes: one on the original graph and one on the reversed graph.",
   "howItWorks": [
-    "Initialize graph structure",
-    "Apply Kosaraju SCC algorithm steps",
-    "Track visited nodes and optimal paths"
+    "Run DFS on original graph; push each finished node onto a stack",
+    "Reverse all edges in the graph",
+    "Pop nodes from stack; run DFS on reversed graph from each unvisited node",
+    "Each DFS tree in pass 2 is one Strongly Connected Component",
+    "Time: O(V+E) — two linear passes"
   ],
   "complexity": {
     "time": {
-      "best": "O((V+E) log V)",
-      "bestCase": "Depends on graph density",
-      "average": "O((V+E) log V)",
-      "averageCase": "With priority queue",
-      "worst": "O(V²)",
-      "worstCase": "Dense graphs without priority queue"
+      "best": "O(V+E)",
+      "bestCase": "Two DFS passes",
+      "average": "O(V+E)",
+      "averageCase": "Two full DFS traversals",
+      "worst": "O(V+E)",
+      "worstCase": "Always two DFS passes, no priority queue"
     },
-    "space": "O(V+E)",
-    "spaceDescription": "Graph storage plus algorithm-specific arrays",
+    "space": "O(V)",
+    "spaceDescription": "Stack + visited + component arrays",
     "stable": true,
     "adaptive": false
   },
   "applications": {
     "realWorld": [
-      "Kosaraju SCC used in network routing",
-      "GPS navigation",
-      "Operations research"
+      "Social network analysis: find communities where everyone follows everyone else",
+      "Compiler optimization: detect loops in control flow graphs",
+      "Web ranking: Google uses SCC analysis to understand link structure"
     ],
     "whenToUse": [
-      "When Kosaraju SCC properties needed"
+      "Finding groups of mutually reachable nodes in directed graphs",
+      "Detecting cycles in dependency graphs",
+      "Simplifying graphs by condensing SCCs into single nodes"
     ],
     "alternatives": [
-      "Other graph algorithms depending on constraints"
+      "Tarjan's Algorithm: single DFS pass O(V+E), same complexity"
     ]
   },
   "id": "scc",

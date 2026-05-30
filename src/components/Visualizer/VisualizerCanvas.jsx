@@ -36,12 +36,14 @@ export default function VisualizerCanvas({ algorithmType, themeId, metadata }) {
 
   const VisualizerComponent = VISUALIZER_MAP[algorithmType] || ArrayVisualizer
 
+  const LIGHT_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
+  const isLightTheme = LIGHT_THEMES.has(themeId)
   return (
     <div style={{
-      background: 'rgba(0,0,0,0.28)',
+      background: isLightTheme ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.28)',
       backdropFilter: 'blur(14px)',
       WebkitBackdropFilter: 'blur(14px)',
-      border: '1px solid rgba(255,255,255,0.12)',
+      border: isLightTheme ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.12)',
       borderRadius: 16,
       overflow: 'hidden',
     }}>

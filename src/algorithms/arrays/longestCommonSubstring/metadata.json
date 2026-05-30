@@ -38,5 +38,6 @@
   },
   "id": "longestCommonSubstring",
   "category": "arrays",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair"
 }

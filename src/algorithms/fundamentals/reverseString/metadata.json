@@ -41,5 +41,6 @@
   },
   "id": "reverseString",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString"
 }

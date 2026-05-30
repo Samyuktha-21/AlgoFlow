@@ -4,12 +4,49 @@
   "category": "trees",
   "type": "tree",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "A prefix tree where each path from root to a marked node spells a word. Each node has up to 26 children (for lowercase letters). Extremely efficient for prefix-based searches and autocomplete.",
+  "aim": "Store a set of strings in a tree structure where each node represents a character. Common prefixes share nodes. Enables O(m) insert/search/delete where m is the key length — independent of how many strings are stored.",
+  "howItWorks": [
+    "Insert: traverse from root, create nodes for missing characters",
+    "Mark end node as 'end of word'",
+    "Search: traverse matching characters from root; check end-of-word marker",
+    "Prefix search: same as search but don't require end-of-word — finds all words with a prefix",
+    "Delete: unmark end-of-word; remove dangling nodes"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(m)",
+      "bestCase": "Insert/Search on key of length m",
+      "average": "O(m)",
+      "averageCase": "Independent of number of keys n",
+      "worst": "O(m)",
+      "worstCase": "All operations O(m) where m = key length"
+    },
+    "space": "O(n*m)",
+    "spaceDescription": "n keys of average length m, each node has up to 26 children",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Google Search autocomplete: trie enables instant prefix matching",
+      "Spell checkers: find closest word for a misspelled prefix",
+      "IP routing tables: longest prefix matching in network routers",
+      "Mobile keyboard word suggestions"
+    ],
+    "whenToUse": [
+      "Fast prefix search across thousands of strings",
+      "Autocomplete and word suggestions",
+      "Dictionary with prefix queries"
+    ],
+    "alternatives": [
+      "HashMap: O(m) lookup but no prefix search",
+      "Binary Search: O(m log n) but sorted array needed"
+    ]
+  },
+  "beginnerEmoji": "📖",
+  "beginnerAnalogy": "Like a dictionary organised by letters: T-R-I-E takes you to the 'tri' shelf, then 'e' to find 'trie'. Words sharing the same prefix share the same shelf.",
+  "beginnerWhat": "A tree where each level represents one letter of a word, sharing common prefixes among all stored words.",
+  "beginnerWhy": "Finding all words starting with 'pre' takes O(m) time regardless of how many words are stored.",
+  "beginnerWhen": "When you need fast prefix search — autocomplete, spell checking, word games."
 }

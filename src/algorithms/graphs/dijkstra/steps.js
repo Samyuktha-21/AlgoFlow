@@ -21,7 +21,7 @@ export function generateSteps(inputNodes=null,inputEdges=null,startNode=0){
     makeStep(u,[...pq.map(x=>x[1])],'Visit node '+u+' with dist='+du,7)
     for(const {to:v,w} of adj[u]||[]){
       const nd=du+w
-      makeStep(u,[...pq.map(x=>x[1])],'Relax edge '+u+'→'+v+': '+du+'+'+w+'='+nd+' vs dist['+v+']='+dist[v],10)
+      makeStep(u,[...pq.map(x=>x[1])],'Check: can we reach node '+v+' faster via '+u+'? Current best: '+dist[v]+'. New path via '+u+': '+du+'+'+w+'='+nd+(nd<dist[v]?' ✅ '+nd+'<'+dist[v]+' — update!':' ✗ no improvement'),10)
       if(nd<dist[v]){dist[v]=nd;pq.push([nd,v]);makeStep(u,[...pq.map(x=>x[1])],'Update dist['+v+']='+nd,11)}
     }
   }

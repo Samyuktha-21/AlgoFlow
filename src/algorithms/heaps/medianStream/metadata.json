@@ -4,12 +4,41 @@
   "category": "heaps",
   "type": "heap",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "Uses two heaps: a max-heap for the lower half and a min-heap for the upper half. The median is always the top of one or both heaps. After each insert, rebalance so sizes differ by at most 1.",
+  "aim": "Maintain a running median of a data stream — find the median after each new number is added — in O(log n) per insert and O(1) for finding the median.",
+  "howItWorks": [
+    "Lower half: max-heap (largest of smaller half at top)",
+    "Upper half: min-heap (smallest of larger half at top)",
+    "Insert: compare with maxHeap top, add to correct half",
+    "Rebalance if size difference > 1 by moving top element to other heap",
+    "Median: if equal sizes → average of two tops; else → top of larger heap"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(log n)",
+      "bestCase": "Insert into heap is O(log n)",
+      "average": "O(log n)",
+      "averageCase": "Insert O(log n), find median O(1)",
+      "worst": "O(log n)",
+      "worstCase": "Insert always O(log n)"
+    },
+    "space": "O(n)",
+    "spaceDescription": "Two heaps store all n elements",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Financial analytics: live median salary/price updates",
+      "Network monitoring: real-time median response time",
+      "Signal processing: running median filter to remove outliers"
+    ],
+    "whenToUse": [
+      "Need to find median after each new data point in a stream",
+      "When sorting all data each time would be too slow"
+    ],
+    "alternatives": [
+      "Order statistics tree: O(log n) insert + median, but complex to implement"
+    ]
+  }
 }

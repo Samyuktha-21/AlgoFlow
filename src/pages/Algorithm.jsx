@@ -32,7 +32,7 @@ const TABS = [
 
 const LIGHT_PAGE_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
 
-const OP_COLORS = {
+const OP_COLORS_DARK = {
   compare:   { bg:'rgba(251,191,36,0.18)', text:'#fcd34d', border:'rgba(251,191,36,0.4)' },
   swap:      { bg:'rgba(248,113,113,0.18)', text:'#fca5a5', border:'rgba(248,113,113,0.4)' },
   sorted:    { bg:'rgba(52,211,153,0.18)', text:'#6ee7b7', border:'rgba(52,211,153,0.4)' },
@@ -43,6 +43,17 @@ const OP_COLORS = {
   complete:  { bg:'rgba(52,211,153,0.22)', text:'#34d399', border:'rgba(52,211,153,0.5)' },
   default:   { bg:'rgba(99,102,241,0.15)', text:'#a5b4fc', border:'rgba(99,102,241,0.35)' },
 }
+const OP_COLORS_LIGHT = {
+  compare:   { bg:'rgba(254,243,199,0.9)', text:'#92400e', border:'rgba(251,191,36,0.5)' },
+  swap:      { bg:'rgba(254,226,226,0.9)', text:'#991b1b', border:'rgba(239,68,68,0.5)' },
+  sorted:    { bg:'rgba(209,250,229,0.9)', text:'#065f46', border:'rgba(52,211,153,0.5)' },
+  found:     { bg:'rgba(209,250,229,0.9)', text:'#065f46', border:'rgba(74,222,128,0.5)' },
+  visit:     { bg:'rgba(219,234,254,0.9)', text:'#1e40af', border:'rgba(96,165,250,0.5)' },
+  backtrack: { bg:'rgba(237,233,254,0.9)', text:'#4c1d95', border:'rgba(167,139,250,0.5)' },
+  update:    { bg:'rgba(255,237,213,0.9)', text:'#7c2d12', border:'rgba(251,146,60,0.5)' },
+  complete:  { bg:'rgba(209,250,229,0.9)', text:'#065f46', border:'rgba(52,211,153,0.5)' },
+  default:   { bg:'rgba(224,231,255,0.9)', text:'#312e81', border:'rgba(99,102,241,0.4)' },
+}
 const OP_LABELS = {
   compare:'Comparing', swap:'Swap!', sorted:'Sorted ✓', found:'Found! ✓',
   visit:'Visiting', backtrack:'Backtrack ↩', update:'Update', complete:'Complete ✓',
@@ -51,7 +62,11 @@ const OP_LABELS = {
 }
 
 /* ── Default inputs per algorithm type (for auto-run) ── */
-function getDefaultInput(type) {
+function getDefaultInput(type, inputType) {
+  // String-pair algorithms (LCS, longestCommonSubstring, anagramCheck)
+  if (inputType === 'stringPair') return { input: 'ABCBDAB,BDCAB', target: '' }
+  // Single-string algorithms (palindrome, reverseString, wordBreak)
+  if (inputType === 'singleString') return { input: 'racecar', target: '' }
   switch (type) {
     case 'sorting':     return { input: '64, 34, 25, 12, 22, 11, 90', target: '' }
     case 'searching':   return { input: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91', target: '23' }
@@ -165,6 +180,7 @@ function StepInfo({ isLight, algorithmType }) {
   if (!currentStep || steps.length === 0) return null
 
   const progress = ((currentIndex + 1) / steps.length) * 100
+  const OP_COLORS = isLight ? OP_COLORS_LIGHT : OP_COLORS_DARK
   const op = currentStep.type || 'default'
   const oc = OP_COLORS[op] || OP_COLORS.default
   const opLabel = OP_LABELS[op] || op.toUpperCase()
@@ -342,7 +358,9 @@ export default function Algorithm() {
 
   const handleVisualize = useCallback((inputStr, targetStr) => {
     if (!stepsModule?.generateSteps) return { error: 'Algorithm not yet implemented' }
-    const type = metadata?.type || 'sorting'
+    const type       = metadata?.type || 'sorting'
+    const inputType  = metadata?.inputType   // 'stringPair' | 'singleString' | undefined
+
     if (type === 'searching') {
       const p = parseSearchInput(inputStr, targetStr)
       if (p.error) return { error: p.error }
@@ -355,6 +373,21 @@ export default function Algorithm() {
       } else {
         setSteps(stepsModule.generateSteps(null, null, 0))
       }
+    } else if (inputType === 'stringPair') {
+      // e.g. LCS: "ABCBDAB,BDCAB"
+      const raw = (inputStr || '').trim()
+      if (!raw) return { error: 'Enter two strings separated by a comma, e.g. ABCBDAB,BDCAB' }
+      const parts = raw.split(',')
+      if (parts.length < 2) return { error: 'Enter two strings separated by a comma, e.g. ABCBDAB,BDCAB' }
+      const s1 = parts[0].trim().toUpperCase()
+      const s2 = parts.slice(1).join(',').trim().toUpperCase()
+      if (!s1 || !s2) return { error: 'Both strings must be non-empty' }
+      setSteps(stepsModule.generateSteps(s1, s2))
+    } else if (inputType === 'singleString') {
+      // e.g. palindromeCheck, reverseString, wordBreak
+      const raw = (inputStr || '').trim()
+      if (!raw) return { error: 'Enter a string, e.g. racecar' }
+      setSteps(stepsModule.generateSteps(raw))
     } else {
       const p = parseArrayInput(inputStr)
       if (p.error) return { error: p.error }
@@ -367,16 +400,16 @@ export default function Algorithm() {
   useEffect(() => {
     if (!metadata || !stepsModule?.generateSteps || autoRunDone || isLoading) return
     setAutoRunDone(true)
-    const def = getDefaultInput(metadata.type)
+    const def = getDefaultInput(metadata.type, metadata.inputType)
     const result = handleVisualize(def.input, def.target || '')
     if (!result?.error) {
       setSpeed('0.5x')
-      setTimeout(() => play(), 600)   // small delay so the canvas finishes mounting
+      setTimeout(() => play(), 600)
     }
   }, [metadata, stepsModule, autoRunDone, isLoading, handleVisualize, play, setSpeed])
 
   /* Compute default input values for InputPanel pre-fill */
-  const defaultInput = metadata ? getDefaultInput(metadata.type) : null
+  const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType) : null
 
   if (isLoading) {
     return (
@@ -482,6 +515,7 @@ export default function Algorithm() {
             <div className="lg:col-span-3">
               <InputPanel
                 algorithmType={metadata.type}
+                inputType={metadata.inputType}
                 onVisualize={handleVisualize}
                 defaultValue={defaultInput?.input}
                 defaultTarget={defaultInput?.target}

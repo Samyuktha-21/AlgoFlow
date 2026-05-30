@@ -1,14 +1,14 @@
 export function generateSteps(inputArray) {
   const arr = [...inputArray], n = arr.length, steps = []
   const sorted = []
-  steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[], description:'Heap Sort — build max-heap, then extract max repeatedly', codeLine:2 })
+  steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[], description:'Heap Sort — builds a Max-Heap (parent always LARGER than children), then extracts the max repeatedly. Max-Heap rule: every parent ≥ its children.', codeLine:2 })
   function heapify(a, size, i) {
     let largest = i, l = 2*i+1, r = 2*i+2
     steps.push({ array:[...arr], comparing:[i, ...(l<size?[l]:[]), ...(r<size?[r]:[])], swapping:[], sorted:[...sorted], description:`Heapify at ${i}: check children ${l<size?l:'-'}, ${r<size?r:'-'}`, codeLine:3 })
     if (l < size && a[l] > a[largest]) largest = l
     if (r < size && a[r] > a[largest]) largest = r
     if (largest !== i) {
-      steps.push({ array:[...arr], comparing:[], swapping:[i,largest], sorted:[...sorted], description:`Swap arr[${i}]=${a[i]} and arr[${largest}]=${a[largest]}`, codeLine:6 })
+      steps.push({ array:[...arr], comparing:[], swapping:[i,largest], sorted:[...sorted], description:`Heap property violated! arr[${i}]=${a[i]} < arr[${largest}]=${a[largest]} — parent must be larger. Swapping to restore Max-Heap.`, codeLine:6 })
       ;[a[i], a[largest]] = [a[largest], a[i]]
       for(let x=0;x<n;x++) arr[x]=a[x]
       heapify(a, size, largest)

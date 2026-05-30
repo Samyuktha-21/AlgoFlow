@@ -144,6 +144,13 @@ export default function TreeVisualizer({ step }) {
                   fill={text} fontSize={12} fontWeight="bold" fontFamily="monospace">
                   {node.value}
                 </text>
+                {/* Balance factor badge for AVL tree */}
+                {node.bf !== undefined && (
+                  <text x={pos.x + NODE_R + 2} y={pos.y - NODE_R - 2} textAnchor="middle" fontSize={9} fontWeight="bold"
+                    fill={Math.abs(node.bf) > 1 ? '#f87171' : node.bf === 0 ? '#34d399' : '#fbbf24'}>
+                    BF:{node.bf}
+                  </text>
+                )}
               </g>
             )
           })}

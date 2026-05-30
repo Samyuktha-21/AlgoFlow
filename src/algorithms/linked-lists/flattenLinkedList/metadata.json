@@ -4,12 +4,38 @@
   "category": "linked-lists",
   "type": "linked-list",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "Traverse the list; when a node with a child is found, insert the child's sublist between the current node and its next. Uses a stack or recursive DFS to handle multiple levels.",
+  "aim": "Flatten a multilevel doubly linked list where each node may have a child pointer to another linked list. Convert to a single-level linked list by inserting child lists after their parent nodes.",
+  "howItWorks": [
+    "Traverse the list node by node",
+    "When a node has a child: find the tail of the child list",
+    "Connect current.next → child, child.prev → current",
+    "Connect child's tail → current's original next",
+    "Continue traversal — child nodes are now inline"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "—",
+      "bestCase": "",
+      "average": "—",
+      "averageCase": "",
+      "worst": "—",
+      "worstCase": ""
+    },
+    "space": "—",
+    "spaceDescription": "",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "File system directory flattening: convert tree to flat file list",
+      "UI component trees: flatten nested menu/tree structures",
+      "OS process trees: flatten parent-child process hierarchy"
+    ],
+    "whenToUse": [
+      "Converting nested linked structures to flat lists",
+      "Serializing tree-like linked list structures"
+    ]
+  }
 }

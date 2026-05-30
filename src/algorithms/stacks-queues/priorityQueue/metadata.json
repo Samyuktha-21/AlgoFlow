@@ -4,12 +4,49 @@
   "category": "stacks-queues",
   "type": "stack-queue",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "A data structure where each element has a priority. Extract-max (or extract-min) always returns the highest-priority element. Implemented with a binary heap: O(log n) insert/delete, O(1) peek.",
+  "aim": "A Priority Queue always dequeues the element with the highest (or lowest) priority — not FIFO like a regular queue. Backed by a heap for O(log n) insert and extract.",
+  "howItWorks": [
+    "Backed by a max-heap (or min-heap for min-priority queue)",
+    "Insert: add to end of heap, sift up to restore heap property",
+    "Extract-max: swap root with last element, remove last, sift down root",
+    "Peek: return root (highest priority) in O(1)",
+    "Heap property: parent always >= children (max-heap)"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "—",
+      "bestCase": "",
+      "average": "—",
+      "averageCase": "",
+      "worst": "—",
+      "worstCase": ""
+    },
+    "space": "—",
+    "spaceDescription": "",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "CPU process scheduling: always run highest-priority process",
+      "Dijkstra's shortest path: always expand lowest-cost node",
+      "Huffman coding: always merge two lowest-frequency nodes",
+      "Hospital triage: always treat most critical patient"
+    ],
+    "whenToUse": [
+      "When you need to always process the most important item next",
+      "Graph algorithms needing minimum cost expansion",
+      "Event simulation with time-ordered events"
+    ],
+    "alternatives": [
+      "Sorted array: O(n) insert but O(1) extract-max",
+      "Fibonacci heap: O(1) amortized insert, better for dense Dijkstra"
+    ]
+  },
+  "beginnerEmoji": "🏥",
+  "beginnerAnalogy": "Like a hospital emergency room — patients are seen in order of medical urgency, not arrival time. The most critical patient always goes to the front, no matter when they arrived.",
+  "beginnerWhat": "A queue that always serves the highest-priority element first, not the oldest element.",
+  "beginnerWhy": "Regular queues are FIFO — but many real problems need the most important item next, not the oldest.",
+  "beginnerWhen": "Scheduling, pathfinding, greedy algorithms, any problem needing 'always pick the best option'."
 }

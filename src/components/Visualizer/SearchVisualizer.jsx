@@ -30,12 +30,12 @@ export default function SearchVisualizer({ step }) {
   /* ── Spotlight-themed cell styles ── */
   const LIGHT_STYLE = {
     found:      { bg:'rgba(251,191,36,1)',    border:'rgba(255,255,255,.9)',  text:'#78350f', shadow:'0 0 40px rgba(251,191,36,1),0 0 80px rgba(251,191,36,.5)',  label:'FOUND',  anim:'found-glow 1s ease-in-out infinite' },
-    eliminated: { bg:'rgba(15,23,42,.5)',     border:'rgba(30,41,59,.6)',     text:'rgba(100,116,139,.5)', shadow:'none', label:'', anim:'' },
+    eliminated: { bg: isDark?'rgba(15,23,42,.5)':'rgba(226,232,240,.6)', border:isDark?'rgba(30,41,59,.6)':'rgba(203,213,225,.7)', text:isDark?'rgba(100,116,139,.5)':'rgba(148,163,184,.7)', shadow:'none', label:'', anim:'' },
     mid:        { bg:'rgba(253,230,138,.95)', border:'rgba(251,191,36,.9)',   text:'#78350f', shadow:'0 0 30px rgba(251,191,36,.9),0 0 60px rgba(251,191,36,.4)', label:'MID',    anim:'' },
     low:        { bg:'rgba(147,197,253,.9)',  border:'rgba(59,130,246,.8)',   text:'#1e3a8a', shadow:'0 0 20px rgba(96,165,250,.7)', label:'LOW',    anim:'' },
     high:       { bg:'rgba(252,165,165,.9)',  border:'rgba(239,68,68,.8)',    text:'#7f1d1d', shadow:'0 0 20px rgba(239,68,68,.6)',  label:'HIGH',   anim:'' },
-    active:     { bg:'rgba(30,58,95,.7)',     border:'rgba(96,165,250,.5)',   text:'rgba(186,230,253,.9)', shadow:'0 0 10px rgba(96,165,250,.3)', label:'', anim:'' },
-    default:    { bg:'rgba(15,23,42,.6)',     border:'rgba(30,41,59,.5)',     text:'rgba(71,85,105,.8)',   shadow:'none', label:'', anim:'' },
+    active:     { bg:isDark?'rgba(30,58,95,.7)':'rgba(219,234,254,.8)', border:isDark?'rgba(96,165,250,.5)':'rgba(59,130,246,.6)', text:isDark?'rgba(186,230,253,.9)':'#1e40af', shadow:'0 0 10px rgba(96,165,250,.3)', label:'', anim:'' },
+    default:    { bg:isDark?'rgba(15,23,42,.6)':'rgba(248,250,252,.8)', border:isDark?'rgba(30,41,59,.5)':'rgba(203,213,225,.7)', text:isDark?'rgba(71,85,105,.8)':'#475569', shadow:'none', label:'', anim:'' },
   }
 
   /* Spotlight position: centered on mid or found element */
@@ -67,7 +67,7 @@ export default function SearchVisualizer({ step }) {
       {/* Target display */}
       <div className="flex justify-center mb-3">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-semibold"
-          style={{ background:'rgba(15,23,42,.7)', border:'1px solid rgba(96,165,250,.3)',
+          style={{ background:isDark?'rgba(15,23,42,.7)':'rgba(248,250,252,.9)', border:`1px solid ${isDark?'rgba(96,165,250,.3)':'rgba(59,130,246,.3)'}`,
             color:'rgba(186,230,253,.9)', fontSize:13 }}>
           Searching for:
           <span className="px-2 py-0.5 rounded font-bold font-mono"
@@ -79,7 +79,7 @@ export default function SearchVisualizer({ step }) {
 
       {/* Description */}
       <div className="mb-4 px-4 py-2.5 rounded-lg font-medium text-center min-h-[2.5rem] flex items-center justify-center"
-        style={{ background:'rgba(15,23,42,.5)', backdropFilter:'blur(6px)',
+        style={{ background:isDark?'rgba(15,23,42,.5)':'rgba(248,250,252,.8)', backdropFilter:'blur(6px)',
           border:'1px solid rgba(96,165,250,.2)', color:'rgba(186,230,253,.9)', fontSize: 15 }}>
         {description || '—'}
       </div>

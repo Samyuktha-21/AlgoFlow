@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Same implementation as LinkedList LRU Cache\n// Key component: HashMap<key, DLL_Node> for O(1) access",
+    "code": "import java.util.*;\nclass LRUCache {\n    private final int cap;\n    private final Map<Integer, Node> map = new HashMap<>();\n    private final Node head = new Node(), tail = new Node();\n    LRUCache(int cap) {\n        this.cap = cap; head.next = tail; tail.prev = head;\n    }\n    public int get(int key) {\n        if (!map.containsKey(key)) return -1;\n        Node n = map.get(key); remove(n); addFront(n); return n.val;\n    }\n    public void put(int key, int val) {\n        if (map.containsKey(key)) remove(map.get(key));\n        if (map.size() == cap) { map.remove(tail.prev.key); remove(tail.prev); }\n        addFront(new Node(key, val));\n    }\n    void remove(Node n) { map.remove(n.key); n.prev.next=n.next; n.next.prev=n.prev; }\n    void addFront(Node n) { map.put(n.key,n); n.next=head.next; n.prev=head; head.next.prev=n; head.next=n; }\n    static class Node { int key,val; Node prev,next; Node(){} Node(int k,int v){key=k;val=v;} }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Same as linked-lists/lruCache in C",
+    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { int key, val; struct Node *prev, *next; } Node;\n/* Hash table maps key -> Node pointer; DLL tracks recency */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Same as linked-lists/lruCache in C++",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int,int>> lst;\n    unordered_map<int,list<pair<int,int>>::iterator> mp;\npublic:\n    LRUCache(int c): cap(c){}\n    int get(int k){\n        if(!mp.count(k))return -1;\n        lst.splice(lst.begin(),lst,mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k,int v){\n        if(mp.count(k)) lst.erase(mp[k]);\n        else if((int)lst.size()==cap){ mp.erase(lst.back().first); lst.pop_back(); }\n        lst.push_front({k,v}); mp[k]=lst.begin();\n    }\n};",
     "lineKeys": {}
   }
 }

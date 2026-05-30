@@ -41,5 +41,6 @@
   },
   "id": "anagramCheck",
   "category": "arrays",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair"
 }

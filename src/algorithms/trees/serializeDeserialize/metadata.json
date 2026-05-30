@@ -4,12 +4,44 @@
   "category": "trees",
   "type": "tree",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "Serialization encodes a tree into a linear format (e.g. preorder traversal with null markers). Deserialization reconstructs the tree from that encoding. Both operations are O(n).",
+  "aim": "Convert a binary tree to a string (serialize) and reconstruct the exact same tree from that string (deserialize). Used to persist tree data structures or transmit them over a network.",
+  "howItWorks": [
+    "Serialize: DFS preorder traversal — record each node's value and 'null' for missing nodes",
+    "Example: tree [1,2,3] → '1,2,null,null,3,null,null'",
+    "Deserialize: split string by delimiter, reconstruct tree recursively",
+    "Each 'null' in the string means no child at that position",
+    "Preorder ensures parent always appears before children — enables one-pass reconstruction"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Visit each node once",
+      "average": "O(n)",
+      "averageCase": "Linear scan of all n nodes",
+      "worst": "O(n)",
+      "worstCase": "All n nodes must be processed"
+    },
+    "space": "O(n)",
+    "spaceDescription": "O(n) for serialized string + O(h) call stack",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Redis RDB files: serialize in-memory data structures to disk",
+      "LevelDB: persist B-tree structure to disk",
+      "Distributed systems: send tree data over the network",
+      "Deep learning frameworks: save model computation graphs"
+    ],
+    "whenToUse": [
+      "Saving tree state to disk or database",
+      "Sending tree structure over network",
+      "Copying trees between processes"
+    ],
+    "alternatives": [
+      "JSON serialization: more readable but slower",
+      "Protobuf: binary format, faster than JSON"
+    ]
+  }
 }

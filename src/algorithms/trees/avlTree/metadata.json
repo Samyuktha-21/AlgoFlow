@@ -1,15 +1,56 @@
 {
   "id": "avlTree",
-  "name": "avlTree",
+  "name": "AVL Tree",
   "category": "trees",
   "type": "tree",
-  "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "implemented": true,
+  "description": "A self-balancing Binary Search Tree where the heights of two child subtrees of any node differ by at most one. Named after inventors Adelson-Velsky and Landis (1962).",
+  "aim": "Maintain a height-balanced BST so that insert, delete, and search always run in O(log n) worst case — unlike unbalanced BSTs which degrade to O(n).",
+  "howItWorks": [
+    "Insert using standard BST insert rules",
+    "After each insert, update balance factors (BF = left height − right height) going back up the path",
+    "If any node has |BF| > 1, the tree is unbalanced — perform the appropriate rotation",
+    "LL Case (BF > 1, new node in left-left): Single Right Rotation",
+    "RR Case (BF < -1, new node in right-right): Single Left Rotation",
+    "LR Case (BF > 1, new node in left-right): Left Rotation on child, then Right Rotation on node",
+    "RL Case (BF < -1, new node in right-left): Right Rotation on child, then Left Rotation on node",
+    "After rotation, update heights — tree is balanced again"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(log n)",
+      "bestCase": "Target found at root",
+      "average": "O(log n)",
+      "averageCase": "Tree stays balanced — height is always O(log n)",
+      "worst": "O(log n)",
+      "worstCase": "Guaranteed even for sorted input — rotations prevent O(n) degradation"
+    },
+    "space": "O(n)",
+    "spaceDescription": "O(n) for storing n nodes; O(log n) call stack during insert/search",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Linux kernel: uses AVL-like red-black trees for scheduling and memory management",
+      "Database indexes: many database engines use balanced BST variants for O(log n) range queries",
+      "C++ STL std::map and std::set use red-black trees (AVL variant) internally",
+      "Java TreeMap and TreeSet use red-black trees derived from AVL concepts"
+    ],
+    "whenToUse": [
+      "When you need guaranteed O(log n) search, insert, and delete",
+      "When data arrives in sorted order (unbalanced BST would degrade to O(n))",
+      "When read-heavy workloads justify the rotation overhead on insert"
+    ],
+    "alternatives": [
+      "Red-Black Tree: fewer rotations on insert, slightly less balanced height — preferred in practice (used by Java, C++ STL)",
+      "B-Tree: for disk-based storage where minimizing disk I/O is critical (used in databases)",
+      "Skip List: simpler to implement, probabilistically O(log n)"
+    ]
+  },
+  "beginnerEmoji": "⚖️",
+  "beginnerAnalogy": "Think of an AVL tree like a self-adjusting bookshelf that automatically reorganizes when it gets lopsided. If too many books pile up on the left side, it rotates to rebalance — so you can always find any book in the same fast time, no matter how many books are added.",
+  "beginnerWhat": "A special sorted tree that stays perfectly balanced by automatically rotating parts of itself whenever it gets too uneven.",
+  "beginnerWhy": "Without balancing, a BST can become a linked list (worst case O(n) search). AVL rotations guarantee O(log n) always.",
+  "beginnerWhen": "When you need fast, guaranteed lookup times even when inserting data in sorted order."
 }

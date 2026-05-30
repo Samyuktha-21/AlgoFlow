@@ -1,15 +1,18 @@
-export function generateSteps(inputArray) {
-  const s='racecar'
-  const arr=s.split('').map(c=>c.charCodeAt(0))
-  const n=arr.length, steps=[]
-  let l=0, r=n-1
-  const addStep=(match,desc,line)=>steps.push({array:arr,current:l,pointers:[{index:l,label:'L'},{index:r,label:'R'}],highlight:[l,r],sorted:match?[l,r]:[],extra:{s,isPalin:'?'},description:desc,codeLine:line})
-  addStep(true,'Palindrome check for "'+s+'": compare from both ends',2)
+export function generateSteps(inputStr) {
+  const s = (typeof inputStr==='string'?inputStr:'racecar').toLowerCase().replace(/[^a-z0-9]/g,'')
+  const arr = s.split('')
+  const n = arr.length
+  const steps = []
+  const nums = arr.map(c=>c.charCodeAt(0)-96)
+  const mkStep=(l,r,sorted,desc)=>({array:[...nums],comparing:[l,r],swapping:[],sorted,description:desc,extra:{s}})
+  steps.push(mkStep(-1,-1,[],`Palindrome check for "${s}". Compare from both ends moving inward.`))
+  let l=0,r=n-1,isPalin=true
   while(l<r){
-    addStep(s[l]===s[r],'Compare s['+l+']="'+s[l]+'" and s['+r+']="'+s[r]+'"',4)
-    if(s[l]!==s[r]){addStep(false,'Mismatch! "'+s[l]+'" ≠ "'+s[r]+'" → NOT palindrome',5);return steps}
-    addStep(true,'Match! Advance L++ and R--',6); l++; r--
+    const match=arr[l]===arr[r]
+    steps.push(mkStep(l,r,[],`Compare arr[${l}]="${arr[l]}" and arr[${r}]="${arr[r]}": ${match?'✓ match':'✗ mismatch!'}`))
+    if(!match){isPalin=false;break}
+    l++;r--
   }
-  addStep(true,'All pairs matched → "'+s+'" IS a palindrome',8)
+  steps.push(mkStep(-1,-1,isPalin?[...Array(n).keys()]:[],isPalin?`"${s}" IS a palindrome ✓`:`"${s}" is NOT a palindrome ✗`))
   return steps
 }

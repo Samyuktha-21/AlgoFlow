@@ -17,8 +17,8 @@
     "time": {
       "best": "O(n log n)",
       "bestCase": "Depends on gap sequence — Knuth sequence gives O(n^{3/2})",
-      "average": "O(n^{3/2})",
-      "averageCase": "Gap sequences like Knuth's give practical O(n^1.5)",
+      "average": "O(n^1.5)",
+      "averageCase": "With Knuth gap sequence",
       "worst": "O(n²)",
       "worstCase": "Original Shell sequence; better sequences improve this"
     },

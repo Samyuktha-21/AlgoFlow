@@ -12,15 +12,15 @@
   ],
   "complexity": {
     "time": {
-      "best": "O(2^n)",
-      "bestCase": "Subsets: always 2^n subsets",
+      "best": "O(n!)",
+      "bestCase": "Must generate all n! permutations",
       "average": "O(n!)",
-      "averageCase": "Permutations: n! arrangements",
+      "averageCase": "n! permutations each O(n)",
       "worst": "O(n!)",
-      "worstCase": "n! permutations for n elements"
+      "worstCase": "All permutations always generated"
     },
     "space": "O(n)",
-    "spaceDescription": "Recursion depth n + current path of size n",
+    "spaceDescription": "Recursion depth O(n)",
     "stable": false,
     "adaptive": false
   },

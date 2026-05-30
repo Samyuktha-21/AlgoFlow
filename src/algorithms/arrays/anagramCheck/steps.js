@@ -1,14 +1,14 @@
-export function generateSteps(inputArray) {
-  const s='anagram', t='nagaram'
-  const freq=new Array(26).fill(0)
-  const arr=s.split('').map(c=>c.charCodeAt(0)-96)
-  const arr2=t.split('').map(c=>c.charCodeAt(0)-96)
-  const steps=[]
-  const addStep=(i,which,desc,line)=>steps.push({array:which===1?arr:arr2,current:i,highlight:[i],sorted:[],pointers:[{index:i,label:'i'}],description:desc,codeLine:line,extra:{s,t,match:freq.every(x=>x===0)?'YES':'NO'}})
-  addStep(-1,'Anagram check: "'+s+'" vs "'+t+'"',2)
-  for(let i=0;i<s.length;i++){freq[arr[i]-1]++;addStep(i,1,'Count '+s[i]+': freq['+s[i]+']='+freq[arr[i]-1],4)}
-  for(let i=0;i<t.length;i++){freq[arr2[i]-1]--;addStep(i,2,'Subtract '+t[i]+': freq['+t[i]+']='+freq[arr2[i]-1],5)}
-  const isAnagram=freq.every(x=>x===0)
-  addStep(-1,1,'"'+s+'" and "'+t+'" are '+(isAnagram?'ANAGRAMS':'NOT anagrams'),6)
+export function generateSteps(s1Input, s2Input) {
+  const s = (typeof s1Input==='string'?s1Input:'anagram').toLowerCase()
+  const t = (typeof s2Input==='string'?s2Input:'nagaram').toLowerCase()
+  const freq = new Array(26).fill(0)
+  const steps = []
+  const mkStep=(comparing,desc)=>({array:[...freq],comparing,swapping:[],sorted:[],description:desc,extra:{s,t}})
+  steps.push(mkStep([],`Anagram Check: "${s}" vs "${t}". Build frequency map from s, subtract using t.`))
+  if(s.length!==t.length){steps.push(mkStep([],`Different lengths (${s.length} vs ${t.length}) → NOT anagrams`));return steps}
+  for(let i=0;i<s.length;i++){const c=s.charCodeAt(i)-97;freq[c]++;steps.push(mkStep([c],`Add "${s[i]}": freq["${s[i]}"]=${freq[c]}`))}
+  for(let i=0;i<t.length;i++){const c=t.charCodeAt(i)-97;freq[c]--;steps.push(mkStep([c],`Subtract "${t[i]}": freq["${t[i]}"]=${freq[c]}`))}
+  const allZero=freq.every(f=>f===0)
+  steps.push(mkStep([],allZero?`All freq zero → "${s}" and "${t}" ARE anagrams! ✓`:`Non-zero freq found → NOT anagrams ✗`))
   return steps
 }

@@ -5,13 +5,13 @@ import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
 
-/* Shared glass styles */
-const GLASS = {
-  background: 'rgba(0,0,0,0.35)',
+/* Shared glass styles — isDark-aware (computed inside component) */
+const makeGlass = (isDark) => ({
+  background: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.75)',
   backdropFilter: 'blur(14px)',
   WebkitBackdropFilter: 'blur(14px)',
-  borderBottom: '1px solid rgba(255,255,255,0.1)',
-}
+  borderBottom: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
+})
 
 const GoogleIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
@@ -135,6 +135,7 @@ export default function Header({ isHomepage }) {
   }
 
   /* Non-homepage header — glass, fixed-like */
+  const GLASS = makeGlass(isDark)
   return (
     <header className="sticky top-0 z-50" style={GLASS}>
       <div className="max-w-[1400px] mx-auto px-5 h-14 flex items-center gap-3">
@@ -145,7 +146,7 @@ export default function Header({ isHomepage }) {
             bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-sm">
             AF
           </div>
-          <span className="font-bold text-base text-white">AlgoFlow</span>
+          <span className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}>AlgoFlow</span>
         </Link>
 
         {/* Nav links */}

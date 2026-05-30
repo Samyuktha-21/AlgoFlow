@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Johnson's Algorithm - see algorithm textbooks for complete implementation",
+    "code": "import java.util.*;\npublic class Johnson {\n    // Johnson's: reweight using Bellman-Ford, then run Dijkstra from each vertex\n    // Time: O(V^2 log V + VE) — better than Floyd-Warshall O(V^3) for sparse graphs\n    static final int INF = Integer.MAX_VALUE/2;\n    int n; int[][] dist;\n    int[] bellmanFord(int[][] g) {\n        int[] h = new int[n+1];\n        Arrays.fill(h, INF); h[n] = 0;\n        for(int i=0;i<n;i++) for(int u=0;u<=n;u++) for(int v=0;v<n;v++)\n            if(g[u][v]!=INF&&h[u]!=INF) h[v]=Math.min(h[v],h[u]+g[u][v]);\n        return h;\n    }\n    int[] dijkstra(int[][] g, int src, int[] h) {\n        int[] d = new int[n]; Arrays.fill(d,INF); d[src]=0;\n        PriorityQueue<int[]> pq=new PriorityQueue<>(Comparator.comparingInt(a->a[0]));\n        pq.offer(new int[]{0,src});\n        while(!pq.isEmpty()){int[]cur=pq.poll();int u=cur[1];if(cur[0]>d[u])continue;\n            for(int v=0;v<n;v++) if(g[u][v]!=INF&&d[u]+g[u][v]<d[v]){d[v]=d[u]+g[u][v];pq.offer(new int[]{d[v],v});}}\n        return d;\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Johnson's Algorithm C implementation",
+    "code": "/* Johnson's = add virtual node + Bellman-Ford reweighting + Dijkstra from each vertex */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Johnson's Algorithm C++ implementation",
+    "code": "/* Johnson's Algorithm: O((V+E) log V) all-pairs shortest paths\n   Better than Floyd-Warshall O(V^3) for sparse graphs */\n#include <bits/stdc++.h>\nusing namespace std;\n/* Step 1: Add vertex q, connect to all with weight 0, run Bellman-Ford for h[v]\n   Step 2: Reweight w'(u,v) = w(u,v) + h(u) - h(v) >= 0\n   Step 3: Run Dijkstra from each vertex with reweighted graph */",
     "lineKeys": {}
   }
 }

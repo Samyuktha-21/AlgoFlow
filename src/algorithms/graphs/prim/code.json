@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Prim's MST - see algorithm textbooks for complete implementation",
+    "code": "import java.util.*;\npublic class Prim {\n    public int primMST(int[][] graph) {\n        int n = graph.length;\n        int[] key = new int[n];\n        boolean[] inMST = new boolean[n];\n        Arrays.fill(key, Integer.MAX_VALUE);\n        key[0] = 0;\n        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n        pq.offer(new int[]{0, 0});\n        int totalWeight = 0;\n        while (!pq.isEmpty()) {\n            int u = pq.poll()[1];\n            if (inMST[u]) continue;\n            inMST[u] = true;\n            totalWeight += key[u];\n            for (int v = 0; v < n; v++) {\n                if (graph[u][v] != 0 && !inMST[v] && graph[u][v] < key[v]) {\n                    key[v] = graph[u][v];\n                    pq.offer(new int[]{key[v], v});\n                }\n            }\n        }\n        return totalWeight;\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Prim's MST C implementation",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\nint minKey(int key[], int inMST[]) {\n    int min = INT_MAX, idx = -1;\n    for (int i = 0; i < V; i++)\n        if (!inMST[i] && key[i] < min) { min = key[i]; idx = i; }\n    return idx;\n}\nvoid primMST(int graph[][V]) {\n    int key[V], parent[V], inMST[V] = {0};\n    for (int i = 0; i < V; i++) key[i] = INT_MAX;\n    key[0] = 0; parent[0] = -1;\n    for (int cnt = 0; cnt < V - 1; cnt++) {\n        int u = minKey(key, inMST);\n        inMST[u] = 1;\n        for (int v = 0; v < V; v++)\n            if (graph[u][v] && !inMST[v] && graph[u][v] < key[v]) {\n                parent[v] = u; key[v] = graph[u][v];\n            }\n    }\n    for (int i = 1; i < V; i++)\n        printf(\"%d-%d: %d\\n\", parent[i], i, graph[i][parent[i]]);\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Prim's MST C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint primMST(vector<vector<int>>& g) {\n    int n = g.size();\n    vector<int> key(n, INT_MAX);\n    vector<bool> inMST(n, false);\n    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;\n    key[0] = 0; pq.push({0, 0});\n    int total = 0;\n    while (!pq.empty()) {\n        auto [d, u] = pq.top(); pq.pop();\n        if (inMST[u]) continue;\n        inMST[u] = true; total += d;\n        for (int v = 0; v < n; v++)\n            if (g[u][v] && !inMST[v] && g[u][v] < key[v]) {\n                key[v] = g[u][v]; pq.push({key[v], v});\n            }\n    }\n    return total;\n}",
     "lineKeys": {}
   }
 }

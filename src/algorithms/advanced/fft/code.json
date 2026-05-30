@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Fast Fourier Transform - see algorithm textbooks for full implementation",
+    "code": "public class FFT {\n    static class Complex { double re, im; Complex(double r,double i){re=r;im=i;}\n        Complex add(Complex o){return new Complex(re+o.re,im+o.im);}\n        Complex sub(Complex o){return new Complex(re-o.re,im-o.im);}\n        Complex mul(Complex o){return new Complex(re*o.re-im*o.im,re*o.im+im*o.re);}\n    }\n    static void fft(Complex[] a, boolean inv) {\n        int n=a.length;\n        for(int i=1,j=0;i<n;i++){\n            int bit=n>>1;\n            for(;(j&bit)!=0;bit>>=1) j^=bit;\n            j^=bit; if(i<j){Complex t=a[i];a[i]=a[j];a[j]=t;}\n        }\n        for(int len=2;len<=n;len*=2){\n            double ang=2*Math.PI/len*(inv?-1:1);\n            Complex wlen=new Complex(Math.cos(ang),Math.sin(ang));\n            for(int i=0;i<n;i+=len){\n                Complex w=new Complex(1,0);\n                for(int j=0;j<len/2;j++,w=w.mul(wlen)){\n                    Complex u=a[i+j],v=a[i+j+len/2].mul(w);\n                    a[i+j]=u.add(v);a[i+j+len/2]=u.sub(v);\n                }\n            }\n        }\n        if(inv) for(Complex x:a){x.re/=n;x.im/=n;}\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Fast Fourier Transform C implementation",
+    "code": "#include <math.h>\n/* Cooley-Tukey FFT iterative O(n log n) */\n/* Bit-reversal permutation, then butterfly operations */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Fast Fourier Transform C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef complex<double> cd;\nconst double PI = acos(-1);\nvoid fft(vector<cd>& a, bool inv=false){\n    int n=a.size();\n    for(int i=1,j=0;i<n;i++){int bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j)swap(a[i],a[j]);}\n    for(int len=2;len<=n;len<<=1){\n        double ang=2*PI/len*(inv?-1:1);\n        cd wlen(cos(ang),sin(ang));\n        for(int i=0;i<n;i+=len){cd w(1);for(int j=0;j<len/2;j++,w*=wlen){cd u=a[i+j],v=a[i+j+len/2]*w;a[i+j]=u+v;a[i+j+len/2]=u-v;}}\n    }\n    if(inv) for(auto&x:a) x/=n;\n}",
     "lineKeys": {}
   }
 }

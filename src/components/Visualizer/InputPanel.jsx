@@ -3,7 +3,7 @@ import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { randomArray, randomSortedArray } from '../../utils/helpers'
 
-export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget }) {
+export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType }) {
   const { isDark } = useTheme()
   const [input, setInput] = useState(defaultValue || '')
   const [targetInput, setTargetInput] = useState(defaultTarget || '')
@@ -15,8 +15,10 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
     if (defaultTarget !== undefined) setTargetInput(defaultTarget)
   }, [defaultValue, defaultTarget])
 
-  const isSearch   = algorithmType === 'searching'
-  const isGraph    = algorithmType === 'graph'
+  const isSearch       = algorithmType === 'searching'
+  const isGraph        = algorithmType === 'graph'
+  const isStringPair   = inputType === 'stringPair'
+  const isSingleString = inputType === 'singleString'
 
   const handleRandom = () => {
     setError('')
@@ -59,7 +61,11 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
               ? 'Edges: 0-1, 0-2, 1-3 ...'
               : isSearch
                 ? 'Sorted array: 2, 5, 8, 12 ...'
-                : 'Array: 5, 3, 7, 1, 9 ...')}
+                : isStringPair
+                  ? 'Two strings: ABCBDAB,BDCAB'
+                  : isSingleString
+                    ? 'String: racecar'
+                    : 'Array: 5, 3, 7, 1, 9 ...')}
             className={`w-full px-3 py-2 rounded-lg border text-sm transition-colors ${
               error
                 ? 'border-red-400 focus:outline-none focus:ring-1 focus:ring-red-400'

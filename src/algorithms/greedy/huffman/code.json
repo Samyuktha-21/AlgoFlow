@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Huffman Coding implementation",
+    "code": "import java.util.*;\npublic class Huffman {\n    static class Node implements Comparable<Node> {\n        char ch; int freq; Node left, right;\n        Node(char c, int f) { ch=c; freq=f; }\n        Node(int f, Node l, Node r) { freq=f; left=l; right=r; }\n        public int compareTo(Node o) { return freq - o.freq; }\n    }\n    static void printCodes(Node root, String code) {\n        if (root == null) return;\n        if (root.left == null && root.right == null)\n            System.out.println(root.ch + \": \" + code);\n        printCodes(root.left, code + \"0\");\n        printCodes(root.right, code + \"1\");\n    }\n    public static void buildHuffman(char[] chars, int[] freqs) {\n        PriorityQueue<Node> pq = new PriorityQueue<>();\n        for (int i = 0; i < chars.length; i++) pq.add(new Node(chars[i], freqs[i]));\n        while (pq.size() > 1) {\n            Node l = pq.poll(), r = pq.poll();\n            pq.add(new Node(l.freq + r.freq, l, r));\n        }\n        printCodes(pq.poll(), \"\");\n    }\n    public static void main(String[] args) {\n        char[] chars = {'a','b','c','d','e','f'};\n        int[]  freqs = {45, 13, 12, 16,  9,  5};\n        buildHuffman(chars, freqs);\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Huffman Coding C",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { char ch; int freq; struct Node *l, *r; } Node;\nNode* mk(char c, int f) { Node*n=calloc(1,sizeof(Node)); n->ch=c; n->freq=f; return n; }\nvoid print(Node* n, char* buf, int d) {\n    if (!n->l && !n->r) { buf[d]=0; printf(\"%c: %s\\n\", n->ch, buf); return; }\n    if (n->l) { buf[d]='0'; print(n->l, buf, d+1); }\n    if (n->r) { buf[d]='1'; print(n->r, buf, d+1); }\n}\n/* Use a min-heap or sorted array to extract two minimum freq nodes each step */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Huffman Coding C++",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nstruct Node { char ch; int freq; Node *l, *r; };\nvoid printCodes(Node* n, string code=\"\") {\n    if (!n) return;\n    if (!n->l && !n->r) { cout << n->ch << \": \" << code << \"\\n\"; return; }\n    printCodes(n->l, code+\"0\"); printCodes(n->r, code+\"1\");\n}\nvoid huffman(vector<pair<char,int>>& v) {\n    auto cmp = [](Node* a, Node* b){ return a->freq > b->freq; };\n    priority_queue<Node*,vector<Node*>,decltype(cmp)> pq(cmp);\n    for (auto& [c,f] : v) pq.push(new Node{c, f, nullptr, nullptr});\n    while (pq.size() > 1) {\n        auto l=pq.top(); pq.pop(); auto r=pq.top(); pq.pop();\n        pq.push(new Node{0, l->freq+r->freq, l, r});\n    }\n    printCodes(pq.top());\n}",
     "lineKeys": {}
   }
 }

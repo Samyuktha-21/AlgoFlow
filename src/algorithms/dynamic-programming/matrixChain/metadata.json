@@ -4,12 +4,47 @@
   "category": "dynamic-programming",
   "type": "dynamic-programming",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "Given matrices A₁, A₂, ..., Aₙ, find the parenthesization minimizing scalar multiplications. Uses DP: dp[i][j] = minimum cost to multiply matrices i through j.",
+  "aim": "Find the optimal way to parenthesize a chain of matrix multiplications to minimize the total number of scalar multiplications. The order of multiplication affects cost dramatically but not the result.",
+  "howItWorks": [
+    "Let dp[i][j] = min cost to multiply matrices i..j",
+    "Base case: dp[i][i] = 0 (single matrix, no multiplication)",
+    "For chain length l = 2 to n: try every split point k",
+    "dp[i][j] = min over k of: dp[i][k] + dp[k+1][j] + rows[i]*cols[k]*cols[j]",
+    "Result: dp[1][n] gives minimum total multiplications"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "—",
+      "bestCase": "",
+      "average": "—",
+      "averageCase": "",
+      "worst": "—",
+      "worstCase": ""
+    },
+    "space": "—",
+    "spaceDescription": "",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Compiler optimization: optimal order for matrix operations in code",
+      "Scientific computing: NumPy, BLAS libraries optimize matrix chain order",
+      "Machine learning: optimizing tensor contraction order in neural networks"
+    ],
+    "whenToUse": [
+      "Chained matrix multiplications where matrix dimensions vary",
+      "When different parenthesizations have dramatically different costs"
+    ],
+    "alternatives": [
+      "Greedy: doesn't work here — optimal requires DP",
+      "Divide and conquer without memoization: O(4^n) — too slow"
+    ]
+  },
+  "beginnerEmoji": "🔢",
+  "beginnerAnalogy": "Like deciding the order to multiply numbers in a chain — (2×3)×4 costs 6+8=14 multiplications but 2×(3×4) costs 12+8=20. Matrix chains are the same idea but with bigger numbers.",
+  "beginnerWhat": "Finding the cheapest order to multiply a sequence of matrices by cleverly splitting the problem.",
+  "beginnerWhy": "Wrong parenthesization can be 100x more expensive — DP finds optimal order in O(n³).",
+  "beginnerWhen": "Chained matrix multiplications in scientific computing and machine learning pipelines."
 }

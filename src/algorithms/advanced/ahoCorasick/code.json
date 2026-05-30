@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Aho-Corasick - see algorithm textbooks for full implementation",
+    "code": "import java.util.*;\npublic class AhoCorasick {\n    static final int ALPHA = 26;\n    int[][] go; int[] fail, out; int size;\n    AhoCorasick(int maxNodes) { go=new int[maxNodes][ALPHA]; fail=new int[maxNodes]; out=new int[maxNodes]; size=1; }\n    int addPattern(String pat, int idx) {\n        int cur=0;\n        for (char c : pat.toCharArray()) {\n            int ch=c-'a';\n            if (go[cur][ch]==0) go[cur][ch]=size++;\n            cur=go[cur][ch];\n        }\n        out[cur]|=(1<<idx); return size;\n    }\n    void buildFailLinks() {\n        Queue<Integer> q=new LinkedList<>();\n        for (int c=0;c<ALPHA;c++) if (go[0][c]!=0) q.add(go[0][c]);\n        while (!q.isEmpty()) {\n            int u=q.poll();\n            for (int c=0;c<ALPHA;c++) {\n                int v=go[u][c];\n                if (v!=0) { fail[v]=go[fail[u]][c]; out[v]|=out[fail[v]]; q.add(v); }\n                else go[u][c]=go[fail[u]][c];\n            }\n        }\n    }\n    void search(String text, String[] patterns) {\n        int cur=0;\n        for (int i=0;i<text.length();i++) {\n            cur=go[cur][text.charAt(i)-'a'];\n            if (out[cur]!=0) for (int j=0;j<patterns.length;j++)\n                if ((out[cur]&(1<<j))!=0) System.out.println(patterns[j]+\" at \"+i);\n        }\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Aho-Corasick C implementation",
+    "code": "/* Aho-Corasick: build trie of patterns, BFS to set fail links, search in O(n+m+z) */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Aho-Corasick C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nstruct AhoCorasick {\n    vector<array<int,26>> go; vector<int> fail, out;\n    AhoCorasick(): go(1), fail(1,0), out(1,0){}\n    void addPat(const string& s, int id){\n        int cur=0;\n        for(char c:s){ int ch=c-'a'; if(!go[cur][ch]){go[cur][ch]=go.size();go.push_back({});fail.push_back(0);out.push_back(0);} cur=go[cur][ch]; }\n        out[cur]|=(1<<id);\n    }\n    void build(){\n        queue<int> q;\n        for(int c=0;c<26;c++) if(go[0][c]) q.push(go[0][c]);\n        while(!q.empty()){\n            int u=q.front();q.pop();\n            for(int c=0;c<26;c++){\n                int v=go[u][c];\n                if(v){fail[v]=go[fail[u]][c];out[v]|=out[fail[v]];q.push(v);}\n                else go[u][c]=go[fail[u]][c];\n            }\n        }\n    }\n};",
     "lineKeys": {}
   }
 }

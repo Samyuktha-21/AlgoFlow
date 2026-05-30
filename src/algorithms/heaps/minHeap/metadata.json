@@ -11,15 +11,15 @@
   ],
   "complexity": {
     "time": {
-      "best": "O(n)",
-      "bestCase": "Build heap bottom-up",
+      "best": "O(log n)",
+      "bestCase": "Single insert/delete",
       "average": "O(log n)",
-      "averageCase": "Insert or extract operations",
-      "worst": "O(log n)",
-      "worstCase": "Sift up/down full height"
+      "averageCase": "Each operation maintains heap property",
+      "worst": "O(n)",
+      "worstCase": "Build heap from unsorted array"
     },
     "space": "O(n)",
-    "spaceDescription": "Array of n elements — compact representation",
+    "spaceDescription": "O(n) for heap array; insert/delete O(log n), build heap O(n)",
     "stable": false,
     "adaptive": false
   },

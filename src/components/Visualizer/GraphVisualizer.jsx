@@ -128,7 +128,7 @@ export default function GraphVisualizer({ step, themeId }) {
     )
   }
 
-  const { nodes, edges, visited = [], current, queue = [], description, distances } = step
+  const { nodes, edges, visited = [], current, queue = [], description, distances, isDFS = false } = step
 
   const getState = (id) => {
     if (current === id)       return 'current'
@@ -189,19 +189,29 @@ export default function GraphVisualizer({ step, themeId }) {
         </svg>
       </div>
 
-      {/* Queue / Stack display — with beginner-friendly label */}
+      {/* Queue / Stack display — label adapts for BFS vs DFS */}
       <div className="mt-3 flex items-center gap-2 justify-center flex-wrap">
         <span style={{ color: isSpace ? 'rgba(96,165,250,.6)' : isDark ? '#6b7280' : '#6b7280',
           fontSize: 11, fontWeight: 600 }}>
-          {queue.length > 0 ? 'Queue (explore in this order) →' : ''}
+          {queue.length > 0
+            ? isDFS
+              ? 'Stack (LIFO) — DFS backtracks in this order ↑'
+              : 'Queue (FIFO) — BFS explores in this order →'
+            : ''}
         </span>
         {queue.length === 0
-          ? <span style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#9ca3af', fontSize: 11 }}>Queue empty</span>
+          ? <span style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#9ca3af', fontSize: 11 }}>
+              {isDFS ? 'Stack empty' : 'Queue empty'}
+            </span>
           : queue.map((id, i) => (
               <motion.div key={`${id}-${i}`}
                 initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }}
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono"
-                style={{ background: 'rgba(96,165,250,.25)', border: '1px solid rgba(96,165,250,.5)', color: '#BAE6FD' }}>
+                style={{
+                  background: isDFS ? 'rgba(168,85,247,.25)' : 'rgba(96,165,250,.25)',
+                  border: `1px solid ${isDFS ? 'rgba(168,85,247,.5)' : 'rgba(96,165,250,.5)'}`,
+                  color: isDFS ? '#d8b4fe' : '#BAE6FD',
+                }}>
                 {id}
               </motion.div>
             ))
@@ -224,7 +234,7 @@ export default function GraphVisualizer({ step, themeId }) {
       <div className="flex flex-wrap items-center justify-center gap-4 mt-3 px-4">
         {[
           { label: '⬜ Not visited yet', s: STAR_STATES.default },
-          { label: '🔵 In queue (waiting)', s: STAR_STATES.inQueue },
+          { label: isDFS ? '🟣 On stack (to visit)' : '🔵 In queue (waiting)', s: STAR_STATES.inQueue },
           { label: '⭐ Currently visiting', s: STAR_STATES.current },
           { label: '🟡 Already visited', s: STAR_STATES.visited },
         ].map(({ label, s }) => (

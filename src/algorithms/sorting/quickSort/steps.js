@@ -23,7 +23,7 @@ export function generateSteps(inputArray) {
     ;[a[pi], a[high]] = [a[high], a[pi]]
     arr.splice(0, arr.length, ...a); arr.length = n
     sorted.add(pi)
-    steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[...sorted], pivot:pi, description:`Pivot ${pivotVal} placed at index ${pi}`, codeLine:9 })
+    steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[...sorted], pivot:pi, description:`Pivot ${pivotVal} placed at final position ${pi}. All values LEFT are ≤${pivotVal}, all values RIGHT are ≥${pivotVal}. This position is permanent.`, codeLine:9 })
     qs(a, low, pi - 1)
     qs(a, pi + 1, high)
   }

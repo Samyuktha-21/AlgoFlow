@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Convex Hull (Graham Scan) - see algorithm textbooks for full implementation",
+    "code": "import java.util.*;\npublic class ConvexHull {\n    static long cross(long[] O, long[] A, long[] B) {\n        return (A[0]-O[0])*(B[1]-O[1]) - (A[1]-O[1])*(B[0]-O[0]);\n    }\n    public static long[][] convexHull(long[][] points) {\n        int n = points.length;\n        if (n < 2) return points;\n        Arrays.sort(points, (a,b) -> a[0]!=b[0] ? Long.compare(a[0],b[0]) : Long.compare(a[1],b[1]));\n        long[][] hull = new long[2*n][2];\n        int k = 0;\n        for (int i=0;i<n;i++) { while(k>=2&&cross(hull[k-2],hull[k-1],points[i])<=0) k--; hull[k++]=points[i]; }\n        for (int i=n-2,t=k+1;i>=0;i--) { while(k>=t&&cross(hull[k-2],hull[k-1],points[i])<=0) k--; hull[k++]=points[i]; }\n        return Arrays.copyOf(hull, k-1);\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Convex Hull (Graham Scan) C implementation",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct { long x,y; } Pt;\nlong cross(Pt O,Pt A,Pt B){return(A.x-O.x)*(B.y-O.y)-(A.y-O.y)*(B.x-O.x);}\nint cmp(const void*a,const void*b){Pt*p=(Pt*)a,*q=(Pt*)b;return p->x!=q->x?p->x-q->x:p->y-q->y;}\n/* Graham scan builds hull in O(n log n) */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Convex Hull (Graham Scan) C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef pair<long long,long long> P;\nlong long cross(P O,P A,P B){return(A.first-O.first)*(B.second-O.second)-(A.second-O.second)*(B.first-O.first);}\nvector<P> convexHull(vector<P> pts){\n    int n=pts.size(),k=0;\n    sort(pts.begin(),pts.end());\n    vector<P> h(2*n);\n    for(int i=0;i<n;i++){while(k>=2&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    for(int i=n-2,t=k+1;i>=0;i--){while(k>=t&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    return vector<P>(h.begin(),h.begin()+k-1);\n}",
     "lineKeys": {}
   }
 }

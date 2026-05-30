@@ -42,5 +42,6 @@
       "Longest Common Substring — requires contiguous match",
       "Diff algorithm — practical LCS-based variant"
     ]
-  }
+  },
+  "inputType": "stringPair"
 }

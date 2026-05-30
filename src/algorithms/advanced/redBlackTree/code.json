@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// Red-Black Tree - see algorithm textbooks for full implementation",
+    "code": "public class RedBlackTree {\n    static final boolean RED=true, BLACK=false;\n    Node root;\n    class Node { int key; boolean color=RED; Node left,right,parent; Node(int k){key=k;} }\n    boolean isRed(Node n){return n!=null&&n.color==RED;}\n    Node rotateLeft(Node h){Node x=h.right;h.right=x.left;x.left=h;x.color=h.color;h.color=RED;return x;}\n    Node rotateRight(Node h){Node x=h.left;h.left=x.right;x.right=h;x.color=h.color;h.color=RED;return x;}\n    void flipColors(Node h){h.color=!h.color;h.left.color=!h.left.color;h.right.color=!h.right.color;}\n    Node insert(Node h, int key){\n        if(h==null) return new Node(key);\n        if(key<h.key) h.left=insert(h.left,key);\n        else if(key>h.key) h.right=insert(h.right,key);\n        if(isRed(h.right)&&!isRed(h.left)) h=rotateLeft(h);\n        if(isRed(h.left)&&isRed(h.left.left)) h=rotateRight(h);\n        if(isRed(h.left)&&isRed(h.right)) flipColors(h);\n        return h;\n    }\n    void insert(int key){root=insert(root,key);root.color=BLACK;}\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// Red-Black Tree C implementation",
+    "code": "/* Red-Black Tree: BST + coloring invariants ensure O(log n) height */\n/* Rules: 1) Every node is Red or Black  2) Root is Black\n          3) No two consecutive Red nodes  4) All paths to leaves have equal Black nodes */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// Red-Black Tree C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nenum Color{RED,BLACK};\nstruct Node{int key;Color c=RED;Node*l=nullptr,*r=nullptr;Node(int k):key(k){}};\nNode* rotL(Node*h){Node*x=h->r;h->r=x->l;x->l=h;x->c=h->c;h->c=RED;return x;}\nNode* rotR(Node*h){Node*x=h->l;h->l=x->r;x->r=h;x->c=h->c;h->c=RED;return x;}\nvoid flip(Node*h){h->c=RED;if(h->l)h->l->c=BLACK;if(h->r)h->r->c=BLACK;}\nbool isRed(Node*n){return n&&n->c==RED;}\nNode* ins(Node*h,int k){\n    if(!h)return new Node(k);\n    if(k<h->key)h->l=ins(h->l,k);\n    else if(k>h->key)h->r=ins(h->r,k);\n    if(isRed(h->r)&&!isRed(h->l))h=rotL(h);\n    if(isRed(h->l)&&isRed(h->l->l))h=rotR(h);\n    if(isRed(h->l)&&isRed(h->r))flip(h);\n    return h;\n}",
     "lineKeys": {}
   }
 }

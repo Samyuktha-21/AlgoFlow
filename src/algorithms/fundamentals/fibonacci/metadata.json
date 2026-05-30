@@ -14,8 +14,8 @@
       "bestCase": "Iterative or memoized: O(n)",
       "average": "O(n)",
       "averageCase": "Same",
-      "worst": "O(2^n)",
-      "worstCase": "Naive recursion without memoization"
+      "worst": "O(n)",
+      "worstCase": "Iterative DP: O(n). Naive recursive (not shown) would be O(2^n)."
     },
     "space": "O(1)",
     "spaceDescription": "Iterative with two variables; O(n) for array version",

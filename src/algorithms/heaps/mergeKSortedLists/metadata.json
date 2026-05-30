@@ -4,12 +4,42 @@
   "category": "heaps",
   "type": "heap",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "Use a min-heap of size K — one entry per list. Repeatedly extract the smallest element, add it to the result, and insert the next element from that list into the heap.",
+  "aim": "Merge K sorted linked lists into one sorted linked list in O(N log K) time, where N is the total number of elements and K is the number of lists.",
+  "howItWorks": [
+    "Initialize min-heap with the first element of each of the K lists",
+    "Extract minimum from heap → add to result list",
+    "Insert the next element from the same list into the heap",
+    "Repeat until heap is empty",
+    "Result is a single sorted list with all N elements"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(N log K)",
+      "bestCase": "N total elements, K lists",
+      "average": "O(N log K)",
+      "averageCase": "Each element enters/leaves K-size heap once",
+      "worst": "O(N log K)",
+      "worstCase": "Consistent regardless of distribution"
+    },
+    "space": "O(K)",
+    "spaceDescription": "Min-heap stores at most K elements",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Database merge joins: merging sorted runs in external sort",
+      "Log aggregation: merging K time-sorted log files",
+      "Search engines: merging sorted posting lists from multiple shards"
+    ],
+    "whenToUse": [
+      "Merging K pre-sorted lists efficiently",
+      "External sorting when data doesn't fit in RAM"
+    ],
+    "alternatives": [
+      "Divide and conquer merge: O(N log K) same complexity, recursive",
+      "Naive merge all then sort: O(N log N) — worse when K is small"
+    ]
+  }
 }

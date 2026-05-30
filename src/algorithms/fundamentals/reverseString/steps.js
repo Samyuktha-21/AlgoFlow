@@ -1,16 +1,17 @@
-export function generateSteps(inputArray) {
-  const s='hello', arr=s.split('').map(c=>c.charCodeAt(0)-96)
-  const a=[...arr], n=a.length, steps=[]
-  let l=0, r=n-1
-  const chars=s.split('')
-  const addStep=(hl,desc,line)=>steps.push({array:[...a],current:l,pointers:[{index:l,label:'L'},{index:r,label:'R'}],highlight:[...hl],sorted:[],description:desc,codeLine:line,extra:{word:chars.join('')}})
-  addStep([],'Reverse "'+s+'": swap from both ends',2)
+export function generateSteps(inputStr) {
+  const s = (typeof inputStr==='string'?inputStr:'hello').toLowerCase()
+  const arr = s.split('')
+  const n = arr.length
+  const steps = []
+  const mkStep=(comparing,swapping,desc)=>({array:[...arr].map(c=>c.charCodeAt(0)-96),comparing,swapping,sorted:[],description:desc,extra:{current:arr.join('')}})
+  steps.push(mkStep([],[],`Reverse "${s}". Two-pointer swap from both ends toward center.`))
+  let l=0,r=n-1
   while(l<r){
-    addStep([l,r],'Swap "'+chars[l]+'" at ['+l+'] and "'+chars[r]+'" at ['+r+']',4)
-    ;[a[l],a[r]]=[a[r],a[l]];[chars[l],chars[r]]=[chars[r],chars[l]]
-    addStep([l,r],'After swap: "'+chars.join('"'),4)
-    l++; r--
+    steps.push(mkStep([l,r],[l,r],`Swap arr[${l}]="${arr[l]}" ↔ arr[${r}]="${arr[r]}"`));
+    [arr[l],arr[r]]=[arr[r],arr[l]]
+    steps.push(mkStep([l,r],[l,r],`After swap: "${arr.join('')}"`))
+    l++;r--
   }
-  addStep([],'Reversed: "'+chars.join('')+'"',6)
+  steps.push(mkStep([],[],[...Array(n).keys()],`Reversed: "${arr.join('')}"`))
   return steps
 }

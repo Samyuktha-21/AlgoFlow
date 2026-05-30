@@ -4,12 +4,43 @@
   "category": "trees",
   "type": "tree",
   "implemented": false,
-  "description": "Visualization coming soon.",
-  "aim": "Coming soon.",
-  "howItWorks": [],
+  "description": "A segment tree stores aggregate values (sum, min, max) for array segments. The root covers the whole array; each node covers a segment; leaves are individual elements. Build: O(n). Query/Update: O(log n).",
+  "aim": "Build a tree structure over an array that answers range queries (sum, min, max) and point updates in O(log n) time — much faster than O(n) for each operation on a raw array.",
+  "howItWorks": [
+    "Build phase: recursively split array in half, compute aggregate at each node",
+    "Leaf nodes store original array values",
+    "Internal nodes store aggregate (e.g. sum) of their segment",
+    "Query: traverse only nodes overlapping the query range",
+    "Update: change leaf, propagate aggregate changes up the path"
+  ],
   "complexity": {
-    "time": { "best": "—", "bestCase": "", "average": "—", "averageCase": "", "worst": "—", "worstCase": "" },
-    "space": "—", "spaceDescription": "", "stable": false, "adaptive": false
+    "time": {
+      "best": "O(n)",
+      "bestCase": "Build: process all n elements",
+      "average": "O(log n)",
+      "averageCase": "Range query or point update",
+      "worst": "O(log n)",
+      "worstCase": "Any single query/update"
+    },
+    "space": "O(n)",
+    "spaceDescription": "4n nodes for n-element segment tree",
+    "stable": false,
+    "adaptive": false
   },
-  "applications": { "realWorld": [], "whenToUse": [], "alternatives": [] }
+  "applications": {
+    "realWorld": [
+      "Database range queries: sum/min/max over a column range",
+      "Competitive programming: range sum/minimum/maximum queries",
+      "Geographic systems: range queries over spatial data"
+    ],
+    "whenToUse": [
+      "Repeated range queries AND updates on an array",
+      "When O(n) per query is too slow",
+      "Range sum, range min/max, range GCD problems"
+    ],
+    "alternatives": [
+      "Fenwick Tree (BIT): simpler for range sums only, O(n) space",
+      "Sparse Table: O(1) queries but O(n log n) build, no updates"
+    ]
+  }
 }

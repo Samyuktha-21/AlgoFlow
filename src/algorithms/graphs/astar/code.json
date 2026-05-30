@@ -1,17 +1,17 @@
 {
   "java": {
     "language": "java",
-    "code": "// A* Search - see algorithm textbooks for complete implementation",
+    "code": "import java.util.*;\npublic class AStar {\n    static int heuristic(int[] a, int[] b) {\n        return Math.abs(a[0]-b[0]) + Math.abs(a[1]-b[1]); // Manhattan\n    }\n    public List<int[]> astar(int[][] grid, int[] start, int[] goal) {\n        int n = grid.length, m = grid[0].length;\n        int[][] gScore = new int[n][m];\n        for (int[] r : gScore) Arrays.fill(r, Integer.MAX_VALUE);\n        gScore[start[0]][start[1]] = 0;\n        PriorityQueue<int[]> open = new PriorityQueue<>(Comparator.comparingInt(a->a[0]));\n        open.offer(new int[]{heuristic(start,goal), start[0], start[1]});\n        Map<String,int[]> came = new HashMap<>();\n        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\n        while (!open.isEmpty()) {\n            int[] cur = open.poll();\n            int r=cur[1], c=cur[2];\n            if (r==goal[0] && c==goal[1]) return reconstructPath(came, goal);\n            for (int[] d : dirs) {\n                int nr=r+d[0], nc=c+d[1];\n                if (nr<0||nr>=n||nc<0||nc>=m||grid[nr][nc]==1) continue;\n                int ng = gScore[r][c] + 1;\n                if (ng < gScore[nr][nc]) {\n                    gScore[nr][nc] = ng;\n                    came.put(nr+\",\"+nc, new int[]{r,c});\n                    open.offer(new int[]{ng+heuristic(new int[]{nr,nc},goal),nr,nc});\n                }\n            }\n        }\n        return Collections.emptyList();\n    }\n    List<int[]> reconstructPath(Map<String,int[]> came, int[] goal) {\n        List<int[]> path = new ArrayList<>();\n        int[] cur = goal;\n        while (cur != null) { path.add(0, cur); cur = came.get(cur[0]+\",\"+cur[1]); }\n        return path;\n    }\n}",
     "lineKeys": {}
   },
   "c": {
     "language": "c",
-    "code": "// A* Search C implementation",
+    "code": "/* A* for grid — f(n)=g(n)+h(n), Manhattan heuristic */\n#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n#define INF 999999\nint heur(int r1,int c1,int r2,int c2){return abs(r1-r2)+abs(c1-c2);}\n/* Full implementation: open set as min-heap, track g scores, reconstruct path */",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "// A* Search C++ implementation",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef pair<int,pair<int,int>> pii3;\nint heuristic(int r1,int c1,int r2,int c2){ return abs(r1-r2)+abs(c1-c2); }\nvector<pair<int,int>> astar(vector<vector<int>>& g, pair<int,int> s, pair<int,int> goal) {\n    int n=g.size(), m=g[0].size();\n    vector<vector<int>> gs(n, vector<int>(m, INT_MAX));\n    map<pair<int,int>,pair<int,int>> came;\n    gs[s.first][s.second]=0;\n    priority_queue<pii3,vector<pii3>,greater<pii3>> pq;\n    pq.push({heuristic(s.first,s.second,goal.first,goal.second),s});\n    int dr[]={0,0,1,-1}, dc[]={1,-1,0,0};\n    while(!pq.empty()){\n        auto [f,cur]=pq.top(); pq.pop();\n        if(cur==goal){ vector<pair<int,int>> path; while(came.count(cur)){path.push_back(cur);cur=came[cur];} reverse(path.begin(),path.end()); return path; }\n        for(int d=0;d<4;d++){\n            int nr=cur.first+dr[d], nc=cur.second+dc[d];\n            if(nr<0||nr>=n||nc<0||nc>=m||g[nr][nc]) continue;\n            int ng=gs[cur.first][cur.second]+1;\n            if(ng<gs[nr][nc]){ gs[nr][nc]=ng; came[{nr,nc}]=cur; pq.push({ng+heuristic(nr,nc,goal.first,goal.second),{nr,nc}}); }\n        }\n    }\n    return {};\n}",
     "lineKeys": {}
   }
 }
