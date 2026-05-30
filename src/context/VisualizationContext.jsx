@@ -25,6 +25,11 @@ function reducer(state, action) {
         return { ...state, isPlaying: false, isFinished: true }
       return { ...state, currentIndex: state.currentIndex + 1, isFinished: false }
     }
+    case 'PREV': {
+      if (state.currentIndex <= 0)
+        return { ...state, isPlaying: false }
+      return { ...state, currentIndex: state.currentIndex - 1, isPlaying: false, isFinished: false }
+    }
     case 'RESET':
       return { ...state, currentIndex: 0, isPlaying: false, isFinished: false }
     case 'SET_SPEED':
@@ -69,6 +74,7 @@ export function VisualizationProvider({ children }) {
       play:     () => dispatch({ type: 'PLAY' }),
       pause:    () => dispatch({ type: 'PAUSE' }),
       next:     () => dispatch({ type: 'NEXT' }),
+      prev:     () => dispatch({ type: 'PREV' }),
       reset:    () => dispatch({ type: 'RESET' }),
       setSpeed: (s) => dispatch({ type: 'SET_SPEED', payload: s }),
     }}>

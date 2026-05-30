@@ -117,9 +117,12 @@ export default function GraphVisualizer({ step, themeId }) {
 
   if (!step) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex flex-col items-center justify-center h-64 gap-3">
         <p style={{ color: isSpace ? 'rgba(96,165,250,.5)' : isDark ? '#6b7280' : '#9ca3af', fontSize: 14 }}>
-          Click Visualize to start traversal
+          Click <b>Visualize</b> to start traversal
+        </p>
+        <p style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#6b7280', fontSize: 12, maxWidth: 300, textAlign: 'center', lineHeight: 1.6 }}>
+          Enter edges like <code style={{ opacity: 0.8 }}>0-1, 0-2, 1-3</code> — each number is a node, each pair is a connection
         </p>
       </div>
     )
@@ -186,26 +189,22 @@ export default function GraphVisualizer({ step, themeId }) {
         </svg>
       </div>
 
-      {/* Queue / Stack display */}
+      {/* Queue / Stack display — with beginner-friendly label */}
       <div className="mt-3 flex items-center gap-2 justify-center flex-wrap">
         <span style={{ color: isSpace ? 'rgba(96,165,250,.6)' : isDark ? '#6b7280' : '#6b7280',
           fontSize: 11, fontWeight: 600 }}>
-          {queue.length > 0 ? 'Queue/Stack:' : ''}
+          {queue.length > 0 ? 'Queue (explore in this order) →' : ''}
         </span>
         {queue.length === 0
-          ? <span style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#9ca3af', fontSize: 11 }}>empty</span>
-          : <>
-              <span style={{ color: 'rgba(96,165,250,.4)', fontSize: 11 }}>←</span>
-              {queue.map((id, i) => (
-                <motion.div key={`${id}-${i}`}
-                  initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono"
-                  style={{ background: 'rgba(96,165,250,.25)', border: '1px solid rgba(96,165,250,.5)', color: '#BAE6FD' }}>
-                  {id}
-                </motion.div>
-              ))}
-              <span style={{ color: 'rgba(96,165,250,.4)', fontSize: 11 }}>→</span>
-            </>
+          ? <span style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#9ca3af', fontSize: 11 }}>Queue empty</span>
+          : queue.map((id, i) => (
+              <motion.div key={`${id}-${i}`}
+                initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono"
+                style={{ background: 'rgba(96,165,250,.25)', border: '1px solid rgba(96,165,250,.5)', color: '#BAE6FD' }}>
+                {id}
+              </motion.div>
+            ))
         }
       </div>
 
@@ -213,7 +212,7 @@ export default function GraphVisualizer({ step, themeId }) {
       {visited.length > 0 && (
         <div className="mt-2 flex items-center gap-2 justify-center flex-wrap">
           <span style={{ color: isSpace ? 'rgba(96,165,250,.6)' : isDark ? '#6b7280' : '#6b7280', fontSize: 11, fontWeight: 600 }}>
-            Visited:
+            ✓ Visited order:
           </span>
           <span style={{ color: isSpace ? 'rgba(251,191,36,.8)' : isDark ? '#34d399' : '#059669', fontSize: 11, fontFamily: 'monospace' }}>
             {visited.join(' → ')}
@@ -221,13 +220,13 @@ export default function GraphVisualizer({ step, themeId }) {
         </div>
       )}
 
-      {/* Legend */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mt-3 px-4">
+      {/* Legend — improved labels */}
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-3 px-4">
         {[
-          { label: 'Star',    s: STAR_STATES.default },
-          { label: 'Queued',  s: STAR_STATES.inQueue },
-          { label: 'Active',  s: STAR_STATES.current },
-          { label: 'Visited', s: STAR_STATES.visited },
+          { label: '⬜ Not visited yet', s: STAR_STATES.default },
+          { label: '🔵 In queue (waiting)', s: STAR_STATES.inQueue },
+          { label: '⭐ Currently visiting', s: STAR_STATES.current },
+          { label: '🟡 Already visited', s: STAR_STATES.visited },
         ].map(({ label, s }) => (
           <div key={label} className="flex items-center gap-1.5">
             <div className="w-4 h-4 rounded-full" style={{ background: s.fill, border: `2px solid ${s.stroke}` }} />

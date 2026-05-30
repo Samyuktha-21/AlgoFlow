@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { randomArray, randomSortedArray } from '../../utils/helpers'
 
-export default function InputPanel({ algorithmType, onVisualize, placeholder }) {
+export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget }) {
   const { isDark } = useTheme()
-  const [input, setInput] = useState('')
-  const [targetInput, setTargetInput] = useState('')
+  const [input, setInput] = useState(defaultValue || '')
+  const [targetInput, setTargetInput] = useState(defaultTarget || '')
   const [error, setError] = useState('')
+
+  // Sync if defaultValue changes (algorithm navigation)
+  useEffect(() => {
+    if (defaultValue !== undefined) setInput(defaultValue)
+    if (defaultTarget !== undefined) setTargetInput(defaultTarget)
+  }, [defaultValue, defaultTarget])
 
   const isSearch   = algorithmType === 'searching'
   const isGraph    = algorithmType === 'graph'
@@ -113,7 +119,7 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder }) 
 
       <p className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
         {isGraph
-          ? 'Enter edges as "from-to" pairs separated by commas (e.g. 0-1, 0-2, 1-3)'
+          ? <>Each number is a <b>node</b>. "0-1" means node 0 connects to node 1. Try: <code className="opacity-75">0-1, 0-2, 1-3, 1-4, 2-5</code></>
           : isSearch
             ? 'Enter a sorted array and a target value to search for'
             : 'Enter 2–50 comma-separated integers, or click Random'}

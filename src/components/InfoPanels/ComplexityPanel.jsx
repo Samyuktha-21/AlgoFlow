@@ -1,6 +1,85 @@
-import { Clock, Database, CheckCircle2, XCircle } from 'lucide-react'
+import { useState } from 'react'
+import { Clock, Database, CheckCircle2, XCircle, Info } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useBeginner } from '../../context/BeginnerContext'
+
+/* Big-O plain-English tooltips */
+const BIG_O_TOOLTIPS = {
+  'O(1)':        { label: '⚡ Instant', text: 'No matter how big the input, it always takes the same time. Like looking up a word in a dictionary when you already know the exact page.' },
+  'O(log n)':    { label: '🚀 Very Fast', text: 'Double the input = just 1 extra step. Like finding a name in a phone book by always opening to the middle.' },
+  'O(n)':        { label: '🚶 Linear', text: 'Double the input = double the time. Like reading every page of a book to find one sentence.' },
+  'O(n log n)':  { label: '✅ Fast', text: 'The fastest possible for comparison-based sorting. Most real-world sorting algorithms aim for this.' },
+  'O(n²)':       { label: '🐢 Slow for large data', text: 'Double the input = 4× the time. With 100 items: 10,000 operations. With 1,000 items: 1,000,000 operations.' },
+  'O(n³)':       { label: '🐌 Very Slow', text: 'Triple the input = 27× the time. Only practical for very small inputs (n < 100).' },
+  'O(2ⁿ)':       { label: '💀 Exponential', text: 'Gets impossibly slow very quickly. n=30 means over 1 billion operations.' },
+  'O(n²·2ⁿ)':    { label: '💀 Exponential', text: 'Impractical for n > 20. This is "exact" algorithm territory — used when correctness matters more than speed.' },
+  'O(√n)':       { label: '🚀 Fast', text: 'Faster than linear. Square root of 10,000 is just 100 steps.' },
+  'O(V + E)':    { label: '✅ Linear (Graph)', text: 'Visits every vertex and edge exactly once. Optimal for graph traversal.' },
+  'O(V²)':       { label: '🐢 Slow (Graph)', text: 'For dense graphs. Use priority queue to achieve O((V+E) log V) instead.' },
+  'O((V+E) log V)': { label: '✅ Fast (Graph)', text: 'The practical target for graph algorithms. Achieved with a min-heap priority queue.' },
+}
+
+function getTooltipData(bigO) {
+  if (!bigO) return null
+  const key = bigO.trim()
+  return BIG_O_TOOLTIPS[key] || null
+}
+
+function BigOBadge({ value, isDark }) {
+  const [open, setOpen] = useState(false)
+  const tip = getTooltipData(value)
+
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, position: 'relative' }}>
+      <code style={{
+        fontFamily: 'Fira Code, monospace', fontWeight: 700, fontSize: 20,
+        padding: '2px 8px', borderRadius: 6,
+        color: value?.includes('n²') || value?.includes('2ⁿ')
+          ? (isDark ? '#f87171' : '#dc2626')
+          : value === 'O(1)' || value?.includes('log n') && !value?.includes('n log')
+            ? (isDark ? '#34d399' : '#059669')
+            : isDark ? '#fbbf24' : '#d97706',
+        background: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(243,244,246,0.8)',
+      }}>
+        {value}
+      </code>
+      {tip && (
+        <button
+          onClick={() => setOpen(o => !o)}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer', padding: 2,
+            color: isDark ? '#64748b' : '#94a3b8',
+            display: 'inline-flex',
+          }}
+          title="What does this mean?"
+        >
+          <Info size={14} />
+        </button>
+      )}
+      {/* Tooltip popover */}
+      {open && tip && (
+        <div
+          onClick={() => setOpen(false)}
+          style={{
+            position: 'absolute', top: '110%', left: 0, zIndex: 50,
+            minWidth: 240, maxWidth: 300,
+            background: isDark ? '#1e293b' : '#ffffff',
+            border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : '#e2e8f0'}`,
+            borderRadius: 10, padding: '12px 14px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+          }}
+        >
+          <div style={{ fontWeight: 700, fontSize: 14, color: isDark ? '#f1f5f9' : '#0f172a', marginBottom: 6 }}>
+            {tip.label}
+          </div>
+          <div style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#475569', lineHeight: 1.6 }}>
+            {tip.text}
+          </div>
+        </div>
+      )}
+    </span>
+  )
+}
 
 /* Color for each complexity case */
 const CASE_COLORS = {
@@ -16,18 +95,21 @@ const CASE_COLORS_DARK = {
   worst:   { label: '#f87171', value: '#fc8181', bg: 'rgba(248,113,113,.1)', border: 'rgba(248,113,113,.3)' },
 }
 
-function CaseRow({ label, value, desc, caseKey, isDark }) {
+function CaseRow({ label, value, desc, caseKey, isDark, showTooltip }) {
   const c = isDark ? CASE_COLORS_DARK[caseKey] : CASE_COLORS[caseKey]
   return (
     <div className="rounded-xl p-4 border" style={{ background: c.bg, borderColor: c.border }}>
-      <div className="flex items-baseline gap-3 mb-1 flex-wrap">
+      <div className="flex items-center gap-3 mb-1 flex-wrap">
         <span className="font-semibold" style={{ fontSize: 17, color: c.label }}>
           {label}:
         </span>
-        <code className="font-mono font-bold rounded px-2 py-0.5"
-          style={{ fontSize: 20, color: c.value, background: isDark ? 'rgba(0,0,0,.3)' : 'rgba(255,255,255,.8)' }}>
-          {value}
-        </code>
+        {showTooltip
+          ? <BigOBadge value={value} isDark={isDark} />
+          : <code className="font-mono font-bold rounded px-2 py-0.5"
+              style={{ fontSize: 20, color: c.value, background: isDark ? 'rgba(0,0,0,.3)' : 'rgba(255,255,255,.8)' }}>
+              {value}
+            </code>
+        }
       </div>
       {desc && (
         <p style={{ fontSize: 15, color: isDark ? '#9ca3af' : '#6b7280', lineHeight: 1.6 }}>
@@ -55,6 +137,7 @@ function speedRating(bigO) {
 export default function ComplexityPanel({ metadata }) {
   const { isDark } = useTheme()
   const { beginner } = useBeginner()
+  const showTooltip = beginner
   const c = metadata?.complexity
   if (!c) return null
 
@@ -103,9 +186,9 @@ export default function ComplexityPanel({ metadata }) {
           <span className="font-semibold" style={{ fontSize: 22 }}>Time Complexity</span>
         </div>
         <div className="space-y-3">
-          <CaseRow label="Best Case"    value={c.time.best}    desc={c.time.bestCase}    caseKey="best"    isDark={isDark} />
-          <CaseRow label="Average Case" value={c.time.average} desc={c.time.averageCase} caseKey="average" isDark={isDark} />
-          <CaseRow label="Worst Case"   value={c.time.worst}   desc={c.time.worstCase}   caseKey="worst"   isDark={isDark} />
+          <CaseRow label="Best Case"    value={c.time.best}    desc={c.time.bestCase}    caseKey="best"    isDark={isDark} showTooltip={showTooltip} />
+          <CaseRow label="Average Case" value={c.time.average} desc={c.time.averageCase} caseKey="average" isDark={isDark} showTooltip={showTooltip} />
+          <CaseRow label="Worst Case"   value={c.time.worst}   desc={c.time.worstCase}   caseKey="worst"   isDark={isDark} showTooltip={showTooltip} />
         </div>
       </div>
 

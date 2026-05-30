@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronRight, Target, Code2, BarChart2, Globe, CheckCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { useVisualization } from '../context/VisualizationContext'
+import { useBeginner } from '../context/BeginnerContext'
 import categories from '../data/categories.json'
 import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/validators'
 
@@ -29,7 +30,6 @@ const TABS = [
   { id: 'applications', label: 'Applications',  Icon: Globe,     color: '#8b5cf6', darkColor: '#a78bfa' },
 ]
 
-/* Themes with light (white/bright) backgrounds */
 const LIGHT_PAGE_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
 
 const OP_COLORS = {
@@ -50,7 +50,89 @@ const OP_LABELS = {
   insert:'Insert', relax:'Relax', enqueue:'Enqueue', dequeue:'Dequeue',
 }
 
-/* Derive final result text from the last visualization step */
+/* ── Default inputs per algorithm type (for auto-run) ── */
+function getDefaultInput(type) {
+  switch (type) {
+    case 'sorting':     return { input: '64, 34, 25, 12, 22, 11, 90', target: '' }
+    case 'searching':   return { input: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91', target: '23' }
+    case 'graph':       return { input: '0-1, 0-2, 1-3, 1-4, 2-5, 2-6', target: '' }
+    case 'tree':        return { input: '4, 2, 6, 1, 3, 5, 7', target: '' }
+    case 'heap':        return { input: '90, 70, 80, 40, 50, 60, 30', target: '' }
+    case 'dp':          return { input: '5, 3, 8, 1, 9, 2, 7', target: '' }
+    case 'dynamic-programming': return { input: '5, 3, 8, 1, 9, 2, 7', target: '' }
+    case 'backtracking':return { input: '4, 2, 6, 1, 3', target: '' }
+    case 'linked-list': return { input: '1, 2, 3, 4, 5', target: '' }
+    case 'stack':       return { input: '3, 7, 2, 5, 8, 4', target: '' }
+    case 'queue':       return { input: '3, 7, 2, 5, 8, 4', target: '' }
+    case 'array':       return { input: '3, 1, 4, 1, 5, 9, 2, 6', target: '' }
+    case 'fundamentals':return { input: '5, 3, 7, 1, 9, 4, 6', target: '' }
+    case 'hashing':     return { input: '12, 24, 36, 15, 27', target: '' }
+    case 'greedy':      return { input: '10, 20, 30, 5, 15', target: '' }
+    default:            return { input: '5, 3, 7, 1, 9', target: '' }
+  }
+}
+
+/* ── Contextual "WHY" explanation generator ── */
+function getWhyText(step, algorithmType) {
+  if (!step) return null
+  const { type, array, comparing, swapping, sorted, target, mid, low, high, current, queue, visited, pivot } = step
+
+  // Sorting: compare
+  if (type === 'compare' && Array.isArray(comparing) && comparing.length >= 2 && array) {
+    const [i, j] = comparing
+    const a = array[i], b = array[j]
+    if (a !== undefined && b !== undefined) {
+      if (a > b) return `${a} > ${b} — out of order for ascending sort, so they'll be swapped`
+      return `${a} ≤ ${b} — already in the right order, no swap needed`
+    }
+  }
+
+  // Sorting: swap
+  if (type === 'swap' && Array.isArray(swapping) && swapping.length >= 2 && array) {
+    const [i, j] = swapping
+    const a = array[i], b = array[j]
+    if (a !== undefined && b !== undefined)
+      return `Moving ${a} and ${b} — the larger value bubbles toward the end of the array`
+  }
+
+  // Sorting: pivot selected
+  if (type === 'pivot' && pivot !== undefined && array) {
+    return `${array[pivot]} is the pivot — everything smaller goes left, everything larger goes right`
+  }
+
+  // Sorting: position sorted
+  if (type === 'sorted' && Array.isArray(sorted))
+    return `This position is now permanent — the correct value is locked in place`
+
+  // Searching: binary compare
+  if ((algorithmType === 'searching' || type === 'compare') && mid !== undefined && target !== undefined && array) {
+    const midVal = array[mid]
+    if (midVal === target) return `Middle value ${midVal} equals target — found it!`
+    if (target < midVal) return `Target ${target} < middle value ${midVal} — search the LEFT half next (discard right)`
+    return `Target ${target} > middle value ${midVal} — search the RIGHT half next (discard left)`
+  }
+  if (type === 'found') return `Target found! Binary search takes at most log₂(n) comparisons — far faster than checking every element`
+
+  // Graph: BFS visit
+  if (type === 'visit' && current !== undefined) {
+    if (Array.isArray(queue) && queue.length > 0)
+      return `Processing node ${current} from the front of the queue. BFS always expands closest nodes first — like ripples in a pond`
+    return `Exploring as deep as possible from node ${current} before backtracking (DFS)`
+  }
+  if (type === 'enqueue')
+    return `Adding unvisited neighbours to the queue so they'll be explored in order of discovery`
+
+  // Backtracking
+  if (type === 'backtrack')
+    return `Dead end — no valid option here. Backtracking to try a different choice`
+
+  // DP
+  if (type === 'update')
+    return `Storing this result so we never recompute it — this is memoization, the core of dynamic programming`
+
+  return null
+}
+
 function deriveResult(step) {
   if (!step) return null
   if (step.found >= 0) return `Found at index ${step.found}`
@@ -67,58 +149,81 @@ function deriveResult(step) {
   return null
 }
 
-/* ── StepInfo panel ── */
-function StepInfo({ isLight }) {
+/* ── StepInfo panel — now shows WHY in Simple mode ── */
+function StepInfo({ isLight, algorithmType }) {
   const { steps, currentIndex, currentStep } = useVisualization()
+  const { beginner } = useBeginner()
+  const [pulse, setPulse] = useState(false)
+
+  useEffect(() => {
+    if (!currentStep) return
+    setPulse(true)
+    const t = setTimeout(() => setPulse(false), 400)
+    return () => clearTimeout(t)
+  }, [currentIndex])
+
   if (!currentStep || steps.length === 0) return null
 
   const progress = ((currentIndex + 1) / steps.length) * 100
   const op = currentStep.type || 'default'
   const oc = OP_COLORS[op] || OP_COLORS.default
   const opLabel = OP_LABELS[op] || op.toUpperCase()
+  const whyText = beginner ? getWhyText(currentStep, algorithmType) : null
 
   return (
     <div style={{
-      padding: '12px 16px',
-      borderRadius: 12,
-      background: isLight ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)',
+      padding: '14px 18px', borderRadius: 14, marginBottom: 8,
+      background: isLight ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.32)',
       backdropFilter: 'blur(12px)',
-      border: isLight ? '1px solid rgba(0,0,0,0.12)' : '1px solid rgba(255,255,255,0.1)',
-      marginBottom: 4,
+      border: isLight ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.1)',
+      transition: 'box-shadow 0.3s',
+      boxShadow: pulse ? '0 0 0 2px rgba(99,102,241,0.4)' : 'none',
     }}>
-      <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
-        {/* Step counter */}
+      <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap', marginBottom: whyText ? 8 : 0 }}>
+        {/* Step counter — prominent */}
         <span style={{
-          padding:'3px 10px', borderRadius:20, fontSize:12, fontWeight:700,
+          padding:'4px 12px', borderRadius:20, fontSize:13, fontWeight:700,
           background:'rgba(59,130,246,0.25)', color:'#93c5fd',
-          border:'1px solid rgba(59,130,246,0.4)', whiteSpace:'nowrap',
+          border:'1px solid rgba(59,130,246,0.4)', whiteSpace:'nowrap', flexShrink:0,
         }}>
-          {currentIndex + 1} / {steps.length}
+          Step {currentIndex + 1} / {steps.length}
         </span>
 
-        {/* Operation badge */}
+        {/* Operation badge — enlarged */}
         {op !== 'default' && (
           <span style={{
-            padding:'3px 10px', borderRadius:20, fontSize:11, fontWeight:700,
+            padding:'4px 12px', borderRadius:20, fontSize:12, fontWeight:700,
             background: oc.bg, color: oc.text, border:`1px solid ${oc.border}`,
-            textTransform:'uppercase', letterSpacing:'0.04em', whiteSpace:'nowrap',
+            textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap', flexShrink:0,
           }}>
             {opLabel}
           </span>
         )}
 
-        {/* Description */}
+        {/* Main description — 18px minimum */}
         <span style={{
-          fontSize: 15, fontWeight:500, flex:1,
+          fontSize: 18, fontWeight:600, flex:1,
           color: isLight ? '#0f172a' : '#f1f5f9',
           textShadow: isLight ? 'none' : '0 1px 3px rgba(0,0,0,0.5)',
+          lineHeight: 1.4,
         }}>
           {currentStep.description || '—'}
         </span>
       </div>
 
+      {/* WHY text — only in Simple mode */}
+      {whyText && (
+        <p style={{
+          fontSize: 14, color: isLight ? '#334155' : 'rgba(255,255,255,0.65)',
+          margin: 0, lineHeight: 1.6,
+          paddingLeft: 4, borderLeft: '3px solid rgba(99,102,241,0.4)',
+        }}>
+          💡 {whyText}
+        </p>
+      )}
+
       {/* Progress bar */}
-      <div style={{ marginTop:8, height:3, background:'rgba(255,255,255,0.1)', borderRadius:2 }}>
+      <div style={{ marginTop:10, height:3, background:'rgba(255,255,255,0.1)', borderRadius:2 }}>
         <div style={{
           height:'100%', width:`${progress}%`,
           background: progress >= 100
@@ -136,7 +241,6 @@ function FinalAnswerDisplay({ isLight }) {
   const { steps, isFinished } = useVisualization()
   const lastStep = steps[steps.length - 1]
   if (!isFinished || !lastStep) return null
-
   const result = deriveResult(lastStep)
   if (!result) return null
 
@@ -173,7 +277,7 @@ function FinalAnswerDisplay({ isLight }) {
 export default function Algorithm() {
   const { categoryId, algorithmId } = useParams()
   const { isDark } = useTheme()
-  const { setSteps } = useVisualization()
+  const { setSteps, play, setSpeed } = useVisualization()
 
   const [metadata, setMetadata]       = useState(null)
   const [codeData, setCodeData]       = useState(null)
@@ -182,12 +286,12 @@ export default function Algorithm() {
   const [notImplemented, setNotImplemented] = useState(false)
   const [activeTab, setActiveTab]     = useState('aim')
   const [language, setLanguage]       = useState('java')
+  const [autoRunDone, setAutoRunDone] = useState(false)
 
   const category = categories.find(c => c.id === categoryId)
   const themeId  = category?.theme || 'circuit'
   const isLight  = LIGHT_PAGE_THEMES.has(themeId)
 
-  /* glass style helpers */
   const glass = {
     background: isLight ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.38)',
     backdropFilter: 'blur(16px)',
@@ -198,11 +302,12 @@ export default function Algorithm() {
   const textPrimary = isLight ? '#0f172a' : '#f8fafc'
   const textMuted   = isLight ? '#334155' : 'rgba(255,255,255,0.6)'
 
+  /* Load algorithm files */
   useEffect(() => {
-    let cancelled = false   // stale-flag: prevents state updates if we navigate away
-
+    let cancelled = false
     setIsLoading(true); setMetadata(null); setCodeData(null)
     setStepsModule(null); setSteps([]); setNotImplemented(false)
+    setAutoRunDone(false)   // reset auto-run flag on navigation
 
     const metaPath  = `../algorithms/${categoryId}/${algorithmId}/metadata.json`
     const codePath  = `../algorithms/${categoryId}/${algorithmId}/code.json`
@@ -231,9 +336,9 @@ export default function Algorithm() {
     return () => { cancelled = true }
   }, [categoryId, algorithmId])
 
-  const currentCode     = codeData?.[language]?.code || ''
-  const { currentStep } = useVisualization()
-  const highlightedLine = currentStep?.codeLine || null
+  const currentCode      = codeData?.[language]?.code || ''
+  const { currentStep }  = useVisualization()
+  const highlightedLine  = currentStep?.codeLine || null
 
   const handleVisualize = useCallback((inputStr, targetStr) => {
     if (!stepsModule?.generateSteps) return { error: 'Algorithm not yet implemented' }
@@ -258,6 +363,21 @@ export default function Algorithm() {
     return {}
   }, [stepsModule, metadata, setSteps])
 
+  /* Auto-run default visualization when algorithm loads */
+  useEffect(() => {
+    if (!metadata || !stepsModule?.generateSteps || autoRunDone || isLoading) return
+    setAutoRunDone(true)
+    const def = getDefaultInput(metadata.type)
+    const result = handleVisualize(def.input, def.target || '')
+    if (!result?.error) {
+      setSpeed('0.5x')
+      setTimeout(() => play(), 600)   // small delay so the canvas finishes mounting
+    }
+  }, [metadata, stepsModule, autoRunDone, isLoading, handleVisualize, play, setSpeed])
+
+  /* Compute default input values for InputPanel pre-fill */
+  const defaultInput = metadata ? getDefaultInput(metadata.type) : null
+
   if (isLoading) {
     return (
       <div style={{ position:'relative', minHeight:'100vh' }}>
@@ -281,8 +401,7 @@ export default function Algorithm() {
             <p style={{ fontSize:48, marginBottom:12 }}>🔍</p>
             <h2 style={{ fontSize:24, fontWeight:700, color: textPrimary, marginBottom:8 }}>Algorithm Not Found</h2>
             <p style={{ color: textMuted, maxWidth:400, lineHeight:1.6 }}>
-              The page <code style={{ fontSize:13, padding:'2px 6px', borderRadius:4, background:'rgba(255,255,255,0.1)' }}>/{categoryId}/{algorithmId}</code> doesn't match any known algorithm.
-              Try navigating from the category page.
+              The page <code style={{ fontSize:13, padding:'2px 6px', borderRadius:4, background:'rgba(255,255,255,0.1)' }}>/{categoryId}/{algorithmId}</code> doesn't match any known algorithm. Try navigating from the category page.
             </p>
             <div style={{ display:'flex', gap:12, justifyContent:'center', marginTop:20 }}>
               <Link to={`/category/${categoryId}`}
@@ -304,10 +423,8 @@ export default function Algorithm() {
 
   return (
     <div style={{ position:'relative', minHeight:'100vh' }}>
-      {/* Full-page theme canvas */}
       <ThemeBackground themeId={themeId} variant="page" />
 
-      {/* All content on top */}
       <div style={{ position:'relative', zIndex:10 }}>
 
         {/* Breadcrumb */}
@@ -342,13 +459,13 @@ export default function Algorithm() {
             </p>
           </div>
 
-          {/* Beginner toggle (prominent) */}
+          {/* Beginner toggle */}
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <BeginnerToggleBanner />
           </div>
 
-          {/* Step info */}
-          <StepInfo isLight={isLight} />
+          {/* ── STEP INFO — moved ABOVE the visualization ── */}
+          <StepInfo isLight={isLight} algorithmType={metadata.type} />
 
           {/* Visualization */}
           <VisualizerCanvas
@@ -363,7 +480,12 @@ export default function Algorithm() {
           {/* Controls row */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
             <div className="lg:col-span-3">
-              <InputPanel algorithmType={metadata.type} onVisualize={handleVisualize} />
+              <InputPanel
+                algorithmType={metadata.type}
+                onVisualize={handleVisualize}
+                defaultValue={defaultInput?.input}
+                defaultTarget={defaultInput?.target}
+              />
             </div>
             <div className="lg:col-span-2">
               <PlaybackControls disabled={!stepsModule} />
@@ -372,7 +494,6 @@ export default function Algorithm() {
 
           {/* Info tabs */}
           <div style={{ ...glass, overflow:'hidden' }}>
-            {/* Tab bar */}
             <div style={{ display:'flex', borderBottom:'1px solid rgba(255,255,255,0.1)', overflowX:'auto' }}>
               {TABS.map(tab => {
                 const isActive = activeTab === tab.id
@@ -388,8 +509,7 @@ export default function Algorithm() {
                       borderBottom: isActive ? `3px solid ${color}` : '3px solid transparent',
                       color: isActive ? color : textMuted,
                       background: isActive ? `${color}0f` : 'transparent',
-                      transition:'all 0.18s',
-                      cursor:'pointer',
+                      transition:'all 0.18s', cursor:'pointer',
                     }}
                   >
                     <tab.Icon size={14} />
@@ -423,7 +543,7 @@ export default function Algorithm() {
             </AnimatePresence>
           </div>
 
-          {/* ── Comments section ── */}
+          {/* Comments */}
           <div style={{ ...glass, overflow:'hidden', marginTop: 0 }}>
             <AlgorithmComments algorithmId={algorithmId} />
           </div>

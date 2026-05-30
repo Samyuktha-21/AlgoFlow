@@ -1,4 +1,4 @@
-import { Play, Pause, SkipForward, RotateCcw, ChevronDown } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, RotateCcw, ChevronDown } from 'lucide-react'
 import { useVisualization } from '../../context/VisualizationContext'
 import { useTheme } from '../../context/ThemeContext'
 import { useState, useRef, useEffect } from 'react'
@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 const SPEEDS = ['0.25x', '0.5x', '1x', '2x', '4x']
 
 export default function PlaybackControls({ disabled }) {
-  const { isPlaying, isFinished, speed, steps, currentIndex, play, pause, next, reset, setSpeed } = useVisualization()
+  const { isPlaying, isFinished, speed, steps, currentIndex, play, pause, next, prev, reset, setSpeed } = useVisualization()
   const { isDark } = useTheme()
   const [speedOpen, setSpeedOpen] = useState(false)
   const speedRef = useRef(null)
@@ -17,13 +17,13 @@ export default function PlaybackControls({ disabled }) {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const hasSteps = steps.length > 0
-  const progress = hasSteps ? (currentIndex / Math.max(steps.length - 1, 1)) * 100 : 0
+  const hasSteps  = steps.length > 0
+  const atStart   = currentIndex === 0
+  const atEnd     = currentIndex >= steps.length - 1
+  const progress  = hasSteps ? (currentIndex / Math.max(steps.length - 1, 1)) * 100 : 0
 
-  const btnBase = `p-2.5 rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed`
-  const btnPrimary = `${btnBase} ${isDark
-    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-sm'
-    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'}`
+  const btnBase      = `p-2.5 rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed`
+  const btnPrimary   = `${btnBase} bg-blue-600 hover:bg-blue-500 text-white shadow-sm`
   const btnSecondary = `${btnBase} ${isDark
     ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
     : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`
@@ -40,7 +40,18 @@ export default function PlaybackControls({ disabled }) {
 
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          {/* Reset */}
+          {/* ⏮ Step Back — NEW */}
+          <button
+            onClick={prev}
+            disabled={disabled || !hasSteps || atStart}
+            className={btnSecondary}
+            aria-label="Step back"
+            title="Step back (←)"
+          >
+            <SkipBack size={16} />
+          </button>
+
+          {/* ⏪ Reset */}
           <button
             onClick={reset}
             disabled={disabled || !hasSteps}
@@ -51,7 +62,7 @@ export default function PlaybackControls({ disabled }) {
             <RotateCcw size={16} />
           </button>
 
-          {/* Play / Pause */}
+          {/* ▶ Play / ⏸ Pause */}
           <button
             onClick={isPlaying ? pause : play}
             disabled={disabled || !hasSteps || isFinished}
@@ -62,10 +73,10 @@ export default function PlaybackControls({ disabled }) {
             {isPlaying ? <Pause size={18} /> : <Play size={18} />}
           </button>
 
-          {/* Step forward */}
+          {/* ⏭ Step Forward */}
           <button
             onClick={next}
-            disabled={disabled || !hasSteps || isFinished}
+            disabled={disabled || !hasSteps || isFinished || atEnd}
             className={btnSecondary}
             aria-label="Next step"
             title="Next step (→)"
@@ -119,7 +130,7 @@ export default function PlaybackControls({ disabled }) {
       {/* Status message */}
       {isFinished && (
         <div className={`mt-2 text-xs text-center font-medium ${isDark ? 'text-green-400' : 'text-green-600'}`}>
-          ✓ Visualization complete — click Reset to start again
+          ✓ Complete — use ⏮ or ⏪ to review steps
         </div>
       )}
     </div>
