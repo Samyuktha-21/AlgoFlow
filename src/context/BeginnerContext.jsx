@@ -26,16 +26,17 @@ export function useBeginner() {
   return useContext(BeginnerContext)
 }
 
-/* Compact toggle for Header */
+/* Compact toggle for Header navbar — single source of truth */
 export function BeginnerToggleCompact() {
   const { beginner, setBeginner } = useBeginner()
   return (
     <button
+      type="button"
       onClick={() => setBeginner(b => !b)}
       title={
         beginner
-          ? 'Simple mode: plain-English explanations. Click to switch to Technical mode.'
-          : 'Technical mode: CS terminology. Click to switch to Simple mode.'
+          ? 'Beginner mode: plain-English explanations. Click to switch to Advanced mode.'
+          : 'Advanced mode: CS terminology. Click to switch to Beginner mode.'
       }
       style={{
         display: 'flex', alignItems: 'center', gap: 7,
@@ -50,7 +51,7 @@ export function BeginnerToggleCompact() {
     >
       <span style={{ fontSize: 15 }}>{beginner ? '🧒' : '🎓'}</span>
       <span style={{ fontSize: 12, fontWeight: 700, color: '#ffffff', whiteSpace: 'nowrap' }}>
-        {beginner ? 'Simple' : 'Technical'}
+        {beginner ? 'Beginner' : 'Advanced'}
       </span>
       <div style={{
         width: 28, height: 16,
@@ -68,7 +69,7 @@ export function BeginnerToggleCompact() {
   )
 }
 
-/* Banner toggle for algorithm page */
+/* Banner toggle — kept for backward compatibility but no longer placed on algorithm page */
 export function BeginnerToggleBanner() {
   const { beginner, setBeginner } = useBeginner()
   return (
@@ -76,8 +77,8 @@ export function BeginnerToggleBanner() {
       onClick={() => setBeginner(b => !b)}
       title={
         beginner
-          ? 'Simple mode: plain-English explanations. Click for Technical mode.'
-          : 'Technical mode: CS terminology. Click for Simple mode.'
+          ? 'Beginner mode: plain-English explanations. Click for Advanced mode.'
+          : 'Advanced mode: CS terminology. Click for Beginner mode.'
       }
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 10,
@@ -89,7 +90,7 @@ export function BeginnerToggleBanner() {
     >
       <span style={{ fontSize: 18 }}>{beginner ? '🧒' : '🎓'}</span>
       <span style={{ fontSize: 14, fontWeight: 600, color: beginner ? '#34d399' : 'rgba(255,255,255,0.7)' }}>
-        {beginner ? '🧒 Simple Mode' : '🎓 Technical Mode'}
+        {beginner ? '🧒 Beginner Mode' : '🎓 Advanced Mode'}
       </span>
       <div style={{
         width: 36, height: 20,

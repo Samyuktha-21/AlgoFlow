@@ -10,7 +10,7 @@ import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/val
 import { getCategoryTheme } from '../themes/themeConfig'
 
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
-import { BeginnerToggleBanner } from '../context/BeginnerContext'
+
 import AlgorithmComments from '../components/AlgorithmComments'
 import VisualizerCanvas from '../components/Visualizer/VisualizerCanvas'
 import PlaybackControls from '../components/Visualizer/PlaybackControls'
@@ -495,9 +495,9 @@ export default function Algorithm() {
         {/* ── Breadcrumb ── */}
         <div style={{
           ...glass, borderRadius:0, borderLeft:'none', borderRight:'none', borderTop:'none',
-          position:'sticky', top:56, zIndex:40, padding:'8px 20px',
+          position:'sticky', top:56, zIndex:40, padding:'8px 12px',
         }}>
-          <div className="max-w-[1400px] mx-auto flex items-center gap-1.5 text-sm flex-wrap">
+          <div className="flex items-center gap-1.5 text-sm flex-wrap">
             <Link to="/" style={{ color: textMuted }} className="hover:text-blue-400 transition-colors">Home</Link>
             <ChevronRight size={13} style={{ color: textMuted }} />
             <Link to={`/category/${categoryId}`} style={{ color: textMuted }} className="hover:text-blue-400 transition-colors">
@@ -508,7 +508,7 @@ export default function Algorithm() {
           </div>
         </div>
 
-        <div className="max-w-[1400px] mx-auto px-5 py-6 space-y-4">
+        <div className="w-full px-3 py-6 space-y-4">
 
           {/* ── Page title ── */}
           <div>
@@ -523,11 +523,6 @@ export default function Algorithm() {
             <p style={{ fontSize:14, color: textMuted, lineHeight:1.6, maxWidth:780 }}>
               {metadata.description}
             </p>
-          </div>
-
-          {/* ── Beginner toggle ── */}
-          <div style={{ display:'flex', justifyContent:'flex-end' }}>
-            <BeginnerToggleBanner />
           </div>
 
           {/* ══ SPLIT SCREEN: Visualization (left) + Code (right) ══ */}
@@ -734,7 +729,7 @@ export default function Algorithm() {
 
           {/* ── Comments ── */}
           <div style={{ ...glass, overflow:'hidden' }}>
-            <AlgorithmComments algorithmId={algorithmId} />
+            <AlgorithmComments algorithmId={algorithmId} isLight={isLight} />
           </div>
 
         </div>
