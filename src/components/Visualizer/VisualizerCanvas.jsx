@@ -9,7 +9,6 @@ import LinkedListVisualizer from './LinkedListVisualizer'
 import StackVisualizer from './StackVisualizer'
 import HeapVisualizer from './HeapVisualizer'
 import BacktrackingVisualizer from './BacktrackingVisualizer'
-import { useTheme } from '../../context/ThemeContext'
 
 const VISUALIZER_MAP = {
   sorting:        SortVisualizer,
@@ -30,14 +29,27 @@ const VISUALIZER_MAP = {
   fundamentals:   ArrayVisualizer,
 }
 
-export default function VisualizerCanvas({ algorithmType, themeId, metadata }) {
+/* When embedded=true the outer glass wrapper is omitted —
+   the parent split panel provides its own background. */
+export default function VisualizerCanvas({ algorithmType, themeId, metadata, embedded }) {
   const { currentStep } = useVisualization()
-  const { isDark } = useTheme()
-
   const VisualizerComponent = VISUALIZER_MAP[algorithmType] || ArrayVisualizer
 
   const LIGHT_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
   const isLightTheme = LIGHT_THEMES.has(themeId)
+
+  const inner = (
+    <div className="p-4 flex flex-col" style={{ minHeight: 380 }}>
+      <VisualizerComponent
+        step={currentStep}
+        themeId={themeId}
+        metadata={metadata}
+      />
+    </div>
+  )
+
+  if (embedded) return inner
+
   return (
     <div style={{
       background: isLightTheme ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.28)',
@@ -47,13 +59,7 @@ export default function VisualizerCanvas({ algorithmType, themeId, metadata }) {
       borderRadius: 16,
       overflow: 'hidden',
     }}>
-      <div className="p-4 min-h-[420px] flex flex-col">
-        <VisualizerComponent
-          step={currentStep}
-          themeId={themeId}
-          metadata={metadata}
-        />
-      </div>
+      {inner}
     </div>
   )
 }

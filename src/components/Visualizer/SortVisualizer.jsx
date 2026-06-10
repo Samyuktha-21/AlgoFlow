@@ -265,10 +265,10 @@ export default function SortVisualizer({ step, themeId }) {
       {/* Legend */}
       <div className="flex flex-wrap items-center justify-center gap-3 mt-1 px-4">
         {isSnow ? [
-          { label: 'Ice',      bg: SNOW_STYLES.default.bg },
-          { label: 'Warmth',   bg: SNOW_STYLES.comparing.bg },
-          { label: 'Melt',     bg: SNOW_STYLES.swapping.bg },
-          { label: 'Frozen',   bg: SNOW_STYLES.sorted.bg },
+          { label: 'Unsorted',  bg: SNOW_STYLES.default.bg },
+          { label: 'Comparing', bg: SNOW_STYLES.comparing.bg },
+          { label: 'Swapping',  bg: SNOW_STYLES.swapping.bg },
+          { label: 'Sorted',    bg: SNOW_STYLES.sorted.bg },
         ].map(({ label, bg }) => (
           <div key={label} className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-sm" style={{ background: bg }} />
