@@ -3,6 +3,20 @@ const DARK_MUTED = 'rgba(241,245,249,0.6)'
 const LITE_TEXT  = '#0f172a'
 const LITE_MUTED = '#334155'
 
+/* Contrast text sets used by info panels */
+const DARK_PALETTE = {
+  textPrimary:   '#f1f5f9',
+  textSecondary: '#cbd5e1',
+  textMuted:     '#94a3b8',
+  surfaceText:   '#e2e8f0',
+}
+const LITE_PALETTE = {
+  textPrimary:   '#0f172a',
+  textSecondary: '#1e293b',
+  textMuted:     '#475569',
+  surfaceText:   '#1e293b',
+}
+
 export const themes = {
   compass: {
     id: 'compass',
@@ -13,6 +27,7 @@ export const themes = {
     accentRgb: '74,125,181',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#4a7db5',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -33,6 +48,7 @@ export const themes = {
     accentRgb: '14,165,233',
     textColor: LITE_TEXT,
     mutedTextColor: LITE_MUTED,
+    ...LITE_PALETTE,
     barColor: '#38bdf8',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -53,6 +69,7 @@ export const themes = {
     accentRgb: '245,158,11',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#fbbf24',
     barColorComparing: '#fbbf24',
     barColorSwapping: '#F87171',
@@ -73,6 +90,7 @@ export const themes = {
     accentRgb: '20,184,166',
     textColor: LITE_TEXT,
     mutedTextColor: LITE_MUTED,
+    ...LITE_PALETTE,
     barColor: '#a855f7',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -93,6 +111,7 @@ export const themes = {
     accentRgb: '100,116,139',
     textColor: LITE_TEXT,
     mutedTextColor: LITE_MUTED,
+    ...LITE_PALETTE,
     barColor: '#94a3b8',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -113,6 +132,7 @@ export const themes = {
     accentRgb: '180,83,9',
     textColor: LITE_TEXT,
     mutedTextColor: LITE_MUTED,
+    ...LITE_PALETTE,
     barColor: '#d97706',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -133,6 +153,7 @@ export const themes = {
     accentRgb: '74,222,128',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#4ade80',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -153,6 +174,7 @@ export const themes = {
     accentRgb: '74,222,128',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#22c55e',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -173,6 +195,7 @@ export const themes = {
     accentRgb: '96,165,250',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#9ca3af',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -193,6 +216,7 @@ export const themes = {
     accentRgb: '34,211,238',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#60a5fa',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -213,6 +237,7 @@ export const themes = {
     accentRgb: '251,146,60',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#f87171',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -233,6 +258,7 @@ export const themes = {
     accentRgb: '245,158,11',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#f59e0b',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -253,6 +279,7 @@ export const themes = {
     accentRgb: '107,114,128',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#4ade80',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',
@@ -273,6 +300,7 @@ export const themes = {
     accentRgb: '167,139,250',
     textColor: DARK_TEXT,
     mutedTextColor: DARK_MUTED,
+    ...DARK_PALETTE,
     barColor: '#22d3ee',
     barColorComparing: '#FCD34D',
     barColorSwapping: '#F87171',

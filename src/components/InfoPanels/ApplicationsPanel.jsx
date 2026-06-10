@@ -4,22 +4,22 @@ import { useBeginner } from '../../context/BeginnerContext'
 import { getBeginnerData } from '../../data/beginnerData'
 
 /* Company card — richer display for beginner data */
-function CompanyCard({ company, logo, use, isDark }) {
+function CompanyCard({ company, logo, use, onDark }) {
   return (
     <div style={{
       display: 'flex', gap: 12, padding: '12px 16px', borderRadius: 12,
-      background: isDark ? 'rgba(31,41,55,.5)' : '#f9fafb',
-      border: isDark ? '1px solid rgba(75,85,99,.4)' : '1px solid #e5e7eb',
+      background: onDark ? 'rgba(31,41,55,.5)' : '#f9fafb',
+      border: onDark ? '1px solid rgba(75,85,99,.4)' : '1px solid #e5e7eb',
       marginBottom: 10,
     }}>
       <span style={{ fontSize: 26, flexShrink: 0, lineHeight: 1 }}>{logo}</span>
       <div>
         <div style={{ fontSize: 14, fontWeight: 700,
-          color: isDark ? '#f9fafb' : '#111827', marginBottom: 3 }}>
+          color: onDark ? '#f9fafb' : '#111827', marginBottom: 3 }}>
           {company}
         </div>
         <div style={{ fontSize: 15, lineHeight: 1.65,
-          color: isDark ? '#d1d5db' : '#374151' }}>
+          color: onDark ? '#d1d5db' : '#374151' }}>
           {use}
         </div>
       </div>
@@ -27,7 +27,7 @@ function CompanyCard({ company, logo, use, isDark }) {
   )
 }
 
-export default function ApplicationsPanel({ metadata }) {
+export default function ApplicationsPanel({ metadata, isLight }) {
   const { isDark } = useTheme()
   const { beginner } = useBeginner()
   const apps = metadata?.applications
@@ -35,12 +35,14 @@ export default function ApplicationsPanel({ metadata }) {
 
   const bd = getBeginnerData(metadata?.id)
 
-  const bodyColor  = isDark ? '#d1d5db' : '#1f2937'
-  const mutedColor = isDark ? '#9ca3af' : '#4b5563'
-  const purpleHead = isDark ? '#a78bfa' : '#6d28d9'
-  const greenHead  = isDark ? '#34d399' : '#065f46'
-  const orangeHead = isDark ? '#fb923c' : '#c2410c'
-  const blueHead   = isDark ? '#60a5fa' : '#1d4ed8'
+  /* Use page-theme darkness for contrast; fall back to system dark mode */
+  const onDark = isLight !== undefined ? !isLight : isDark
+  const bodyColor  = onDark ? '#f1f5f9' : '#0f172a'
+  const mutedColor = onDark ? '#94a3b8' : '#475569'
+  const purpleHead = onDark ? '#a78bfa' : '#6d28d9'
+  const greenHead  = onDark ? '#34d399' : '#065f46'
+  const orangeHead = onDark ? '#fb923c' : '#c2410c'
+  const blueHead   = onDark ? '#60a5fa' : '#1d4ed8'
 
   /* Resolve alternatives — handle both string[] and {name,reason}[] formats */
   const rawAlts = bd?.alternatives || apps.alternatives || []
@@ -66,7 +68,7 @@ export default function ApplicationsPanel({ metadata }) {
 
         {hasCompanies ? (
           bd.companies.map((c, i) => (
-            <CompanyCard key={i} {...c} isDark={isDark} />
+            <CompanyCard key={i} {...c} onDark={onDark} />
           ))
         ) : (
           <ul className="space-y-3">
@@ -91,8 +93,8 @@ export default function ApplicationsPanel({ metadata }) {
           <ul className="space-y-3">
             {bd.everyday.map((item, i) => (
               <li key={i} className="flex items-start gap-3 p-3 rounded-xl"
-                style={{ background: isDark ? 'rgba(52,211,153,.07)' : 'rgba(16,185,129,.07)',
-                  border: `1px solid ${isDark ? 'rgba(52,211,153,.2)' : 'rgba(16,185,129,.2)'}` }}>
+                style={{ background: onDark ? 'rgba(52,211,153,.07)' : 'rgba(16,185,129,.07)',
+                  border: `1px solid ${onDark ? 'rgba(52,211,153,.2)' : 'rgba(16,185,129,.2)'}` }}>
                 <span style={{ fontSize: 16, flexShrink: 0 }}>→</span>
                 <span style={{ fontSize: 16, color: bodyColor, lineHeight: 1.7 }}>{item}</span>
               </li>

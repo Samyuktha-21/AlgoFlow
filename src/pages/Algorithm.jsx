@@ -139,96 +139,111 @@ function deriveResult(step) {
   return null
 }
 
-/* ── Status bar — sits below the split, shows step info ── */
-function StatusBar({ isLight, algorithmType }) {
-  const { steps, currentIndex, currentStep } = useVisualization()
-  const { beginner } = useBeginner()
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    if (!currentStep) return
-    setVisible(false)
-    const t = setTimeout(() => setVisible(true), 30)
-    return () => clearTimeout(t)
-  }, [currentIndex])
-
-  const OP_COLORS = isLight ? OP_COLORS_LIGHT : OP_COLORS_DARK
-  const op = currentStep?.type || 'default'
-  const oc = OP_COLORS[op] || OP_COLORS.default
-  const opLabel = OP_LABELS[op] || op.toUpperCase()
-  const whyText = beginner ? getWhyText(currentStep, algorithmType) : null
-  const progress = steps.length > 0 ? ((currentIndex + 1) / steps.length) * 100 : 0
+/* ── Step description bar — pinned INSIDE the visualization panel top ── */
+function StepDescBar() {
+  const { currentStep, currentIndex } = useVisualization()
+  const desc = currentStep?.description || null
 
   return (
     <div style={{
-      background: isLight ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.25)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 10,
+      background: 'rgba(0,0,0,0.55)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
+      padding: '0.5rem 1.2rem',
+      minHeight: '2.2rem',
+      width: '100%',
+      borderRadius: '12px 12px 0 0',
+      display: 'flex',
+      alignItems: 'center',
+      boxSizing: 'border-box',
+      flexShrink: 0,
+    }}>
+      <AnimatePresence mode="popLayout">
+        <motion.span
+          key={currentIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            fontSize: '0.88rem',
+            fontWeight: 500,
+            color: desc ? '#f1f5f9' : 'rgba(241,245,249,0.5)',
+            textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+            lineHeight: 1.4,
+            display: 'block',
+          }}
+        >
+          {desc || 'Press play to start visualization'}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  )
+}
+
+/* ── Compact status bar — op badge, step counter, beginner WHY hint ── */
+function StatusBar({ isLight, algorithmType }) {
+  const { steps, currentIndex, currentStep } = useVisualization()
+  const { beginner } = useBeginner()
+
+  if (!currentStep || steps.length === 0) return null
+
+  const OP_COLORS = isLight ? OP_COLORS_LIGHT : OP_COLORS_DARK
+  const op = currentStep.type || 'default'
+  const oc = OP_COLORS[op] || OP_COLORS.default
+  const opLabel = OP_LABELS[op] || op.toUpperCase()
+  const whyText = beginner ? getWhyText(currentStep, algorithmType) : null
+  const progress = ((currentIndex + 1) / steps.length) * 100
+
+  return (
+    <div style={{
+      background: isLight ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.22)',
       backdropFilter: 'blur(8px)',
       WebkitBackdropFilter: 'blur(8px)',
       border: isLight ? '1px solid rgba(255,255,255,0.6)' : '1px solid rgba(255,255,255,0.1)',
       borderRadius: 10,
-      padding: '10px 16px',
-      minHeight: '2.75rem',
-      transition: 'box-shadow 0.3s',
+      padding: '8px 14px',
     }}>
-      {!currentStep ? (
-        <p style={{
-          margin: 0, fontSize: 14,
-          color: isLight ? '#64748b' : 'rgba(255,255,255,0.35)',
-          fontStyle: 'italic',
+      <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
+        <span style={{
+          padding:'2px 9px', borderRadius:20, fontSize:11, fontWeight:700,
+          background:'rgba(59,130,246,0.25)',
+          color: isLight ? '#1e40af' : '#93c5fd',
+          border:'1px solid rgba(59,130,246,0.4)', whiteSpace:'nowrap', flexShrink:0,
         }}>
-          Press play to start visualization
-        </p>
-      ) : (
-        <>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-            opacity: visible ? 1 : 0, transition: 'opacity 0.2s ease',
+          {currentIndex + 1} / {steps.length}
+        </span>
+        {op !== 'default' && (
+          <span style={{
+            padding:'2px 9px', borderRadius:20, fontSize:10, fontWeight:700,
+            background: oc.bg, color: oc.text, border:`1px solid ${oc.border}`,
+            textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap', flexShrink:0,
           }}>
-            <span style={{
-              padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700,
-              background: 'rgba(59,130,246,0.25)',
-              color: isLight ? '#1e40af' : '#93c5fd',
-              border: '1px solid rgba(59,130,246,0.4)', whiteSpace: 'nowrap', flexShrink: 0,
-            }}>
-              {currentIndex + 1} / {steps.length}
-            </span>
-            {op !== 'default' && (
-              <span style={{
-                padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 700,
-                background: oc.bg, color: oc.text, border: `1px solid ${oc.border}`,
-                textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap', flexShrink: 0,
-              }}>
-                {opLabel}
-              </span>
-            )}
-            <span style={{
-              fontSize: 15, fontWeight: 600, flex: 1,
-              color: isLight ? '#0f172a' : '#f1f5f9',
-              textShadow: isLight ? 'none' : '0 1px 3px rgba(0,0,0,0.5)',
-              lineHeight: 1.4,
-            }}>
-              {currentStep.description || '—'}
-            </span>
-          </div>
-          {whyText && (
-            <p style={{
-              fontSize: 13, marginTop: 6, margin: '6px 0 0 0', lineHeight: 1.6,
-              color: isLight ? '#334155' : 'rgba(255,255,255,0.65)',
-              paddingLeft: 4, borderLeft: '3px solid rgba(99,102,241,0.4)',
-            }}>
-              💡 {whyText}
-            </p>
-          )}
-          <div style={{ marginTop: 8, height: 2, background: 'rgba(255,255,255,0.1)', borderRadius: 1 }}>
-            <div style={{
-              height: '100%', width: `${progress}%`,
-              background: progress >= 100
-                ? 'linear-gradient(90deg,#34d399,#10b981)'
-                : 'linear-gradient(90deg,#60a5fa,#3b82f6)',
-              borderRadius: 1, transition: 'width 0.3s ease',
-            }} />
-          </div>
-        </>
+            {opLabel}
+          </span>
+        )}
+        {/* Progress bar inline */}
+        <div style={{ flex:1, minWidth:60, height:2, background:'rgba(255,255,255,0.12)', borderRadius:1 }}>
+          <div style={{
+            height:'100%', width:`${progress}%`,
+            background: progress >= 100
+              ? 'linear-gradient(90deg,#34d399,#10b981)'
+              : 'linear-gradient(90deg,#60a5fa,#3b82f6)',
+            borderRadius:1, transition:'width 0.3s ease',
+          }} />
+        </div>
+      </div>
+      {whyText && (
+        <p style={{
+          fontSize: 12, marginTop: 5, margin:'5px 0 0 0', lineHeight: 1.55,
+          color: isLight ? '#334155' : 'rgba(255,255,255,0.65)',
+          paddingLeft: 4, borderLeft: '3px solid rgba(99,102,241,0.4)',
+        }}>
+          💡 {whyText}
+        </p>
       )}
     </div>
   )
@@ -246,10 +261,10 @@ function FinalAnswerDisplay({ isLight }) {
       initial={{ opacity:0, y:8 }}
       animate={{ opacity:1, y:0 }}
       style={{
-        padding: '16px 20px', borderRadius: 14,
-        background: 'rgba(52,211,153,0.12)',
-        backdropFilter: 'blur(12px)',
-        border: '2px solid rgba(52,211,153,0.55)',
+        padding:'16px 20px', borderRadius:14,
+        background:'rgba(52,211,153,0.12)',
+        backdropFilter:'blur(12px)',
+        border:'2px solid rgba(52,211,153,0.55)',
       }}
     >
       <div style={{ display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
@@ -290,8 +305,8 @@ export default function Algorithm() {
     try { const s = localStorage.getItem('algoflow-split-ratio'); return s ? parseFloat(s) : 60 }
     catch { return 60 }
   })
-  const [divHover, setDivHover]   = useState(false)
-  const [isWide, setIsWide]       = useState(true)
+  const [divHover, setDivHover] = useState(false)
+  const [isWide, setIsWide]     = useState(true)
   const containerRef = useRef(null)
   const dragging     = useRef(false)
 
@@ -319,12 +334,12 @@ export default function Algorithm() {
     }
   }, [])
 
-  const category     = categories.find(c => c.id === categoryId)
-  const themeId      = category?.theme || 'circuit'
-  const isLight      = LIGHT_PAGE_THEMES.has(themeId)
-  const themeConf    = getCategoryTheme(themeId)
-  const themeAccent  = themeConf.accent
-  const themeAccRgb  = themeConf.accentRgb || '99,102,241'
+  const category    = categories.find(c => c.id === categoryId)
+  const themeId     = category?.theme || 'circuit'
+  const isLight     = LIGHT_PAGE_THEMES.has(themeId)
+  const themeConf   = getCategoryTheme(themeId)
+  const themeAccent = themeConf.accent
+  const themeAccRgb = themeConf.accentRgb || '99,102,241'
 
   const glass = {
     background: isLight ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.05)',
@@ -515,9 +530,7 @@ export default function Algorithm() {
             <BeginnerToggleBanner />
           </div>
 
-          {/* ══════════════════════════════════════════════
-              SPLIT SCREEN: Visualization (left) + Code (right)
-              ══════════════════════════════════════════════ */}
+          {/* ══ SPLIT SCREEN: Visualization (left) + Code (right) ══ */}
           <div
             ref={containerRef}
             style={{
@@ -536,7 +549,10 @@ export default function Algorithm() {
               width: isWide ? `${leftWidth}%` : '100%',
               flexShrink: 0,
               minWidth: isWide ? '25%' : undefined,
+              /* overflow:auto allows sticky children to stick inside this panel */
               overflow: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
               background: isLight ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.28)',
               backdropFilter: 'blur(16px) saturate(1.4)',
               WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
@@ -547,12 +563,18 @@ export default function Algorithm() {
                 ? (isLight ? '1px solid rgba(0,0,0,0.06)' : '1px solid rgba(255,255,255,0.07)')
                 : 'none',
             }}>
-              <VisualizerCanvas
-                algorithmType={metadata.type}
-                themeId={themeId}
-                metadata={metadata}
-                embedded
-              />
+              {/* ▶ Step description bar — sticky inside panel top (FIX 1) */}
+              <StepDescBar />
+
+              {/* Visualization canvas */}
+              <div style={{ flex: 1 }}>
+                <VisualizerCanvas
+                  algorithmType={metadata.type}
+                  themeId={themeId}
+                  metadata={metadata}
+                  embedded
+                />
+              </div>
             </div>
 
             {/* ── Drag divider (desktop only) ── */}
@@ -562,24 +584,15 @@ export default function Algorithm() {
                 onMouseEnter={() => setDivHover(true)}
                 onMouseLeave={() => setDivHover(false)}
                 style={{
-                  width: 6,
-                  cursor: 'col-resize',
-                  flexShrink: 0,
-                  zIndex: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  width: 6, cursor: 'col-resize', flexShrink: 0, zIndex: 10,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: divHover ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.08)',
-                  transition: 'background 0.2s',
-                  userSelect: 'none',
+                  transition: 'background 0.2s', userSelect: 'none',
                 }}
               >
                 <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
                   {[0,1,2].map(i => (
-                    <div key={i} style={{
-                      width: 3, height: 3, borderRadius: '50%',
-                      background: 'white', opacity: divHover ? 0.6 : 0.25,
-                    }} />
+                    <div key={i} style={{ width:3, height:3, borderRadius:'50%', background:'white', opacity: divHover ? 0.6 : 0.25 }} />
                   ))}
                 </div>
               </div>
@@ -587,46 +600,37 @@ export default function Algorithm() {
 
             {/* ── Right panel: code ── */}
             <div style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
+              flex: 1, display: 'flex', flexDirection: 'column',
               width: isWide ? undefined : '100%',
               minWidth: isWide ? '25%' : undefined,
               minHeight: isWide ? undefined : 300,
               background: 'rgba(8,12,28,0.85)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
+              backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
               overflow: 'hidden',
             }}>
               {/* Language tabs */}
               <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
-                padding: '0 12px',
-                flexShrink: 0,
-                background: 'rgba(0,0,0,0.25)',
-                gap: 2,
+                display:'flex', alignItems:'center',
+                borderBottom:'1px solid rgba(255,255,255,0.08)',
+                padding:'0 12px', flexShrink:0,
+                background:'rgba(0,0,0,0.25)', gap:2,
               }}>
                 {(['java', 'c', 'cpp']).map(lang => {
                   const active = language === lang
                   const label  = lang === 'cpp' ? 'C++' : lang === 'c' ? 'C' : 'Java'
                   return (
                     <button
+                      type="button"
                       key={lang}
                       onClick={() => setLanguage(lang)}
                       style={{
-                        padding: '10px 18px',
-                        fontSize: 12,
-                        fontWeight: 700,
+                        padding:'10px 18px', fontSize:12, fontWeight:700,
                         background: active ? `rgba(${themeAccRgb},0.18)` : 'transparent',
                         color: active ? themeAccent : 'rgba(255,255,255,0.4)',
                         borderBottom: active ? `2px solid ${themeAccent}` : '2px solid transparent',
                         borderRadius: active ? '6px 6px 0 0' : 0,
-                        transition: 'all 0.2s',
-                        cursor: 'pointer',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.07em',
+                        transition:'all 0.2s', cursor:'pointer',
+                        textTransform:'uppercase', letterSpacing:'0.07em',
                       }}
                     >
                       {label}
@@ -638,8 +642,8 @@ export default function Algorithm() {
                 </span>
               </div>
 
-              {/* Code body */}
-              <div style={{ flex:1, overflow:'auto' }}>
+              {/* Code body — self-contained scroll handled by CodeBlock */}
+              <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
                 {currentCode ? (
                   <CodeBlock
                     code={currentCode}
@@ -665,7 +669,7 @@ export default function Algorithm() {
           {/* ── Final answer ── */}
           <FinalAnswerDisplay isLight={isLight} />
 
-          {/* ── Status bar ── */}
+          {/* ── Compact status bar: op badge + step counter + WHY hint ── */}
           <StatusBar isLight={isLight} algorithmType={metadata.type} />
 
           {/* ── Controls ── */}
@@ -692,6 +696,7 @@ export default function Algorithm() {
                 const color = tab.darkColor
                 return (
                   <button
+                    type="button"
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     style={{
@@ -718,14 +723,11 @@ export default function Algorithm() {
                 animate={{ opacity:1, y:0 }}
                 exit={{ opacity:0, y:-4 }}
                 transition={{ duration:0.2 }}
-                style={{
-                  padding: 28, minHeight: 300,
-                  borderLeft: `5px solid ${tabAccent}`,
-                }}
+                style={{ padding:28, minHeight:300, borderLeft:`5px solid ${tabAccent}` }}
               >
-                {activeTab === 'aim'          && <AimPanel metadata={metadata} />}
-                {activeTab === 'complexity'   && <ComplexityPanel metadata={metadata} />}
-                {activeTab === 'applications' && <ApplicationsPanel metadata={metadata} />}
+                {activeTab === 'aim'          && <AimPanel metadata={metadata} isLight={isLight} />}
+                {activeTab === 'complexity'   && <ComplexityPanel metadata={metadata} isLight={isLight} />}
+                {activeTab === 'applications' && <ApplicationsPanel metadata={metadata} isLight={isLight} />}
               </motion.div>
             </AnimatePresence>
           </div>

@@ -134,19 +134,21 @@ function speedRating(bigO) {
   return { label: 'Varies', color: '#94a3b8', emoji: '📊' }
 }
 
-export default function ComplexityPanel({ metadata }) {
+export default function ComplexityPanel({ metadata, isLight }) {
   const { isDark } = useTheme()
   const { beginner } = useBeginner()
   const showTooltip = beginner
   const c = metadata?.complexity
   if (!c) return null
 
-  const headingOrange = isDark ? '#fb923c' : '#c2410c'
-  const headingBlue   = isDark ? '#60a5fa' : '#1d4ed8'
-  const bodyColor     = isDark ? '#d1d5db' : '#1f2937'
-  const mutedColor    = isDark ? '#9ca3af' : '#4b5563'
-  const cardBg        = isDark ? 'rgba(31,41,55,.6)' : '#ffffff'
-  const cardBorder    = isDark ? 'rgba(75,85,99,.5)' : '#e5e7eb'
+  /* Use page-theme darkness for contrast; fall back to system dark mode */
+  const onDark = isLight !== undefined ? !isLight : isDark
+  const headingOrange = onDark ? '#fb923c' : '#c2410c'
+  const headingBlue   = onDark ? '#60a5fa' : '#1d4ed8'
+  const bodyColor     = onDark ? '#f1f5f9' : '#0f172a'
+  const mutedColor    = onDark ? '#94a3b8' : '#475569'
+  const cardBg        = onDark ? 'rgba(31,41,55,.6)' : 'rgba(255,255,255,0.8)'
+  const cardBorder    = onDark ? 'rgba(75,85,99,.5)' : '#e5e7eb'
 
   /* Beginner speed summary */
   const bestSpeed  = speedRating(c.time?.best)
@@ -160,21 +162,21 @@ export default function ComplexityPanel({ metadata }) {
         <div style={{
           display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12,
           padding: '16px', borderRadius: 14,
-          background: isDark ? 'rgba(31,41,55,.5)' : '#f8fafc',
-          border: isDark ? '1px solid rgba(75,85,99,.4)' : '1px solid #e5e7eb',
+          background: onDark ? 'rgba(31,41,55,.5)' : '#f8fafc',
+          border: onDark ? '1px solid rgba(75,85,99,.4)' : '1px solid #e5e7eb',
           marginBottom: 4,
         }}>
           <div className="text-center">
             <div style={{ fontSize: 28 }}>{bestSpeed.emoji}</div>
-            <div style={{ fontSize: 12, color: isDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Best case</div>
+            <div style={{ fontSize: 12, color: onDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Best case</div>
             <div style={{ fontSize: 16, fontWeight: 700, color: bestSpeed.color }}>{bestSpeed.label}</div>
-            <code style={{ fontSize: 13, color: isDark ? '#d1d5db' : '#374151' }}>{c.time.best}</code>
+            <code style={{ fontSize: 13, color: onDark ? '#d1d5db' : '#374151' }}>{c.time.best}</code>
           </div>
           <div className="text-center">
             <div style={{ fontSize: 28 }}>{worstSpeed.emoji}</div>
-            <div style={{ fontSize: 12, color: isDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Worst case</div>
+            <div style={{ fontSize: 12, color: onDark ? '#9ca3af' : '#6b7280', marginTop: 2 }}>Worst case</div>
             <div style={{ fontSize: 16, fontWeight: 700, color: worstSpeed.color }}>{worstSpeed.label}</div>
-            <code style={{ fontSize: 13, color: isDark ? '#d1d5db' : '#374151' }}>{c.time.worst}</code>
+            <code style={{ fontSize: 13, color: onDark ? '#d1d5db' : '#374151' }}>{c.time.worst}</code>
           </div>
         </div>
       )}

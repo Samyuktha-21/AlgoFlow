@@ -42,6 +42,7 @@ export default function PlaybackControls({ disabled }) {
         <div className="flex items-center gap-2">
           {/* ⏮ Step Back — NEW */}
           <button
+            type="button"
             onClick={prev}
             disabled={disabled || !hasSteps || atStart}
             className={btnSecondary}
@@ -53,6 +54,7 @@ export default function PlaybackControls({ disabled }) {
 
           {/* ⏪ Reset */}
           <button
+            type="button"
             onClick={reset}
             disabled={disabled || !hasSteps}
             className={btnSecondary}
@@ -64,6 +66,7 @@ export default function PlaybackControls({ disabled }) {
 
           {/* ▶ Play / ⏸ Pause */}
           <button
+            type="button"
             onClick={isPlaying ? pause : play}
             disabled={disabled || !hasSteps || isFinished}
             className={btnPrimary}
@@ -75,6 +78,7 @@ export default function PlaybackControls({ disabled }) {
 
           {/* ⏭ Step Forward */}
           <button
+            type="button"
             onClick={next}
             disabled={disabled || !hasSteps || isFinished || atEnd}
             className={btnSecondary}
@@ -96,6 +100,7 @@ export default function PlaybackControls({ disabled }) {
           {/* Speed selector */}
           <div className="relative" ref={speedRef}>
             <button
+              type="button"
               onClick={() => setSpeedOpen(v => !v)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 isDark ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
@@ -110,6 +115,7 @@ export default function PlaybackControls({ disabled }) {
               }`}>
                 {SPEEDS.map(s => (
                   <button
+                    type="button"
                     key={s}
                     onClick={() => { setSpeed(s); setSpeedOpen(false) }}
                     className={`w-full text-left px-3 py-1.5 text-sm transition-colors ${

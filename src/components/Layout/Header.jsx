@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Moon, Sun, GitBranch } from 'lucide-react'
+import { Moon, Sun, Zap } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 import { useAuth } from '../../context/AuthContext'
@@ -150,20 +150,30 @@ export default function Header({ isHomepage }) {
         </Link>
 
         {/* Nav links */}
-        <div className="hidden sm:flex items-center gap-1 flex-shrink-0">
-          {[
-            { to: '/interview', label: '🎯 Interview' },
-          ].map(n => (
-            <Link key={n.to} to={n.to} style={{
-              padding: '5px 11px', borderRadius: 8, fontSize: 12, fontWeight: 600,
-              textDecoration: 'none',
-              background: pathname === n.to ? 'rgba(255,255,255,0.14)' : 'transparent',
-              color: pathname === n.to ? '#ffffff' : 'rgba(255,255,255,0.6)',
-              transition: 'all 0.18s',
-            }}>
-              {n.label}
-            </Link>
-          ))}
+        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
+          <Link
+            to="/interview"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              padding: '6px 16px', borderRadius: 20, fontSize: '0.82rem',
+              fontWeight: 700, textDecoration: 'none', color: '#ffffff',
+              textTransform: 'uppercase', letterSpacing: '0.03em',
+              background: 'linear-gradient(135deg,#f59e0b,#f97316)',
+              boxShadow: '0 0 12px rgba(245,158,11,0.4)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.boxShadow = '0 0 20px rgba(245,158,11,0.6)'
+              e.currentTarget.style.transform = 'translateY(-1px)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.boxShadow = '0 0 12px rgba(245,158,11,0.4)'
+              e.currentTarget.style.transform = 'translateY(0)'
+            }}
+          >
+            <Zap size={13} />
+            Interview
+          </Link>
         </div>
 
         {/* Spacer */}

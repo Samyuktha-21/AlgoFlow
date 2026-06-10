@@ -95,6 +95,7 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
         )}
 
         <button
+          type="button"
           onClick={handleRandom}
           className={`px-3 py-2 rounded-lg border text-sm font-medium transition-colors flex items-center gap-1.5 ${
             isDark
@@ -108,6 +109,7 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
         </button>
 
         <button
+          type="button"
           onClick={handleVisualize}
           className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors flex items-center gap-1.5 shadow-sm"
         >
