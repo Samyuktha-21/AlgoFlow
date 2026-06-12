@@ -1,11 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Moon, Sun, Zap } from 'lucide-react'
+import { Moon, Sun, Zap, MessageSquare } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
 
-/* Shared glass styles — isDark-aware (computed inside component) */
 const makeGlass = (isDark) => ({
   background: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.75)',
   backdropFilter: 'blur(14px)',
@@ -25,73 +24,51 @@ const GoogleIcon = () => (
 function LoginButton() {
   const { user, loading, authError, signingIn, signInWithGoogle, logout } = useAuth()
 
-  /* ✅ Bug 5 fix: don't flash "Sign In" while auth resolves on page load */
   if (loading) {
     return (
-      <div style={{
-        width: 80, height: 32, borderRadius: 24,
-        background: 'rgba(255,255,255,0.07)',
-        border: '1px solid rgba(255,255,255,0.1)',
-      }} />
+      <div style={{ width: 80, height: 32, borderRadius: 24, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }} />
     )
   }
 
   if (user) {
     return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 8,
-        padding: '3px 3px 3px 12px',
-        background: 'rgba(255,255,255,0.08)',
-        border: '1px solid rgba(255,255,255,0.15)',
-        borderRadius: 28,
-      }}>
-        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+      <div style={{ display:'flex', alignItems:'center', gap:8, padding:'3px 3px 3px 12px', background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:28 }}>
+        <span style={{ fontSize:13, color:'rgba(255,255,255,0.75)', maxWidth:80, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
           {user.name?.split(' ')[0]}
         </span>
-        <img
-          src={user.avatar}
-          alt={user.name}
-          onClick={logout}
-          title="Click to sign out"
-          style={{ width: 32, height: 32, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.25)', cursor: 'pointer' }}
+        <img src={user.avatar} alt={user.name} onClick={logout} title="Click to sign out"
+          style={{ width:32, height:32, borderRadius:'50%', border:'2px solid rgba(255,255,255,0.25)', cursor:'pointer' }}
         />
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-      {/* ✅ Bug 4 fix: spinner + disabled state while sign-in is in progress */}
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:4 }}>
       <button
+        type="button"
         onClick={signInWithGoogle}
         disabled={signingIn}
         style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '8px 16px', borderRadius: 24, border: 'none',
+          display:'flex', alignItems:'center', gap:8,
+          padding:'8px 16px', borderRadius:24, border:'none',
           background: signingIn ? 'rgba(79,70,229,0.45)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)',
-          color: '#fff', fontSize: 13, fontWeight: 700,
+          color:'#fff', fontSize:13, fontWeight:700,
           cursor: signingIn ? 'not-allowed' : 'pointer',
-          fontFamily: 'inherit', opacity: signingIn ? 0.8 : 1,
+          fontFamily:'inherit', opacity: signingIn ? 0.8 : 1,
           boxShadow: signingIn ? 'none' : '0 0 20px rgba(79,70,229,0.5)',
-          transition: 'all 0.2s', whiteSpace: 'nowrap',
+          transition:'all 0.2s', whiteSpace:'nowrap',
         }}
-        onMouseEnter={e => { if (!signingIn) { e.currentTarget.style.boxShadow = '0 0 30px rgba(79,70,229,0.8)'; e.currentTarget.style.transform = 'translateY(-1px)' }}}
-        onMouseLeave={e => { e.currentTarget.style.boxShadow = signingIn ? 'none' : '0 0 20px rgba(79,70,229,0.5)'; e.currentTarget.style.transform = 'translateY(0)' }}
+        onMouseEnter={e => { if (!signingIn) { e.currentTarget.style.boxShadow='0 0 30px rgba(79,70,229,0.8)'; e.currentTarget.style.transform='translateY(-1px)' }}}
+        onMouseLeave={e => { e.currentTarget.style.boxShadow=signingIn?'none':'0 0 20px rgba(79,70,229,0.5)'; e.currentTarget.style.transform='translateY(0)' }}
       >
         {signingIn
-          ? <div style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
-          : <GoogleIcon />
-        }
+          ? <div style={{ width:14, height:14, borderRadius:'50%', border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'#fff', animation:'spin 0.7s linear infinite', flexShrink:0 }} />
+          : <GoogleIcon />}
         {signingIn ? 'Signing in…' : 'Sign In'}
       </button>
-
-      {/* ✅ Bug 2 fix: show error message below the button */}
       {authError && (
-        <div style={{
-          fontSize: 11, color: '#fca5a5', maxWidth: 200, textAlign: 'right',
-          lineHeight: 1.4, padding: '3px 8px', borderRadius: 6,
-          background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)',
-        }}>
+        <div style={{ fontSize:11, color:'#fca5a5', maxWidth:200, textAlign:'right', lineHeight:1.4, padding:'3px 8px', borderRadius:6, background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.3)' }}>
           {authError}
         </div>
       )}
@@ -104,7 +81,28 @@ export default function Header({ isHomepage }) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  /* Homepage header — minimal, overlaid */
+  /* Detect algorithm page → route Interview to algorithm-specific view */
+  const algoMatch = pathname.match(/^\/algorithm\/([^/]+)\/([^/]+)$/)
+  const [, algoCategory, algoId] = algoMatch || []
+
+  const handleInterview = () => {
+    if (algoMatch) {
+      navigate(`/interview?algoId=${algoId}&category=${algoCategory}`)
+    } else {
+      navigate('/interview')
+    }
+  }
+
+  const handleDiscussion = () => {
+    if (pathname === '/') {
+      const el = document.getElementById('discussion-section')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/?scrollTo=discussion')
+    }
+  }
+
+  /* Homepage header — minimal overlay */
   if (isHomepage) {
     return (
       <header className="absolute top-0 left-0 right-0 z-50">
@@ -112,8 +110,7 @@ export default function Header({ isHomepage }) {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="relative">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm
-                bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-700 text-white shadow-lg">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-700 text-white shadow-lg">
                 AF
               </div>
               <div className="absolute inset-0 rounded-xl bg-purple-500/30 blur-sm animate-pulse" />
@@ -121,10 +118,49 @@ export default function Header({ isHomepage }) {
             <span className="font-black text-xl tracking-tight text-white drop-shadow-lg">AlgoFlow</span>
           </Link>
 
-          {/* Right: theme + login */}
+          {/* Right: nav + controls */}
           <div className="flex items-center gap-2">
-            <button onClick={toggle}
-              className="p-2.5 rounded-xl transition-colors hover:bg-white/10 text-yellow-400 hover:text-yellow-300">
+            <button
+              type="button"
+              onClick={handleInterview}
+              style={{
+                display:'inline-flex', alignItems:'center', gap:5,
+                padding:'6px 14px', borderRadius:20, fontSize:'0.78rem',
+                fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
+                background:'linear-gradient(135deg,#f59e0b,#f97316)',
+                boxShadow:'0 0 12px rgba(245,158,11,0.4)', border:'none', cursor:'pointer',
+                fontFamily:'inherit', transition:'all 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(245,158,11,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(245,158,11,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
+            >
+              <Zap size={12} />
+              Interview
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDiscussion}
+              style={{
+                display:'inline-flex', alignItems:'center', gap:5,
+                padding:'6px 14px', borderRadius:20, fontSize:'0.78rem',
+                fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
+                background:'linear-gradient(135deg,#6366f1,#8b5cf6)',
+                boxShadow:'0 0 12px rgba(99,102,241,0.4)',
+                border:'none', cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(99,102,241,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(99,102,241,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
+            >
+              <MessageSquare size={12} />
+              Discussion
+            </button>
+
+            <button
+              type="button"
+              onClick={toggle}
+              className="p-2.5 rounded-xl transition-colors hover:bg-white/10 text-yellow-400 hover:text-yellow-300"
+            >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <LoginButton />
@@ -134,7 +170,7 @@ export default function Header({ isHomepage }) {
     )
   }
 
-  /* Non-homepage header — glass, fixed-like */
+  /* Non-homepage header */
   const GLASS = makeGlass(isDark)
   return (
     <header className="sticky top-0 z-50" style={GLASS}>
@@ -142,64 +178,78 @@ export default function Header({ isHomepage }) {
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm
-            bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-sm">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-sm">
             AF
           </div>
           <span className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}>AlgoFlow</span>
         </Link>
 
-        {/* Nav links */}
-        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
-          <Link
-            to="/interview"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              padding: '6px 16px', borderRadius: 20, fontSize: '0.82rem',
-              fontWeight: 700, textDecoration: 'none', color: '#ffffff',
-              textTransform: 'uppercase', letterSpacing: '0.03em',
-              background: 'linear-gradient(135deg,#f59e0b,#f97316)',
-              boxShadow: '0 0 12px rgba(245,158,11,0.4)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.boxShadow = '0 0 20px rgba(245,158,11,0.6)'
-              e.currentTarget.style.transform = 'translateY(-1px)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.boxShadow = '0 0 12px rgba(245,158,11,0.4)'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }}
-          >
-            <Zap size={13} />
-            Interview
-          </Link>
-        </div>
-
         {/* Spacer */}
         <div style={{ flex: 1 }} />
 
-        {/* Right cluster */}
+        {/* Right cluster: Search | Beginner | Interview | Discussion | Dark | Login */}
         <div className="flex items-center gap-2 flex-shrink-0">
+
           {/* Search */}
           <SearchTriggerHeader />
 
-          {/* Beginner toggle */}
+          {/* Beginner/Advanced toggle */}
           <BeginnerToggleCompact />
 
-          {/* Dark mode */}
+          {/* Interview — gradient, algorithm-aware */}
           <button
+            type="button"
+            onClick={handleInterview}
+            style={{
+              display:'inline-flex', alignItems:'center', gap:5,
+              padding:'6px 16px', borderRadius:20, fontSize:'0.82rem',
+              fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
+              background:'linear-gradient(135deg,#f59e0b,#f97316)',
+              boxShadow:'0 0 12px rgba(245,158,11,0.4)',
+              border:'none', cursor:'pointer', fontFamily:'inherit',
+              transition:'all 0.2s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(245,158,11,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
+            onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(245,158,11,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
+          >
+            <Zap size={13} />
+            Interview
+          </button>
+
+          {/* Discussion — purple gradient */}
+          <button
+            type="button"
+            onClick={handleDiscussion}
+            style={{
+              display:'inline-flex', alignItems:'center', gap:5,
+              padding:'6px 16px', borderRadius:20, fontSize:'0.82rem',
+              fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
+              background:'linear-gradient(135deg,#6366f1,#8b5cf6)',
+              boxShadow:'0 0 12px rgba(99,102,241,0.4)',
+              border:'none', cursor:'pointer', fontFamily:'inherit',
+              transition:'all 0.2s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(99,102,241,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
+            onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(99,102,241,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
+          >
+            <MessageSquare size={13} />
+            Discussion
+          </button>
+
+          {/* Dark/Light toggle */}
+          <button
+            type="button"
             onClick={toggle}
             style={{
-              padding: '7px', borderRadius: 8, border: 'none',
-              background: 'rgba(255,255,255,0.07)', cursor: 'pointer',
-              color: isDark ? '#fcd34d' : '#64748b', transition: 'all 0.18s',
+              padding:'7px', borderRadius:8, border:'none',
+              background:'rgba(255,255,255,0.07)', cursor:'pointer',
+              color: isDark ? '#fcd34d' : '#64748b', transition:'all 0.18s',
             }}
           >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
-          {/* Login — rightmost */}
+          {/* Sign In */}
           <LoginButton />
         </div>
       </div>
