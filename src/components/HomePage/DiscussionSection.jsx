@@ -118,14 +118,16 @@ function TopicSelect({ value, onChange, isDark }) {
   }, [open])
 
   /* Dark / light palette */
-  const bg     = isDark ? '#1e293b'                     : '#ffffff'
-  const border = isDark ? 'rgba(99,102,241,0.4)'        : 'rgba(99,102,241,0.3)'
-  const text   = isDark ? '#f1f5f9'                     : '#0f172a'
-  const hover  = isDark ? 'rgba(99,102,241,0.15)'       : 'rgba(99,102,241,0.08)'
-  const active = isDark ? 'rgba(99,102,241,0.28)'       : 'rgba(99,102,241,0.14)'
-  const shadow = isDark ? '0 8px 24px rgba(0,0,0,0.5)' : '0 8px 24px rgba(0,0,0,0.15)'
-  const trigBg = isDark ? 'rgba(255,255,255,0.08)'      : 'rgba(0,0,0,0.04)'
-  const trigBorder = isDark ? 'rgba(255,255,255,0.15)'  : 'rgba(0,0,0,0.15)'
+  const bg      = isDark ? '#1e293b'                     : '#ffffff'
+  const border  = isDark ? 'rgba(99,102,241,0.4)'        : 'rgba(99,102,241,0.3)'
+  const text    = isDark ? '#f1f5f9'                     : '#0f172a'
+  const hover   = isDark ? 'rgba(99,102,241,0.15)'       : 'rgba(99,102,241,0.08)'
+  const active  = isDark ? 'rgba(99,102,241,0.28)'       : 'rgba(99,102,241,0.14)'
+  const shadow  = isDark ? '0 8px 24px rgba(0,0,0,0.5)' : '0 8px 24px rgba(0,0,0,0.15)'
+  /* Trigger: purple-tinted so it's clearly visible on any background */
+  const trigBg     = isDark ? 'rgba(99,102,241,0.15)' : 'rgba(99,102,241,0.08)'
+  const trigBorder = isDark ? 'rgba(99,102,241,0.5)'  : 'rgba(99,102,241,0.3)'
+  const trigText   = isDark ? '#a5b4fc'               : '#4f46e5'
 
   return (
     <div ref={wrapRef} style={{ position: 'relative', flexShrink: 0 }}>
@@ -135,9 +137,9 @@ function TopicSelect({ value, onChange, isDark }) {
         onClick={() => setOpen(o => !o)}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
-          padding: '7px 12px', borderRadius: 8, fontSize: 13, fontWeight: 500,
+          padding: '0.5rem 1rem', borderRadius: 8, fontSize: '0.85rem', fontWeight: 600,
           background: trigBg, border: `1px solid ${trigBorder}`,
-          color: text, cursor: 'pointer', fontFamily: 'inherit',
+          color: trigText, cursor: 'pointer', fontFamily: 'inherit',
           minWidth: 140, justifyContent: 'space-between',
           transition: 'all 0.18s', whiteSpace: 'nowrap',
         }}
@@ -563,14 +565,18 @@ export default function DiscussionSection() {
                 onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)' }}
               />
             </div>
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{
+              display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap',
+              borderTop: '1px solid rgba(255,255,255,0.08)',
+              paddingTop: '0.75rem', marginTop: '0.5rem',
+            }}>
               <TopicSelect value={composerTopic} onChange={setComposerTopic} isDark={isDark} />
               <input
                 value={composerAlgo}
                 onChange={e => setComposerAlgo(e.target.value)}
                 placeholder="Algorithm name (optional)"
                 style={{
-                  flex: 1, minWidth: 160, padding: '7px 12px', borderRadius: 8, fontSize: 13,
+                  flex: 1, minWidth: 160, padding: '0.5rem 0.75rem', borderRadius: 8, fontSize: 13,
                   background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
                   color: '#f1f5f9', outline: 'none', transition: 'border 0.18s',
                 }}
@@ -589,12 +595,12 @@ export default function DiscussionSection() {
                   onClick={handlePost}
                   disabled={!composerText.trim() || posting}
                   style={{
-                    padding: '8px 20px', borderRadius: 20, border: 'none',
-                    background: composerText.trim() && !posting ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'rgba(255,255,255,0.06)',
-                    color: composerText.trim() && !posting ? '#fff' : '#475569',
-                    cursor: composerText.trim() && !posting ? 'pointer' : 'not-allowed',
-                    fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
-                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '0.5rem 1.2rem', borderRadius: 8, border: 'none',
+                    background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
+                    color: '#ffffff', fontWeight: 700, fontFamily: 'inherit',
+                    display: 'flex', alignItems: 'center', gap: 6, fontSize: 14,
+                    opacity: !composerText.trim() || posting ? 0.4 : 1,
+                    cursor: !composerText.trim() || posting ? 'not-allowed' : 'pointer',
                     boxShadow: composerText.trim() && !posting ? '0 0 16px rgba(99,102,241,0.4)' : 'none',
                     transition: 'all 0.2s',
                   }}
