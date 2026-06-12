@@ -11,7 +11,7 @@ import { getCategoryTheme } from '../themes/themeConfig'
 
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 
-import AlgorithmComments from '../components/AlgorithmComments'
+
 import VisualizerCanvas from '../components/Visualizer/VisualizerCanvas'
 import PlaybackControls from '../components/Visualizer/PlaybackControls'
 import InputPanel from '../components/Visualizer/InputPanel'
@@ -727,10 +727,6 @@ export default function Algorithm() {
             </AnimatePresence>
           </div>
 
-          {/* ── Comments ── */}
-          <div style={{ ...glass, overflow:'hidden' }}>
-            <AlgorithmComments algorithmId={algorithmId} isLight={isLight} />
-          </div>
 
         </div>
       </div>
