@@ -20,9 +20,10 @@ import {
   doc, updateDoc, deleteDoc, getDocs,
   arrayUnion, arrayRemove, serverTimestamp, increment,
 } from 'firebase/firestore'
-import { Heart, Trash2, MessageCircle, Send } from 'lucide-react'
+import { Heart, Trash2, MessageCircle, Send, ChevronDown } from 'lucide-react'
 import { db, firebaseEnabled } from '../../firebase/config'
 import { useAuth } from '../../context/AuthContext'
+import { useTheme } from '../../context/ThemeContext'
 
 /* ── Topic config ──────────────────────────────────── */
 
@@ -83,6 +84,108 @@ function TopicChip({ topic, small }) {
     }}>
       {topic}
     </span>
+  )
+}
+
+/* ── TopicSelect — custom dropdown, viewport-safe ──── */
+
+function TopicSelect({ value, onChange, isDark }) {
+  const [open, setOpen] = useState(false)
+  const wrapRef = useRef(null)
+  const menuRef = useRef(null)
+
+  /* Close on outside click */
+  useEffect(() => {
+    const handler = (e) => {
+      if (!wrapRef.current?.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  /* Fix viewport overflow after menu renders */
+  useEffect(() => {
+    if (!open || !menuRef.current) return
+    const rect = menuRef.current.getBoundingClientRect()
+    if (rect.right > window.innerWidth) {
+      menuRef.current.style.left = 'auto'
+      menuRef.current.style.right = '0px'
+    }
+    if (rect.left < 0) {
+      menuRef.current.style.left = '0px'
+      menuRef.current.style.right = 'auto'
+    }
+  }, [open])
+
+  /* Dark / light palette */
+  const bg     = isDark ? '#1e293b'                     : '#ffffff'
+  const border = isDark ? 'rgba(99,102,241,0.4)'        : 'rgba(99,102,241,0.3)'
+  const text   = isDark ? '#f1f5f9'                     : '#0f172a'
+  const hover  = isDark ? 'rgba(99,102,241,0.15)'       : 'rgba(99,102,241,0.08)'
+  const active = isDark ? 'rgba(99,102,241,0.28)'       : 'rgba(99,102,241,0.14)'
+  const shadow = isDark ? '0 8px 24px rgba(0,0,0,0.5)' : '0 8px 24px rgba(0,0,0,0.15)'
+  const trigBg = isDark ? 'rgba(255,255,255,0.08)'      : 'rgba(0,0,0,0.04)'
+  const trigBorder = isDark ? 'rgba(255,255,255,0.15)'  : 'rgba(0,0,0,0.15)'
+
+  return (
+    <div ref={wrapRef} style={{ position: 'relative', flexShrink: 0 }}>
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          padding: '7px 12px', borderRadius: 8, fontSize: 13, fontWeight: 500,
+          background: trigBg, border: `1px solid ${trigBorder}`,
+          color: text, cursor: 'pointer', fontFamily: 'inherit',
+          minWidth: 140, justifyContent: 'space-between',
+          transition: 'all 0.18s', whiteSpace: 'nowrap',
+        }}
+      >
+        <span>{value}</span>
+        <ChevronDown size={13} style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+      </button>
+
+      {/* Dropdown menu */}
+      {open && (
+        <div
+          ref={menuRef}
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 4px)',
+            left: 0,
+            right: 'auto',
+            minWidth: 200,
+            maxWidth: 280,
+            maxHeight: 240,
+            overflowY: 'auto',
+            zIndex: 9999,
+            background: bg,
+            border: `1px solid ${border}`,
+            borderRadius: 10,
+            boxShadow: shadow,
+            scrollbarWidth: 'thin',
+            scrollbarColor: `rgba(99,102,241,0.4) transparent`,
+          }}
+        >
+          {TOPICS.map(t => (
+            <div
+              key={t}
+              onClick={() => { onChange(t); setOpen(false) }}
+              style={{
+                padding: '0.5rem 1rem', fontSize: 13, cursor: 'pointer',
+                color: text, background: t === value ? active : 'transparent',
+                transition: 'background 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = t === value ? active : hover }}
+              onMouseLeave={e => { e.currentTarget.style.background = t === value ? active : 'transparent' }}
+            >
+              {t}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -320,6 +423,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
 
 export default function DiscussionSection() {
   const { user, signInWithGoogle } = useAuth()
+  const { isDark } = useTheme()
 
   const [posts, setPosts]               = useState([])
   const [loading, setLoading]           = useState(true)
@@ -460,13 +564,7 @@ export default function DiscussionSection() {
               />
             </div>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-              <select value={composerTopic} onChange={e => setComposerTopic(e.target.value)} style={{
-                padding: '7px 10px', borderRadius: 8, fontSize: 13,
-                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                color: '#f1f5f9', cursor: 'pointer', outline: 'none',
-              }}>
-                {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
+              <TopicSelect value={composerTopic} onChange={setComposerTopic} isDark={isDark} />
               <input
                 value={composerAlgo}
                 onChange={e => setComposerAlgo(e.target.value)}
