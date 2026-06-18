@@ -75,7 +75,7 @@ export default function ApplicationsPanel({ metadata, isLight }) {
             {(apps.realWorld || []).map((item, i) => (
               <li key={i} className="flex items-start gap-3">
                 <div className="flex-shrink-0 rounded-full mt-1"
-                  style={{ width: 8, height: 8, background: isDark ? '#a78bfa' : '#7c3aed', marginTop: 7 }} />
+                  style={{ width: 8, height: 8, background: onDark ? '#a78bfa' : '#7c3aed', marginTop: 7 }} />
                 <span style={{ fontSize: 17, color: bodyColor, lineHeight: 1.75 }}>{item}</span>
               </li>
             ))}
@@ -113,7 +113,7 @@ export default function ApplicationsPanel({ metadata, isLight }) {
           {(bd?.whenToUse || apps.whenToUse || []).map((item, i) => (
             <li key={i} className="flex items-start gap-3">
               <CheckCircle2 size={17} className="flex-shrink-0"
-                style={{ color: isDark ? '#34d399' : '#059669', marginTop: 3 }} />
+                style={{ color: onDark ? '#34d399' : '#059669', marginTop: 3 }} />
               <span style={{ fontSize: 17, color: bodyColor, lineHeight: 1.75 }}>{item}</span>
             </li>
           ))}
@@ -131,7 +131,7 @@ export default function ApplicationsPanel({ metadata, isLight }) {
             {alternatives.map((alt, i) => (
               <li key={i} className="flex items-start gap-3">
                 <ArrowRight size={15} className="flex-shrink-0"
-                  style={{ color: isDark ? '#fb923c' : '#ea580c', marginTop: 4 }} />
+                  style={{ color: onDark ? '#fb923c' : '#ea580c', marginTop: 4 }} />
                 <span style={{ fontSize: 17, color: bodyColor, lineHeight: 1.75 }}>
                   <strong>{alt.name}</strong>
                   {alt.reason && (

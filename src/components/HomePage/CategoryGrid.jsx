@@ -24,7 +24,7 @@ export default function CategoryGrid() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="gradient-text font-black text-4xl md:text-5xl mb-4"
-          style={{ backgroundSize: '200% 200%' }}
+          style={{ backgroundSize: '200% 200%', lineHeight: 1.15, paddingBottom: '0.25em', overflow: 'visible' }}
         >
           Explore Algorithm Categories
         </motion.h2>

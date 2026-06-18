@@ -987,15 +987,18 @@ const OVERLAYS = {
 /* ════════════════════════════════════════════════════
    PUBLIC COMPONENT
 ════════════════════════════════════════════════════ */
-export default function ThemeScene({ themeId, children }) {
+export default function ThemeScene({ themeId, children, style, className }) {
   const bg = THEME_BG[themeId] || THEME_BG.network
   const Overlay = OVERLAYS[themeId]
 
   return (
-    <div className="relative overflow-hidden" style={{ background: bg }}>
+    <div
+      className={`relative overflow-hidden${className ? ' ' + className : ''}`}
+      style={{ background: bg, ...style }}
+    >
       {Overlay && <Overlay />}
       <ThemeCanvas themeId={themeId} />
-      <div className="relative" style={{ zIndex: 2 }}>
+      <div className="relative" style={{ zIndex: 2, height: '100%' }}>
         {children}
       </div>
     </div>

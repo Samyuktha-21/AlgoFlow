@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, Zap } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 
 const THEME_ACCENTS = {
@@ -34,7 +34,7 @@ export default function AlgorithmList({ categoryId, algorithms, category }) {
             All Algorithms
           </h2>
           <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            {algorithms.filter(a => a.implemented).length} live · {algorithms.filter(a => !a.implemented).length} coming soon
+            {algorithms.length} algorithms
           </p>
         </div>
       </div>
@@ -63,19 +63,13 @@ export default function AlgorithmList({ categoryId, algorithms, category }) {
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ background: acc.color, boxShadow: `0 0 6px ${acc.color}` }} />
+                      style={{ background: '#6366f1', boxShadow: '0 0 6px #6366f1' }} />
                     <span className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
                       {algo.name}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-0.5 rounded-full font-semibold"
-                      style={{ background: `${acc.color}22`, color: acc.color }}>
-                      ✨ Live
-                    </span>
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 flex-shrink-0"
-                      style={{ color: acc.color, opacity: 0.7 }} />
-                  </div>
+                  <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 flex-shrink-0"
+                    style={{ color: acc.color, opacity: 0.7 }} />
                 </Link>
               </motion.div>
             ) : (
@@ -85,7 +79,7 @@ export default function AlgorithmList({ categoryId, algorithms, category }) {
                   : 'bg-white/50 border-gray-200/70'
               }`}>
                 <div className="flex items-center gap-3">
-                  <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isDark ? 'bg-gray-600' : 'bg-gray-300'}`} />
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#6366f1', opacity: 0.35 }} />
                   <span className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                     {algo.name}
                   </span>

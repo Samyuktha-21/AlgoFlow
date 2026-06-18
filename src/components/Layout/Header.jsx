@@ -1,16 +1,16 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Moon, Sun, Zap, MessageSquare } from 'lucide-react'
+import { Zap, MessageSquare } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
 
-const makeGlass = (isDark) => ({
-  background: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.75)',
-  backdropFilter: 'blur(14px)',
-  WebkitBackdropFilter: 'blur(14px)',
-  borderBottom: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
-})
+const GLASS = {
+  background: 'rgba(8,12,22,0.85)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  borderBottom: '1px solid rgba(255,255,255,0.07)',
+}
 
 const GoogleIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
@@ -77,7 +77,7 @@ function LoginButton() {
 }
 
 export default function Header({ isHomepage }) {
-  const { isDark, toggle } = useTheme()
+  useTheme() // keeps ThemeProvider context active
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
@@ -94,12 +94,7 @@ export default function Header({ isHomepage }) {
   }
 
   const handleDiscussion = () => {
-    if (pathname === '/') {
-      const el = document.getElementById('discussion-section')
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      navigate('/?scrollTo=discussion')
-    }
+    navigate('/discussion')
   }
 
   /* Homepage header — minimal overlay */
@@ -156,13 +151,6 @@ export default function Header({ isHomepage }) {
               Discussion
             </button>
 
-            <button
-              type="button"
-              onClick={toggle}
-              className="p-2.5 rounded-xl transition-colors hover:bg-white/10 text-yellow-400 hover:text-yellow-300"
-            >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
             <LoginButton />
           </div>
         </div>
@@ -171,7 +159,6 @@ export default function Header({ isHomepage }) {
   }
 
   /* Non-homepage header */
-  const GLASS = makeGlass(isDark)
   return (
     <header className="sticky top-0 z-50" style={GLASS}>
       <div className="max-w-[1400px] mx-auto px-5 h-14 flex items-center gap-3">
@@ -181,7 +168,7 @@ export default function Header({ isHomepage }) {
           <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-sm">
             AF
           </div>
-          <span className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}>AlgoFlow</span>
+          <span className="font-bold text-base text-white">AlgoFlow</span>
         </Link>
 
         {/* Spacer */}
@@ -234,19 +221,6 @@ export default function Header({ isHomepage }) {
           >
             <MessageSquare size={13} />
             Discussion
-          </button>
-
-          {/* Dark/Light toggle */}
-          <button
-            type="button"
-            onClick={toggle}
-            style={{
-              padding:'7px', borderRadius:8, border:'none',
-              background:'rgba(255,255,255,0.07)', cursor:'pointer',
-              color: isDark ? '#fcd34d' : '#64748b', transition:'all 0.18s',
-            }}
-          >
-            {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
           {/* Sign In */}

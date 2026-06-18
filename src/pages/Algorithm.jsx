@@ -29,7 +29,6 @@ const TABS = [
   { id: 'applications', label: 'Applications', Icon: Globe,     color: '#8b5cf6', darkColor: '#a78bfa' },
 ]
 
-const LIGHT_PAGE_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
 
 const OP_COLORS_DARK = {
   compare:   { bg:'rgba(251,191,36,0.18)', text:'#fcd34d', border:'rgba(251,191,36,0.4)' },
@@ -336,7 +335,7 @@ export default function Algorithm() {
 
   const category    = categories.find(c => c.id === categoryId)
   const themeId     = category?.theme || 'circuit'
-  const isLight     = LIGHT_PAGE_THEMES.has(themeId)
+  const isLight     = new Set(['water','puzzle','chain','books']).has(themeId)
   const themeConf   = getCategoryTheme(themeId)
   const themeAccent = themeConf.accent
   const themeAccRgb = themeConf.accentRgb || '99,102,241'
@@ -606,9 +605,9 @@ export default function Algorithm() {
               {/* Language tabs */}
               <div style={{
                 display:'flex', alignItems:'center',
-                borderBottom:'1px solid rgba(255,255,255,0.08)',
+                borderBottom: '1px solid rgba(255,255,255,0.08)',
                 padding:'0 12px', flexShrink:0,
-                background:'rgba(0,0,0,0.25)', gap:2,
+                background: 'rgba(0,0,0,0.25)', gap:2,
               }}>
                 {(['java', 'c', 'cpp']).map(lang => {
                   const active = language === lang

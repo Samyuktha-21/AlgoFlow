@@ -37,9 +37,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="font-black leading-none mb-6 select-none"
+          className="font-black mb-6 select-none"
           style={{
             fontSize: 'clamp(72px, 10vw, 112px)',
+            lineHeight: 1.1,
+            paddingBottom: '0.2em',
+            overflow: 'visible',
             animation: 'hero-float 4s ease-in-out infinite',
             background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 50%, #d946ef 100%)',
             backgroundSize: '200% 200%',

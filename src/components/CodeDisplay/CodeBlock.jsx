@@ -64,7 +64,7 @@ export default function CodeBlock({ code, language, highlightedLine, accentColor
                     className="select-none text-right pr-4 pl-4 py-0.5 text-xs min-w-[3rem]"
                     style={{
                       borderRight: `1px solid ${isHighlighted ? `rgba(${accentRgbVal},0.35)` : 'rgba(75,85,99,0.4)'}`,
-                      color: isHighlighted ? accent : '#4b5563',
+                      color: isHighlighted ? accent : '#475569',
                     }}
                   >
                     {lineNum}

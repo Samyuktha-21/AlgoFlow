@@ -13,24 +13,24 @@
 ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 3px; }
 
 html, body, #root { height: 100%; margin: 0; padding: 0; }
+html, body { background-color: #080c16; -webkit-font-smoothing: antialiased; }
 body {
   font-family: var(--font-sans);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
-  transition: color 0.2s ease, background-color 0.2s ease;
+  color: #e2e8f0;
+  background-color: #080c16;
 }
 
 /* ════════════════════════════════════════════
-   COLOR SYSTEM — dark (default) + light mode
+   COLOR SYSTEM — permanent dark mode
 ════════════════════════════════════════════ */
-:root, .dark {
+:root {
   --color-text-primary:   #f1f5f9;
   --color-text-secondary: #cbd5e1;
   --color-text-muted:     #94a3b8;
   --color-text-heading:   #f8fafc;
   --color-text-accent:    #7dd3fc;
 
-  --color-bg-primary:     #0f172a;
+  --color-bg-primary:     #080c16;
   --color-bg-secondary:   #1e293b;
   --color-bg-card:        #1e293b;
   --color-bg-input:       #1e293b;
@@ -61,40 +61,6 @@ body {
   --color-code-text: #e6edf3;
 }
 
-.light {
-  --color-text-primary:   #0f172a;
-  --color-text-secondary: #1e293b;
-  --color-text-muted:     #475569;
-  --color-text-heading:   #0f172a;
-  --color-text-accent:    #0369a1;
-
-  --color-bg-primary:     #f8fafc;
-  --color-bg-secondary:   #f1f5f9;
-  --color-bg-card:        #ffffff;
-  --color-bg-input:       #ffffff;
-  --color-bg-hover:       #e2e8f0;
-
-  --color-border:         #cbd5e1;
-  --color-border-focus:   #3b82f6;
-
-  --color-btn-primary:    #0369a1;
-  --color-btn-text:       #ffffff;
-
-  --color-tab-aim:        #1d4ed8;
-  --color-tab-code:       #15803d;
-  --color-tab-complexity: #b45309;
-  --color-tab-apps:       #7c3aed;
-
-  --color-best:    #166534;
-  --color-best-bg: rgba(22,101,52,0.1);
-  --color-avg:     #92400e;
-  --color-avg-bg:  rgba(146,64,14,0.1);
-  --color-worst:   #991b1b;
-  --color-worst-bg:rgba(153,27,27,0.1);
-
-  --color-code-bg:   #0d1117;
-  --color-code-text: #e6edf3;
-}
 
 /* Utility classes using variables */
 .color-primary   { color: var(--color-text-primary); }
@@ -188,21 +154,18 @@ input::placeholder, textarea::placeholder {
   border-radius: 20px;
 }
 
-/* Per-theme card glow on hover */
-.card-glow-compass:hover  { box-shadow: 0 20px 60px rgba(201, 162, 39, 0.45), 0 0 0 1px rgba(201, 162, 39, 0.3); }
-.card-glow-water:hover    { box-shadow: 0 20px 60px rgba(56, 189, 248, 0.50), 0 0 0 1px rgba(56, 189, 248, 0.35); }
-.card-glow-light:hover    { box-shadow: 0 20px 60px rgba(251, 191, 36, 0.50), 0 0 0 1px rgba(251, 191, 36, 0.35); }
-.card-glow-puzzle:hover   { box-shadow: 0 20px 60px rgba(168, 85, 247, 0.50), 0 0 0 1px rgba(168, 85, 247, 0.35); }
-.card-glow-chain:hover    { box-shadow: 0 20px 60px rgba(148, 163, 184, 0.40), 0 0 0 1px rgba(148, 163, 184, 0.3); }
-.card-glow-books:hover    { box-shadow: 0 20px 60px rgba(217, 119, 6, 0.45), 0 0 0 1px rgba(217, 119, 6, 0.3); }
-.card-glow-cabinet:hover  { box-shadow: 0 20px 60px rgba(74, 222, 128, 0.45), 0 0 0 1px rgba(74, 222, 128, 0.3); }
-.card-glow-forest:hover   { box-shadow: 0 20px 60px rgba(34, 197, 94, 0.50), 0 0 0 1px rgba(34, 197, 94, 0.35); }
-.card-glow-mountain:hover { box-shadow: 0 20px 60px rgba(148, 163, 184, 0.40), 0 0 0 1px rgba(148, 163, 184, 0.3); }
-.card-glow-network:hover  { box-shadow: 0 20px 60px rgba(96, 165, 250, 0.55), 0 0 0 1px rgba(96, 165, 250, 0.4); }
-.card-glow-target:hover   { box-shadow: 0 20px 60px rgba(248, 113, 113, 0.50), 0 0 0 1px rgba(248, 113, 113, 0.35); }
-.card-glow-blocks:hover   { box-shadow: 0 20px 60px rgba(245, 158, 11, 0.50), 0 0 0 1px rgba(245, 158, 11, 0.35); }
-.card-glow-maze:hover     { box-shadow: 0 20px 60px rgba(74, 222, 128, 0.45), 0 0 0 1px rgba(74, 222, 128, 0.3); }
-.card-glow-circuit:hover  { box-shadow: 0 20px 60px rgba(34, 211, 238, 0.55), 0 0 0 1px rgba(34, 211, 238, 0.4); }
+/* Uniform gold glow on hover — all 14 category cards */
+.card-glow-compass:hover, .card-glow-water:hover,   .card-glow-light:hover,
+.card-glow-puzzle:hover,  .card-glow-chain:hover,   .card-glow-books:hover,
+.card-glow-cabinet:hover, .card-glow-forest:hover,  .card-glow-mountain:hover,
+.card-glow-network:hover, .card-glow-target:hover,  .card-glow-blocks:hover,
+.card-glow-maze:hover,    .card-glow-circuit:hover {
+  box-shadow: 0 0 0 1px rgba(245,158,11,0.3),
+              0 8px 32px rgba(245,158,11,0.25),
+              0 0 60px rgba(245,158,11,0.1);
+  border-color: rgba(245,158,11,0.4);
+  transition: all 0.25s ease;
+}
 
 /* ─── KEYFRAMES ─── */
 
@@ -696,3 +659,18 @@ input::placeholder, textarea::placeholder {
 .light .complexity-best  { color: #065f46; }
 .light .complexity-avg   { color: #78350f; }
 .light .complexity-worst { color: #7f1d1d; }
+
+/* ─── Category page ─── */
+.cat-algo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .cat-algo-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .cat-algo-grid { grid-template-columns: 1fr; }
+}

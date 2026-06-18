@@ -7,7 +7,7 @@ import registry from '../../data/algorithmRegistry.json'
   light: true  = light/white background → needs dark text
   light: false = dark background → needs white text
 */
-const THEME_STYLE = {
+export const THEME_STYLE = {
   // ── LIGHT BACKGROUNDS → dark text ─────────────────────────
   water: {                            // Sorting: Snow/Blizzard (sky blue)
     light: true,

@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Category from './pages/Category'
 import Algorithm from './pages/Algorithm'
 import Interview from './pages/Interview'
+import DiscussionPage from './pages/DiscussionPage'
 import GlobalSearch from './components/Search/GlobalSearch'
 import { registerSearchOpener } from './components/Search/SearchTrigger'
 import { useTheme } from './context/ThemeContext'
@@ -59,6 +60,7 @@ function App() {
           <Route path="/category/:categoryId" element={<Category />} />
           <Route path="/algorithm/:categoryId/:algorithmId" element={<Algorithm />} />
           <Route path="/interview" element={<Interview />} />
+          <Route path="/discussion" element={<DiscussionPage />} />
           <Route path="*" element={
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
               <h1 className="text-6xl font-bold text-gray-300">404</h1>

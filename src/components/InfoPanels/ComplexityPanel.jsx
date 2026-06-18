@@ -188,9 +188,9 @@ export default function ComplexityPanel({ metadata, isLight }) {
           <span className="font-semibold" style={{ fontSize: 22 }}>Time Complexity</span>
         </div>
         <div className="space-y-3">
-          <CaseRow label="Best Case"    value={c.time.best}    desc={c.time.bestCase}    caseKey="best"    isDark={isDark} showTooltip={showTooltip} />
-          <CaseRow label="Average Case" value={c.time.average} desc={c.time.averageCase} caseKey="average" isDark={isDark} showTooltip={showTooltip} />
-          <CaseRow label="Worst Case"   value={c.time.worst}   desc={c.time.worstCase}   caseKey="worst"   isDark={isDark} showTooltip={showTooltip} />
+          <CaseRow label="Best Case"    value={c.time.best}    desc={c.time.bestCase}    caseKey="best"    isDark={onDark} showTooltip={showTooltip} />
+          <CaseRow label="Average Case" value={c.time.average} desc={c.time.averageCase} caseKey="average" isDark={onDark} showTooltip={showTooltip} />
+          <CaseRow label="Worst Case"   value={c.time.worst}   desc={c.time.worstCase}   caseKey="worst"   isDark={onDark} showTooltip={showTooltip} />
         </div>
       </div>
 
@@ -206,9 +206,9 @@ export default function ComplexityPanel({ metadata, isLight }) {
             style={{
               fontSize: 20,
               color: (c.space === 'O(1)' || c.space === 'O(log n)')
-                ? (isDark ? '#34d399' : '#059669')
-                : (isDark ? '#fbbf24' : '#d97706'),
-              background: isDark ? 'rgba(0,0,0,.3)' : 'rgba(243,244,246,.8)',
+                ? (onDark ? '#34d399' : '#059669')
+                : (onDark ? '#fbbf24' : '#d97706'),
+              background: onDark ? 'rgba(0,0,0,.3)' : 'rgba(243,244,246,.8)',
             }}>
             {c.space}
           </code>
@@ -233,8 +233,8 @@ export default function ComplexityPanel({ metadata, isLight }) {
               style={{
                 fontSize: 17,
                 color: prop.value
-                  ? (isDark ? '#34d399' : '#059669')
-                  : (isDark ? '#f87171' : '#dc2626'),
+                  ? (onDark ? '#34d399' : '#059669')
+                  : (onDark ? '#f87171' : '#dc2626'),
               }}>
               {prop.value ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
               {prop.value ? 'Yes' : 'No'}

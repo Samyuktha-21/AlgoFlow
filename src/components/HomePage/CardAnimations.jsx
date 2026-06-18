@@ -28,7 +28,6 @@ export function CompassAnimation() {
           </div>
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-yellow-200/70 font-bold tracking-widest">FUNDAMENTALS</span>
     </div>
   )
 }
@@ -40,7 +39,6 @@ export function WaterAnimation() {
   const [hi, setHi] = useState([])
 
   useEffect(() => {
-    // Pre-compute bubble sort steps
     const a = [...initial]
     const steps = []
     for (let x = 0; x < a.length - 1; x++) {
@@ -75,7 +73,6 @@ export function WaterAnimation() {
           }} />
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-orange-200/70 font-bold tracking-widest">SORTING</span>
     </div>
   )
 }
@@ -93,7 +90,6 @@ export function LightAnimation() {
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg flex flex-col items-center justify-center gap-2"
       style={{ background: 'linear-gradient(180deg,#06091a,#0a0f1e)' }}>
-      {/* spotlight beam */}
       <div className="absolute top-0" style={{
         left: `${(pos / arr.length) * 100 + 100 / arr.length / 2}%`,
         transform: 'translateX(-50%)',
@@ -120,7 +116,6 @@ export function LightAnimation() {
         ))}
       </div>
       <span style={{ fontSize: 9, color: 'rgba(251,191,36,0.6)', fontFamily: 'monospace' }}>target = {target}</span>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-amber-200/70 font-bold tracking-widest">SEARCHING</span>
     </div>
   )
 }
@@ -156,7 +151,6 @@ export function PuzzleAnimation() {
         })}
       </div>
       <span style={{ fontSize: 9, color: 'rgba(129,140,248,0.6)', fontFamily: 'monospace' }}>window [{start}..{start + W - 1}]</span>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-purple-200/70 font-bold tracking-widest">ARRAY & STR</span>
     </div>
   )
 }
@@ -195,7 +189,6 @@ export function ChainAnimation() {
           </div>
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-pink-200/70 font-bold tracking-widest">LINKED LIST</span>
     </div>
   )
 }
@@ -231,7 +224,6 @@ export function BooksAnimation() {
           }}>{i === stack.length - 1 ? '← TOP' : v}</div>
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-blue-200/70 font-bold tracking-widest">STACK & QUEUE</span>
     </div>
   )
 }
@@ -268,7 +260,6 @@ export function CabinetAnimation() {
           }} />
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-green-200/70 font-bold tracking-widest">HASHING</span>
     </div>
   )
 }
@@ -306,7 +297,6 @@ export function ForestAnimation() {
           </g>
         ))}
       </svg>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-green-100/70 font-bold tracking-widest">TREES</span>
     </div>
   )
 }
@@ -350,7 +340,6 @@ export function MountainAnimation() {
           </g>
         ))}
       </svg>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-orange-200/70 font-bold tracking-widest">HEAPS</span>
     </div>
   )
 }
@@ -396,7 +385,6 @@ export function NetworkAnimation() {
           </g>
         ))}
       </svg>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-indigo-200/70 font-bold tracking-widest">GRAPHS</span>
     </div>
   )
 }
@@ -429,7 +417,6 @@ export function TargetAnimation() {
           <span style={{ fontSize: 9, color: chosen === i ? '#fbbf24' : '#94a3b8', transition: 'color 0.3s' }}>{c.label}</span>
         </div>
       ))}
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-yellow-200/70 font-bold tracking-widest">GREEDY</span>
     </div>
   )
 }
@@ -460,7 +447,6 @@ export function BlocksAnimation() {
           }} />
         ))}
       </div>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-indigo-200/70 font-bold tracking-widest">DP</span>
     </div>
   )
 }
@@ -500,7 +486,6 @@ export function MazeAnimation() {
             style={{ transition: 'all 0.25s', filter: path.includes(+id) ? 'drop-shadow(0 0 5px #c084fc)' : 'none' }} />
         ))}
       </svg>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-purple-200/70 font-bold tracking-widest">BACKTRACKING</span>
     </div>
   )
 }
@@ -544,7 +529,6 @@ export function CircuitAnimation() {
           cost: {cost}{isBest ? ' ✓ best' : ''}
         </text>
       </svg>
-      <span className="absolute bottom-1.5 left-0 right-0 text-center text-xs text-cyan-200/70 font-bold tracking-widest" style={{ top: '6px', bottom: 'auto' }}>ADVANCED</span>
     </div>
   )
 }

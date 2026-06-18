@@ -41,7 +41,11 @@ export default function CategoryCard({ category, index }) {
       transition={{ duration: 0.55, delay: index * 0.06, ease: 'easeOut' }}
       whileHover={{ scale: 1.06, y: -8 }}
       className={`card-glow-${category.theme} cursor-pointer`}
-      style={{ transition: 'transform 0.25s ease, box-shadow 0.25s ease' }}
+      style={{
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        borderRadius: '20px',
+        isolation: 'isolate',
+      }}
     >
       <Link
         to={`/category/${category.id}`}
@@ -57,12 +61,26 @@ export default function CategoryCard({ category, index }) {
           )}
         </div>
 
+        {/* Category label — outside animation, no overlap */}
+        <div style={{
+          textAlign: 'center',
+          padding: '6px 0 2px 0',
+          fontSize: '0.6rem',
+          fontWeight: '800',
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.45)',
+          lineHeight: 1,
+        }}>
+          {category.name}
+        </div>
+
         {/* Content */}
-        <div className="flex flex-col flex-1 px-4 pt-3 pb-4 gap-2">
+        <div className="flex flex-col flex-1 px-4 pt-1 pb-4 gap-2">
           <div className="flex items-start justify-between gap-2">
             <div>
               <h3 className="font-bold text-white text-base leading-tight">{category.name}</h3>
-              <span className="text-xs font-semibold mt-0.5 block" style={{ color: accentColor }}>
+              <span className="text-xs font-semibold mt-0.5 block" style={{ color: '#f59e0b', fontSize: '0.82rem' }}>
                 {category.count} algorithms
               </span>
             </div>
