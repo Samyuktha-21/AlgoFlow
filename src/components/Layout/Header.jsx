@@ -83,15 +83,11 @@ function LoginButton() {
   )
 }
 
-/* TEMP: replace public/logo.png with a transparent PNG export from remove.bg,
-   then delete mix-blend-mode line. (onError falls back to the transparent logo.svg
-   so the navbar never shows a broken image while logo.png is a black-bg placeholder.) */
 const LogoMark = () => (
   <img
-    src="/logo.png"
+    src="/logo.svg"
     alt="AlgoFlow"
-    onError={e => { if (!e.currentTarget.dataset.fallback) { e.currentTarget.dataset.fallback = '1'; e.currentTarget.src = '/logo.svg' } }}
-    style={{ height: 28, width: 28, flexShrink: 0, objectFit: 'contain', mixBlendMode: 'lighten' }}
+    style={{ height: 28, width: 28, flexShrink: 0, objectFit: 'contain' }}
   />
 )
 
