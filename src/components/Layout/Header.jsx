@@ -1,16 +1,25 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Zap, MessageSquare } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
-import { BeginnerToggleCompact } from '../../context/BeginnerContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
 
 const GLASS = {
-  background: 'rgba(8,12,22,0.85)',
+  background: 'rgba(10,10,10,0.85)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
-  borderBottom: '1px solid rgba(255,255,255,0.07)',
+  borderBottom: '1px solid rgba(255,255,255,0.08)',
 }
+
+/* Flat nav button — no gradient, no glow, no purple */
+const navBtn = (big) => ({
+  display: 'inline-flex', alignItems: 'center', gap: 6,
+  padding: big ? '6px 16px' : '6px 14px',
+  borderRadius: 6, fontSize: big ? '0.82rem' : '0.78rem',
+  fontWeight: 600, color: '#ffffff', letterSpacing: '0.02em',
+  background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.08)',
+  cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+})
 
 const GoogleIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
@@ -26,18 +35,18 @@ function LoginButton() {
 
   if (loading) {
     return (
-      <div style={{ width: 80, height: 32, borderRadius: 24, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }} />
+      <div style={{ width: 80, height: 32, borderRadius: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }} />
     )
   }
 
   if (user) {
     return (
-      <div style={{ display:'flex', alignItems:'center', gap:8, padding:'3px 3px 3px 12px', background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:28 }}>
+      <div style={{ display:'flex', alignItems:'center', gap:8, padding:'3px 3px 3px 12px', background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:24 }}>
         <span style={{ fontSize:13, color:'rgba(255,255,255,0.75)', maxWidth:80, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
           {user.name?.split(' ')[0]}
         </span>
         <img src={user.avatar} alt={user.name} onClick={logout} title="Click to sign out"
-          style={{ width:32, height:32, borderRadius:'50%', border:'2px solid rgba(255,255,255,0.25)', cursor:'pointer' }}
+          style={{ width:30, height:30, borderRadius:'50%', border:'1px solid rgba(255,255,255,0.25)', cursor:'pointer' }}
         />
       </div>
     )
@@ -47,20 +56,18 @@ function LoginButton() {
     <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:4 }}>
       <button
         type="button"
+        className="nav-btn"
         onClick={signInWithGoogle}
         disabled={signingIn}
         style={{
           display:'flex', alignItems:'center', gap:8,
-          padding:'8px 16px', borderRadius:24, border:'none',
-          background: signingIn ? 'rgba(79,70,229,0.45)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)',
-          color:'#fff', fontSize:13, fontWeight:700,
+          padding:'8px 16px', borderRadius:6,
+          background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.08)',
+          color:'#fff', fontSize:13, fontWeight:600,
           cursor: signingIn ? 'not-allowed' : 'pointer',
-          fontFamily:'inherit', opacity: signingIn ? 0.8 : 1,
-          boxShadow: signingIn ? 'none' : '0 0 20px rgba(79,70,229,0.5)',
-          transition:'all 0.2s', whiteSpace:'nowrap',
+          fontFamily:'inherit', opacity: signingIn ? 0.7 : 1,
+          whiteSpace:'nowrap',
         }}
-        onMouseEnter={e => { if (!signingIn) { e.currentTarget.style.boxShadow='0 0 30px rgba(79,70,229,0.8)'; e.currentTarget.style.transform='translateY(-1px)' }}}
-        onMouseLeave={e => { e.currentTarget.style.boxShadow=signingIn?'none':'0 0 20px rgba(79,70,229,0.5)'; e.currentTarget.style.transform='translateY(0)' }}
       >
         {signingIn
           ? <div style={{ width:14, height:14, borderRadius:'50%', border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'#fff', animation:'spin 0.7s linear infinite', flexShrink:0 }} />
@@ -76,81 +83,56 @@ function LoginButton() {
   )
 }
 
+/* TEMP: replace public/logo.png with a transparent PNG export from remove.bg,
+   then delete mix-blend-mode line. (onError falls back to the transparent logo.svg
+   so the navbar never shows a broken image while logo.png is a black-bg placeholder.) */
+const LogoMark = () => (
+  <img
+    src="/logo.png"
+    alt="AlgoFlow"
+    onError={e => { if (!e.currentTarget.dataset.fallback) { e.currentTarget.dataset.fallback = '1'; e.currentTarget.src = '/logo.svg' } }}
+    style={{ height: 28, width: 28, flexShrink: 0, objectFit: 'contain', mixBlendMode: 'lighten' }}
+  />
+)
+
 export default function Header({ isHomepage }) {
   useTheme() // keeps ThemeProvider context active
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  /* Detect algorithm page → route Interview to algorithm-specific view */
   const algoMatch = pathname.match(/^\/algorithm\/([^/]+)\/([^/]+)$/)
   const [, algoCategory, algoId] = algoMatch || []
 
   const handleInterview = () => {
-    if (algoMatch) {
-      navigate(`/interview?algoId=${algoId}&category=${algoCategory}`)
-    } else {
-      navigate('/interview')
-    }
+    if (algoMatch) navigate(`/interview?algoId=${algoId}&category=${algoCategory}`)
+    else navigate('/interview')
   }
+  const handleDiscussion = () => navigate('/discussion')
 
-  const handleDiscussion = () => {
-    navigate('/discussion')
-  }
+  const interviewBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={handleInterview} style={navBtn(big)}>
+      <Zap size={big ? 13 : 12} /> Interview
+    </button>
+  )
+  const discussionBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={handleDiscussion} style={navBtn(big)}>
+      <MessageSquare size={big ? 13 : 12} /> Discussion
+    </button>
+  )
 
   /* Homepage header — minimal overlay */
   if (isHomepage) {
     return (
       <header className="absolute top-0 left-0 right-0 z-50">
         <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-700 text-white shadow-lg">
-                AF
-              </div>
-              <div className="absolute inset-0 rounded-xl bg-purple-500/30 blur-sm animate-pulse" />
-            </div>
-            <span className="font-black text-xl tracking-tight text-white drop-shadow-lg">AlgoFlow</span>
+          <Link to="/" className="flex items-center gap-2.5">
+            <LogoMark />
+            <span className="font-bold text-xl tracking-tight text-white"
+              style={{ fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
           </Link>
-
-          {/* Right: nav + controls */}
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleInterview}
-              style={{
-                display:'inline-flex', alignItems:'center', gap:5,
-                padding:'6px 14px', borderRadius:20, fontSize:'0.78rem',
-                fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
-                background:'linear-gradient(135deg,#f59e0b,#f97316)',
-                boxShadow:'0 0 12px rgba(245,158,11,0.4)', border:'none', cursor:'pointer',
-                fontFamily:'inherit', transition:'all 0.2s ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(245,158,11,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(245,158,11,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
-            >
-              <Zap size={12} />
-              Interview
-            </button>
-
-            <button
-              type="button"
-              onClick={handleDiscussion}
-              style={{
-                display:'inline-flex', alignItems:'center', gap:5,
-                padding:'6px 14px', borderRadius:20, fontSize:'0.78rem',
-                fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
-                background:'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                boxShadow:'0 0 12px rgba(99,102,241,0.4)',
-                border:'none', cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(99,102,241,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(99,102,241,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
-            >
-              <MessageSquare size={12} />
-              Discussion
-            </button>
-
+            {interviewBtn(false)}
+            {discussionBtn(false)}
             <LoginButton />
           </div>
         </div>
@@ -162,68 +144,17 @@ export default function Header({ isHomepage }) {
   return (
     <header className="sticky top-0 z-50" style={GLASS}>
       <div className="max-w-[1400px] mx-auto px-5 h-14 flex items-center gap-3">
-
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-sm">
-            AF
-          </div>
-          <span className="font-bold text-base text-white">AlgoFlow</span>
+          <LogoMark />
+          <span className="font-bold text-base text-white" style={{ fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
         </Link>
 
-        {/* Spacer */}
         <div style={{ flex: 1 }} />
 
-        {/* Right cluster: Search | Beginner | Interview | Discussion | Dark | Login */}
         <div className="flex items-center gap-2 flex-shrink-0">
-
-          {/* Search */}
           <SearchTriggerHeader />
-
-          {/* Beginner/Advanced toggle */}
-          <BeginnerToggleCompact />
-
-          {/* Interview — gradient, algorithm-aware */}
-          <button
-            type="button"
-            onClick={handleInterview}
-            style={{
-              display:'inline-flex', alignItems:'center', gap:5,
-              padding:'6px 16px', borderRadius:20, fontSize:'0.82rem',
-              fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
-              background:'linear-gradient(135deg,#f59e0b,#f97316)',
-              boxShadow:'0 0 12px rgba(245,158,11,0.4)',
-              border:'none', cursor:'pointer', fontFamily:'inherit',
-              transition:'all 0.2s ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(245,158,11,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(245,158,11,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
-          >
-            <Zap size={13} />
-            Interview
-          </button>
-
-          {/* Discussion — purple gradient */}
-          <button
-            type="button"
-            onClick={handleDiscussion}
-            style={{
-              display:'inline-flex', alignItems:'center', gap:5,
-              padding:'6px 16px', borderRadius:20, fontSize:'0.82rem',
-              fontWeight:700, color:'#ffffff', textTransform:'uppercase', letterSpacing:'0.03em',
-              background:'linear-gradient(135deg,#6366f1,#8b5cf6)',
-              boxShadow:'0 0 12px rgba(99,102,241,0.4)',
-              border:'none', cursor:'pointer', fontFamily:'inherit',
-              transition:'all 0.2s ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow='0 0 20px rgba(99,102,241,0.6)'; e.currentTarget.style.transform='translateY(-1px)' }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow='0 0 12px rgba(99,102,241,0.4)'; e.currentTarget.style.transform='translateY(0)' }}
-          >
-            <MessageSquare size={13} />
-            Discussion
-          </button>
-
-          {/* Sign In */}
+          {interviewBtn(true)}
+          {discussionBtn(true)}
           <LoginButton />
         </div>
       </div>

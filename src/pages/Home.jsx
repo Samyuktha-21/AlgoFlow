@@ -1,16 +1,29 @@
-import Hero from '../components/HomePage/Hero'
+import HeroSection from '../components/HomePage/HeroSection'
 import CategoryGrid from '../components/HomePage/CategoryGrid'
+import CursorGlow from '../components/HomePage/CursorGlow'
+
+const MONO = "'IBM Plex Mono', monospace"
 
 export default function Home() {
   return (
-    <>
-      <Hero />
-      <CategoryGrid />
-      <footer className="py-8 text-center border-t" style={{ borderColor: 'rgba(255,255,255,0.06)', background: '#060810' }}>
-        <p className="text-sm" style={{ color: '#334155' }}>
-          AlgoFlow — Where Logic Flows Visually &nbsp;·&nbsp; Built for learning
-        </p>
-      </footer>
-    </>
+    <div style={{ background: '#0d0d0d', position: 'relative' }}>
+      {/* ambient cursor glow — homepage only, sits behind content */}
+      <CursorGlow />
+
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <HeroSection />
+
+        <CategoryGrid />
+
+        <footer style={{
+          background: '#0d0d0d', borderTop: '1px solid rgba(255,255,255,0.08)',
+          padding: '1.5rem 4rem', fontFamily: MONO, fontSize: '0.78rem', color: '#6b6b6b',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem',
+        }}>
+          <span>AlgoFlow — watch algorithms run</span>
+          <span>124 algorithms · 14 categories · built for learning</span>
+        </footer>
+      </div>
+    </div>
   )
 }

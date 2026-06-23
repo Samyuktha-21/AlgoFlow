@@ -121,11 +121,155 @@ input::placeholder, textarea::placeholder {
 .theme-bg-circuit { background: linear-gradient(135deg, #eff6ff 0%, #f0f4ff 100%); }
 
 /* ─── HOMEPAGE ─── */
+/* Logo-derived accent (orange network mark) */
+:root {
+  --accent:        #f5811f;
+  --accent-bright: #ff9433;
+  --accent-dim:    rgba(245,129,31,0.15);
+  --accent-glow:   rgba(245,129,31,0.25);
+}
+
+/* Two-column hero (text left, live algorithm cycle right) */
+.hero2-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3rem;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 4rem;
+  position: relative;
+}
+@media (max-width: 900px) {
+  .hero2-grid {
+    grid-template-columns: 1fr;
+    padding: 5.5rem 1.5rem 2.5rem;
+    min-height: auto;
+    gap: 2.5rem;
+  }
+  .hero2-frame { height: 380px !important; }
+  .hero2-glow { display: none !important; }
+}
+
+/* Category grid v2 — orange/black 4-column */
+.home-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  padding: 0 4rem;
+}
+@media (max-width: 1024px) { .home-grid-v2 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .home-grid-v2 { grid-template-columns: 1fr; padding: 0 1.5rem; } }
+
+/* ── Homepage hover system — pure CSS :hover, base props live here so no
+      inline style (or framer transform) can override the hover state ── */
+.category-card {
+  background: #161616;
+  border: 1px solid rgba(245,129,31,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.category-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245,129,31,0.4);
+  box-shadow: 0 8px 28px rgba(245,129,31,0.18);
+}
+.category-card .card-arrow {
+  color: rgba(245,129,31,0.5);
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), color 0.2s ease;
+}
+.category-card:hover .card-arrow { transform: translateX(4px); color: #f5811f; }
+
+/* sample algorithm chips — independent hover, base styling in-class */
+.algo-chip {
+  background: rgba(245,129,31,0.1);
+  border: 1px solid rgba(245,129,31,0.25);
+  color: #fdba74;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.algo-chip:hover { background: rgba(245,129,31,0.18); border-color: rgba(245,129,31,0.5); }
+
+/* navbar buttons — subtle lift + brightness */
+.nav-btn { transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease; }
+.nav-btn:hover { transform: translateY(-1px); filter: brightness(1.12); }
+
+/* hero dot indicators */
+.hero-dot {
+  background: rgba(255,255,255,0.2);
+  border: none; padding: 0; cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.hero-dot:hover { transform: scale(1.25); background: rgba(245,129,31,0.5); }
+.hero-dot.active { background: #f5811f; }
+
+/* hero search bar */
+.hero-search {
+  background: #161616;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.hero-search:hover { border-color: rgba(245,129,31,0.3); }
+.hero-search:focus, .hero-search:focus-within {
+  border-color: #f5811f;
+  box-shadow: 0 0 0 3px rgba(245,129,31,0.15);
+  outline: none;
+}
+
+/* hero stat blocks — subtle lift on hover */
+.stat-block { transition: transform 0.2s ease; cursor: default; }
+.stat-block:hover { transform: translateY(-2px); }
+
+/* scroll-down indicator */
+.scroll-indicator { color: #6b6b6b; width: fit-content; cursor: pointer; transition: color 0.2s ease; }
+.scroll-indicator:hover { color: #f5811f; }
+.scroll-indicator svg { animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+@media (max-width: 640px) {
+  .cat-header-v2 { padding: 3rem 1.5rem 1.5rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator svg { animation: none !important; }
+}
+
 .homepage-root {
-  background: #0A0E27;
-  color: #F9FAFB;
+  background: #0d0d0d;
+  color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+/* ─── HOMEPAGE v2 — "Featured Titles" catalog ─── */
+@keyframes hero-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.facts-ticker:hover .facts-ticker-track { animation-play-state: paused; }
+
+.title-card { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.25s; }
+.title-card:hover { transform: scale(1.06); border-color: rgba(255,255,255,0.25); z-index: 2; }
+.title-card .card-play { opacity: 0; transition: opacity 0.15s; }
+.title-card:hover .card-play { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .facts-ticker-track { animation: none !important; }
+  .hero-pulse-dot { animation: none !important; }
+  .title-card { transition: none !important; }
+  .title-card:hover { transform: none !important; }
+}
+
+@media (max-width: 760px) {
+  .featured-hero-content { padding-left: 1.5rem !important; max-width: 100% !important; padding-right: 1.5rem; }
+  .featured-hero-search { right: 1.5rem !important; top: 1.25rem !important; }
+  .catalog-row-pad { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+  .bottom-cta-v2 { padding: 4rem 1.5rem !important; }
 }
 
 /* Gradient text utility */

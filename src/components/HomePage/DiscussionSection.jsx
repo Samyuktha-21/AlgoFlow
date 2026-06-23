@@ -33,24 +33,6 @@ const TOPICS = [
   'Greedy', 'Dynamic Programming', 'Backtracking', 'Advanced', 'Fundamentals',
 ]
 
-const TOPIC_COLOR = {
-  General:              '#6366f1',
-  Sorting:              '#0ea5e9',
-  Searching:            '#f59e0b',
-  'Arrays & Strings':   '#14b8a6',
-  'Linked Lists':       '#64748b',
-  'Stack & Queue':      '#b45309',
-  Hashing:              '#22c55e',
-  Trees:                '#16a34a',
-  Heaps:                '#60a5fa',
-  Graphs:               '#22d3ee',
-  Greedy:               '#fb923c',
-  'Dynamic Programming':'#d97706',
-  Backtracking:         '#a78bfa',
-  Advanced:             '#818cf8',
-  Fundamentals:         '#4a7db5',
-}
-
 /* ── Helpers ───────────────────────────────────────── */
 
 function timeAgo(ts) {
@@ -65,7 +47,7 @@ function timeAgo(ts) {
 }
 
 function Avatar({ src, name, size = 36 }) {
-  const fb = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'U')}&background=6366f1&color=fff&size=128`
+  const fb = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'U')}&background=f5811f&color=000&size=128`
   return (
     <img src={src || fb} alt={name} onError={e => { e.target.src = fb }}
       style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.12)' }}
@@ -74,12 +56,11 @@ function Avatar({ src, name, size = 36 }) {
 }
 
 function TopicChip({ topic, small }) {
-  const color = TOPIC_COLOR[topic] || '#6366f1'
   return (
     <span style={{
       padding: small ? '2px 7px' : '3px 10px', borderRadius: 20,
       fontSize: small ? 10 : 11, fontWeight: 700,
-      background: `${color}22`, color, border: `1px solid ${color}44`,
+      background: 'rgba(245,129,31,0.12)', color: '#fdba74', border: '1px solid rgba(245,129,31,0.28)',
       whiteSpace: 'nowrap', flexShrink: 0,
     }}>
       {topic}
@@ -119,15 +100,15 @@ function TopicSelect({ value, onChange, isDark }) {
 
   /* Dark / light palette */
   const bg      = isDark ? '#1e293b'                     : '#ffffff'
-  const border  = isDark ? 'rgba(99,102,241,0.4)'        : 'rgba(99,102,241,0.3)'
+  const border  = isDark ? 'rgba(245,129,31,0.4)'        : 'rgba(245,129,31,0.3)'
   const text    = isDark ? '#f1f5f9'                     : '#0f172a'
-  const hover   = isDark ? 'rgba(99,102,241,0.15)'       : 'rgba(99,102,241,0.08)'
-  const active  = isDark ? 'rgba(99,102,241,0.28)'       : 'rgba(99,102,241,0.14)'
+  const hover   = isDark ? 'rgba(245,129,31,0.15)'       : 'rgba(245,129,31,0.08)'
+  const active  = isDark ? 'rgba(245,129,31,0.28)'       : 'rgba(245,129,31,0.14)'
   const shadow  = isDark ? '0 8px 24px rgba(0,0,0,0.5)' : '0 8px 24px rgba(0,0,0,0.15)'
-  /* Trigger: purple-tinted so it's clearly visible on any background */
-  const trigBg     = isDark ? 'rgba(99,102,241,0.15)' : 'rgba(99,102,241,0.08)'
-  const trigBorder = isDark ? 'rgba(99,102,241,0.5)'  : 'rgba(99,102,241,0.3)'
-  const trigText   = isDark ? '#a5b4fc'               : '#4f46e5'
+  /* Trigger: orange-tinted so it's clearly visible on any background */
+  const trigBg     = isDark ? 'rgba(245,129,31,0.15)' : 'rgba(245,129,31,0.1)'
+  const trigBorder = isDark ? 'rgba(245,129,31,0.5)'  : 'rgba(245,129,31,0.35)'
+  const trigText   = isDark ? '#fdba74'               : '#c2410c'
 
   return (
     <div ref={wrapRef} style={{ position: 'relative', flexShrink: 0 }}>
@@ -167,7 +148,7 @@ function TopicSelect({ value, onChange, isDark }) {
             borderRadius: 10,
             boxShadow: shadow,
             scrollbarWidth: 'thin',
-            scrollbarColor: `rgba(99,102,241,0.4) transparent`,
+            scrollbarColor: `rgba(245,129,31,0.4) transparent`,
           }}
         >
           {TOPICS.map(t => (
@@ -297,7 +278,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
             {post.algorithmName && (
               <span style={{
                 padding: '2px 8px', borderRadius: 6, fontSize: 10, fontWeight: 600,
-                background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc',
+                background: 'rgba(245,129,31,0.1)', border: '1px solid rgba(245,129,31,0.25)', color: '#fdba74',
                 flexShrink: 0,
               }}>
                 {post.algorithmName}
@@ -318,7 +299,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
         <button type="button" onClick={handleLike} style={{
           display: 'flex', alignItems: 'center', gap: 5,
           background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
-          color: liked ? '#f43f5e' : '#64748b', fontSize: 12, fontFamily: 'inherit', transition: 'color 0.18s',
+          color: liked ? '#f5811f' : '#64748b', fontSize: 12, fontFamily: 'inherit', transition: 'color 0.18s',
         }}>
           <Heart size={13} fill={liked ? 'currentColor' : 'none'} />
           {post.likes || 0}
@@ -327,7 +308,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
         <button type="button" onClick={() => setRepliesOpen(o => !o)} style={{
           display: 'flex', alignItems: 'center', gap: 5,
           background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
-          color: repliesOpen ? '#6366f1' : '#64748b', fontSize: 12, fontFamily: 'inherit', transition: 'color 0.18s',
+          color: repliesOpen ? '#f5811f' : '#64748b', fontSize: 12, fontFamily: 'inherit', transition: 'color 0.18s',
         }}>
           <MessageCircle size={13} />
           {replyCount > 0 ? `${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}` : 'Reply'}
@@ -367,7 +348,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
                   <button type="button" onClick={() => handleReplyLike(r.id, r.likedBy)} style={{
                     display: 'flex', alignItems: 'center', gap: 4,
                     background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                    color: rLiked ? '#f43f5e' : '#64748b', fontSize: 11, fontFamily: 'inherit',
+                    color: rLiked ? '#f5811f' : '#64748b', fontSize: 11, fontFamily: 'inherit',
                   }}>
                     <Heart size={11} fill={rLiked ? 'currentColor' : 'none'} />
                     {r.likes || 0}
@@ -397,8 +378,8 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
                   disabled={!replyText.trim() || postingReply}
                   style={{
                     padding: '8px 14px', borderRadius: 20, border: 'none',
-                    background: replyText.trim() && !postingReply ? '#6366f1' : 'rgba(255,255,255,0.06)',
-                    color: replyText.trim() && !postingReply ? '#fff' : '#475569',
+                    background: replyText.trim() && !postingReply ? '#f5811f' : 'rgba(255,255,255,0.06)',
+                    color: replyText.trim() && !postingReply ? '#000' : '#475569',
                     cursor: replyText.trim() && !postingReply ? 'pointer' : 'not-allowed',
                     fontSize: 12, fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 4,
                     transition: 'all 0.2s',
@@ -410,7 +391,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
             </div>
           ) : (
             <p style={{ fontSize: 13, color: '#475569' }}>
-              <button type="button" onClick={signInWithGoogle} style={{ background:'none', border:'none', color:'#818cf8', cursor:'pointer', padding:0, fontFamily:'inherit', fontSize:13 }}>
+              <button type="button" onClick={signInWithGoogle} style={{ background:'none', border:'none', color:'#fdba74', cursor:'pointer', padding:0, fontFamily:'inherit', fontSize:13 }}>
                 Sign in
               </button>{' '}to reply.
             </p>
@@ -502,7 +483,7 @@ export default function DiscussionSection() {
 
         {/* Heading */}
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6366f1', marginBottom: 10 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#f5811f', marginBottom: 10 }}>
             Community
           </p>
           <h2 style={{ fontSize: 38, fontWeight: 800, color: '#ffffff', marginBottom: 10, lineHeight: 1.15 }}>
@@ -521,13 +502,16 @@ export default function DiscussionSection() {
               key={t}
               onClick={() => setActiveTopic(t)}
               style={{
-                padding: '6px 16px', borderRadius: 20, fontSize: 12, fontWeight: 600,
+                padding: '6px 16px', borderRadius: 20, fontSize: 12,
+                fontWeight: activeTopic === t ? 700 : 600,
                 whiteSpace: 'nowrap', flexShrink: 0, cursor: 'pointer',
-                background: activeTopic === t ? '#6366f1' : 'transparent',
-                color: activeTopic === t ? '#ffffff' : '#94a3b8',
-                border: activeTopic === t ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.15)',
+                background: activeTopic === t ? '#f5811f' : 'transparent',
+                color: activeTopic === t ? '#000000' : '#94a3b8',
+                border: activeTopic === t ? '1px solid #f5811f' : '1px solid rgba(255,255,255,0.15)',
                 transition: 'all 0.18s',
               }}
+              onMouseEnter={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'rgba(245,129,31,0.4)'; e.currentTarget.style.color = '#fdba74' } }}
+              onMouseLeave={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = '#94a3b8' } }}
             >
               {t}
             </button>
@@ -559,10 +543,10 @@ export default function DiscussionSection() {
                   flex: 1, padding: '12px 16px', minHeight: 80,
                   background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
                   borderRadius: 12, color: '#f1f5f9', fontSize: 15, fontFamily: 'inherit',
-                  resize: 'vertical', outline: 'none', transition: 'border 0.18s',
+                  resize: 'vertical', outline: 'none', transition: 'border 0.18s, box-shadow 0.18s',
                 }}
-                onFocus={e => { e.target.style.border = '1px solid rgba(99,102,241,0.5)' }}
-                onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)' }}
+                onFocus={e => { e.target.style.border = '1px solid #f5811f'; e.target.style.boxShadow = '0 0 0 3px rgba(245,129,31,0.15)' }}
+                onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)'; e.target.style.boxShadow = 'none' }}
               />
             </div>
             <div style={{
@@ -580,7 +564,7 @@ export default function DiscussionSection() {
                   background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
                   color: '#f1f5f9', outline: 'none', transition: 'border 0.18s',
                 }}
-                onFocus={e => { e.target.style.border = '1px solid rgba(99,102,241,0.5)' }}
+                onFocus={e => { e.target.style.border = '1px solid #f5811f' }}
                 onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)' }}
               />
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -596,12 +580,12 @@ export default function DiscussionSection() {
                   disabled={!composerText.trim() || posting}
                   style={{
                     padding: '0.5rem 1.2rem', borderRadius: 8, border: 'none',
-                    background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                    color: '#ffffff', fontWeight: 700, fontFamily: 'inherit',
+                    background: 'linear-gradient(135deg,#f5811f,#ff5722)',
+                    color: '#000000', fontWeight: 700, fontFamily: 'inherit',
                     display: 'flex', alignItems: 'center', gap: 6, fontSize: 14,
                     opacity: !composerText.trim() || posting ? 0.4 : 1,
                     cursor: !composerText.trim() || posting ? 'not-allowed' : 'pointer',
-                    boxShadow: composerText.trim() && !posting ? '0 0 16px rgba(99,102,241,0.4)' : 'none',
+                    boxShadow: composerText.trim() && !posting ? '0 0 16px rgba(245,129,31,0.3)' : 'none',
                     transition: 'all 0.2s',
                   }}
                 >
@@ -612,13 +596,13 @@ export default function DiscussionSection() {
             </div>
           </div>
         ) : (
-          <div style={{ marginBottom: 32, padding: '24px', borderRadius: 16, textAlign: 'center', background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)' }}>
+          <div style={{ marginBottom: 32, padding: '24px', borderRadius: 16, textAlign: 'center', background: 'rgba(245,129,31,0.08)', border: '1px solid rgba(245,129,31,0.2)' }}>
             <p style={{ color: '#94a3b8', marginBottom: 16, fontSize: 15 }}>Sign in to join the discussion</p>
             <button type="button" onClick={signInWithGoogle} style={{
               padding: '10px 24px', borderRadius: 24, border: 'none',
-              background: 'linear-gradient(135deg,#4f46e5,#7c3aed)',
-              color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-              boxShadow: '0 0 20px rgba(79,70,229,0.4)',
+              background: 'linear-gradient(135deg,#f5811f,#ff5722)',
+              color: '#000', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+              boxShadow: '0 0 20px rgba(245,129,31,0.35)',
             }}>
               🔑 Sign in with Google
             </button>

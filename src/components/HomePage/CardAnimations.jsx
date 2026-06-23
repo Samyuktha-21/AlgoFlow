@@ -323,7 +323,7 @@ export function MountainAnimation() {
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg"
       style={{ background: 'linear-gradient(180deg,#1c0a00,#2d1000)' }}>
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 72" preserveAspectRatio="xMidYMid meet">
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 -8 100 88" preserveAspectRatio="xMidYMid meet">
         <line x1="50" y1="15" x2="26" y2="29" stroke="#475569" strokeWidth="1.2" />
         <line x1="50" y1="15" x2="74" y2="29" stroke="#475569" strokeWidth="1.2" />
         <line x1="26" y1="37" x2="13" y2="52" stroke="#475569" strokeWidth="1.2" />

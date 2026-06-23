@@ -1,9 +1,25 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, ChevronDown, ExternalLink, Lightbulb, ArrowRight } from 'lucide-react'
+import { ChevronRight, ChevronDown, ExternalLink } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import interviewQuestions, { TOPICS } from '../data/interviewQuestions'
+
+const MONO = "'IBM Plex Mono', monospace"
+const SECTION_LABEL = { fontFamily: MONO, fontSize: '0.7rem', letterSpacing: '0.1em', fontWeight: 700, color: '#f5811f', marginBottom: '0.4rem' }
+
+/* Derive structured approach + complexity from a legacy "answer" string,
+   e.g. "Approach: … Key insight: … Time: O(n), Space: O(1)" */
+function parseAnswer(ans) {
+  if (!ans) return { approach: '', complexity: null }
+  const time = ans.match(/Time:\s*(O\([^)]*\)[^,;.]*)/i)
+  const space = ans.match(/Space:\s*(O\([^)]*\)[^,;.]*)/i)
+  let approach = ans
+  const ti = ans.search(/\bTime:/i)
+  if (ti > 0) approach = ans.slice(0, ti).replace(/[\s.]+$/, '') + '.'
+  const complexity = (time || space) ? { time: time?.[1]?.trim(), space: space?.[1]?.trim() } : null
+  return { approach: approach.trim(), complexity }
+}
 
 /* ── Difficulty badge styles (light-colored per spec) ──────────── */
 const DIFF_STYLES = {
@@ -49,16 +65,20 @@ function QuestionCard({ q }) {
 
   const displayCompanies = q.companies.slice(0, 3)
   const extraCount = q.companies.length - 3
-  const answerText = q.answer || q.solution?.approach || ''
-  const hasCode = q.solution?.java || q.solution?.cpp || q.solution?.c
+  const parsed = parseAnswer(q.answer)
+  const approachText = q.approach || parsed.approach || q.solution?.approach || q.answer || ''
+  const complexity = q.complexity || parsed.complexity || null
+  const code = q.code || q.solution || {}
+  const hasCode = !!(code.java || code.cpp || code.c)
+  const vizLink = q.visualizationLink ?? q.algorithmLink ?? null
 
   const showHover = hovered && !expanded
 
   return (
     <div
       style={{
-        background: showHover ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
-        border: `1px solid ${(expanded || showHover) ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.08)'}`,
+        background: showHover ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
+        border: `1px solid ${(expanded || showHover) ? 'rgba(245,129,31,0.25)' : 'rgba(255,255,255,0.07)'}`,
         borderRadius: 14,
         padding: '1rem 1.25rem',
         cursor: 'pointer',
@@ -86,17 +106,17 @@ function QuestionCard({ q }) {
         </span>
 
         <ChevronDown size={16} style={{
-          color: 'rgba(255,255,255,0.3)', flexShrink: 0,
+          color: (showHover || expanded) ? '#f5811f' : 'rgba(255,255,255,0.3)', flexShrink: 0,
           transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-          transition: 'transform 0.2s ease',
+          transition: 'transform 0.2s ease, color 0.2s ease',
         }} />
       </div>
 
       {/* ── Row 2: topic tag + separator + company tags ── */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '0.6rem', alignItems: 'center' }}>
         <span style={{
-          background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)',
-          color: '#a5b4fc', borderRadius: 6, padding: '2px 8px',
+          background: 'rgba(245,129,31,0.12)', border: '1px solid rgba(245,129,31,0.28)',
+          color: '#fdba74', borderRadius: 6, padding: '2px 8px',
           fontSize: '0.72rem', fontWeight: 500, whiteSpace: 'nowrap',
         }}>
           {q.topic}
@@ -130,58 +150,52 @@ function QuestionCard({ q }) {
             <div
               style={{
                 marginTop: '1rem', paddingTop: '1rem',
-                borderTop: '1px solid rgba(255,255,255,0.08)',
+                borderTop: '1px solid rgba(245,129,31,0.15)',
               }}
               onClick={e => e.stopPropagation()}
             >
-              {/* Description (if different from answer) */}
-              {q.description && (
-                <p style={{ fontSize: '0.88rem', lineHeight: 1.7, color: '#94a3b8', marginBottom: 14, marginTop: 0 }}>
-                  {q.description}
-                </p>
-              )}
-
-              {/* Complexity badges */}
-              {q.complexity && (
-                <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-                  {[
-                    { label: 'Time', value: q.complexity.time, color: '#fbbf24' },
-                    { label: 'Space', value: q.complexity.space, color: '#34d399' },
-                  ].map(c => (
-                    <div key={c.label} style={{
-                      padding: '6px 12px', borderRadius: 8,
-                      background: `${c.color}10`, border: `1px solid ${c.color}25`,
-                    }}>
-                      <span style={{ fontSize: 10, color: '#64748b', display: 'block', fontWeight: 600 }}>{c.label}</span>
-                      <code style={{ fontSize: 13, fontWeight: 700, color: c.color }}>{c.value}</code>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Answer / Approach */}
-              {answerText && (
-                <div style={{ marginBottom: hasCode ? 16 : 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                    <Lightbulb size={13} style={{ color: '#fbbf24', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#fbbf24', letterSpacing: '0.05em' }}>APPROACH</span>
-                  </div>
-                  <p style={{ fontSize: '0.88rem', lineHeight: 1.7, color: '#cbd5e1', margin: 0 }}>
-                    {answerText}
+              {/* 1. APPROACH */}
+              {approachText && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={SECTION_LABEL}>APPROACH</div>
+                  <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#cbd5e1', margin: 0 }}>
+                    {approachText}
                   </p>
                 </div>
               )}
 
-              {/* Code block (only for questions with full solution) */}
+              {/* 2. COMPLEXITY */}
+              {complexity && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={SECTION_LABEL}>COMPLEXITY</div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {[
+                      { label: 'Time', value: complexity.time },
+                      { label: 'Space', value: complexity.space },
+                    ].filter(c => c.value).map(c => (
+                      <span key={c.label} style={{
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: 6, padding: '4px 10px',
+                        fontFamily: MONO, fontSize: '0.78rem', color: '#e2e8f0',
+                      }}>
+                        {c.label}: {c.value}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 3. CODE */}
               {hasCode && (
-                <div style={{ marginTop: 16 }}>
+                <div style={{ marginBottom: 4 }}>
+                  <div style={SECTION_LABEL}>CODE</div>
                   <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
-                    {['java', 'cpp', 'c'].map(l => (
+                    {['java', 'c', 'cpp'].map(l => (
                       <button key={l} type="button" onClick={() => setLang(l)} style={{
                         padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
-                        background: lang === l ? 'rgba(99,102,241,0.25)' : 'transparent',
-                        border: `1px solid ${lang === l ? 'rgba(99,102,241,0.5)' : 'rgba(255,255,255,0.1)'}`,
-                        color: lang === l ? '#818cf8' : '#64748b',
+                        background: lang === l ? 'rgba(245,129,31,0.18)' : 'transparent',
+                        border: `1px solid ${lang === l ? 'rgba(245,129,31,0.45)' : 'rgba(255,255,255,0.1)'}`,
+                        color: lang === l ? '#fdba74' : '#64748b',
                         cursor: 'pointer', fontFamily: 'inherit',
                       }}>
                         {l === 'cpp' ? 'C++' : l === 'c' ? 'C' : 'Java'}
@@ -189,59 +203,30 @@ function QuestionCard({ q }) {
                     ))}
                   </div>
                   <pre style={{
-                    background: '#0d1117', color: '#e6edf3',
-                    borderRadius: 10, padding: '14px 16px', fontSize: 12,
-                    overflowX: 'auto', lineHeight: 1.65, margin: 0,
-                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: '#0d0d0d', color: '#e6edf3',
+                    borderRadius: 8, padding: '1rem', fontSize: '0.82rem',
+                    overflowX: 'auto', lineHeight: 1.6, margin: 0,
+                    border: '1px solid rgba(255,255,255,0.08)',
                   }}>
-                    <code>{q.solution?.[lang] || '// Not available'}</code>
+                    <code>{code[lang] || '// Not available'}</code>
                   </pre>
                 </div>
               )}
 
-              {/* Interviewer tips */}
-              {q.interviewerTips?.length > 0 && (
+              {/* 4. Visualization link — only when one exists */}
+              {vizLink && (
                 <div style={{ marginTop: 16 }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#f472b6', marginBottom: 6, letterSpacing: '0.05em' }}>
-                    INTERVIEWER TIPS
-                  </div>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 5 }}>
-                    {q.interviewerTips.map((tip, i) => (
-                      <li key={i} style={{ display: 'flex', gap: 8, fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.6 }}>
-                        <span style={{ color: '#f472b6', flexShrink: 0 }}>→</span>
-                        {tip}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Follow-up questions */}
-              {q.followUpQuestions?.length > 0 && (
-                <div style={{ marginTop: 14 }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#60a5fa', marginBottom: 6, letterSpacing: '0.05em' }}>
-                    FOLLOW-UP QUESTIONS
-                  </div>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    {q.followUpQuestions.map((fq, i) => (
-                      <li key={i} style={{ display: 'flex', gap: 8, fontSize: '0.85rem', color: '#64748b' }}>
-                        <ArrowRight size={12} style={{ flexShrink: 0, marginTop: 3 }} />
-                        {fq}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Algorithm visualization link */}
-              {q.algorithmLink && (
-                <div style={{ marginTop: 14 }}>
-                  <Link to={q.algorithmLink} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 6,
-                    fontSize: '0.82rem', fontWeight: 600, color: '#60a5fa', textDecoration: 'none',
-                  }}>
-                    <ExternalLink size={12} />
-                    View full visualization
+                  <Link to={vizLink} style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                    background: 'rgba(245,129,31,0.12)', border: '1px solid rgba(245,129,31,0.3)',
+                    color: '#fdba74', borderRadius: 8, padding: '0.5rem 1rem',
+                    fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', transition: 'background 0.18s',
+                  }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(245,129,31,0.2)' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(245,129,31,0.12)' }}
+                  >
+                    <ExternalLink size={13} />
+                    View visualization →
                   </Link>
                 </div>
               )}
@@ -280,20 +265,22 @@ export default function Interview() {
   interviewQuestions.forEach(q => { if (counts[q.difficulty] !== undefined) counts[q.difficulty]++ })
 
   const SELECT_STYLE = {
-    background: 'rgba(255,255,255,0.05)',
+    background: 'rgba(255,255,255,0.04)',
     border: '1px solid rgba(255,255,255,0.09)',
     borderRadius: 10, padding: '0.6rem 0.9rem',
     color: '#e2e8f0', fontSize: '0.85rem',
     cursor: 'pointer', outline: 'none',
-    fontFamily: 'inherit',
+    fontFamily: 'inherit', transition: 'border-color 0.18s',
   }
+  const selectFocus = e => { e.target.style.borderColor = 'rgba(245,129,31,0.4)' }
+  const selectBlur  = e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)' }
 
   const KNOWN_COMPANIES = [
     'Google','Amazon','Microsoft','Meta','Apple','Adobe','LinkedIn','Uber','Bloomberg','Goldman Sachs','Airbnb',
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#080c16' }}>
+    <div style={{ minHeight: '100vh', background: '#0d0d0d' }}>
       <div className="max-w-[1000px] mx-auto px-5 py-8">
 
         {/* Breadcrumb */}
@@ -323,8 +310,8 @@ export default function Interview() {
             { label: 'HARD',   value: counts.hard,               color: '#f87171' },
           ].map(s => (
             <div key={s.label} style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.09)',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: 12, padding: '0.6rem 1.2rem', textAlign: 'center',
               minWidth: 80,
             }}>
@@ -344,29 +331,29 @@ export default function Interview() {
             placeholder="Search questions…"
             style={{
               flex: 1, minWidth: 160,
-              background: 'rgba(255,255,255,0.05)',
+              background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.09)',
               borderRadius: 10, padding: '0.6rem 1rem',
               color: '#f1f5f9', fontSize: '0.88rem', outline: 'none',
-              fontFamily: 'inherit',
+              fontFamily: 'inherit', transition: 'border-color 0.18s',
             }}
-            onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.45)' }}
+            onFocus={e => { e.target.style.borderColor = '#f5811f' }}
             onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)' }}
           />
 
-          <select value={diffFilter} onChange={e => setDiffFilter(e.target.value)} style={SELECT_STYLE}>
+          <select value={diffFilter} onChange={e => setDiffFilter(e.target.value)} style={SELECT_STYLE} onFocus={selectFocus} onBlur={selectBlur}>
             <option value="all">All Difficulties</option>
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
           </select>
 
-          <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{ ...SELECT_STYLE, minWidth: 130 }}>
+          <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{ ...SELECT_STYLE, minWidth: 130 }} onFocus={selectFocus} onBlur={selectBlur}>
             <option value="all">All Topics</option>
             {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
 
-          <select value={companyFilter} onChange={e => setCompanyFilter(e.target.value)} style={{ ...SELECT_STYLE, minWidth: 140 }}>
+          <select value={companyFilter} onChange={e => setCompanyFilter(e.target.value)} style={{ ...SELECT_STYLE, minWidth: 140 }} onFocus={selectFocus} onBlur={selectBlur}>
             <option value="all">All Companies</option>
             {KNOWN_COMPANIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -390,10 +377,10 @@ export default function Interview() {
         {/* Footer tip */}
         <div style={{
           marginTop: 40, padding: '18px 20px', borderRadius: 14,
-          background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)',
-          fontSize: 14, color: '#64748b', lineHeight: 1.7,
+          background: 'rgba(245,129,31,0.08)', border: '1px solid rgba(245,129,31,0.2)',
+          fontSize: 14, color: '#94a3b8', lineHeight: 1.7,
         }}>
-          <strong style={{ color: '#818cf8' }}>Pro tip:</strong> Click "View full visualization" on any question
+          <strong style={{ color: '#f5811f' }}>Pro tip:</strong> Click "View full visualization" on any question
           to see step-by-step animations of the underlying algorithm. Visual understanding + interview preparation = maximum retention.
         </div>
 
