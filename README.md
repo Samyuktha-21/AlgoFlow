@@ -1,33 +1,73 @@
 # AlgoFlow — Where Logic Flows Visually
 
-A beautiful, educational algorithm visualization platform featuring 100+ algorithms across 14 categories with themed animations and step-by-step walkthroughs.
+**Watch algorithms run, step by step.** AlgoFlow is an interactive learning platform that turns abstract data-structure-and-algorithm concepts into clear, animated visualizations — with the source code highlighting in sync as each step executes.
+
+🔗 **Live:** https://algoflow-theta.vercel.app  •  💻 **Repo:** https://github.com/Samyuktha-21/AlgoFlow
+
+> Most of us learn DSA from static diagrams and walls of code. AlgoFlow lets you *see* every comparison, swap, and traversal happen in real time.
+
+---
+
+## ✨ Features
+
+- **124 algorithms across 14 themed categories** — sorting, searching, arrays & strings, linked lists, stacks & queues, hashing, trees, heaps, graphs, greedy, dynamic programming, backtracking, fundamentals, and advanced topics.
+- **Step-by-step visualizations** — bars, trees, graphs, and arrays animate through each step, with a synchronized code panel highlighting the exact line being executed.
+- **Multi-language code** — every visualized algorithm ships with **Java, C, and C++** implementations and a language switcher.
+- **Interview Hub** — 100+ curated interview questions, each with a clear approach, time/space complexity, full solutions in all three languages, and a direct link to watch the underlying algorithm run.
+- **Real-time discussion board** — a Firebase/Firestore-backed community space (Google Sign-In) to ask questions, post insights, like, and reply.
+- **Fast global search** — fuzzy search across all algorithms (`Ctrl/⌘ + K`).
+- **No login required** to start learning.
+- **Polished, responsive UI** — dark "code-editor" aesthetic, per-category visual themes, and tasteful motion (with `prefers-reduced-motion` support).
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend** | React 19, Vite 8, React Router 7 |
+| **Styling** | Tailwind CSS v4, Framer Motion |
+| **Visualization** | D3, custom canvas/SVG renderers |
+| **Code highlighting** | Prism.js (Java / C / C++) |
+| **Search** | Fuse.js |
+| **Backend / Realtime** | Firebase Authentication + Cloud Firestore |
+| **Icons** | Lucide React |
+| **Deployment** | Vercel |
+
+---
 
 ## 🚀 Getting Started
 
 ```bash
-# Install dependencies
+# 1. Clone the repo
+git clone https://github.com/Samyuktha-21/AlgoFlow.git
+cd AlgoFlow
+
+# 2. Install dependencies
 npm install
 
-# Start development server
-npm run dev
+# 3. Start the dev server
+npm run dev          # http://localhost:5173
 
-# Build for production
+# 4. Build for production
 npm run build
+npm run preview
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
+### Environment variables (for the Discussion board & Google Sign-In)
 
----
+The visualizations and Interview Hub work out of the box. To enable the **discussion board and authentication**, create a `.env.local` file (and add the same keys in your Vercel project settings):
 
-## ✅ Implemented Algorithms (3 of 100+)
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
-| Algorithm      | Category  | Theme   |
-|---------------|-----------|---------|
-| Bubble Sort   | Sorting   | 💧 Water |
-| Binary Search | Searching | 🔦 Light |
-| BFS           | Graphs    | 🌐 Network |
-
-All other algorithms show a "Coming Soon" page and are ready to be implemented following the guide below.
+> Without these, AlgoFlow runs fine — the discussion features simply stay disabled.
 
 ---
 
@@ -35,130 +75,52 @@ All other algorithms show a "Coming Soon" page and are ready to be implemented f
 
 ```
 src/
-├── algorithms/                   # Algorithm data
-│   ├── sorting/bubbleSort/       # metadata.json, code.json, steps.js
-│   ├── searching/binarySearch/
-│   └── graphs/bfs/
 ├── components/
-│   ├── Layout/                   # Header, Footer
-│   ├── HomePage/                 # Hero, CategoryGrid, CategoryCard
-│   ├── CategoryPage/             # CategoryHeader, AlgorithmList
-│   ├── Visualizer/               # Canvas, Controls, Input, Theme backgrounds
-│   │                             #   SortVisualizer, SearchVisualizer, GraphVisualizer
-│   ├── CodeDisplay/              # CodeBlock, LanguageSwitcher
-│   └── InfoPanels/               # AimPanel, ComplexityPanel, ApplicationsPanel
-├── context/
-│   ├── ThemeContext.jsx          # Light/dark mode
-│   └── VisualizationContext.jsx  # Playback state
+│   ├── Layout/          # Header (navbar), Footer
+│   ├── HomePage/        # Hero, live algorithm cycle, category grid, cursor glow, discussion
+│   ├── Visualizer/      # Canvas, controls, theme backgrounds, per-type renderers
+│   ├── InfoPanels/      # Aim, Complexity, Applications
+│   └── Search/          # Global ⌘K search
+├── context/             # Theme + visualization playback state, Auth
 ├── data/
-│   ├── categories.json           # 14 category definitions
-│   └── algorithmRegistry.json   # Full algorithm registry (100+)
-├── pages/                        # Home, Category, Algorithm
-├── themes/themeConfig.js         # 14 themed color palettes
-└── utils/                        # validators.js, helpers.js
+│   ├── categories.json          # 14 category definitions
+│   ├── algorithmRegistry.json   # Full algorithm catalog (124)
+│   └── interviewQuestions.js    # 108 interview questions (approach, complexity, 3-lang code, viz links)
+├── firebase/            # Firebase config + Firestore helpers
+├── pages/               # Home, Category, Algorithm, Interview, Discussion
+├── themes/              # 14 themed color palettes
+└── utils/               # validators, helpers, contrast utilities
 ```
 
 ---
 
-## ➕ How to Add a New Algorithm
+## 🧩 14 Themed Categories
 
-### 1. Create the folder
-```
-src/algorithms/{categoryId}/{algorithmId}/
-```
+Fundamentals · Sorting · Searching · Arrays & Strings · Linked Lists · Stacks & Queues · Hashing · Trees · Heaps · Graphs · Greedy · Dynamic Programming · Backtracking · Advanced
 
-### 2. `metadata.json`
-```json
-{
-  "id": "insertionSort",
-  "name": "Insertion Sort",
-  "category": "sorting",
-  "type": "sorting",
-  "description": "Builds the sorted array one element at a time...",
-  "aim": "To sort by inserting each element into its correct position...",
-  "howItWorks": ["Start from index 1", "Compare with elements before it", "..."],
-  "complexity": {
-    "time": {
-      "best": "O(n)", "bestCase": "Already sorted",
-      "average": "O(n²)", "averageCase": "Random data",
-      "worst": "O(n²)", "worstCase": "Reverse sorted"
-    },
-    "space": "O(1)", "spaceDescription": "In-place",
-    "stable": true, "adaptive": true
-  },
-  "applications": {
-    "realWorld": ["Small datasets", "Nearly sorted data"],
-    "whenToUse": ["n < 50 and data nearly sorted"],
-    "alternatives": ["Use Merge Sort for larger datasets"]
-  }
-}
-```
-
-### 3. `code.json`
-Include Java, C, C++ implementations. See `bubbleSort/code.json` for the exact format.
-
-### 4. `steps.js`
-```js
-export function generateSteps(inputArray) {
-  const steps = []
-  // Each step object:
-  steps.push({
-    array: [...arr],       // Current array state
-    comparing: [i, j],    // Indices highlighted yellow
-    swapping: [],         // Indices highlighted red
-    sorted: [],           // Indices highlighted green
-    description: 'Step description shown to user',
-    codeLine: 5,          // 1-indexed line to highlight in code view
-  })
-  return steps
-}
-```
-
-**For searching algorithms** (`type: "searching"`):
-```js
-export function generateSteps(sortedArray, target) {
-  steps.push({ array, low, high, mid, found, eliminated, target, description, codeLine })
-}
-```
-
-**For graph algorithms** (`type: "graph"`):
-```js
-export function generateSteps(nodes, edges, startNode) {
-  steps.push({ nodes, edges, visited, current, queue, description, codeLine })
-}
-```
-
-### 5. Update registry
-In `src/data/algorithmRegistry.json`, set `"implemented": true`.
+Each category has its own visual identity (water, forest, network, circuits, and more) so concepts are easier to recall.
 
 ---
 
-## 🎨 14 Themed Categories
+## 🎯 Interview Hub
 
-| Category | Theme | Icon |
-|----------|-------|------|
-| Fundamentals | Compass | 🧭 |
-| Sorting | Water | 💧 |
-| Searching | Light/Spotlight | 🔦 |
-| Array & String | Puzzle | 🧩 |
-| Linked Lists | Chain | ⛓️ |
-| Stack & Queue | Books | 📚 |
-| Hashing | Filing Cabinet | 🗂️ |
-| Trees | Forest | 🌳 |
-| Heaps | Mountains | ⛰️ |
-| Graphs | Network/Constellations | 🌐 |
-| Greedy | Archery | 🎯 |
-| Dynamic Programming | Building Blocks | 🧱 |
-| Backtracking | Maze | 🔀 |
-| Advanced | Neural/Circuit | 🧠 |
+A dedicated `/interview` section with 100+ questions spanning all 14 topics. Every question follows one consistent format:
+
+**Approach → Complexity (time & space) → Code (Java / C / C++ tabs) → "Watch the visualization"**
+
+Filter by difficulty, topic, or company, and jump straight from a question to its animated algorithm.
 
 ---
 
-## 🛠️ Tech Stack
+## 👥 Authors
 
-- **React 18** + **Vite 6**
-- **Tailwind CSS v4** (Vite plugin)
-- **Framer Motion** — animations
-- **Prism.js** — syntax highlighting (Java, C, C++)
-- **Lucide React** — icons
-- **React Router v6** — routing
+Built end to end — design, frontend, data, and backend — by:
+
+- **Samyuktha** — [@Samyuktha-21](https://github.com/Samyuktha-21)
+- **S Sharvesh** — [@SHARVESH08](https://github.com/SHARVESH08)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
