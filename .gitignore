@@ -25,6 +25,9 @@ dist-ssr
 
 .vercel
 
+# Local AI agent tooling (not part of the project)
+.claude/
+
 # Environment variables - never commit these
 .env
 .env.local
