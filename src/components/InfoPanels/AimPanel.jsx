@@ -3,17 +3,17 @@ import { useTheme } from '../../context/ThemeContext'
 import { useBeginner } from '../../context/BeginnerContext'
 import { getBeginnerData } from '../../data/beginnerData'
 
-function SimpleCard({ icon, title, children, color }) {
+function SimpleCard({ icon, title, children, tint, headingColor, bodyColor }) {
   return (
     <div style={{
       padding: '14px 18px', borderRadius: 12, marginBottom: 12,
-      background: `${color}0f`, border: `1px solid ${color}28`,
+      background: `${tint}14`, border: `1px solid ${tint}3a`,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
         <span style={{ fontSize: 18 }}>{icon}</span>
-        <span style={{ fontSize: 16, fontWeight: 700, color }}>{title}</span>
+        <span style={{ fontSize: 16, fontWeight: 700, color: headingColor }}>{title}</span>
       </div>
-      <p style={{ fontSize: 16, lineHeight: 1.72, margin: 0, color: 'var(--color-text-secondary)' }}>
+      <p style={{ fontSize: 16, lineHeight: 1.72, margin: 0, color: bodyColor }}>
         {children}
       </p>
     </div>
@@ -53,13 +53,16 @@ export default function AimPanel({ metadata, isLight }) {
         </div>
 
         {/* What / Why / When */}
-        <SimpleCard icon="🤔" title="What does it do?" color="#60a5fa">
+        <SimpleCard icon="🤔" title="What does it do?" tint="#3b82f6"
+          headingColor={onDark ? '#60a5fa' : '#1d4ed8'} bodyColor={bodyColor}>
           {bd.what}
         </SimpleCard>
-        <SimpleCard icon="💡" title="Why is it useful?" color="#fbbf24">
+        <SimpleCard icon="💡" title="Why is it useful?" tint="#f59e0b"
+          headingColor={onDark ? '#fbbf24' : '#b45309'} bodyColor={bodyColor}>
           {bd.why}
         </SimpleCard>
-        <SimpleCard icon="⏰" title="When do we use it?" color="#a78bfa">
+        <SimpleCard icon="⏰" title="When do we use it?" tint="#8b5cf6"
+          headingColor={onDark ? '#a78bfa' : '#7c3aed'} bodyColor={bodyColor}>
           {bd.when}
         </SimpleCard>
       </div>
