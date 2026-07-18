@@ -8,6 +8,9 @@ import { useBeginner } from '../context/BeginnerContext'
 import categories from '../data/categories.json'
 import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/validators'
 import { getCategoryTheme } from '../themes/themeConfig'
+import { recordAlgoView, recordVizRun } from '../firebase/stats'
+import { recordAlgorithmView } from '../firebase/algoStats'
+import AlgoViewsBadge from '../components/AlgoViewsBadge'
 
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 
@@ -290,6 +293,12 @@ export default function Algorithm() {
   const { isDark } = useTheme()
   const { setSteps, play, setSpeed } = useVisualization()
 
+  /* Feed the homepage live "algos explored" counter + this algorithm's own view count */
+  useEffect(() => {
+    recordAlgoView()
+    recordAlgorithmView(categoryId, algorithmId)
+  }, [categoryId, algorithmId])
+
   const [metadata, setMetadata]       = useState(null)
   const [codeData, setCodeData]       = useState(null)
   const [stepsModule, setStepsModule] = useState(null)
@@ -424,6 +433,7 @@ export default function Algorithm() {
       if (p.error) return { error: p.error }
       setSteps(stepsModule.generateSteps(p.array))
     }
+    recordVizRun()
     return {}
   }, [stepsModule, metadata, setSteps])
 
@@ -518,6 +528,7 @@ export default function Algorithm() {
                 background:'rgba(59,130,246,0.2)', color: isLight ? '#1e40af' : '#93c5fd',
                 border:'1px solid rgba(59,130,246,0.35)',
               }}>Live</span>
+              <AlgoViewsBadge categoryId={categoryId} algorithmId={algorithmId} isLight={isLight} />
             </div>
             <p style={{ fontSize:14, color: textMuted, lineHeight:1.6, maxWidth:780 }}>
               {metadata.description}

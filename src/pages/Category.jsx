@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ChevronRight, ArrowRight } from 'lucide-react'
+import { ChevronRight, ArrowRight, Eye } from 'lucide-react'
 import categories from '../data/categories.json'
 import registry from '../data/algorithmRegistry.json'
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 import { getThemeContrast } from '../utils/contrastColor'
+import { subscribeToCategoryViews, formatViews } from '../firebase/algoStats'
 
 /* ── Per-theme accent colors ─────────────────────────────────── */
 const THEME_ACCENT = {
@@ -33,6 +34,10 @@ function getSizeConfig(count) {
 
 export default function Category() {
   const { categoryId } = useParams()
+
+  /* Live per-algorithm view counts for this category — { [algoId]: views } */
+  const [algoViews, setAlgoViews] = useState({})
+  useEffect(() => subscribeToCategoryViews(categoryId, setAlgoViews), [categoryId])
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -171,6 +176,7 @@ export default function Category() {
                     key={algo.id} algo={algo} categoryId={categoryId}
                     accent={accent} r={r} g={g} b={b}
                     cfg={cfg} contrast={contrast}
+                    views={algoViews[algo.id]}
                   />
                 : <AlgoCardSoon
                     key={algo.id} algo={algo} accent={accent} cfg={cfg} contrast={contrast}
@@ -209,7 +215,7 @@ function StatBadge({ value, label, contrast }) {
   )
 }
 
-function AlgoCard({ algo, categoryId, accent, r, g, b, cfg, contrast }) {
+function AlgoCard({ algo, categoryId, accent, r, g, b, cfg, contrast, views }) {
   const baseBg     = contrast.cardBg
   const hoverBg    = contrast.isLight ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.09)'
   const baseBorder = contrast.cardBorder
@@ -276,15 +282,29 @@ function AlgoCard({ algo, categoryId, accent, r, g, b, cfg, contrast }) {
         </span>
       </div>
 
-      <ArrowRight
-        size={13}
-        className="card-arrow"
-        style={{
-          color: arrowColor,
-          flexShrink: 0, marginLeft: 6,
-          transition: 'color 0.18s, transform 0.18s',
-        }}
-      />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, marginLeft: 6 }}>
+        {views > 0 && (
+          <span
+            title={`${views.toLocaleString()} views`}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 3,
+              fontSize: '0.66rem', fontWeight: 500,
+              color: contrast.isLight ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.4)',
+            }}
+          >
+            <Eye size={10} />
+            {formatViews(views)}
+          </span>
+        )}
+        <ArrowRight
+          size={13}
+          className="card-arrow"
+          style={{
+            color: arrowColor,
+            transition: 'color 0.18s, transform 0.18s',
+          }}
+        />
+      </div>
     </Link>
   )
 }
