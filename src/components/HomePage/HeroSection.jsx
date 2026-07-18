@@ -1,5 +1,6 @@
 import { Search, ChevronDown } from 'lucide-react'
 import HeroAlgoCycle from './HeroAlgoCycle'
+import LiveStats from './LiveStats'
 import { openSearch } from '../Search/SearchTrigger'
 
 const DISPLAY = "'General Sans', 'Inter', sans-serif"
@@ -69,6 +70,9 @@ export default function HeroSection() {
               </div>
             ))}
           </div>
+
+          {/* live community counters — realtime from Firestore */}
+          <LiveStats />
 
           {/* scroll-down indicator */}
           <div

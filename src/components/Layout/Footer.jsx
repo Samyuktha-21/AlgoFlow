@@ -22,7 +22,7 @@ export default function Footer() {
             <Link to="/category/dynamic-programming" className="hover:text-blue-500 transition-colors">DP</Link>
           </div>
           <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-            Built for learning. 100+ algorithms visualized.
+            Built for learning. 100+ algorithms visualized. Crafted by Samyuktha &amp; Sharvesh.
           </p>
         </div>
       </div>

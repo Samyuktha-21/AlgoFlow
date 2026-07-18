@@ -7,6 +7,7 @@ import {
   doc, setDoc, getDoc, serverTimestamp,
 } from 'firebase/firestore'
 import { auth, db, googleProvider, firebaseEnabled } from '../firebase/config'
+import { recordLogin, recordNewLearner } from '../firebase/stats'
 
 const AuthContext = createContext({
   user: null, loading: false, authError: null, signingIn: false,
@@ -33,6 +34,7 @@ export function AuthProvider({ children }) {
       .then(result => {
         if (result?.user) {
           console.log('Redirect sign-in successful:', result.user.email)
+          recordLogin()
           // onAuthStateChanged will handle setting the user
         }
       })
@@ -76,6 +78,7 @@ export function AuthProvider({ children }) {
                 joinedAt: serverTimestamp(),
                 postsCount: 0, commentsCount: 0, role: 'user',
               })
+              recordNewLearner()
             } else {
               await setDoc(ref, { ...userData, lastSeen: serverTimestamp() }, { merge: true })
             }
@@ -114,6 +117,7 @@ export function AuthProvider({ children }) {
       } else {
         await signInWithPopup(auth, googleProvider)
         clearTimeout(timeoutId)
+        recordLogin()
         // onAuthStateChanged handles user state update
       }
     } catch (e) {

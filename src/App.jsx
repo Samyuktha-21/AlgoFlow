@@ -10,6 +10,7 @@ import DiscussionPage from './pages/DiscussionPage'
 import GlobalSearch from './components/Search/GlobalSearch'
 import { registerSearchOpener } from './components/Search/SearchTrigger'
 import { useTheme } from './context/ThemeContext'
+import { recordVisit, recordLearningMinute } from './firebase/stats'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -26,6 +27,16 @@ function App() {
   const { pathname } = useLocation()
   const isHomepage = pathname === '/'
   const [searchOpen, setSearchOpen] = useState(false)
+
+  /* Count this browser session in the live site-visit counter, then
+     accrue one "learning minute" per minute the tab stays visible */
+  useEffect(() => {
+    recordVisit()
+    const id = setInterval(() => {
+      if (document.visibilityState === 'visible') recordLearningMinute()
+    }, 60_000)
+    return () => clearInterval(id)
+  }, [])
 
   /* Register global search opener so any component can call openSearch() */
   useEffect(() => {

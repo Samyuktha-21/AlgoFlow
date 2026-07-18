@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ChevronDown, ExternalLink } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import interviewQuestions, { TOPICS } from '../data/interviewQuestions'
+import { recordInterviewView } from '../firebase/stats'
 
 const MONO = "'IBM Plex Mono', monospace"
 const SECTION_LABEL = { fontFamily: MONO, fontSize: '0.7rem', letterSpacing: '0.1em', fontWeight: 700, color: '#f5811f', marginBottom: '0.4rem' }
@@ -241,6 +242,10 @@ function QuestionCard({ q }) {
 /* ── Main Interview page ───────────────────────────────────────── */
 export default function Interview() {
   useTheme() // keep context active
+
+  /* Feed the homepage live "interview sessions" counter */
+  useEffect(() => { recordInterviewView() }, [])
+
   const [diffFilter, setDiffFilter]       = useState('all')
   const [topicFilter, setTopicFilter]     = useState('all')
   const [companyFilter, setCompanyFilter] = useState('all')

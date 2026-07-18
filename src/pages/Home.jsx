@@ -21,6 +21,7 @@ export default function Home() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem',
         }}>
           <span>AlgoFlow — watch algorithms run</span>
+          <span>crafted by <span style={{ color: '#ff9433' }}>Samyuktha</span> &amp; <span style={{ color: '#ff9433' }}>Sharvesh</span></span>
           <span>124 algorithms · 14 categories · built for learning</span>
         </footer>
       </div>
