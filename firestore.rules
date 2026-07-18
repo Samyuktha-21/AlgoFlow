@@ -23,32 +23,49 @@ service cloud.firestore {
     }
 
     // ── User profiles ──────────────────────────────────────────
+    // Docs hold email addresses; only the owner ever reads their
+    // own doc (author name/avatar are denormalized onto posts).
     match /users/{userId} {
-      allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
     // ── Discussion board ───────────────────────────────────────
+    // Owners may edit their post; anyone signed in may only touch
+    // the like/reply-count fields.
     match /discussions/{postId} {
       allow read: if true;
-      allow create: if request.auth != null;
-      allow update: if request.auth != null;
-      allow delete: if request.auth != null &&
-                    request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.uid ||
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['likes', 'likedBy', 'replyCount'])
+      );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.uid;
+
       match /replies/{replyId} {
         allow read: if true;
-        allow create: if request.auth != null;
-        allow delete: if request.auth != null &&
-                      request.auth.uid == resource.data.uid;
+        allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+        allow update: if request.auth != null &&
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['likes', 'likedBy']);
+        // Reply author may delete; the post owner may also clean up
+        // all replies when deleting their post.
+        allow delete: if request.auth != null && (
+          request.auth.uid == resource.data.uid ||
+          request.auth.uid == get(/databases/$(database)/documents/discussions/$(postId)).data.uid
+        );
       }
     }
 
-    // ── Per-algorithm comments ─────────────────────────────────
-    match /algorithmComments/{commentId} {
+    // ── Per-algorithm comments (subcollection) ─────────────────
+    // algorithmComments/{algoId}/comments/{commentId}
+    match /algorithmComments/{algoId}/comments/{commentId} {
       allow read: if true;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null
-        && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null && request.resource.data.authorId == request.auth.uid;
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['likes', 'likedBy']);
+      allow delete: if request.auth != null && request.auth.uid == resource.data.authorId;
     }
   }
 }
