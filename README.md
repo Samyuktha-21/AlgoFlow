@@ -15,6 +15,7 @@
 - **Multi-language code** — every visualized algorithm ships with **Java, C, and C++** implementations and a language switcher.
 - **Interview Hub** — 100+ curated interview questions, each with a clear approach, time/space complexity, full solutions in all three languages, and a direct link to watch the underlying algorithm run.
 - **Real-time discussion board** — a Firebase/Firestore-backed community space (Google Sign-In) to ask questions, post insights, like, and reply.
+- **Live site pulse** — realtime counters on the hero (site visits, Google sign-ins, algorithms explored) streamed from Firestore, updating the moment anyone anywhere uses the site.
 - **Fast global search** — fuzzy search across all algorithms (`Ctrl/⌘ + K`).
 - **No login required** to start learning.
 - **Polished, responsive UI** — dark "code-editor" aesthetic, per-category visual themes, and tasteful motion (with `prefers-reduced-motion` support).
@@ -68,6 +69,31 @@ VITE_FIREBASE_APP_ID=your_app_id
 ```
 
 > Without these, AlgoFlow runs fine — the discussion features simply stay disabled.
+
+### Firestore rules for the live counters
+
+The hero's live stats live in a single doc, `stats/site`, that anonymous visitors must be able to read and increment. Add this block inside your Firestore security rules (Firebase Console → Firestore → Rules):
+
+```
+match /stats/site {
+  allow read: if true;
+  // Allow only counter increments — no arbitrary fields, no deletes
+  allow create, update: if request.resource.data.keys().hasOnly([
+    'visits', 'logins', 'algoViews', 'learners',
+    'vizRuns', 'learningMinutes', 'interviewViews', 'updatedAt'
+  ]);
+}
+
+// Per-algorithm view counters (badge on algorithm pages + category cards)
+match /algoStats/{algoId} {
+  allow read: if true;
+  allow create, update: if request.resource.data.keys().hasOnly([
+    'views', 'categoryId', 'algorithmId', 'updatedAt'
+  ]);
+}
+```
+
+See **[docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md)** for the full step-by-step Firebase walkthrough (project creation → auth → Firestore → rules → Vercel).
 
 ---
 
