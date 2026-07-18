@@ -6,7 +6,7 @@ export function generateSteps(inputArray) {
   const addStep=(cur,desc,line)=>steps.push({array:[...vals],current:cur,stack:[...heap],result:[],extra:{min:heap[0]||'—',size:heap.length},description:desc,codeLine:line})
   addStep(-1,'Priority Queue (min-heap): smallest element always at front',2)
   for(let i=0;i<vals.length;i++){heap.push(vals[i]);heapifyUp();addStep(i,'push('+vals[i]+'). Min='+heap[0],4)}
-  while(heap.length>0){const m=heap[0];heap[0]=heap.pop()||heap[0];if(heap.length>0)heapifyDown();addStep(-1,'poll()='+m+'. New min='+(heap[0]||'empty'),7)}
+  while(heap.length>0){const m=heap[0];const last=heap.pop();if(heap.length>0){heap[0]=last;heapifyDown()}addStep(-1,'poll()='+m+'. New min='+(heap.length>0?heap[0]:'empty'),7)}
   addStep(-1,'Priority queue emptied (elements processed by priority)',8)
   return steps
 }

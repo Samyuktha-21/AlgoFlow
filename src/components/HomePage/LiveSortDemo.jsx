@@ -57,8 +57,9 @@ const MAX_BAR = 120
 
 export default function LiveSortDemo() {
   const reduce = useReducedMotion()
-  const initial = useRef(randomArray())
-  const [step, setStep] = useState({ arr: initial.current, compare: null, swapped: false, sortedFrom: N, msg: 'initializing…' })
+  const [firstArr] = useState(() => randomArray())
+  const initial = useRef(firstArr)
+  const [step, setStep] = useState(() => ({ arr: firstArr, compare: null, swapped: false, sortedFrom: N, msg: 'initializing…' }))
   const [log, setLog] = useState([])
   const [progress, setProgress] = useState(0)
 

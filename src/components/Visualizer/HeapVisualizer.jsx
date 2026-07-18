@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../context/ThemeContext'
 
@@ -34,7 +33,7 @@ export default function HeapVisualizer({ step }) {
   const W     = 520
   const H     = (Math.floor(Math.log2(size)) + 1) * 70 + 50
 
-  const positions = useMemo(() => heapLayout(size, W), [size])
+  const positions = heapLayout(size, W)
 
   const getCellStyle = (i) => {
     if (sorted.includes(i))    return { fill: '#34D399', stroke: '#10B981', text: '#064e3b' }

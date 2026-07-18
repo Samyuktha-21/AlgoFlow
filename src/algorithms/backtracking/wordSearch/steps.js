@@ -5,7 +5,7 @@ export function generateSteps(inputArray) {
   const board=grid.map(r=>[...r])
   const steps=[], found=[]
   const addStep=(r,c,bt,idx,desc,line)=>{
-    const b=board.map(row=>row.map(ch=>ch.charCodeAt(0)-64))
+    const b=grid.map(row=>row.map(ch=>ch.charCodeAt(0)-64))
     steps.push({board:b,n:R,highlighted:{row:r<0?0:r,col:c<0?0:c},conflicts:found.map(([fr,fc])=>({row:fr,col:fc})),backtracking:bt,type:'nqueens',description:desc,codeLine:line,extra:{word,matched:word.slice(0,idx),remaining:word.slice(idx)}})
   }
   let limit=60
