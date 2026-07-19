@@ -14,12 +14,6 @@ const AuthContext = createContext({
   signInWithGoogle: () => {}, logout: () => {},
 })
 
-/* Detect mobile browsers — popups are blocked by default on mobile */
-const isMobile = () =>
-  /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    typeof navigator !== 'undefined' ? navigator.userAgent : ''
-  )
-
 export function AuthProvider({ children }) {
   const [user, setUser]           = useState(null)
   const [loading, setLoading]     = useState(firebaseEnabled)
@@ -110,26 +104,35 @@ export function AuthProvider({ children }) {
     }, 15000)
 
     try {
-      if (isMobile()) {
-        // On mobile, popups are blocked — use redirect flow instead
-        await signInWithRedirect(auth, googleProvider)
-        // Page navigates away; code below won't run until redirect back
-      } else {
-        await signInWithPopup(auth, googleProvider)
-        clearTimeout(timeoutId)
-        recordLogin()
-        // onAuthStateChanged handles user state update
-      }
+      // Popup works on modern desktop AND mobile browsers, and unlike the
+      // redirect flow it survives third-party storage partitioning.
+      await signInWithPopup(auth, googleProvider)
+      clearTimeout(timeoutId)
+      recordLogin()
+      // onAuthStateChanged handles user state update
     } catch (e) {
       clearTimeout(timeoutId)
-      setSigningIn(false)
 
       const code = e?.code || ''
-      console.error('Sign-in error:', code, e.message)
 
       if (code === 'auth/popup-blocked') {
-        setAuthError('Popup was blocked. Please allow popups for this site, or try on a different browser.')
-      } else if (code === 'auth/user-not-authorized') {
+        // Popup blocked (in-app browsers, strict settings) — fall back to
+        // the full-page redirect flow. Page navigates away on success.
+        try {
+          await signInWithRedirect(auth, googleProvider)
+          return
+        } catch (re) {
+          console.error('Redirect fallback error:', re?.code, re?.message)
+          setSigningIn(false)
+          setAuthError('Sign-in failed. Please allow popups for this site and try again.')
+          return
+        }
+      }
+
+      setSigningIn(false)
+      console.error('Sign-in error:', code, e.message)
+
+      if (code === 'auth/user-not-authorized') {
         setAuthError('This Google account is not authorized yet. The app may be in testing mode — contact the developer.')
       } else if (code === 'auth/cancelled-popup-request' || code === 'auth/popup-closed-by-user') {
         // User dismissed — not an error worth showing
