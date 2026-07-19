@@ -8,10 +8,14 @@ const MONO = "'IBM Plex Mono', monospace"
 /* Which counters appear on the hero, in order. All keys in stats/site:
    visits · logins · algoViews · learners · vizRuns · learningMinutes · interviewViews */
 const SHOWN = [
-  { key: 'visits',          label: 'site visits' },
-  { key: 'learners',        label: 'learners' },
-  { key: 'vizRuns',         label: 'visualizations run' },
-  { key: 'learningMinutes', label: 'learning minutes' },
+  { key: 'visits',          label: 'site visits',
+    hint: 'Browser sessions that opened AlgoFlow — counted once per visit' },
+  { key: 'learners',        label: 'learners',
+    hint: 'People who signed in with Google for the first time' },
+  { key: 'vizRuns',         label: 'visualizations run',
+    hint: 'Algorithm visualizations started across the site' },
+  { key: 'learningMinutes', label: 'learning minutes',
+    hint: 'Total minutes everyone has spent with AlgoFlow open on screen' },
 ]
 
 /* Animates from the previous value to the new one (and from 0 on mount).
@@ -44,15 +48,14 @@ function useCountUp(target, duration = 1600, delay = 0) {
   return display
 }
 
-function LiveNumber({ value, label, delay }) {
+function LiveNumber({ value, label, hint, delay }) {
   const shown = useCountUp(value, 1600, delay)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem' }}>
-      <span style={{
+    <div className="af-live-stat" tabIndex={0} aria-label={`${label}: ${value.toLocaleString()}. ${hint}`}>
+      <span className="af-live-num" style={{
         fontFamily: MONO, fontWeight: 700, lineHeight: 1,
         fontSize: 'clamp(1.9rem, 4vw, 3rem)',
         color: '#4ade80',
-        textShadow: '0 0 24px rgba(74,222,128,0.35)',
         fontVariantNumeric: 'tabular-nums',
       }}>
         {shown.toLocaleString()}
@@ -62,6 +65,9 @@ function LiveNumber({ value, label, delay }) {
         textTransform: 'uppercase', letterSpacing: '0.14em',
       }}>
         {label}
+      </span>
+      <span className="af-live-tip" role="tooltip" style={{ fontFamily: DISPLAY }}>
+        {hint}
       </span>
     </div>
   )
@@ -102,6 +108,44 @@ export default function LiveStats() {
         @media (max-width: 720px) {
           .af-live-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; padding: 1.8rem 1rem 2rem; }
         }
+        .af-live-stat {
+          position: relative;
+          display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+          padding: 0.8rem 0.5rem; border-radius: 12px;
+          border: 1px solid transparent;
+          cursor: default; outline: none;
+          transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+        .af-live-stat:hover, .af-live-stat:focus-visible {
+          transform: translateY(-4px);
+          border-color: rgba(74,222,128,0.25);
+          background: rgba(74,222,128,0.05);
+        }
+        .af-live-num { text-shadow: 0 0 24px rgba(74,222,128,0.35); transition: text-shadow 0.25s ease; }
+        .af-live-stat:hover .af-live-num, .af-live-stat:focus-visible .af-live-num {
+          text-shadow: 0 0 34px rgba(74,222,128,0.65);
+        }
+        .af-live-tip {
+          position: absolute; bottom: calc(100% + 10px); left: 50%;
+          transform: translateX(-50%) translateY(4px);
+          width: max-content; max-width: 220px; text-align: center;
+          background: #161616; color: #d4d4d4;
+          border: 1px solid rgba(74,222,128,0.25); border-radius: 8px;
+          padding: 0.5rem 0.7rem; font-size: 0.74rem; line-height: 1.45;
+          opacity: 0; pointer-events: none; z-index: 5;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .af-live-tip::after {
+          content: ''; position: absolute; top: 100%; left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent; border-top-color: rgba(74,222,128,0.25);
+        }
+        .af-live-stat:hover .af-live-tip, .af-live-stat:focus-visible .af-live-tip {
+          opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .af-live-stat, .af-live-tip, .af-live-num { transition: none; }
+        }
       `}</style>
 
       {/* centered LIVE badge overlapping the top border */}
@@ -122,7 +166,7 @@ export default function LiveStats() {
 
       <div className="af-live-grid">
         {SHOWN.map((m, i) => (
-          <LiveNumber key={m.key} value={stats[m.key] ?? 0} label={m.label} delay={i * 180} />
+          <LiveNumber key={m.key} value={stats[m.key] ?? 0} label={m.label} hint={m.hint} delay={i * 180} />
         ))}
       </div>
     </div>
