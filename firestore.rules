@@ -83,6 +83,27 @@ service cloud.firestore {
       }
     }
 
+    // ── Exit-intent feedback ───────────────────────────────────
+    // Anyone may submit a review; write-only (no public reads) and
+    // strictly shaped so the collection can't be abused as storage.
+    match /feedback/{feedbackId} {
+      allow read: if false;
+      allow create: if request.resource.data.keys().hasOnly([
+          'rating', 'foundIt', 'satisfied', 'comment', 'page', 'createdAt'
+        ])
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.foundIt is bool
+        && request.resource.data.satisfied is bool
+        && request.resource.data.comment is string
+        && request.resource.data.comment.size() <= 500
+        && request.resource.data.page is string
+        && request.resource.data.page.size() <= 200
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
     // ── Per-algorithm comments (subcollection) ─────────────────
     // algorithmComments/{algoId}/comments/{commentId}
     match /algorithmComments/{algoId}/comments/{commentId} {

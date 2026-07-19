@@ -8,6 +8,7 @@ import Algorithm from './pages/Algorithm'
 import Interview from './pages/Interview'
 import DiscussionPage from './pages/DiscussionPage'
 import GlobalSearch from './components/Search/GlobalSearch'
+import FeedbackPrompt from './components/FeedbackPrompt'
 import { registerSearchOpener } from './components/Search/SearchTrigger'
 import { useTheme } from './context/ThemeContext'
 import { recordVisit, recordLearningMinute } from './firebase/stats'
@@ -64,6 +65,9 @@ function App() {
 
       {/* Global search modal — mounted once at root */}
       <GlobalSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+
+      {/* Exit-intent review prompt — asks once, stores to Firestore */}
+      <FeedbackPrompt />
 
       <main className="flex-1">
         <Routes>
