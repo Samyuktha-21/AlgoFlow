@@ -12,7 +12,7 @@ export function BeginnerProvider({ children }) {
   })
 
   useEffect(() => {
-    try { localStorage.setItem('algoflow-beginner-mode', String(beginner)) } catch {}
+    try { localStorage.setItem('algoflow-beginner-mode', String(beginner)) } catch { /* storage unavailable */ }
   }, [beginner])
 
   return (

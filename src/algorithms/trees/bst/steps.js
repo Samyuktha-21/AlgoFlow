@@ -2,9 +2,9 @@ const DEMO_INSERTS=[5,3,7,1,4,6,8,2]
 export function generateSteps(inputArray) {
   const vals=inputArray&&inputArray.length>=2?[...inputArray]:DEMO_INSERTS
   let nodes=[], steps=[], nodeId=0
-  const nodeMap={}, visited=[]
+  const visited=[]
   const addStep=(cur,vis,desc,line)=>steps.push({nodes:nodes.map(n=>({...n})),visited:[...vis],current:cur,highlighted:cur>=0?[cur]:[],traversalOrder:[...visited],description:desc,codeLine:line})
-  function insert(val,parentId,side){
+  function insert(val){
     addStep(-1,[],'Inserting '+val+' into BST',2)
     let curr=0, par=-1, side2=null
     while(curr<nodes.length){
@@ -22,7 +22,7 @@ export function generateSteps(inputArray) {
     addStep(newNode.id,visited,'Inserted '+val+' as '+(par>=0?side2+' child of '+nodes[par].value:'root'),9)
   }
   addStep(-1,[],'Build BST by inserting: ['+vals.join(',')+']',2)
-  for(const v of vals) insert(v,-1,null)
+  for(const v of vals) insert(v)
   addStep(-1,[],'BST complete. Root='+vals[0]+'. Inorder will give sorted order.',10)
   return steps
 }

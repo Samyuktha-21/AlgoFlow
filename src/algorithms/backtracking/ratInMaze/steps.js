@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const MAZE=[[1,0,0,0],[1,1,0,1],[0,1,0,0],[0,1,1,1]]
   const n=4, board=MAZE.map(r=>[...r])
   const vis=Array.from({length:n},()=>new Array(n).fill(0))

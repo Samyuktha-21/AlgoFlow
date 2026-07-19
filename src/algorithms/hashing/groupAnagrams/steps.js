@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const words=['eat','tea','tan','ate','nat','bat']
   const arr=words.map(w=>w.charCodeAt(0))
   const map={}, groups={}, steps=[]

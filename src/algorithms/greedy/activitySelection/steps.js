@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const defaultActs=[{s:1,e:2},{s:3,e:4},{s:0,e:6},{s:5,e:7},{s:8,e:9},{s:5,e:9}]
   const acts=defaultActs.map((a,i)=>({...a,id:i}))
   acts.sort((a,b)=>a.e-b.e)

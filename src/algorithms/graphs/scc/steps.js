@@ -1,5 +1,5 @@
 import { computeLayout, DEFAULT_GRAPH } from '../bfs/steps.js'
-export function generateSteps(inputNodes=null,inputEdges=null,src=0){
+export function generateSteps(inputNodes=null,inputEdges=null){
   const nodes=inputNodes||DEFAULT_GRAPH.nodes, edges=inputEdges||DEFAULT_GRAPH.edges
   const positions=computeLayout(nodes,edges)
   const steps=[], visited=[]

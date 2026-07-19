@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const s='{[()]}'
   const chars=s.split(''), n=chars.length, stack=[], steps=[]
   const arr=chars.map(c=>c.charCodeAt(0))

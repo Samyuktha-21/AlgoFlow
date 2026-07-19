@@ -1,5 +1,5 @@
 const NODES = [{id:0,value:1,next:1},{id:1,value:2,next:2},{id:2,value:3,next:3},{id:3,value:4,next:4},{id:4,value:5,next:null}]
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=JSON.parse(JSON.stringify(NODES)), n=2
   const map={}; nodes.forEach(nd=>{map[nd.id]=nd})
   const steps=[], removed=[]

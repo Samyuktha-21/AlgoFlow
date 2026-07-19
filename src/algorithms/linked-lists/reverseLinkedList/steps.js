@@ -1,7 +1,7 @@
 export function generateSteps(inputArray) {
   const vals = inputArray && inputArray.length >= 2 ? inputArray : [1,2,3,4,5]
   const nodes = vals.map((v,i)=>({id:i,value:v,next:i<vals.length-1?i+1:null}))
-  const n = nodes.length, steps = []
+  const steps = []
   const addStep=(ns,ptrs,rev,desc,line)=>steps.push({nodes:ns.map(nd=>({...nd})),pointers:ptrs,reversed:[...rev],highlighted:ptrs.map(p=>p.nodeId),description:desc,codeLine:line})
   let prev=-1, curr=0, reversed=[]
   addStep([...nodes],[{nodeId:curr,label:'curr',color:'#fbbf24'},{nodeId:null,label:'prev',color:'#a78bfa'}],[],'Initialize prev=null, curr=head (node 0)',2)

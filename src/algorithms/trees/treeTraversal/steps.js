@@ -8,7 +8,7 @@ const DEFAULT_NODES=[
   {id:5,value:5,left:null,right:null,parent:6},
   {id:7,value:7,left:null,right:null,parent:6},
 ]
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=[...DEFAULT_NODES]
   const steps=[], visited=[], order=[]
   const addStep=(cur,vis,desc,line)=>steps.push({nodes:[...nodes],visited:[...vis],current:cur,highlighted:[cur],traversalOrder:[...order],description:desc,codeLine:line})

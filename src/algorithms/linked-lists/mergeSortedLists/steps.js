@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const l1=[{id:0,value:1,next:2},{id:2,value:3,next:5},{id:5,value:5,next:null}]
   const l2=[{id:1,value:2,next:4},{id:4,value:4,next:6},{id:6,value:6,next:null}]
   const nodes=[...l1,...l2], merged=[], steps=[]

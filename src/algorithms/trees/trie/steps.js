@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const words=['apple','app','application','apt','bat']
   // Build a simple node graph for the trie
   const nodes=[], steps=[], visited=[], order=[]

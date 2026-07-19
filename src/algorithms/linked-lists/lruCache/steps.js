@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const cap=3, ops=[['put',1,1],['put',2,2],['put',3,3],['get',1],['put',4,4],['get',2]]
   const cache=[], nodes=[], steps=[]
   let id=0

@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const jobs=[{id:0,profit:100,deadline:2},{id:1,profit:19,deadline:1},{id:2,profit:27,deadline:2},{id:3,profit:25,deadline:1},{id:4,profit:15,deadline:3}]
   jobs.sort((a,b)=>b.profit-a.profit)
   const maxD=Math.max(...jobs.map(j=>j.deadline))

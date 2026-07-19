@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronRight, Target, BarChart2, Globe, CheckCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '../context/ThemeContext'
 import { useVisualization } from '../context/VisualizationContext'
 import { useBeginner } from '../context/BeginnerContext'
 import categories from '../data/categories.json'
@@ -251,7 +250,7 @@ function StatusBar({ isLight, algorithmType }) {
   )
 }
 
-function FinalAnswerDisplay({ isLight }) {
+function FinalAnswerDisplay() {
   const { steps, isFinished } = useVisualization()
   const lastStep = steps[steps.length - 1]
   if (!isFinished || !lastStep) return null
@@ -290,7 +289,6 @@ function FinalAnswerDisplay({ isLight }) {
 
 export default function Algorithm() {
   const { categoryId, algorithmId } = useParams()
-  const { isDark } = useTheme()
   const { setSteps, play, setSpeed } = useVisualization()
 
   /* Feed the homepage live "algos explored" counter + this algorithm's own view count */
@@ -331,7 +329,7 @@ export default function Algorithm() {
       const rect = containerRef.current.getBoundingClientRect()
       const pct = Math.max(25, Math.min(75, ((e.clientX - rect.left) / rect.width) * 100))
       setLeftWidth(pct)
-      try { localStorage.setItem('algoflow-split-ratio', String(pct)) } catch {}
+      try { localStorage.setItem('algoflow-split-ratio', String(pct)) } catch { /* storage unavailable */ }
     }
     const onUp = () => { dragging.current = false }
     document.addEventListener('mousemove', onMove)

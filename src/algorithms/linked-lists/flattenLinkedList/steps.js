@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=[{id:0,value:1,next:1,child:null},{id:1,value:2,next:2,child:5},{id:2,value:3,next:null,child:null},{id:5,value:5,next:6,child:null},{id:6,value:6,next:null,child:null}]
   const steps=[]
   const addStep=(hl,desc,line)=>steps.push({nodes:[...nodes],pointers:[],reversed:[...hl],highlighted:[...hl],description:desc,codeLine:line})

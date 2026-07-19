@@ -1,4 +1,4 @@
-import { Target, List, Lightbulb, HelpCircle, Zap, Clock } from 'lucide-react'
+import { Target, List, Lightbulb } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useBeginner } from '../../context/BeginnerContext'
 import { getBeginnerData } from '../../data/beginnerData'

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 
-const R = 22 // kept for external usage if any
 
 /* ════════════════════════════════════════════════════
    CANVAS PARTICLE CONFIGS  (14 themes — new identities)
@@ -40,7 +39,7 @@ function mkClouds(w,h,n){return Array.from({length:n},()=>({x:Math.random()*(w+2
 function mkBlossoms(w,h,n){return Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:.2+Math.random()*.8,vy:.3+Math.random()*.7,rotation:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*.035,size:5+Math.random()*9,alpha:.45+Math.random()*.45,phase:Math.random()*Math.PI*2,wobbleSpeed:.018+Math.random()*.018,pinkness:310+Math.random()*30}))}
 function mkFlowers(w,h,n){const H=[0,30,60,120,200,280,320];return Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,size:10+Math.random()*22,hue:H[Math.floor(Math.random()*H.length)],alpha:.2+Math.random()*.3,phase:Math.random()*Math.PI*2,bloomSpeed:.007+Math.random()*.01,rotation:Math.random()*Math.PI*2,rotSpeed:(Math.random()-.5)*.004}))}
 function mkButterflies(w,h,n){return Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2,size:9+Math.random()*16,hue:Math.floor(Math.random()*360),wingPhase:Math.random()*Math.PI*2,wingSpeed:.09+Math.random()*.07,wobble:Math.random()*Math.PI*2,wobbleSpeed:.012+Math.random()*.014,alpha:.5+Math.random()*.35}))}
-function mkPlasma(w,h,n){const C=['#a78bfa','#22d3ee','#f0abfc','#4ade80','#60a5fa'];return Array.from({length:n},(i)=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*2.5,vy:(Math.random()-.5)*2.5,r:1.2+Math.random()*2.2,color:C[Math.floor(Math.random()*C.length)],phase:Math.random()*Math.PI*2,speed:.04+Math.random()*.06,alpha:.3+Math.random()*.5,trail:[]}))}
+function mkPlasma(w,h,n){const C=['#a78bfa','#22d3ee','#f0abfc','#4ade80','#60a5fa'];return Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*2.5,vy:(Math.random()-.5)*2.5,r:1.2+Math.random()*2.2,color:C[Math.floor(Math.random()*C.length)],phase:Math.random()*Math.PI*2,speed:.04+Math.random()*.06,alpha:.3+Math.random()*.5,trail:[]}))}
 function mkHearts(w,h,n){return Array.from({length:n},()=>({x:Math.random()*w,y:h+Math.random()*60,vx:(Math.random()-.5)*1.2,vy:-(0.6+Math.random()*1.8),size:7+Math.random()*16,hue:325+Math.random()*40,alpha:.45+Math.random()*.45,wobble:Math.random()*Math.PI*2,wobbleSpeed:.015+Math.random()*.015,rotation:(Math.random()-.5)*.5}))}
 function mkStreaks(w,h,n){return Array.from({length:n},()=>mkStreakP(w,h))}
 function mkStreakP(w,h){const go=Math.random()>.5;return{x:go?-50:w+50,y:h*(.35+Math.random()*.5),vx:go?(2+Math.random()*5):-(2+Math.random()*5),len:18+Math.random()*38,color:Math.random()>.5?'#fbbf24':'#f9fafb',alpha:.25+Math.random()*.45}}
@@ -95,7 +94,7 @@ function useParticleCanvas(type, count, themeId) {
     const canvas = ref.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
-    let w = 0, h = 0, particles = [], t = 0
+    let w = 0, h = 0, particles = []
 
     const resize = () => {
       w = canvas.width  = canvas.offsetWidth
@@ -124,7 +123,6 @@ function useParticleCanvas(type, count, themeId) {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
-      t += 0.016
 
       switch (type) {
         case 'fire':

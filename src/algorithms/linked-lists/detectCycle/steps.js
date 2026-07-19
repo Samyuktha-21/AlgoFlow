@@ -3,7 +3,7 @@ export function generateSteps(inputArray) {
   const nodes=vals.map((v,i)=>({id:i,value:v,next:i<vals.length-1?i+1:null}))
   // Create cycle: last node points back to index 2
   const cycleAt=2; nodes[nodes.length-1].next=cycleAt
-  const n=nodes.length, steps=[], visited=[]
+  const n=nodes.length, steps=[]
   let slow=0, fast=0
   const addStep=(desc,line)=>{
     const ptrs=[{nodeId:slow,label:'slow',color:'#4ade80'},{nodeId:fast,label:'fast',color:'#f97316'}]

@@ -1,4 +1,4 @@
-import { computeLayout, DEFAULT_GRAPH } from '../bfs/steps.js'
+import { computeLayout } from '../bfs/steps.js'
 const CYCLE_NODES=[{id:0,label:'0'},{id:1,label:'1'},{id:2,label:'2'},{id:3,label:'3'},{id:4,label:'4'}]
 const CYCLE_EDGES=[{from:0,to:1},{from:1,to:2},{from:2,to:3},{from:3,to:1},{from:0,to:4}]
 export function generateSteps(){

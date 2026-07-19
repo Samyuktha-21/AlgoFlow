@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const weights=[10,20,30], values=[60,100,120], W=50, n=weights.length
   const dp=Array.from({length:n+1},()=>new Array(W+1).fill(0))
   const computed2d=Array.from({length:n+1},()=>new Array(W+1).fill(false))

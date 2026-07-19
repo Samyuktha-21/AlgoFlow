@@ -71,7 +71,7 @@ function StarNode({ node, state }) {
   )
 }
 
-function ConstellationEdge({ from, to, isTraversed, isActive, edgeKey }) {
+function ConstellationEdge({ from, to, isTraversed }) {
   const color = isTraversed ? '#38BDF8' : 'rgba(96,165,250,.2)'
   const w = isTraversed ? 1.8 : 0.8
   const len = Math.sqrt((to.x-from.x)**2+(to.y-from.y)**2)

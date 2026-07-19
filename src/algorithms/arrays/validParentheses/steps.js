@@ -1,7 +1,7 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const s='({[]})'
   const chars=s.split(''), n=chars.length
-  const arr=chars.map((c,i)=>c.charCodeAt(0))
+  const arr=chars.map(c=>c.charCodeAt(0))
   const stack=[], steps=[]
   const addStep=(cur,valid,desc,line)=>steps.push({array:arr,current:cur,stack:[...stack.map(c=>c.charCodeAt(0))],result:valid?[]:[-1],highlight:[cur],description:desc,codeLine:line,extra:{char:chars[cur]||'',valid,stack:stack.join('')}})
   addStep(-1,true,'Valid Parentheses: check "'+s+'" using a stack',2)

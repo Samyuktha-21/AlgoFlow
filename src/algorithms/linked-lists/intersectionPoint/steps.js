@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   // L1: 1->2->3->6->7, L2: 4->5->6->7 (intersect at node id=6)
   const nodes=[{id:1,value:1,next:2},{id:2,value:2,next:3},{id:3,value:3,next:6},{id:4,value:4,next:5},{id:5,value:5,next:6},{id:6,value:6,next:7},{id:7,value:7,next:null}]
   const map={}; nodes.forEach(n=>{map[n.id]=n})

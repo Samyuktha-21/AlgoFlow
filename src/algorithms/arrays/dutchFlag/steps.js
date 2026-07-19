@@ -4,7 +4,7 @@ export function generateSteps(inputArray) {
   const n = arr.length, steps = []
   let lo=0, mid=0, hi=n-1
   const addStep=(action,desc,line)=>{
-    const highlight=[], sorted=[]
+    const sorted=[]
     for(let i=0;i<lo;i++) sorted.push(i)
     for(let i=hi+1;i<n;i++) sorted.push(i)
     steps.push({array:[...arr],pointers:[{index:lo,label:'lo'},{index:mid,label:'mid'},{index:hi,label:'hi'}],highlight:[mid],sorted,description:desc,codeLine:line})

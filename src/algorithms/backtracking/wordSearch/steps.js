@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const grid=[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]
   const word='ABCCED'
   const R=grid.length, C=grid[0].length

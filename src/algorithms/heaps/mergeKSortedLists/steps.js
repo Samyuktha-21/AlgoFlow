@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const lists=[[1,4,7],[2,5,8],[3,6,9]]
   const heap=[], result=[], steps=[]
   // Initialize heap with first elements

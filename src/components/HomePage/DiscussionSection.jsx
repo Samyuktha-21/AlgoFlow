@@ -203,7 +203,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
   const isOwner = currentUser?.uid === post.uid
 
   const handleLike = async () => {
-    if (!currentUser) { try { await signInWithGoogle() } catch (_) {}; return }
+    if (!currentUser) { try { await signInWithGoogle() } catch { /* sign-in dismissed */ }; return }
     if (!db) return
     await updateDoc(doc(db, 'discussions', post.id), {
       likes: increment(liked ? -1 : 1),

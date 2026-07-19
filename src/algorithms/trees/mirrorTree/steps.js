@@ -7,7 +7,7 @@ const NODES = [
   {id:5,value:5,left:null,right:null,parent:6},
   {id:7,value:7,left:null,right:null,parent:6}
 ]
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=JSON.parse(JSON.stringify(NODES))
   const map={}; nodes.forEach(n=>{map[n.id]=n})
   const steps=[], visited=[]

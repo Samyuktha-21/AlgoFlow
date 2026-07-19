@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const text='AABAACAADAABAABA', pattern='AABA'
   const n=text.length, m=pattern.length
   const arr=text.split('').map(c=>c.charCodeAt(0)-64)

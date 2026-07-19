@@ -102,7 +102,7 @@ export default function AlgorithmComments({ algorithmId, isLight }) {
   }
 
   const toggleLike = async (commentId, likedBy = []) => {
-    if (!user || !db) { if (!user) { try { await signInWithGoogle() } catch(_){} }; return }
+    if (!user || !db) { if (!user) { try { await signInWithGoogle() } catch { /* sign-in dismissed */ } }; return }
     const liked = likedBy.includes(user.uid)
     await updateDoc(doc(db, 'algorithmComments', algorithmId, 'comments', commentId), {
       likes:   liked ? Math.max(0, likedBy.length - 1) : likedBy.length + 1,

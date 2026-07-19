@@ -7,7 +7,7 @@ export function generateSteps(inputArray) {
   for(const n of set){
     if(!set.has(n-1)){
       addStep(arr.indexOf(n),[arr.indexOf(n)],''+n+' is sequence start ('+( n-1)+' not in set)',5)
-      let c=1; let cur=n
+      let c=1
       while(set.has(n+c)){addStep(arr.indexOf(n+c),[arr.indexOf(n+c)],''+( n+c)+' in set → streak='+( c+1),6);c++}
       if(c>best){best=c;bestStart=n}
       addStep(arr.indexOf(n),[],'Streak from '+n+': length='+c+'. Best='+best,7)

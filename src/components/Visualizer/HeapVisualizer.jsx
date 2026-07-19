@@ -28,7 +28,7 @@ export default function HeapVisualizer({ step }) {
     )
   }
 
-  const { array = [], heapSize, comparing = [], swapping = [], sorted = [], description, extra } = step
+  const { array = [], heapSize, comparing = [], swapping = [], sorted = [], description } = step
   const size  = heapSize ?? array.length
   const W     = 520
   const H     = (Math.floor(Math.log2(size)) + 1) * 70 + 50

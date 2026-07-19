@@ -20,7 +20,7 @@ function snowflakeCfg(w, h) {
     isFlake: Math.random() < 0.35,
   }))
 }
-function updateSnowflake(p, w, h, t) {
+function updateSnowflake(p, w, h) {
   p.wobble += p.wobbleSpeed
   p.x += p.vx + Math.sin(p.wobble) * 1.2
   p.y += p.vy
@@ -386,7 +386,7 @@ function starCfg(w, h, n = 160) {
     vy: (Math.random() - 0.5) * 0.04,
   }))
 }
-function updateStar(p, w, h, t) {
+function updateStar(p, w, h) {
   p.phase += p.speed
   p.currentAlpha = p.brightness * (0.3 + 0.7 * Math.abs(Math.sin(p.phase)))
   p.x += p.vx; p.y += p.vy

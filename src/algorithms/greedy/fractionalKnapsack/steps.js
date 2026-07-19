@@ -1,4 +1,4 @@
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const items=[{w:10,v:60},{w:20,v:100},{w:30,v:120}].map(it=>({...it,r:it.v/it.w}))
   items.sort((a,b)=>b.r-a.r)
   let W=50

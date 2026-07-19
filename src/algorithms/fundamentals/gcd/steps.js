@@ -1,6 +1,6 @@
 export function generateSteps(inputArray) {
   let a=inputArray&&inputArray.length>=2?inputArray[0]:48, b=inputArray&&inputArray.length>=2?inputArray[1]:18
-  const arr=[a,b], steps=[]
+  const steps=[]
   const addStep=(vals,desc,line)=>steps.push({array:[...vals],current:0,highlight:[0,1],sorted:[],pointers:[{index:0,label:'a'},{index:1,label:'b'}],description:desc,codeLine:line,extra:{gcd:vals[1]===0?vals[0]:'?'}})
   addStep([a,b],'Euclid GCD('+a+','+b+'): repeatedly compute a mod b',2)
   while(b!==0){

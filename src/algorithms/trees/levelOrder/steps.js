@@ -7,7 +7,7 @@ const NODES = [
   {id:5,value:5,left:null,right:null,parent:6},
   {id:7,value:7,left:null,right:null,parent:6}
 ]
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=[...NODES], steps=[], visited=[], order=[]
   const map={}; nodes.forEach(n=>{map[n.id]=n})
   const addStep=(cur,q,desc,line)=>steps.push({nodes:[...nodes],visited:[...visited],current:cur,highlighted:cur>=0?[cur]:[],traversalOrder:[...order],description:desc,codeLine:line,extra:{queue:q.slice()}})

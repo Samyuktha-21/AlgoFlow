@@ -1,5 +1,5 @@
 const NODES=[{id:1,value:1,left:2,right:3,parent:-1},{id:2,value:2,left:null,right:null,parent:1},{id:3,value:3,left:null,right:null,parent:1}]
-export function generateSteps(inputArray) {
+export function generateSteps() {
   const nodes=[...NODES], steps=[], visited=[], order=[]
   const addStep=(cur,desc,line)=>steps.push({nodes:[...nodes],visited:[...visited],current:cur,highlighted:cur>=0?[cur]:[],traversalOrder:[...order],description:desc,codeLine:line})
   addStep(-1,'Serialize: preorder traversal to string "1,2,N,N,3,N,N"',2)
