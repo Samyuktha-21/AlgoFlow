@@ -33,7 +33,7 @@
 | **Search** | Fuse.js |
 | **Backend / Realtime** | Firebase Authentication + Cloud Firestore |
 | **Icons** | Lucide React |
-| **Deployment** | Vercel |
+| **Deployment** | Vercel — auto-deploys from `main` on every push |
 
 ---
 
