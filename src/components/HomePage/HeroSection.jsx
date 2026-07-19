@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Search, ChevronDown } from 'lucide-react'
 import HeroAlgoCycle from './HeroAlgoCycle'
 import LiveStats from './LiveStats'
@@ -5,6 +6,36 @@ import { openSearch } from '../Search/SearchTrigger'
 
 const DISPLAY = "'General Sans', 'Inter', sans-serif"
 const MONO = "'IBM Plex Mono', monospace"
+
+/* Cycling examples typed into the search placeholder */
+const SEARCH_EXAMPLES = [
+  'Binary Search', 'Quick Sort', "Dijkstra's Algorithm", 'N-Queens',
+  'LRU Cache', 'Merge Sort', 'A* Pathfinding', 'Dynamic Programming',
+]
+
+function useTypewriter(words, typeMs = 65, holdMs = 1500) {
+  const [text, setText] = useState('')
+  useEffect(() => {
+    let word = 0, char = 0, deleting = false, timer
+    const tick = () => {
+      const w = words[word]
+      if (!deleting) {
+        char++
+        setText(w.slice(0, char))
+        if (char === w.length) { deleting = true; timer = setTimeout(tick, holdMs); return }
+        timer = setTimeout(tick, typeMs)
+      } else {
+        char--
+        setText(w.slice(0, char))
+        if (char === 0) { deleting = false; word = (word + 1) % words.length }
+        timer = setTimeout(tick, 28)
+      }
+    }
+    timer = setTimeout(tick, 600)
+    return () => clearTimeout(timer)
+  }, [words, typeMs, holdMs])
+  return text
+}
 
 const STATS = [
   { value: '124', label: 'Algorithms'   },
@@ -14,6 +45,7 @@ const STATS = [
 ]
 
 export default function HeroSection() {
+  const typed = useTypewriter(SEARCH_EXAMPLES)
   const scrollToCategories = () => {
     document.getElementById('category-grid')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -43,19 +75,28 @@ export default function HeroSection() {
           </p>
 
           {/* search */}
-          <div style={{ position: 'relative', maxWidth: 440, marginBottom: '2rem' }}>
-            <Search size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#6b6b6b', pointerEvents: 'none' }} />
-            <input
-              className="hero-search"
-              readOnly onFocus={openSearch} onClick={openSearch}
-              placeholder="search algorithms…" aria-label="Search algorithms"
-              style={{
-                width: '100%', borderRadius: 8,
-                padding: '0.8rem 1rem 0.8rem 2.75rem', fontFamily: MONO, fontSize: '0.88rem', color: '#fff',
-                cursor: 'pointer',
-              }}
-            />
-            <kbd style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', fontFamily: MONO, fontSize: '0.7rem', color: '#6b6b6b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 3, padding: '1px 5px', pointerEvents: 'none' }}>⌘K</kbd>
+          <div style={{ maxWidth: 480, marginBottom: '2rem' }}>
+            <div style={{
+              fontFamily: MONO, fontSize: '0.7rem', fontWeight: 700, color: '#ff9433',
+              letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '0.5rem',
+              display: 'flex', alignItems: 'center', gap: '0.4rem',
+            }}>
+              <span aria-hidden="true">⚡</span> Don't scroll — search all 124 instantly
+            </div>
+            <div style={{ position: 'relative' }}>
+              <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#f5811f', pointerEvents: 'none' }} />
+              <input
+                className="hero-search"
+                readOnly onFocus={openSearch} onClick={openSearch}
+                placeholder={`Try "${typed}"`} aria-label="Search algorithms"
+                style={{
+                  width: '100%', borderRadius: 10,
+                  padding: '0.95rem 1rem 0.95rem 2.9rem', fontFamily: MONO, fontSize: '0.92rem', color: '#fff',
+                  cursor: 'pointer',
+                }}
+              />
+              <kbd style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', fontFamily: MONO, fontSize: '0.7rem', color: '#ff9433', border: '1px solid rgba(245,129,31,0.35)', borderRadius: 3, padding: '1px 5px', pointerEvents: 'none' }}>⌘K</kbd>
+            </div>
           </div>
 
           {/* stats */}
