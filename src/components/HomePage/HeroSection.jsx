@@ -71,9 +71,6 @@ export default function HeroSection() {
             ))}
           </div>
 
-          {/* live community counters — realtime from Firestore */}
-          <LiveStats />
-
           {/* scroll-down indicator */}
           <div
             className="scroll-indicator"
@@ -93,6 +90,9 @@ export default function HeroSection() {
           <HeroAlgoCycle />
         </div>
       </div>
+
+      {/* live community counters — full-width realtime band from Firestore */}
+      <LiveStats />
     </section>
   )
 }
