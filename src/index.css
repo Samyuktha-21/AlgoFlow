@@ -194,6 +194,31 @@ input::placeholder, textarea::placeholder {
 }
 .algo-chip:hover { background: rgba(245,129,31,0.18); border-color: rgba(245,129,31,0.5); }
 
+/* marquee strip: static at rest, scrolls through every algorithm on card hover */
+.algo-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+@keyframes algo-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.algo-marquee-track {
+  display: flex;
+  gap: 0.4rem;
+  width: max-content;
+  animation: algo-marquee-scroll linear infinite;
+  animation-play-state: paused;
+}
+.category-card:hover .algo-marquee-track,
+.algo-marquee-track:focus-within {
+  animation-play-state: running;
+}
+@media (prefers-reduced-motion: reduce) {
+  .algo-marquee-track { animation: none; }
+}
+
 /* navbar buttons — subtle lift + brightness */
 .nav-btn { transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease; }
 .nav-btn:hover { transform: translateY(-1px); filter: brightness(1.12); }

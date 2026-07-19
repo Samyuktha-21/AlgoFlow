@@ -1,13 +1,24 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { CARD_ANIMATIONS } from './CardAnimations'
+import registry from '../../data/algorithmRegistry.json'
 
 const DISPLAY = "'General Sans', 'Inter', sans-serif"
 const ACCENT = '#f5811f'
 
+/* Proper display names from the registry ("twoSum" → "Two Sum") */
+const NAMES = {}
+Object.values(registry).forEach(list =>
+  list.forEach(a => { NAMES[a.id] = a.name })
+)
+const displayName = id =>
+  NAMES[id] || id.replace(/([A-Z])/g, ' $1').replace(/^./, c => c.toUpperCase()).trim()
+
 export default function CategoryCard({ category }) {
   const navigate = useNavigate()
   const AnimComp = CARD_ANIMATIONS[category.theme]
+  /* duplicated list gives the marquee a seamless loop */
+  const marqueeAlgos = [...category.algorithms, ...category.algorithms]
 
   return (
     <div className="category-card">
@@ -37,14 +48,18 @@ export default function CategoryCard({ category }) {
             {category.description}
           </p>
 
-          {/* sample algorithm chips — clickable, independent hover */}
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '0.75rem' }}>
-            {category.algorithms.slice(0, 2).map(id => (
-              <span key={id} className="algo-chip"
-                onClick={e => { e.preventDefault(); e.stopPropagation(); navigate(`/algorithm/${category.id}/${id}`) }}>
-                {id.replace(/([A-Z])/g, ' $1').trim().split(' ').slice(0, 2).join(' ')}
-              </span>
-            ))}
+          {/* algorithm chips — marquee scrolls through the whole category on hover */}
+          <div className="algo-marquee" style={{ marginTop: '0.75rem' }}>
+            <div className="algo-marquee-track"
+              style={{ animationDuration: `${category.algorithms.length * 2.2}s` }}>
+              {marqueeAlgos.map((id, i) => (
+                <span key={`${id}-${i}`} className="algo-chip"
+                  aria-hidden={i >= category.algorithms.length}
+                  onClick={e => { e.preventDefault(); e.stopPropagation(); navigate(`/algorithm/${category.id}/${id}`) }}>
+                  {displayName(id)}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* arrow */}
