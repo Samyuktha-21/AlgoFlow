@@ -3,23 +3,49 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ── Live hero counters ─────────────────────────────────────
-    // One shared doc, readable by everyone, writable only via the
-    // whitelisted counter fields (no arbitrary data, no deletes).
+    // One shared doc, readable by everyone. Writes are restricted to
+    // the whitelisted counter fields AND each touched counter may only
+    // move up by exactly 1 per write — no resets, no giant fake jumps.
     match /stats/site {
+      function siteKeysOk() {
+        return request.resource.data.keys().hasOnly([
+          'visits', 'logins', 'algoViews', 'learners',
+          'vizRuns', 'learningMinutes', 'interviewViews', 'updatedAt'
+        ]);
+      }
+      function isOne(f) {
+        return !(f in request.resource.data) || request.resource.data[f] == 1;
+      }
+      function bumpsBy1(f) {
+        return !request.resource.data.diff(resource.data).affectedKeys().hasAny([f])
+          || request.resource.data[f] == resource.data.get(f, 0) + 1;
+      }
       allow read: if true;
-      allow create, update: if request.resource.data.keys().hasOnly([
-        'visits', 'logins', 'algoViews', 'learners',
-        'vizRuns', 'learningMinutes', 'interviewViews', 'updatedAt'
-      ]);
+      allow create: if siteKeysOk()
+        && isOne('visits') && isOne('logins') && isOne('algoViews')
+        && isOne('learners') && isOne('vizRuns') && isOne('learningMinutes')
+        && isOne('interviewViews');
+      allow update: if siteKeysOk()
+        && bumpsBy1('visits') && bumpsBy1('logins') && bumpsBy1('algoViews')
+        && bumpsBy1('learners') && bumpsBy1('vizRuns') && bumpsBy1('learningMinutes')
+        && bumpsBy1('interviewViews');
     }
 
     // ── Per-algorithm view counters ────────────────────────────
     // One doc per algorithm: algoStats/{categoryId}__{algorithmId}.
+    // Same protection: views may only ever increase by 1, and the
+    // id fields must match the document's own id.
     match /algoStats/{algoId} {
+      function algoKeysOk() {
+        return request.resource.data.keys().hasOnly([
+          'views', 'categoryId', 'algorithmId', 'updatedAt'
+        ])
+        && algoId == request.resource.data.categoryId + '__' + request.resource.data.algorithmId;
+      }
       allow read: if true;
-      allow create, update: if request.resource.data.keys().hasOnly([
-        'views', 'categoryId', 'algorithmId', 'updatedAt'
-      ]);
+      allow create: if algoKeysOk() && request.resource.data.views == 1;
+      allow update: if algoKeysOk()
+        && request.resource.data.views == resource.data.get('views', 0) + 1;
     }
 
     // ── User profiles ──────────────────────────────────────────
