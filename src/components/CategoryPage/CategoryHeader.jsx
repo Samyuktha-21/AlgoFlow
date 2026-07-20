@@ -126,7 +126,7 @@ export default function CategoryHeader({ category }) {
           {[
             { value: category.count,   label: 'Total',     color: t.accent },
             { value: liveCount || '–', label: 'Live',      color: t.light ? '#059669' : '#4ade80' },
-            { value: 'Java · C · C++', label: 'Languages', color: t.light ? t.desc : 'rgba(255,255,255,.75)' },
+            { value: 'Java · C · C++ · Python', label: 'Languages', color: t.light ? t.desc : 'rgba(255,255,255,.75)' },
           ].map((stat, i, arr) => (
             <div key={stat.label} className="flex items-center gap-10">
               <div className="text-center">

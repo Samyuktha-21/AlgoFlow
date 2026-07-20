@@ -4,6 +4,7 @@ const LANGUAGES = [
   { id: 'java', label: 'Java' },
   { id: 'c',    label: 'C'    },
   { id: 'cpp',  label: 'C++'  },
+  { id: 'python', label: 'Python' },
 ]
 
 export default function LanguageSwitcher({ selected, onChange }) {

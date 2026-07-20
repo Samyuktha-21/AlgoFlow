@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint binarySearch(const vector<int>& a,int lo,int hi,int t){while(lo<=hi){int m=lo+(hi-lo)/2;if(a[m]==t)return m;if(a[m]<t)lo=m+1;else hi=m-1;}return -1;}\nint expSearch(const vector<int>& a,int t){int n=a.size();if(a[0]==t)return 0;int i=1;while(i<n&&a[i]<=t)i*=2;return binarySearch(a,i/2,min(i,n-1),t);}\nint main(){vector<int> a={2,3,4,10,40};cout<<expSearch(a,10)<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def binary_search(a, target, low, high):\n    while low <= high:\n        mid = (low + high) // 2\n        if a[mid] == target:\n            return mid\n        elif a[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\ndef exponential_search(a, target):\n    if a[0] == target:\n        return 0\n    bound = 1\n    while bound < len(a) and a[bound] <= target:\n        bound *= 2\n    return binary_search(a, target, bound // 2, min(bound, len(a) - 1))\n\nprint(exponential_search([2, 3, 4, 10, 40, 45, 60], 10))",
+    "lineKeys": {}
   }
 }

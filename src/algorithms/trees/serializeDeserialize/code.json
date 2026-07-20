@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <sstream>\n#include <queue>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nstring serialize(Node*r){if(!r)return \"N,\";return to_string(r->v)+\",\"+serialize(r->l)+serialize(r->r);}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef serialize(root):\n    parts = []\n    def dfs(node):\n        if not node:\n            parts.append(\"#\")\n            return\n        parts.append(str(node.val))\n        dfs(node.left)\n        dfs(node.right)\n    dfs(root)\n    return \",\".join(parts)\n\ndef deserialize(data):\n    tokens = iter(data.split(\",\"))\n    def build():\n        val = next(tokens)\n        if val == \"#\":\n            return None\n        node = Node(int(val))\n        node.left = build()\n        node.right = build()\n        return node\n    return build()\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.right.left, root.right.right = Node(4), Node(5)\ns = serialize(root)\nprint(s)\nprint(serialize(deserialize(s)) == s)",
+    "lineKeys": {}
   }
 }

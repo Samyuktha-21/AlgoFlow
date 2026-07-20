@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <iostream>\nusing namespace std;\nvoid rabinKarp(string t,string p){int n=t.size(),m=p.size(),B=256,M=101,h=1,ph=0,th=0;\nfor(int i=0;i<m-1;i++)h=h*B%M;for(int i=0;i<m;i++){ph=(B*ph+p[i])%M;th=(B*th+t[i])%M;}\nfor(int i=0;i<=n-m;i++){if(ph==th&&t.substr(i,m)==p)cout<<\"Found at \"<<i<<endl;if(i<n-m){th=(B*(th-t[i]*h)+t[i+m])%M;if(th<0)th+=M;}}}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def rabin_karp(text, pat, base=256, mod=101):\n    n, m = len(text), len(pat)\n    if m > n:\n        return []\n    high = pow(base, m - 1, mod)\n    ph = th = 0\n    for i in range(m):\n        ph = (base * ph + ord(pat[i])) % mod\n        th = (base * th + ord(text[i])) % mod\n    hits = []\n    for i in range(n - m + 1):\n        if ph == th and text[i:i+m] == pat:\n            hits.append(i)\n        if i < n - m:\n            th = (base * (th - ord(text[i]) * high) + ord(text[i+m])) % mod\n    return hits\n\nprint(rabin_karp(\"geeks for geeks\", \"geek\"))",
+    "lineKeys": {}
   }
 }

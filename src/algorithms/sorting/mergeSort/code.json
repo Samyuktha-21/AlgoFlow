@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid merge(vector<int>& arr, int l, int m, int r) {\n    vector<int> L(arr.begin()+l, arr.begin()+m+1), R(arr.begin()+m+1, arr.begin()+r+1);\n    int i=0,j=0,k=l;\n    while(i<(int)L.size()&&j<(int)R.size()) arr[k++]=(L[i]<=R[j])?L[i++]:R[j++];\n    while(i<(int)L.size()) arr[k++]=L[i++];\n    while(j<(int)R.size()) arr[k++]=R[j++];\n}\nvoid mergeSort(vector<int>& arr, int l, int r) {\n    if(l<r){int m=l+(r-l)/2;mergeSort(arr,l,m);mergeSort(arr,m+1,r);merge(arr,l,m,r);}\n}\nint main(){vector<int> arr={38,27,43,3,9,82,10};mergeSort(arr,0,6);for(int v:arr)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def merge_sort(a):\n    if len(a) <= 1:\n        return a\n    mid = len(a) // 2\n    left = merge_sort(a[:mid])\n    right = merge_sort(a[mid:])\n    merged, i, j = [], 0, 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            merged.append(left[i]); i += 1\n        else:\n            merged.append(right[j]); j += 1\n    return merged + left[i:] + right[j:]\n\nprint(merge_sort([38, 27, 43, 3, 9, 82, 10]))",
+    "lineKeys": {}
   }
 }

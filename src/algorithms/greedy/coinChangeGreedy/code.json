@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid makeChange(vector<int>&coins,int a){for(int c:coins){cout<<c<<\": \"<<a/c<<\", \";a%=c;}cout<<endl;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def coin_change_greedy(coins, amount):\n    coins.sort(reverse=True)\n    result = []\n    for coin in coins:\n        while amount >= coin:\n            amount -= coin\n            result.append(coin)\n    return result if amount == 0 else None\n\nprint(coin_change_greedy([1, 2, 5, 10, 20, 50, 100], 93))",
+    "lineKeys": {}
   }
 }

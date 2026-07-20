@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid rotate(vector<int>&a,int k){int n=a.size();k%=n;reverse(a.begin(),a.end());reverse(a.begin(),a.begin()+k);reverse(a.begin()+k,a.end());}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def rotate(a, k):\n    n = len(a)\n    k %= n\n    def reverse(lo, hi):\n        while lo < hi:\n            a[lo], a[hi] = a[hi], a[lo]\n            lo += 1; hi -= 1\n    reverse(0, n - 1)\n    reverse(0, k - 1)\n    reverse(k, n - 1)\n    return a\n\nprint(rotate([1, 2, 3, 4, 5, 6, 7], 3))",
+    "lineKeys": {}
   }
 }

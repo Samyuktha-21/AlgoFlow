@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache{int cap;list<pair<int,int>>lst;unordered_map<int,list<pair<int,int>>::iterator>mp;\nLRUCache(int c):cap(c){}\nint get(int k){if(!mp.count(k))return-1;lst.splice(lst.begin(),lst,mp[k]);return mp[k]->second;}\nvoid put(int k,int v){if(mp.count(k)){lst.splice(lst.begin(),lst,mp[k]);mp[k]->second=v;return;}if((int)lst.size()==cap){mp.erase(lst.back().first);lst.pop_back();}lst.push_front({k,v});mp[k]=lst.begin();}};",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class LRUCache:\n    \"\"\"Doubly linked list + dict, O(1) get and put.\"\"\"\n    class Node:\n        def __init__(self, key=0, val=0):\n            self.key, self.val = key, val\n            self.prev = self.next = None\n\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.map = {}\n        self.head, self.tail = self.Node(), self.Node()\n        self.head.next, self.tail.prev = self.tail, self.head\n\n    def _remove(self, node):\n        node.prev.next, node.next.prev = node.next, node.prev\n\n    def _add_front(self, node):\n        node.next, node.prev = self.head.next, self.head\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key):\n        if key not in self.map:\n            return -1\n        node = self.map[key]\n        self._remove(node)\n        self._add_front(node)\n        return node.val\n\n    def put(self, key, value):\n        if key in self.map:\n            self._remove(self.map[key])\n        node = self.Node(key, value)\n        self.map[key] = node\n        self._add_front(node)\n        if len(self.map) > self.capacity:\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.map[lru.key]\n\ncache = LRUCache(2)\ncache.put(1, 1)\ncache.put(2, 2)\nprint(cache.get(1))\ncache.put(3, 3)   # evicts key 2\nprint(cache.get(2))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <algorithm>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nvoid mirror(Node* n){if(!n)return;swap(n->l,n->r);mirror(n->l);mirror(n->r);}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef mirror(root):\n    if root:\n        root.left, root.right = mirror(root.right), mirror(root.left)\n    return root\n\ndef inorder(node, out):\n    if node:\n        inorder(node.left, out)\n        out.append(node.val)\n        inorder(node.right, out)\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.left.left, root.left.right = Node(4), Node(5)\nbefore = []; inorder(root, before)\nmirror(root)\nafter = []; inorder(root, after)\nprint(before, \"->\", after)",
+    "lineKeys": {}
   }
 }

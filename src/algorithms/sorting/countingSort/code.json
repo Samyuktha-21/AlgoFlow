@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid countingSort(vector<int>& arr) {\n    int n=arr.size(), mx=*max_element(arr.begin(),arr.end());\n    vector<int> cnt(mx+1,0), out(n);\n    for(int v:arr) cnt[v]++;\n    for(int i=1;i<=mx;i++) cnt[i]+=cnt[i-1];\n    for(int i=n-1;i>=0;i--) out[--cnt[arr[i]]]=arr[i];\n    arr=out;\n}\nint main(){vector<int> a={4,2,2,8,3,3,1};countingSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def counting_sort(a):\n    if not a:\n        return a\n    lo, hi = min(a), max(a)\n    count = [0] * (hi - lo + 1)\n    for x in a:\n        count[x - lo] += 1\n    result = []\n    for i, c in enumerate(count):\n        result.extend([i + lo] * c)\n    return result\n\nprint(counting_sort([4, 2, 2, 8, 3, 3, 1]))",
+    "lineKeys": {}
   }
 }

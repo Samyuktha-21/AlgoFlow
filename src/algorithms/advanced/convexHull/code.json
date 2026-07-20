@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef pair<long long,long long> P;\nlong long cross(P O,P A,P B){return(A.first-O.first)*(B.second-O.second)-(A.second-O.second)*(B.first-O.first);}\nvector<P> convexHull(vector<P> pts){\n    int n=pts.size(),k=0;\n    sort(pts.begin(),pts.end());\n    vector<P> h(2*n);\n    for(int i=0;i<n;i++){while(k>=2&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    for(int i=n-2,t=k+1;i>=0;i--){while(k>=t&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    return vector<P>(h.begin(),h.begin()+k-1);\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def cross(o, a, b):\n    return (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0])\n\ndef convex_hull(points):\n    pts = sorted(set(points))\n    if len(pts) <= 2:\n        return pts\n    lower, upper = [], []\n    for p in pts:\n        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:\n            lower.pop()\n        lower.append(p)\n    for p in reversed(pts):\n        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:\n            upper.pop()\n        upper.append(p)\n    return lower[:-1] + upper[:-1]\n\nprint(convex_hull([(0,0), (1,1), (2,2), (2,0), (2,4), (3,3), (0,3)]))",
+    "lineKeys": {}
   }
 }

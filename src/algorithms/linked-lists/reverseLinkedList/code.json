@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\nusing namespace std;\nstruct Node{int val;Node* next;Node(int v):val(v),next(nullptr){}};\nNode* reverse(Node* head){Node *prev=nullptr,*curr=head,*nxt;\nwhile(curr){nxt=curr->next;curr->next=prev;prev=curr;curr=nxt;}return prev;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef reverse_list(head):\n    prev = None\n    while head:\n        nxt = head.next\n        head.next = prev\n        prev = head\n        head = nxt\n    return prev\n\nhead = Node(1)\ncur = head\nfor v in [2, 3, 4, 5]:\n    cur.next = Node(v)\n    cur = cur.next\nhead = reverse_list(head)\nout = []\nwhile head:\n    out.append(head.val)\n    head = head.next\nprint(out)",
+    "lineKeys": {}
   }
 }

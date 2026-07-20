@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\nusing namespace std;\nint main(){for(int i=1;i<=20;i++){if(i%15==0)cout<<\"FizzBuzz\\n\";else if(i%3==0)cout<<\"Fizz\\n\";else if(i%5==0)cout<<\"Buzz\\n\";else cout<<i<<\"\\n\";}return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def fizz_buzz(n):\n    for i in range(1, n + 1):\n        if i % 15 == 0:\n            print(\"FizzBuzz\")\n        elif i % 3 == 0:\n            print(\"Fizz\")\n        elif i % 5 == 0:\n            print(\"Buzz\")\n        else:\n            print(i)\n\nfizz_buzz(15)",
+    "lineKeys": {}
   }
 }

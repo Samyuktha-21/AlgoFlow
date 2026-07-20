@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "struct Node{int v;Node*next,*child;};\nNode* flatten(Node*h){if(!h)return h;Node*c=h;while(c){if(c->child){Node*ch=c->child,*nx=c->next;c->next=ch;Node*tail=flatten(ch);while(tail->next)tail=tail->next;tail->next=nx;c->child=nullptr;}c=c->next;}return h;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next, self.child = val, None, None\n\ndef flatten(head):\n    cur = head\n    while cur:\n        if cur.child:\n            nxt = cur.next\n            cur.next = cur.child\n            cur.child = None\n            tail = cur.next\n            while tail.next:\n                tail = tail.next\n            tail.next = nxt\n        cur = cur.next\n    return head\n\na, b, c, d = Node(1), Node(2), Node(3), Node(4)\na.next, b.next = b, c\nb.child = d           # 1 -> 2 -> 3, with child 4 under 2\nhead = flatten(a)\nout = []\nwhile head:\n    out.append(head.val)\n    head = head.next\nprint(out)",
+    "lineKeys": {}
   }
 }

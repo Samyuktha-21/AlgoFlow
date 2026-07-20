@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\npair<int,int> scheduleJobs(vector<int>&p,vector<int>&d){int n=p.size(),mx=*max_element(d.begin(),d.end());\nvector<int>idx(n),slot(mx+1,-1);iota(idx.begin(),idx.end(),0);sort(idx.begin(),idx.end(),[&](int a,int b){return p[a]>p[b];});\nint profit=0,cnt=0;for(int i:idx)for(int j=d[i];j>=1;j--)if(slot[j]==-1){slot[j]=i;profit+=p[i];cnt++;break;}return{cnt,profit};}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def job_sequencing(jobs):\n    jobs.sort(key=lambda j: j[2], reverse=True)  # by profit\n    max_deadline = max(j[1] for j in jobs)\n    slots = [None] * (max_deadline + 1)\n    profit = 0\n    for job_id, deadline, p in jobs:\n        for t in range(min(deadline, max_deadline), 0, -1):\n            if slots[t] is None:\n                slots[t] = job_id\n                profit += p\n                break\n    return [s for s in slots if s], profit\n\njobs = [('a', 2, 100), ('b', 1, 19), ('c', 2, 27), ('d', 1, 25), ('e', 3, 15)]\norder, profit = job_sequencing(jobs)\nprint(order, \"profit =\", profit)",
+    "lineKeys": {}
   }
 }

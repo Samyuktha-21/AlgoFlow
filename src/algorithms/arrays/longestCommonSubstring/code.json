@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint lcsSubstr(string a,string b){int m=a.size(),n=b.size(),mx=0;vector<vector<int>>dp(m+1,vector<int>(n+1,0));\nfor(int i=1;i<=m;i++)for(int j=1;j<=n;j++){if(a[i-1]==b[j-1]){dp[i][j]=dp[i-1][j-1]+1;mx=max(mx,dp[i][j]);}}return mx;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def longest_common_substring(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    best, end = 0, 0\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = dp[i-1][j-1] + 1\n                if dp[i][j] > best:\n                    best, end = dp[i][j], i\n    return s1[end - best:end]\n\nprint(longest_common_substring(\"abcdxyz\", \"xyzabcd\"))",
+    "lineKeys": {}
   }
 }

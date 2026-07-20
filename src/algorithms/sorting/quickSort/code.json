@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint partition(vector<int>& a, int l, int h) {\n    int pivot=a[h], i=l-1;\n    for(int j=l;j<h;j++) if(a[j]<=pivot) swap(a[++i],a[j]);\n    swap(a[i+1],a[h]); return i+1;\n}\nvoid quickSort(vector<int>& a,int l,int h){if(l<h){int p=partition(a,l,h);quickSort(a,l,p-1);quickSort(a,p+1,h);}}\nint main(){vector<int> a={10,7,8,9,1,5};quickSort(a,0,5);for(int v:a)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def quick_sort(a, low=0, high=None):\n    if high is None:\n        high = len(a) - 1\n    if low < high:\n        pivot = a[high]\n        i = low - 1\n        for j in range(low, high):\n            if a[j] <= pivot:\n                i += 1\n                a[i], a[j] = a[j], a[i]\n        a[i + 1], a[high] = a[high], a[i + 1]\n        quick_sort(a, low, i)\n        quick_sort(a, i + 2, high)\n    return a\n\nprint(quick_sort([10, 7, 8, 9, 1, 5]))",
+    "lineKeys": {}
   }
 }

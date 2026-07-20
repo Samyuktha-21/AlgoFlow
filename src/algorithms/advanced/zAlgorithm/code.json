@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <vector>\nusing namespace std;\nvector<int> zFunc(string s){int n=s.size(),l=0,r=0;vector<int>z(n);z[0]=n;\nfor(int i=1;i<n;i++){if(i<r)z[i]=min(r-i,z[i-l]);while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i];}}return z;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def z_function(s):\n    n = len(s)\n    z = [0] * n\n    z[0] = n\n    l = r = 0\n    for i in range(1, n):\n        if i < r:\n            z[i] = min(r - i, z[i - l])\n        while i + z[i] < n and s[z[i]] == s[i + z[i]]:\n            z[i] += 1\n        if i + z[i] > r:\n            l, r = i, i + z[i]\n    return z\n\ndef z_search(text, pat):\n    combo = pat + \"$\" + text\n    z = z_function(combo)\n    m = len(pat)\n    return [i - m - 1 for i in range(m + 1, len(combo)) if z[i] == m]\n\nprint(z_search(\"ababcababcabc\", \"abc\"))",
+    "lineKeys": {}
   }
 }

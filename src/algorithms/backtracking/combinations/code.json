@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid combine(int start,int n,int k,vector<int>&cur,vector<vector<int>>&res){if((int)cur.size()==k){res.push_back(cur);return;}for(int i=start;i<=n-(k-cur.size())+1;i++){cur.push_back(i);combine(i+1,n,k,cur,res);cur.pop_back();}}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def combine(n, k):\n    result = []\n    def backtrack(start, path):\n        if len(path) == k:\n            result.append(path[:])\n            return\n        for i in range(start, n + 1):\n            path.append(i)\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(1, [])\n    return result\n\nprint(combine(4, 2))",
+    "lineKeys": {}
   }
 }

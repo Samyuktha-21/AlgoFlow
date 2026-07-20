@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "struct Node{int v;Node*next;};\nNode* findMiddle(Node*h){Node*s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;}return s;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef find_middle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow.val\n\nhead = Node(1)\ncur = head\nfor v in [2, 3, 4, 5]:\n    cur.next = Node(v)\n    cur = cur.next\nprint(find_middle(head))",
+    "lineKeys": {}
   }
 }

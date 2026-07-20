@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid permute(vector<int>&nums,vector<int>&cur,vector<bool>&used,vector<vector<int>>&res){\nif(cur.size()==nums.size()){res.push_back(cur);return;}\nfor(int i=0;i<(int)nums.size();i++)if(!used[i]){used[i]=true;cur.push_back(nums[i]);permute(nums,cur,used,res);used[i]=false;cur.pop_back();}}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def permute(nums):\n    result = []\n    def backtrack(path, remaining):\n        if not remaining:\n            result.append(path[:])\n            return\n        for i in range(len(remaining)):\n            path.append(remaining[i])\n            backtrack(path, remaining[:i] + remaining[i+1:])\n            path.pop()\n    backtrack([], nums)\n    return result\n\nprint(permute([1, 2, 3]))",
+    "lineKeys": {}
   }
 }

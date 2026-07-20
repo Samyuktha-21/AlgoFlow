@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\ndouble fracKnapsack(int W,vector<int>&wt,vector<int>&v){int n=wt.size();\nvector<pair<double,int>>items;for(int i=0;i<n;i++)items.push_back({(double)v[i]/wt[i],i});\nsort(items.rbegin(),items.rend());double tot=0;\nfor(auto[r,i]:items){if(W>=wt[i]){tot+=v[i];W-=wt[i];}else{tot+=r*W;break;}}return tot;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def fractional_knapsack(items, capacity):\n    items.sort(key=lambda it: it[1] / it[0], reverse=True)  # by value/weight\n    total = 0.0\n    for weight, value in items:\n        if capacity >= weight:\n            capacity -= weight\n            total += value\n        else:\n            total += value * capacity / weight\n            break\n    return total\n\nitems = [(10, 60), (20, 100), (30, 120)]  # (weight, value)\nprint(fractional_knapsack(items, 50))",
+    "lineKeys": {}
   }
 }

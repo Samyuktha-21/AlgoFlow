@@ -133,7 +133,7 @@ export default function Category() {
             {showBadges && (
               <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
                 <StatBadge value={category.count} label="ALGORITHMS" contrast={contrast} />
-                <StatBadge value="3" label="LANGUAGES" contrast={contrast} />
+                <StatBadge value="4" label="LANGUAGES" contrast={contrast} />
               </div>
             )}
           </div>

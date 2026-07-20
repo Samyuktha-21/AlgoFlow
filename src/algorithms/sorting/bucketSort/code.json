@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid bucketSort(vector<float>& arr) {\n    int n=arr.size(); vector<vector<float>> buckets(n);\n    for(float v:arr) buckets[(int)(n*v)].push_back(v);\n    for(auto& b:buckets) sort(b.begin(),b.end());\n    int idx=0; for(auto& b:buckets) for(float v:b) arr[idx++]=v;\n}\nint main(){vector<float> a={0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};bucketSort(a);for(float v:a)printf(\"%.3f \",v);return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def bucket_sort(a):\n    if not a:\n        return a\n    n = len(a)\n    lo, hi = min(a), max(a)\n    buckets = [[] for _ in range(n)]\n    for x in a:\n        idx = int((x - lo) / (hi - lo + 1) * n)\n        buckets[idx].append(x)\n    result = []\n    for bucket in buckets:\n        result.extend(sorted(bucket))\n    return result\n\nprint(bucket_sort([0.42, 0.32, 0.23, 0.52, 0.25, 0.47]))",
+    "lineKeys": {}
   }
 }

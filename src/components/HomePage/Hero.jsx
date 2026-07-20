@@ -98,7 +98,7 @@ export default function Hero() {
           {[
             { value: '124',  label: 'Algorithms'    },
             { value: '14',   label: 'Categories'    },
-            { value: '3',    label: 'Languages'     },
+            { value: '4',    label: 'Languages'     },
             { value: '50+',  label: 'Interview Qs'  },
           ].map(stat => (
             <div key={stat.label} className="text-center">

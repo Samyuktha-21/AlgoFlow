@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "int superEggDrop(int k,int n){vector<vector<int>>dp(n+1,vector<int>(k+1,0));int m=0;while(dp[m][k]<n){m++;for(int j=1;j<=k;j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;}return m;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def egg_drop(eggs, floors):\n    dp = [[0] * (floors + 1) for _ in range(eggs + 1)]\n    for j in range(1, floors + 1):\n        dp[1][j] = j\n    for i in range(2, eggs + 1):\n        for j in range(1, floors + 1):\n            dp[i][j] = float('inf')\n            for x in range(1, j + 1):\n                worst = 1 + max(dp[i-1][x-1], dp[i][j-x])\n                dp[i][j] = min(dp[i][j], worst)\n    return dp[eggs][floors]\n\nprint(egg_drop(2, 10))",
+    "lineKeys": {}
   }
 }

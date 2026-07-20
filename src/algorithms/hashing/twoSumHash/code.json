@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nvector<int> twoSum(vector<int>&a,int t){unordered_map<int,int>m;for(int i=0;i<(int)a.size();i++){int c=t-a[i];if(m.count(c))return{m[c],i};m[a[i]]=i;}return{-1,-1};}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return [-1, -1]\n\nprint(two_sum([3, 2, 4], 6))",
+    "lineKeys": {}
   }
 }

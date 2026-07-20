@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nint checkH(Node*n){if(!n)return 0;int l=checkH(n->l);if(l==-1)return-1;\nint r=checkH(n->r);if(r==-1)return-1;if(abs(l-r)>1)return-1;return 1+max(l,r);}\nbool isBalanced(Node*root){return checkH(root)!=-1;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef is_balanced(root):\n    def check(node):\n        if not node:\n            return 0\n        left = check(node.left)\n        if left == -1:\n            return -1\n        right = check(node.right)\n        if right == -1 or abs(left - right) > 1:\n            return -1\n        return 1 + max(left, right)\n    return check(root) != -1\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.left.left = Node(4)\nprint(is_balanced(root))\nroot.left.left.left = Node(5)\nprint(is_balanced(root))",
+    "lineKeys": {}
   }
 }

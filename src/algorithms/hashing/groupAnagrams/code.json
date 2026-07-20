@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <unordered_map>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\nvector<vector<string>> groupAnagrams(vector<string>&strs){unordered_map<string,vector<string>>m;\nfor(auto&s:strs){string k=s;sort(k.begin(),k.end());m[k].push_back(s);}\nvector<vector<string>>res;for(auto&p:m)res.push_back(p.second);return res;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def group_anagrams(strs):\n    groups = {}\n    for s in strs:\n        key = ''.join(sorted(s))\n        groups.setdefault(key, []).append(s)\n    return list(groups.values())\n\nprint(group_anagrams([\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"]))",
+    "lineKeys": {}
   }
 }

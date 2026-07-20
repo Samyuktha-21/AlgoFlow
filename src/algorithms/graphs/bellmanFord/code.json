@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\nvector<int> bellmanFord(int V,vector<tuple<int,int,int>>& edges,int src){\n    vector<int> d(V,INT_MAX);d[src]=0;\n    for(int i=0;i<V-1;i++)for(auto [u,v,w]:edges) if(d[u]!=INT_MAX&&d[u]+w<d[v]) d[v]=d[u]+w;\n    return d;\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def bellman_ford(n, edges, src):\n    dist = [float('inf')] * n\n    dist[src] = 0\n    for _ in range(n - 1):\n        for u, v, w in edges:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n    for u, v, w in edges:\n        if dist[u] + w < dist[v]:\n            return None  # negative cycle\n    return dist\n\nedges = [(0, 1, 4), (0, 2, 5), (1, 2, -3), (2, 3, 4)]\nprint(bellman_ford(4, edges, 0))",
+    "lineKeys": {}
   }
 }

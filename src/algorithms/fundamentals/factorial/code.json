@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\nusing namespace std;\nlong long fact(int n){return n<=1?1:n*fact(n-1);}\nint main(){cout<<fact(10)<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\ndef factorial_iterative(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n\nprint(factorial(5))\nprint(factorial_iterative(6))",
+    "lineKeys": {}
   }
 }

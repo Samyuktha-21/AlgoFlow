@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid countSort(vector<int>& a,int exp){int n=a.size();vector<int> out(n),cnt(10,0);\nfor(int v:a)cnt[(v/exp)%10]++;for(int i=1;i<10;i++)cnt[i]+=cnt[i-1];\nfor(int i=n-1;i>=0;i--)out[--cnt[(a[i]/exp)%10]]=a[i];a=out;}\nvoid radixSort(vector<int>& a){int mx=*max_element(a.begin(),a.end());\nfor(int e=1;mx/e>0;e*=10)countSort(a,e);}\nint main(){vector<int> a={170,45,75,90,802,24,2,66};radixSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def radix_sort(a):\n    if not a:\n        return a\n    exp = 1\n    while max(a) // exp > 0:\n        buckets = [[] for _ in range(10)]\n        for x in a:\n            buckets[(x // exp) % 10].append(x)\n        a = [x for bucket in buckets for x in bucket]\n        exp *= 10\n    return a\n\nprint(radix_sort([170, 45, 75, 90, 802, 24, 2, 66]))",
+    "lineKeys": {}
   }
 }

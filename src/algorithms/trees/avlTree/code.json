@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <algorithm>\nusing namespace std;\nstruct Node{int v,h;Node*l,*r;Node(int x):v(x),h(1),l(nullptr),r(nullptr){}};\nint ht(Node*n){return n?n->h:0;}\nint bf(Node*n){return n?ht(n->l)-ht(n->r):0;}\nNode* rR(Node*y){Node*x=y->l;y->l=x->r;x->r=y;y->h=1+max(ht(y->l),ht(y->r));x->h=1+max(ht(x->l),ht(x->r));return x;}\nNode* rL(Node*x){Node*y=x->r;x->r=y->l;y->l=x;x->h=1+max(ht(x->l),ht(x->r));y->h=1+max(ht(y->l),ht(y->r));return y;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n        self.height = 1\n\ndef height(n):\n    return n.height if n else 0\n\ndef balance(n):\n    return height(n.left) - height(n.right) if n else 0\n\ndef update(n):\n    n.height = 1 + max(height(n.left), height(n.right))\n\ndef rotate_right(y):\n    x = y.left\n    y.left, x.right = x.right, y\n    update(y); update(x)\n    return x\n\ndef rotate_left(x):\n    y = x.right\n    x.right, y.left = y.left, x\n    update(x); update(y)\n    return y\n\ndef insert(node, val):\n    if not node:\n        return Node(val)\n    if val < node.val:\n        node.left = insert(node.left, val)\n    else:\n        node.right = insert(node.right, val)\n    update(node)\n    b = balance(node)\n    if b > 1 and val < node.left.val:\n        return rotate_right(node)\n    if b < -1 and val > node.right.val:\n        return rotate_left(node)\n    if b > 1:\n        node.left = rotate_left(node.left)\n        return rotate_right(node)\n    if b < -1:\n        node.right = rotate_right(node.right)\n        return rotate_left(node)\n    return node\n\nroot = None\nfor v in [10, 20, 30, 40, 50, 25]:\n    root = insert(root, v)\nprint(\"root after balancing:\", root.val)",
+    "lineKeys": {}
   }
 }
