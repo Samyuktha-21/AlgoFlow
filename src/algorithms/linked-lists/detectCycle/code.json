@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\nusing namespace std;\nstruct Node{int val;Node* next;Node(int v):val(v),next(nullptr){}};\nbool hasCycle(Node* h){Node *s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;if(s==f)return true;}return false;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef has_cycle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return True\n    return False\n\na, b, c = Node(1), Node(2), Node(3)\na.next, b.next, c.next = b, c, b  # cycle back to b\nprint(has_cycle(a))",
+    "lineKeys": {}
   }
 }

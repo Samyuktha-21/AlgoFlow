@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\nvoid dfs1(int u, vector<vector<int>>& g, vector<bool>& vis, stack<int>& st) {\n    vis[u]=true;\n    for(int v:g[u]) if(!vis[v]) dfs1(v,g,vis,st);\n    st.push(u);\n}\nvoid dfs2(int u, vector<vector<int>>& rg, vector<bool>& vis) {\n    vis[u]=true; cout<<u<<\" \";\n    for(int v:rg[u]) if(!vis[v]) dfs2(v,rg,vis);\n}\nvoid kosaraju(int n, vector<vector<int>>& g, vector<vector<int>>& rg) {\n    vector<bool> vis(n,false); stack<int> st;\n    for(int i=0;i<n;i++) if(!vis[i]) dfs1(i,g,vis,st);\n    fill(vis.begin(),vis.end(),false);\n    while(!st.empty()){\n        int u=st.top(); st.pop();\n        if(!vis[u]){ dfs2(u,rg,vis); cout<<\"\\n\"; }\n    }\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def kosaraju_scc(n, graph):\n    visited, order = set(), []\n    def dfs1(u):\n        visited.add(u)\n        for v in graph.get(u, []):\n            if v not in visited:\n                dfs1(v)\n        order.append(u)\n    for u in range(n):\n        if u not in visited:\n            dfs1(u)\n    rev = {u: [] for u in range(n)}\n    for u in graph:\n        for v in graph[u]:\n            rev[v].append(u)\n    visited.clear()\n    sccs = []\n    def dfs2(u, comp):\n        visited.add(u)\n        comp.append(u)\n        for v in rev[u]:\n            if v not in visited:\n                dfs2(v, comp)\n    for u in reversed(order):\n        if u not in visited:\n            comp = []\n            dfs2(u, comp)\n            sccs.append(comp)\n    return sccs\n\ngraph = {0: [1], 1: [2], 2: [0, 3], 3: [4], 4: []}\nprint(kosaraju_scc(5, graph))",
+    "lineKeys": {}
   }
 }

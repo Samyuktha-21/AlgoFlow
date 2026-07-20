@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\nusing namespace std;\nbool dfs(int v,vector<vector<int>>&adj,vector<bool>&vis,vector<bool>&rec){\nvis[v]=rec[v]=true;for(int u:adj[v]){if(!vis[u]&&dfs(u,adj,vis,rec))return true;if(rec[u])return true;}rec[v]=false;return false;}\nbool hasCycle(vector<vector<int>>&adj){int V=adj.size();vector<bool>vis(V),rec(V);for(int i=0;i<V;i++)if(!vis[i]&&dfs(i,adj,vis,rec))return true;return false;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def has_cycle(graph, n):\n    WHITE, GRAY, BLACK = 0, 1, 2\n    state = [WHITE] * n\n    def dfs(u):\n        state[u] = GRAY\n        for v in graph.get(u, []):\n            if state[v] == GRAY:\n                return True\n            if state[v] == WHITE and dfs(v):\n                return True\n        state[u] = BLACK\n        return False\n    return any(state[u] == WHITE and dfs(u) for u in range(n))\n\nprint(has_cycle({0: [1], 1: [2], 2: [0]}, 3))\nprint(has_cycle({0: [1], 1: [2], 2: []}, 3))",
+    "lineKeys": {}
   }
 }

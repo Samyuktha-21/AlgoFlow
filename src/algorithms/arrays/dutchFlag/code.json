@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid dutchFlag(vector<int>& a){int lo=0,mid=0,hi=a.size()-1;\nwhile(mid<=hi){if(a[mid]==0){swap(a[lo++],a[mid++]);}else if(a[mid]==1)mid++;else swap(a[mid],a[hi--]);}}\nint main(){vector<int> a={2,0,2,1,1,0};dutchFlag(a);for(int v:a)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def dutch_flag_sort(a):\n    low, mid, high = 0, 0, len(a) - 1\n    while mid <= high:\n        if a[mid] == 0:\n            a[low], a[mid] = a[mid], a[low]\n            low += 1; mid += 1\n        elif a[mid] == 1:\n            mid += 1\n        else:\n            a[mid], a[high] = a[high], a[mid]\n            high -= 1\n    return a\n\nprint(dutch_flag_sort([2, 0, 2, 1, 1, 0]))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\nusing namespace std;\nstruct Node{int v;Node *l,*r;Node(int x):v(x),l(nullptr),r(nullptr){}};\nNode* insert(Node* n,int v){if(!n)return new Node(v);if(v<n->v)n->l=insert(n->l,v);else if(v>n->v)n->r=insert(n->r,v);return n;}\nbool search(Node* n,int v){while(n){if(v==n->v)return true;n=v<n->v?n->l:n->r;}return false;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef insert(root, val):\n    if not root:\n        return Node(val)\n    if val < root.val:\n        root.left = insert(root.left, val)\n    else:\n        root.right = insert(root.right, val)\n    return root\n\ndef search(root, val):\n    if not root or root.val == val:\n        return root is not None\n    if val < root.val:\n        return search(root.left, val)\n    return search(root.right, val)\n\nroot = None\nfor v in [50, 30, 70, 20, 40, 60, 80]:\n    root = insert(root, v)\nprint(search(root, 40))\nprint(search(root, 55))",
+    "lineKeys": {}
   }
 }

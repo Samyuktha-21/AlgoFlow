@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s){stack<char>stk;for(char c:s){if(c=='('||c=='['||c=='{')stk.push(c);else{if(stk.empty())return false;char t=stk.top();stk.pop();if((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return false;}}return stk.empty();}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def is_valid(s):\n    pairs = {')': '(', ']': '[', '}': '{'}\n    stack = []\n    for ch in s:\n        if ch in '([{':\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n\nprint(is_valid(\"()[]{}\"))\nprint(is_valid(\"(]\"))",
+    "lineKeys": {}
   }
 }

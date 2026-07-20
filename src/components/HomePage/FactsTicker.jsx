@@ -7,7 +7,7 @@ function Facts() {
   return (
     <span style={{ fontFamily: MONO, fontSize: '0.85rem', color: '#a3a3a3' }}>
       Every step synced to highlighted code&nbsp;&nbsp;·&nbsp;&nbsp;
-      <A>3</A> languages: Java, C, C++&nbsp;&nbsp;·&nbsp;&nbsp;
+      <A>4</A> languages: Java, C, C++, Python&nbsp;&nbsp;·&nbsp;&nbsp;
       <A>124</A> algorithms, zero placeholders&nbsp;&nbsp;·&nbsp;&nbsp;
       Real Firestore-backed discussion&nbsp;&nbsp;·&nbsp;&nbsp;
       <A>85+</A> verified interview questions&nbsp;&nbsp;·&nbsp;&nbsp;

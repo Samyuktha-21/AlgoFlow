@@ -40,7 +40,7 @@ function useTypewriter(words, typeMs = 65, holdMs = 1500) {
 const STATS = [
   { value: '124', label: 'Algorithms'   },
   { value: '14',  label: 'Categories'   },
-  { value: '3',   label: 'Languages'    },
+  { value: '4',   label: 'Languages'    },
   { value: '50+', label: 'Interview Qs' },
 ]
 
@@ -71,7 +71,7 @@ export default function HeroSection() {
           </h1>
 
           <p style={{ fontFamily: DISPLAY, fontSize: '1.05rem', fontWeight: 400, color: '#a3a3a3', lineHeight: 1.6, maxWidth: 460, margin: '0 0 2rem' }}>
-            Step through 124 algorithms and watch every comparison, swap, and traversal as it happens — with code synced in Java, C, and C++.
+            Step through 124 algorithms and watch every comparison, swap, and traversal as it happens — with code synced in Java, C, C++, and Python.
           </p>
 
           {/* search */}

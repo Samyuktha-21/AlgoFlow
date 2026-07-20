@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid heapify(vector<int>& h,int n,int i){int lg=i,l=2*i+1,r=2*i+2;\nif(l<n&&h[l]>h[lg])lg=l;if(r<n&&h[r]>h[lg])lg=r;if(lg!=i){swap(h[i],h[lg]);heapify(h,n,lg);}}\nvoid buildHeap(vector<int>& h){int n=h.size();for(int i=n/2-1;i>=0;i--)heapify(h,n,i);}\nint main(){vector<int> a={3,1,6,5,2,4};buildHeap(a);for(int v:a)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class MaxHeap:\n    def __init__(self):\n        self.heap = []\n\n    def push(self, val):\n        self.heap.append(val)\n        i = len(self.heap) - 1\n        while i > 0 and self.heap[(i - 1) // 2] < self.heap[i]:\n            parent = (i - 1) // 2\n            self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]\n            i = parent\n\n    def pop(self):\n        top = self.heap[0]\n        self.heap[0] = self.heap[-1]\n        self.heap.pop()\n        i, n = 0, len(self.heap)\n        while True:\n            largest, l, r = i, 2 * i + 1, 2 * i + 2\n            if l < n and self.heap[l] > self.heap[largest]: largest = l\n            if r < n and self.heap[r] > self.heap[largest]: largest = r\n            if largest == i:\n                break\n            self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]\n            i = largest\n        return top\n\nh = MaxHeap()\nfor v in [3, 10, 5, 1, 8]:\n    h.push(v)\nprint(h.pop(), h.pop(), h.pop())",
+    "lineKeys": {}
   }
 }

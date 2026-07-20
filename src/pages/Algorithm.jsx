@@ -618,9 +618,9 @@ export default function Algorithm() {
                 padding:'0 12px', flexShrink:0,
                 background: 'rgba(0,0,0,0.25)', gap:2,
               }}>
-                {(['java', 'c', 'cpp']).map(lang => {
+                {(['java', 'c', 'cpp', 'python']).map(lang => {
                   const active = language === lang
-                  const label  = lang === 'cpp' ? 'C++' : lang === 'c' ? 'C' : 'Java'
+                  const label  = lang === 'cpp' ? 'C++' : lang === 'c' ? 'C' : lang === 'python' ? 'Python' : 'Java'
                   return (
                     <button
                       type="button"

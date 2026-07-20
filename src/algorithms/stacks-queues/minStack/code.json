@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <stack>\nusing namespace std;\nstruct MinStack{stack<int>s,ms;\nvoid push(int v){s.push(v);ms.push(ms.empty()?v:min(v,ms.top()));}\nvoid pop(){s.pop();ms.pop();}\nint top(){return s.top();}\nint getMin(){return ms.top();}};",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.mins = []\n\n    def push(self, val):\n        self.stack.append(val)\n        if not self.mins or val <= self.mins[-1]:\n            self.mins.append(val)\n\n    def pop(self):\n        val = self.stack.pop()\n        if val == self.mins[-1]:\n            self.mins.pop()\n        return val\n\n    def top(self):\n        return self.stack[-1]\n\n    def get_min(self):\n        return self.mins[-1]\n\ns = MinStack()\ns.push(-2); s.push(0); s.push(-3)\nprint(s.get_min())\ns.pop()\nprint(s.top(), s.get_min())",
+    "lineKeys": {}
   }
 }

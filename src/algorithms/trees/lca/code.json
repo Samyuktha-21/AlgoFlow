@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "using namespace std;\nstruct Node{int v;Node*l,*r;};\nNode* lca(Node*r,int p,int q){if(!r||r->v==p||r->v==q)return r;\nauto l=lca(r->l,p,q),ri=lca(r->r,p,q);\nif(l&&ri)return r;return l?l:ri;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef lowest_common_ancestor(root, p, q):\n    if not root or root.val == p or root.val == q:\n        return root\n    left = lowest_common_ancestor(root.left, p, q)\n    right = lowest_common_ancestor(root.right, p, q)\n    if left and right:\n        return root\n    return left or right\n\nroot = Node(3)\nroot.left, root.right = Node(5), Node(1)\nroot.left.left, root.left.right = Node(6), Node(2)\nprint(lowest_common_ancestor(root, 6, 2).val)\nprint(lowest_common_ancestor(root, 5, 1).val)",
+    "lineKeys": {}
   }
 }

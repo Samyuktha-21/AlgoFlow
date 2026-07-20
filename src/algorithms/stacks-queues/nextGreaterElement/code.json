@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\nvector<int> nextGreater(vector<int>& a){int n=a.size();vector<int> r(n,-1);stack<int> s;\nfor(int i=0;i<n;i++){while(!s.empty()&&a[s.top()]<a[i]){r[s.top()]=a[i];s.pop();}s.push(i);}return r;}\nint main(){vector<int> a={4,5,2,25};auto r=nextGreater(a);for(int v:r)cout<<v<<\" \";return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def next_greater(nums):\n    result = [-1] * len(nums)\n    stack = []  # indices with unresolved answers\n    for i, x in enumerate(nums):\n        while stack and nums[stack[-1]] < x:\n            result[stack.pop()] = x\n        stack.append(i)\n    return result\n\nprint(next_greater([4, 5, 2, 25, 7, 8]))",
+    "lineKeys": {}
   }
 }

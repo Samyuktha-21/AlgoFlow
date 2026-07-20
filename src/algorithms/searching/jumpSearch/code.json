@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\nint jumpSearch(const vector<int>& a, int t) {\n    int n=a.size(), step=sqrt(n), prev=0;\n    while(a[min(step,n)-1]<t){prev=step;step+=sqrt(n);if(prev>=n)return -1;}\n    while(a[prev]<t){prev++;if(prev==min(step,n))return -1;}\n    return a[prev]==t?prev:-1;\n}\nint main(){vector<int> a={0,1,1,2,3,5,8,13,21,34,55,89};cout<<jumpSearch(a,55)<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import math\n\ndef jump_search(a, target):\n    n = len(a)\n    step = int(math.sqrt(n))\n    prev = 0\n    while prev < n and a[min(prev + step, n) - 1] < target:\n        prev += step\n    for i in range(prev, min(prev + step, n)):\n        if a[i] == target:\n            return i\n    return -1\n\nprint(jump_search([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55], 55))",
+    "lineKeys": {}
   }
 }

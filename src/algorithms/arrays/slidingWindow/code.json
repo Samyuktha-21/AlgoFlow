@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <deque>\n#include <vector>\nusing namespace std;\nvector<int> maxSlidingWindow(vector<int>&a,int k){int n=a.size();vector<int>res;deque<int>dq;\nfor(int i=0;i<n;i++){while(!dq.empty()&&dq.front()<i-k+1)dq.pop_front();\nwhile(!dq.empty()&&a[dq.back()]<=a[i])dq.pop_back();dq.push_back(i);if(i>=k-1)res.push_back(a[dq.front()]);}return res;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "from collections import deque\n\ndef max_sliding_window(nums, k):\n    dq, out = deque(), []\n    for i, x in enumerate(nums):\n        while dq and nums[dq[-1]] <= x:\n            dq.pop()\n        dq.append(i)\n        if dq[0] <= i - k:\n            dq.popleft()\n        if i >= k - 1:\n            out.append(nums[dq[0]])\n    return out\n\nprint(max_sliding_window([1, 3, -1, -3, 5, 3, 6, 7], 3))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <vector>\nusing namespace std;\nbool isAnagram(string s,string t){if(s.size()!=t.size())return false;vector<int>cnt(26,0);\nfor(char c:s)cnt[c-'a']++;for(char c:t)cnt[c-'a']--;for(int x:cnt)if(x)return false;return true;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def is_anagram(s, t):\n    if len(s) != len(t):\n        return False\n    count = {}\n    for ch in s:\n        count[ch] = count.get(ch, 0) + 1\n    for ch in t:\n        if count.get(ch, 0) == 0:\n            return False\n        count[ch] -= 1\n    return True\n\nprint(is_anagram(\"listen\", \"silent\"))\nprint(is_anagram(\"hello\", \"world\"))",
+    "lineKeys": {}
   }
 }

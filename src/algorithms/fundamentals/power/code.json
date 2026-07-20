@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\ndouble myPow(double x,int n){if(n<0){x=1/x;n=-n;}double r=1;while(n>0){if(n&1)r*=x;x*=x;n>>=1;}return r;}\nint main(){cout<<myPow(2,10)<<\" \"<<myPow(3,5)<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def power(base, exp):\n    result = 1\n    while exp > 0:\n        if exp % 2 == 1:\n            result *= base\n        base *= base\n        exp //= 2\n    return result\n\nprint(power(2, 10))\nprint(power(3, 5))",
+    "lineKeys": {}
   }
 }

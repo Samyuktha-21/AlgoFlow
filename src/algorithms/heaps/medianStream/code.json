@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nstruct MedianStream{priority_queue<int>low;priority_queue<int,vector<int>,greater<int>>high;\nvoid add(int n){low.push(n);high.push(low.top());low.pop();if(low.size()<high.size()){low.push(high.top());high.pop();}}\ndouble median(){return low.size()>high.size()?low.top():(low.top()+high.top())/2.0;}};",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\nclass MedianStream:\n    def __init__(self):\n        self.low = []   # max-heap (negated) — smaller half\n        self.high = []  # min-heap — larger half\n\n    def add(self, num):\n        heapq.heappush(self.low, -num)\n        heapq.heappush(self.high, -heapq.heappop(self.low))\n        if len(self.high) > len(self.low):\n            heapq.heappush(self.low, -heapq.heappop(self.high))\n\n    def median(self):\n        if len(self.low) > len(self.high):\n            return -self.low[0]\n        return (-self.low[0] + self.high[0]) / 2\n\nms = MedianStream()\nfor x in [5, 15, 1, 3]:\n    ms.add(x)\n    print(\"after\", x, \"median =\", ms.median())",
+    "lineKeys": {}
   }
 }

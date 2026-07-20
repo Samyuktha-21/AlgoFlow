@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie{array<Trie*,26>ch{};bool end=false;};\nvoid insert(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])n->ch[c-'a']=new Trie();n=n->ch[c-'a'];}n->end=true;}\nbool search(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])return false;n=n->ch[c-'a'];}return n->end;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Trie:\n    def __init__(self):\n        self.root = {}\n\n    def insert(self, word):\n        node = self.root\n        for ch in word:\n            node = node.setdefault(ch, {})\n        node['$'] = True  # end-of-word marker\n\n    def search(self, word):\n        node = self._walk(word)\n        return node is not None and '$' in node\n\n    def starts_with(self, prefix):\n        return self._walk(prefix) is not None\n\n    def _walk(self, s):\n        node = self.root\n        for ch in s:\n            if ch not in node:\n                return None\n            node = node[ch]\n        return node\n\nt = Trie()\nt.insert(\"apple\")\nprint(t.search(\"apple\"))\nprint(t.search(\"app\"))\nprint(t.starts_with(\"app\"))",
+    "lineKeys": {}
   }
 }

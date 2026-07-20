@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\nlong long minMergeCost(vector<int>& files) {\n    priority_queue<long long, vector<long long>, greater<long long>> pq(files.begin(), files.end());\n    long long total = 0;\n    while (pq.size() > 1) {\n        auto a = pq.top(); pq.pop();\n        auto b = pq.top(); pq.pop();\n        total += a + b; pq.push(a + b);\n    }\n    return total;\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\ndef optimal_file_merge(sizes):\n    heapq.heapify(sizes)\n    total = 0\n    while len(sizes) > 1:\n        a = heapq.heappop(sizes)\n        b = heapq.heappop(sizes)\n        total += a + b\n        heapq.heappush(sizes, a + b)\n    return total\n\nprint(optimal_file_merge([20, 30, 10, 5, 30]))",
+    "lineKeys": {}
   }
 }

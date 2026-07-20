@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "/* Johnson's Algorithm: O((V+E) log V) all-pairs shortest paths\n   Better than Floyd-Warshall O(V^3) for sparse graphs */\n#include <bits/stdc++.h>\nusing namespace std;\n/* Step 1: Add vertex q, connect to all with weight 0, run Bellman-Ford for h[v]\n   Step 2: Reweight w'(u,v) = w(u,v) + h(u) - h(v) >= 0\n   Step 3: Run Dijkstra from each vertex with reweighted graph */",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\ndef johnsons(n, edges):\n    # add virtual source, run Bellman-Ford for potentials\n    h = [0] * (n + 1)\n    all_edges = edges + [(n, v, 0) for v in range(n)]\n    for _ in range(n):\n        for u, v, w in all_edges:\n            if h[u] + w < h[v]:\n                h[v] = h[u] + w\n    graph = {u: [] for u in range(n)}\n    for u, v, w in edges:\n        graph[u].append((v, w + h[u] - h[v]))  # reweight: non-negative\n    result = []\n    for src in range(n):\n        dist = [float('inf')] * n\n        dist[src] = 0\n        pq = [(0, src)]\n        while pq:\n            d, u = heapq.heappop(pq)\n            if d > dist[u]:\n                continue\n            for v, w in graph[u]:\n                if d + w < dist[v]:\n                    dist[v] = d + w\n                    heapq.heappush(pq, (dist[v], v))\n        result.append([d + h[v] - h[src] if d < float('inf') else None\n                       for v, d in enumerate(dist)])\n    return result\n\nedges = [(0, 1, -2), (1, 2, 3), (2, 0, 6), (0, 2, 4)]\nfor row in johnsons(3, edges):\n    print(row)",
+    "lineKeys": {}
   }
 }

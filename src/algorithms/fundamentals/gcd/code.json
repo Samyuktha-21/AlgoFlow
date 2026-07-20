@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <numeric>\nusing namespace std;\nint gcd(int a,int b){return b==0?a:gcd(b,a%b);}\nint main(){cout<<\"gcd=\"<<gcd(48,18)<<\" lcm=\"<<(4*6/gcd(4,6))<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n\nprint(gcd(48, 18))\nprint(gcd(100, 75))",
+    "lineKeys": {}
   }
 }

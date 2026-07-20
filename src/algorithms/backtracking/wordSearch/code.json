@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\n#include <string>\nusing namespace std;\nint R,C;\nbool dfs(vector<vector<char>>&g,int r,int c,string&w,int i){if(i==(int)w.size())return true;if(r<0||r>=R||c<0||c>=C||g[r][c]!=w[i])return false;char t=g[r][c];g[r][c]='#';bool f=dfs(g,r+1,c,w,i+1)||dfs(g,r-1,c,w,i+1)||dfs(g,r,c+1,w,i+1)||dfs(g,r,c-1,w,i+1);g[r][c]=t;return f;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def exist(board, word):\n    rows, cols = len(board), len(board[0])\n    def backtrack(r, c, i):\n        if i == len(word):\n            return True\n        if not (0 <= r < rows and 0 <= c < cols) or board[r][c] != word[i]:\n            return False\n        saved, board[r][c] = board[r][c], '#'\n        found = (backtrack(r+1, c, i+1) or backtrack(r-1, c, i+1) or\n                 backtrack(r, c+1, i+1) or backtrack(r, c-1, i+1))\n        board[r][c] = saved\n        return found\n    return any(backtrack(r, c, 0) for r in range(rows) for c in range(cols))\n\ngrid = [list(\"ABCE\"), list(\"SFCS\"), list(\"ADEE\")]\nprint(exist(grid, \"ABCCED\"))\nprint(exist(grid, \"ABCB\"))",
+    "lineKeys": {}
   }
 }

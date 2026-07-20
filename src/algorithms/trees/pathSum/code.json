@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "struct Node{int v;Node*l,*r;};\nbool hasPath(Node*n,int t){if(!n)return false;if(!n->l&&!n->r)return n->v==t;return hasPath(n->l,t-n->v)||hasPath(n->r,t-n->v);}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef has_path_sum(root, target):\n    if not root:\n        return False\n    if not root.left and not root.right:\n        return target == root.val\n    remaining = target - root.val\n    return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)\n\nroot = Node(5)\nroot.left, root.right = Node(4), Node(8)\nroot.left.left = Node(11)\nroot.left.left.left, root.left.left.right = Node(7), Node(2)\nprint(has_path_sum(root, 22))\nprint(has_path_sum(root, 100))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\nstruct Node { char ch; int freq; Node *l, *r; };\nvoid printCodes(Node* n, string code=\"\") {\n    if (!n) return;\n    if (!n->l && !n->r) { cout << n->ch << \": \" << code << \"\\n\"; return; }\n    printCodes(n->l, code+\"0\"); printCodes(n->r, code+\"1\");\n}\nvoid huffman(vector<pair<char,int>>& v) {\n    auto cmp = [](Node* a, Node* b){ return a->freq > b->freq; };\n    priority_queue<Node*,vector<Node*>,decltype(cmp)> pq(cmp);\n    for (auto& [c,f] : v) pq.push(new Node{c, f, nullptr, nullptr});\n    while (pq.size() > 1) {\n        auto l=pq.top(); pq.pop(); auto r=pq.top(); pq.pop();\n        pq.push(new Node{0, l->freq+r->freq, l, r});\n    }\n    printCodes(pq.top());\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\ndef huffman_codes(freq):\n    heap = [[f, i, ch, None, None] for i, (ch, f) in enumerate(freq.items())]\n    heapq.heapify(heap)\n    count = len(heap)\n    while len(heap) > 1:\n        lo = heapq.heappop(heap)\n        hi = heapq.heappop(heap)\n        heapq.heappush(heap, [lo[0] + hi[0], count, None, lo, hi])\n        count += 1\n    codes = {}\n    def walk(node, code):\n        if node[2] is not None:\n            codes[node[2]] = code or \"0\"\n            return\n        walk(node[3], code + \"0\")\n        walk(node[4], code + \"1\")\n    walk(heap[0], \"\")\n    return codes\n\nfreq = {'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}\nprint(huffman_codes(freq))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <stack>\n#include <iostream>\nusing namespace std;\nint main(){stack<int>s;s.push(1);s.push(2);s.push(3);cout<<s.top()<<\" \";s.pop();cout<<s.top()<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class Stack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, val):\n        self.items.append(val)\n\n    def pop(self):\n        return self.items.pop() if self.items else None\n\n    def peek(self):\n        return self.items[-1] if self.items else None\n\n    def is_empty(self):\n        return not self.items\n\ns = Stack()\ns.push(1); s.push(2); s.push(3)\nprint(s.pop())\nprint(s.peek())\nprint(s.is_empty())",
+    "lineKeys": {}
   }
 }

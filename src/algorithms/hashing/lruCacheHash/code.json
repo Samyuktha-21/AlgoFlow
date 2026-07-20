@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int,int>> lst;\n    unordered_map<int,list<pair<int,int>>::iterator> mp;\npublic:\n    LRUCache(int c): cap(c){}\n    int get(int k){\n        if(!mp.count(k))return -1;\n        lst.splice(lst.begin(),lst,mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k,int v){\n        if(mp.count(k)) lst.erase(mp[k]);\n        else if((int)lst.size()==cap){ mp.erase(lst.back().first); lst.pop_back(); }\n        lst.push_front({k,v}); mp[k]=lst.begin();\n    }\n};",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "from collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key, value):\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)\n\nlru = LRUCache(2)\nlru.put(1, 1)\nlru.put(2, 2)\nprint(lru.get(1))\nlru.put(3, 3)   # evicts key 2\nprint(lru.get(2))",
+    "lineKeys": {}
   }
 }

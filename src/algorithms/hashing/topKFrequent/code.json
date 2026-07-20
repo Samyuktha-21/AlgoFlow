@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <unordered_map>\n#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> topKFrequent(vector<int>&nums,int k){unordered_map<int,int>f;for(int x:nums)f[x]++;\nauto cmp=[&](int a,int b){return f[a]>f[b];};priority_queue<int,vector<int>,decltype(cmp)>h(cmp);\nfor(auto&[v,_]:f){h.push(v);if((int)h.size()>k)h.pop();}\nvector<int>r;while(!h.empty()){r.push_back(h.top());h.pop();}return r;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\ndef top_k_frequent(nums, k):\n    count = {}\n    for x in nums:\n        count[x] = count.get(x, 0) + 1\n    return heapq.nlargest(k, count, key=count.get)\n\nprint(top_k_frequent([1, 1, 1, 2, 2, 3], 2))",
+    "lineKeys": {}
   }
 }

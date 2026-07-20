@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <iostream>\n#include <vector>\nusing namespace std;\npair<int,int> twoSum(vector<int>& a, int t){int l=0,r=a.size()-1;\nwhile(l<r){int s=a[l]+a[r];if(s==t)return{l,r};else if(s<t)l++;else r--;}return{-1,-1};}\nint main(){vector<int> a={1,2,4,6,8,9,14,15};auto [l,r]=twoSum(a,13);cout<<l<<\",\"<<r<<endl;return 0;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return [-1, -1]\n\nprint(two_sum([2, 7, 11, 15], 9))",
+    "lineKeys": {}
   }
 }

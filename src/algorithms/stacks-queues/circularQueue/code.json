@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\nusing namespace std;\nstruct CirQ{vector<int>a;int fr=0,re=0,sz=0;CirQ(int k):a(k){}\nbool enq(int v){if(sz==(int)a.size())return false;a[re]=v;re=(re+1)%a.size();sz++;return true;}\nint deq(){if(!sz)return -1;int v=a[fr];fr=(fr+1)%a.size();sz--;return v;}};",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "class CircularQueue:\n    def __init__(self, capacity):\n        self.data = [None] * capacity\n        self.capacity = capacity\n        self.front = self.size = 0\n\n    def enqueue(self, val):\n        if self.size == self.capacity:\n            return False\n        self.data[(self.front + self.size) % self.capacity] = val\n        self.size += 1\n        return True\n\n    def dequeue(self):\n        if self.size == 0:\n            return None\n        val = self.data[self.front]\n        self.front = (self.front + 1) % self.capacity\n        self.size -= 1\n        return val\n\nq = CircularQueue(3)\nq.enqueue(1); q.enqueue(2); q.enqueue(3)\nprint(q.dequeue())\nq.enqueue(4)   # wraps around\nprint(q.dequeue(), q.dequeue(), q.dequeue())",
+    "lineKeys": {}
   }
 }

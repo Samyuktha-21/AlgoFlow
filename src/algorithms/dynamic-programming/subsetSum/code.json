@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <vector>\nusing namespace std;\nbool subsetSum(vector<int>&a,int t){int n=a.size();vector<vector<bool>>dp(n+1,vector<bool>(t+1,false));\nfor(int i=0;i<=n;i++)dp[i][0]=true;for(int i=1;i<=n;i++)for(int j=1;j<=t;j++){dp[i][j]=dp[i-1][j];if(a[i-1]<=j)dp[i][j]|=dp[i-1][j-a[i-1]];}return dp[n][t];}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def subset_sum(nums, target):\n    dp = [False] * (target + 1)\n    dp[0] = True\n    for x in nums:\n        for s in range(target, x - 1, -1):\n            dp[s] = dp[s] or dp[s - x]\n    return dp[target]\n\nprint(subset_sum([3, 34, 4, 12, 5, 2], 9))\nprint(subset_sum([3, 34, 4, 12, 5, 2], 30))",
+    "lineKeys": {}
   }
 }

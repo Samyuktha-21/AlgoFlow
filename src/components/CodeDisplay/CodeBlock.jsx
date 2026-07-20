@@ -3,6 +3,7 @@ import Prism from 'prismjs'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-c'
 import 'prismjs/components/prism-cpp'
+import 'prismjs/components/prism-python'
 import { useTheme } from '../../context/ThemeContext'
 
 Prism.manual = true
@@ -26,7 +27,7 @@ export default function CodeBlock({ code, language, highlightedLine, accentColor
   }, [highlightedLine])
 
   const lines = (code || '').split('\n')
-  const prismLang    = language === 'cpp' ? 'cpp' : language === 'c' ? 'c' : 'java'
+  const prismLang    = language === 'cpp' ? 'cpp' : language === 'c' ? 'c' : language === 'python' ? 'python' : 'java'
   const accent       = accentColor || '#fbbf24'
   const accentRgbVal = accentRgb   || '251,191,36'
 

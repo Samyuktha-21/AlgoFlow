@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <bits/stdc++.h>\nusing namespace std;\nvoid egyptian(int n, int d) {\n    if (d % n == 0) { cout << \"1/\" << d/n; return; }\n    int x = d/n + 1;\n    cout << \"1/\" << x << \" + \";\n    egyptian(n*x - d, d*x);\n}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import math\n\ndef egyptian_fraction(num, den):\n    parts = []\n    while num:\n        unit = math.ceil(den / num)\n        parts.append(unit)\n        num, den = num * unit - den, den * unit\n        g = math.gcd(num, den) or 1\n        num, den = num // g, den // g\n    return parts\n\nparts = egyptian_fraction(6, 14)\nprint(\" + \".join(f\"1/{u}\" for u in parts))",
+    "lineKeys": {}
   }
 }

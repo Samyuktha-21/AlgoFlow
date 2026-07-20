@@ -46,5 +46,10 @@
       "moveHigh": 15,
       "notFound": 18
     }
+  },
+  "python": {
+    "language": "python",
+    "code": "def binary_search(a, target):\n    low, high = 0, len(a) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if a[mid] == target:\n            return mid\n        elif a[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\nprint(binary_search([2, 3, 4, 10, 40], 10))",
+    "lineKeys": {}
   }
 }

@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> kLargest(vector<int>&a,int k){priority_queue<int,vector<int>,greater<int>>h;\nfor(int x:a){h.push(x);if((int)h.size()>k)h.pop();}\nvector<int>r;while(!h.empty()){r.push_back(h.top());h.pop();}return r;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "import heapq\n\ndef k_largest(nums, k):\n    heap = nums[:k]\n    heapq.heapify(heap)  # min-heap of size k\n    for x in nums[k:]:\n        if x > heap[0]:\n            heapq.heapreplace(heap, x)\n    return sorted(heap, reverse=True)\n\nprint(k_largest([3, 2, 1, 5, 6, 4], 3))",
+    "lineKeys": {}
   }
 }

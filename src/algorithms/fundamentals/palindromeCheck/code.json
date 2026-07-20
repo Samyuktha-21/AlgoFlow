@@ -13,5 +13,10 @@
     "language": "cpp",
     "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nbool isPalindrome(string s){int l=0,r=s.size()-1;while(l<r){if(s[l]!=s[r])return false;l++;r--;}return true;}",
     "lineKeys": {}
+  },
+  "python": {
+    "language": "python",
+    "code": "def is_palindrome(s):\n    left, right = 0, len(s) - 1\n    while left < right:\n        if s[left] != s[right]:\n            return False\n        left += 1\n        right -= 1\n    return True\n\nprint(is_palindrome(\"racecar\"))\nprint(is_palindrome(\"hello\"))",
+    "lineKeys": {}
   }
 }
