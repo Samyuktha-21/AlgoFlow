@@ -1,3 +1,5 @@
+import { pythonSolutions } from './interviewPython'
+
 export const interviewQuestions = [
 
   // ══════════════════ ARRAY ══════════════════
@@ -5145,6 +5147,16 @@ public:
 export const DIFFICULTIES = ['easy', 'medium', 'hard']
 export const TOPICS = [...new Set(interviewQuestions.map(q => q.topic))].sort()
 export const PATTERNS = [...new Set(interviewQuestions.map(q => q.pattern).filter(Boolean))].sort()
+/* Merge the Python solutions in, matching each question's existing storage shape
+   (some questions use `code`, others use `solution`). */
+for (const q of interviewQuestions) {
+  const py = pythonSolutions[q.id]
+  if (!py) continue
+  if (q.code) q.code.python = py
+  else if (q.solution) q.solution.python = py
+  else q.code = { python: py }
+}
+
 export const COMPANIES = [...new Set(interviewQuestions.flatMap(q => q.companies))].sort()
 
 export default interviewQuestions

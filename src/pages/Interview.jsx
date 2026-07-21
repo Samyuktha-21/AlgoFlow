@@ -191,7 +191,7 @@ function QuestionCard({ q }) {
                 <div style={{ marginBottom: 4 }}>
                   <div style={SECTION_LABEL}>CODE</div>
                   <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
-                    {['java', 'c', 'cpp'].map(l => (
+                    {['java', 'c', 'cpp', 'python'].map(l => (
                       <button key={l} type="button" onClick={() => setLang(l)} style={{
                         padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
                         background: lang === l ? 'rgba(245,129,31,0.18)' : 'transparent',
@@ -199,7 +199,7 @@ function QuestionCard({ q }) {
                         color: lang === l ? '#fdba74' : '#64748b',
                         cursor: 'pointer', fontFamily: 'inherit',
                       }}>
-                        {l === 'cpp' ? 'C++' : l === 'c' ? 'C' : 'Java'}
+                        {l === 'cpp' ? 'C++' : l === 'c' ? 'C' : l === 'python' ? 'Python' : 'Java'}
                       </button>
                     ))}
                   </div>
@@ -301,7 +301,7 @@ export default function Interview() {
             🎯 Interview Hub
           </h1>
           <p style={{ fontSize: 16, color: '#64748b', lineHeight: 1.65, maxWidth: 620, margin: 0 }}>
-            {interviewQuestions.length}+ curated DSA questions with verified solutions in Java, C++, and C.
+            {interviewQuestions.length}+ curated DSA questions with verified solutions in Java, C++, C, and Python.
             Each question includes company tags, approach explanations, and interviewer tips.
           </p>
         </div>
