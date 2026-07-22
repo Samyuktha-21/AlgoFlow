@@ -6,6 +6,7 @@ import registry from '../data/algorithmRegistry.json'
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 import { getThemeContrast } from '../utils/contrastColor'
 import { subscribeToCategoryViews, formatViews } from '../firebase/algoStats'
+import Seo from '../components/Seo'
 
 /* ── Per-theme accent colors ─────────────────────────────────── */
 const THEME_ACCENT = {
@@ -73,6 +74,10 @@ export default function Category() {
       flexDirection: 'column',
       position: 'relative',
     }}>
+      <Seo
+        title={category.name}
+        description={`${category.description} Explore ${algorithms.length} ${category.name} algorithms with step-by-step visualizations and code in Java, C, C++ and Python.`}
+      />
 
       {/* ── 1. Fixed full-page theme background — no overlay ── */}
       <ThemeBackground themeId={category.theme} variant="page" />

@@ -5,6 +5,7 @@ import { ChevronRight, ChevronDown, ExternalLink } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import interviewQuestions, { TOPICS } from '../data/interviewQuestions'
 import { recordInterviewView } from '../firebase/stats'
+import Seo from '../components/Seo'
 
 const MONO = "'IBM Plex Mono', monospace"
 const SECTION_LABEL = { fontFamily: MONO, fontSize: '0.7rem', letterSpacing: '0.1em', fontWeight: 700, color: '#f5811f', marginBottom: '0.4rem' }
@@ -31,25 +32,27 @@ const DIFF_STYLES = {
 
 /* ── Company brand colors ──────────────────────────────────────── */
 const COMPANY_STYLES = {
-  Google:         { bg: 'rgba(66,133,244,0.12)',  color: '#60a5fa', border: 'rgba(66,133,244,0.25)' },
-  Amazon:         { bg: 'rgba(255,153,0,0.12)',   color: '#fbbf24', border: 'rgba(255,153,0,0.25)' },
-  Microsoft:      { bg: 'rgba(0,164,239,0.12)',   color: '#38bdf8', border: 'rgba(0,164,239,0.25)' },
-  Meta:           { bg: 'rgba(24,119,242,0.12)',  color: '#818cf8', border: 'rgba(24,119,242,0.25)' },
-  Apple:          { bg: 'rgba(255,255,255,0.08)', color: '#e2e8f0', border: 'rgba(255,255,255,0.15)' },
-  Adobe:          { bg: 'rgba(255,0,0,0.1)',      color: '#f87171', border: 'rgba(255,0,0,0.2)' },
-  LinkedIn:       { bg: 'rgba(10,102,194,0.12)',  color: '#60a5fa', border: 'rgba(10,102,194,0.25)' },
-  Uber:           { bg: 'rgba(255,255,255,0.06)', color: '#e2e8f0', border: 'rgba(255,255,255,0.12)' },
-  Bloomberg:      { bg: 'rgba(255,255,255,0.06)', color: '#94a3b8', border: 'rgba(255,255,255,0.1)' },
-  'Goldman Sachs':{ bg: 'rgba(100,149,237,0.12)', color: '#93c5fd', border: 'rgba(100,149,237,0.25)' },
-  Airbnb:         { bg: 'rgba(255,90,95,0.12)',   color: '#f87171', border: 'rgba(255,90,95,0.25)' },
+  Google:         { bg: 'rgba(66,133,244,0.12)',  color: '#60a5fa', colorLight: '#1d4ed8', border: 'rgba(66,133,244,0.25)' },
+  Amazon:         { bg: 'rgba(255,153,0,0.12)',   color: '#fbbf24', colorLight: '#b45309', border: 'rgba(255,153,0,0.25)' },
+  Microsoft:      { bg: 'rgba(0,164,239,0.12)',   color: '#38bdf8', colorLight: '#0369a1', border: 'rgba(0,164,239,0.25)' },
+  Meta:           { bg: 'rgba(24,119,242,0.12)',  color: '#818cf8', colorLight: '#4338ca', border: 'rgba(24,119,242,0.25)' },
+  Apple:          { bg: 'var(--page-surface-2)', color: '#64748b', border: 'var(--page-border)' },
+  Adobe:          { bg: 'rgba(255,0,0,0.1)',      color: '#f87171', colorLight: '#b91c1c', border: 'rgba(255,0,0,0.2)' },
+  LinkedIn:       { bg: 'rgba(10,102,194,0.12)',  color: '#60a5fa', colorLight: '#1d4ed8', border: 'rgba(10,102,194,0.25)' },
+  Uber:           { bg: 'var(--page-surface-2)', color: '#64748b', border: 'var(--page-border)' },
+  Bloomberg:      { bg: 'var(--page-surface-2)', color: '#64748b', border: 'var(--page-border)' },
+  'Goldman Sachs':{ bg: 'rgba(100,149,237,0.12)', color: '#93c5fd', colorLight: '#1e40af', border: 'rgba(100,149,237,0.25)' },
+  Airbnb:         { bg: 'rgba(255,90,95,0.12)',   color: '#f87171', colorLight: '#be123c', border: 'rgba(255,90,95,0.25)' },
 }
-const DEFAULT_COMPANY = { bg: 'rgba(255,255,255,0.06)', color: '#94a3b8', border: 'rgba(255,255,255,0.1)' }
+const DEFAULT_COMPANY = { bg: 'var(--page-surface-2)', color: '#64748b', border: 'var(--page-border)' }
 
 function CompanyTag({ company }) {
+  const { isDark } = useTheme()
   const s = COMPANY_STYLES[company] || DEFAULT_COMPANY
+  const color = isDark ? s.color : (s.colorLight || s.color)
   return (
     <span style={{
-      background: s.bg, color: s.color, border: `1px solid ${s.border}`,
+      background: s.bg, color, border: `1px solid ${s.border}`,
       borderRadius: 6, padding: '2px 8px', fontSize: '0.7rem', fontWeight: 500,
       whiteSpace: 'nowrap',
     }}>
@@ -78,8 +81,8 @@ function QuestionCard({ q }) {
   return (
     <div
       style={{
-        background: showHover ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
-        border: `1px solid ${(expanded || showHover) ? 'rgba(245,129,31,0.25)' : 'rgba(255,255,255,0.07)'}`,
+        background: showHover ? 'var(--page-surface-2)' : 'var(--page-surface)',
+        border: `1px solid ${(expanded || showHover) ? 'rgba(245,129,31,0.25)' : 'var(--page-border)'}`,
         borderRadius: 14,
         padding: '1rem 1.25rem',
         cursor: 'pointer',
@@ -102,12 +105,12 @@ function QuestionCard({ q }) {
           {q.difficulty.charAt(0).toUpperCase() + q.difficulty.slice(1)}
         </span>
 
-        <span style={{ fontSize: '1rem', fontWeight: 600, color: '#f1f5f9', flex: 1 }}>
+        <span style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--chrome-text)', flex: 1 }}>
           {q.title}
         </span>
 
         <ChevronDown size={16} style={{
-          color: (showHover || expanded) ? '#f5811f' : 'rgba(255,255,255,0.3)', flexShrink: 0,
+          color: (showHover || expanded) ? '#f5811f' : 'var(--chrome-text-muted)', flexShrink: 0,
           transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
           transition: 'transform 0.2s ease, color 0.2s ease',
         }} />
@@ -123,7 +126,7 @@ function QuestionCard({ q }) {
           {q.topic}
         </span>
 
-        <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: 10, userSelect: 'none' }}>·</span>
+        <span style={{ color: 'var(--chrome-text-muted)', fontSize: 10, userSelect: 'none' }}>·</span>
 
         {displayCompanies.map(c => <CompanyTag key={c} company={c} />)}
 
@@ -159,7 +162,7 @@ function QuestionCard({ q }) {
               {approachText && (
                 <div style={{ marginBottom: 16 }}>
                   <div style={SECTION_LABEL}>APPROACH</div>
-                  <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: '#cbd5e1', margin: 0 }}>
+                  <p style={{ fontSize: '0.88rem', lineHeight: 1.6, color: 'var(--chrome-text-muted)', margin: 0 }}>
                     {approachText}
                   </p>
                 </div>
@@ -175,9 +178,9 @@ function QuestionCard({ q }) {
                       { label: 'Space', value: complexity.space },
                     ].filter(c => c.value).map(c => (
                       <span key={c.label} style={{
-                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                        background: 'var(--page-surface)', border: '1px solid var(--page-border)',
                         borderRadius: 6, padding: '4px 10px',
-                        fontFamily: MONO, fontSize: '0.78rem', color: '#e2e8f0',
+                        fontFamily: MONO, fontSize: '0.78rem', color: 'var(--chrome-text)',
                       }}>
                         {c.label}: {c.value}
                       </span>
@@ -195,7 +198,7 @@ function QuestionCard({ q }) {
                       <button key={l} type="button" onClick={() => setLang(l)} style={{
                         padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600,
                         background: lang === l ? 'rgba(245,129,31,0.18)' : 'transparent',
-                        border: `1px solid ${lang === l ? 'rgba(245,129,31,0.45)' : 'rgba(255,255,255,0.1)'}`,
+                        border: `1px solid ${lang === l ? 'rgba(245,129,31,0.45)' : 'var(--page-border)'}`,
                         color: lang === l ? '#fdba74' : '#64748b',
                         cursor: 'pointer', fontFamily: 'inherit',
                       }}>
@@ -270,34 +273,38 @@ export default function Interview() {
   interviewQuestions.forEach(q => { if (counts[q.difficulty] !== undefined) counts[q.difficulty]++ })
 
   const SELECT_STYLE = {
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.09)',
+    background: 'var(--page-surface)',
+    border: '1px solid var(--page-border)',
     borderRadius: 10, padding: '0.6rem 0.9rem',
-    color: '#e2e8f0', fontSize: '0.85rem',
+    color: 'var(--chrome-text)', fontSize: '0.85rem',
     cursor: 'pointer', outline: 'none',
     fontFamily: 'inherit', transition: 'border-color 0.18s',
   }
   const selectFocus = e => { e.target.style.borderColor = 'rgba(245,129,31,0.4)' }
-  const selectBlur  = e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)' }
+  const selectBlur  = e => { e.target.style.borderColor = 'var(--page-border)' }
 
   const KNOWN_COMPANIES = [
     'Google','Amazon','Microsoft','Meta','Apple','Adobe','LinkedIn','Uber','Bloomberg','Goldman Sachs','Airbnb',
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0d0d0d' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--page-bg)' }}>
+      <Seo
+        title="Interview Hub"
+        description="108 curated coding-interview questions with worked solutions in Java, C, C++ and Python, organized by topic and company."
+      />
       <div className="max-w-[1000px] mx-auto px-5 py-8">
 
         {/* Breadcrumb */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, marginBottom: 24, color: '#475569' }}>
-          <Link to="/" style={{ color: '#475569', textDecoration: 'none' }}>Home</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, marginBottom: 24, color: 'var(--chrome-text-muted)' }}>
+          <Link to="/" style={{ color: 'var(--chrome-text-muted)', textDecoration: 'none' }}>Home</Link>
           <ChevronRight size={12} />
-          <span style={{ fontWeight: 600, color: '#f1f5f9' }}>Interview Hub</span>
+          <span style={{ fontWeight: 600, color: 'var(--chrome-text)' }}>Interview Hub</span>
         </div>
 
         {/* Hero */}
         <div style={{ marginBottom: 28 }}>
-          <h1 style={{ fontSize: 34, fontWeight: 800, color: '#ffffff', marginBottom: 8 }}>
+          <h1 style={{ fontSize: 34, fontWeight: 800, color: 'var(--chrome-text)', marginBottom: 8 }}>
             🎯 Interview Hub
           </h1>
           <p style={{ fontSize: 16, color: '#64748b', lineHeight: 1.65, maxWidth: 620, margin: 0 }}>
@@ -309,19 +316,19 @@ export default function Interview() {
         {/* ── Stats bar ── */}
         <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
           {[
-            { label: 'TOTAL',  value: interviewQuestions.length, color: '#f1f5f9' },
-            { label: 'EASY',   value: counts.easy,               color: '#4ade80' },
-            { label: 'MEDIUM', value: counts.medium,             color: '#fbbf24' },
-            { label: 'HARD',   value: counts.hard,               color: '#f87171' },
+            { label: 'TOTAL',  value: interviewQuestions.length, color: 'var(--chrome-text)' },
+            { label: 'EASY',   value: counts.easy,               color: '#22c55e' },
+            { label: 'MEDIUM', value: counts.medium,             color: '#f59e0b' },
+            { label: 'HARD',   value: counts.hard,               color: '#ef4444' },
           ].map(s => (
             <div key={s.label} style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'var(--page-surface)',
+              border: '1px solid var(--page-border)',
               borderRadius: 12, padding: '0.6rem 1.2rem', textAlign: 'center',
               minWidth: 80,
             }}>
               <div style={{ fontSize: '1.4rem', fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#475569', marginTop: 3 }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--chrome-text-muted)', marginTop: 3 }}>
                 {s.label}
               </div>
             </div>
@@ -336,14 +343,14 @@ export default function Interview() {
             placeholder="Search questions…"
             style={{
               flex: 1, minWidth: 160,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.09)',
+              background: 'var(--page-surface)',
+              border: '1px solid var(--page-border)',
               borderRadius: 10, padding: '0.6rem 1rem',
-              color: '#f1f5f9', fontSize: '0.88rem', outline: 'none',
+              color: 'var(--chrome-text)', fontSize: '0.88rem', outline: 'none',
               fontFamily: 'inherit', transition: 'border-color 0.18s',
             }}
             onFocus={e => { e.target.style.borderColor = '#f5811f' }}
-            onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)' }}
+            onBlur={e => { e.target.style.borderColor = 'var(--page-border)' }}
           />
 
           <select value={diffFilter} onChange={e => setDiffFilter(e.target.value)} style={SELECT_STYLE} onFocus={selectFocus} onBlur={selectBlur}>
@@ -383,7 +390,7 @@ export default function Interview() {
         <div style={{
           marginTop: 40, padding: '18px 20px', borderRadius: 14,
           background: 'rgba(245,129,31,0.08)', border: '1px solid rgba(245,129,31,0.2)',
-          fontSize: 14, color: '#94a3b8', lineHeight: 1.7,
+          fontSize: 14, color: 'var(--chrome-text-muted)', lineHeight: 1.7,
         }}>
           <strong style={{ color: '#f5811f' }}>Pro tip:</strong> Click "View full visualization" on any question
           to see step-by-step animations of the underlying algorithm. Visual understanding + interview preparation = maximum retention.

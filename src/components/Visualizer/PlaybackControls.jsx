@@ -22,7 +22,7 @@ export default function PlaybackControls({ disabled }) {
   const atEnd     = currentIndex >= steps.length - 1
   const progress  = hasSteps ? (currentIndex / Math.max(steps.length - 1, 1)) * 100 : 0
 
-  const btnBase      = `p-2.5 rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed`
+  const btnBase      = `p-2.5 rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent`
   const btnPrimary   = `${btnBase} bg-blue-600 hover:bg-blue-500 text-white shadow-sm`
   const btnSecondary = `${btnBase} ${isDark
     ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
@@ -102,7 +102,10 @@ export default function PlaybackControls({ disabled }) {
             <button
               type="button"
               onClick={() => setSpeedOpen(v => !v)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              aria-label="Playback speed"
+              aria-haspopup="listbox"
+              aria-expanded={speedOpen}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                 isDark ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
               }`}
             >
