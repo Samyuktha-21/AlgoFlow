@@ -32,6 +32,11 @@ function reducer(state, action) {
     }
     case 'RESET':
       return { ...state, currentIndex: 0, isPlaying: false, isFinished: false }
+    case 'GOTO': {
+      if (state.steps.length === 0) return state
+      const idx = Math.max(0, Math.min(action.payload, state.steps.length - 1))
+      return { ...state, currentIndex: idx, isPlaying: false, isFinished: idx >= state.steps.length - 1 }
+    }
     case 'SET_SPEED':
       return { ...state, speed: action.payload }
     case 'ADVANCE': {
@@ -76,6 +81,7 @@ export function VisualizationProvider({ children }) {
       next:     () => dispatch({ type: 'NEXT' }),
       prev:     () => dispatch({ type: 'PREV' }),
       reset:    () => dispatch({ type: 'RESET' }),
+      goTo:     (i) => dispatch({ type: 'GOTO', payload: i }),
       setSpeed: (s) => dispatch({ type: 'SET_SPEED', payload: s }),
     }}>
       {children}

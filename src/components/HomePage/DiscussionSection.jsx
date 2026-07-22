@@ -50,7 +50,7 @@ function Avatar({ src, name, size = 36 }) {
   const fb = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'U')}&background=f5811f&color=000&size=128`
   return (
     <img src={src || fb} alt={name} onError={e => { e.target.src = fb }}
-      style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '2px solid rgba(255,255,255,0.12)' }}
+      style={{ width: size, height: size, borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '2px solid var(--page-border)' }}
     />
   )
 }
@@ -60,7 +60,7 @@ function TopicChip({ topic, small }) {
     <span style={{
       padding: small ? '2px 7px' : '3px 10px', borderRadius: 20,
       fontSize: small ? 10 : 11, fontWeight: 700,
-      background: 'rgba(245,129,31,0.12)', color: '#fdba74', border: '1px solid rgba(245,129,31,0.28)',
+      background: 'rgba(245,129,31,0.12)', color: 'var(--chip-orange-text)', border: '1px solid rgba(245,129,31,0.28)',
       whiteSpace: 'nowrap', flexShrink: 0,
     }}>
       {topic}
@@ -101,14 +101,14 @@ function TopicSelect({ value, onChange, isDark }) {
   /* Dark / light palette */
   const bg      = isDark ? '#1e293b'                     : '#ffffff'
   const border  = isDark ? 'rgba(245,129,31,0.4)'        : 'rgba(245,129,31,0.3)'
-  const text    = isDark ? '#f1f5f9'                     : '#0f172a'
+  const text    = isDark ? 'var(--chrome-text)'                     : '#0f172a'
   const hover   = isDark ? 'rgba(245,129,31,0.15)'       : 'rgba(245,129,31,0.08)'
   const active  = isDark ? 'rgba(245,129,31,0.28)'       : 'rgba(245,129,31,0.14)'
   const shadow  = isDark ? '0 8px 24px rgba(0,0,0,0.5)' : '0 8px 24px rgba(0,0,0,0.15)'
   /* Trigger: orange-tinted so it's clearly visible on any background */
   const trigBg     = isDark ? 'rgba(245,129,31,0.15)' : 'rgba(245,129,31,0.1)'
   const trigBorder = isDark ? 'rgba(245,129,31,0.5)'  : 'rgba(245,129,31,0.35)'
-  const trigText   = isDark ? '#fdba74'               : '#c2410c'
+  const trigText   = isDark ? 'var(--chip-orange-text)'               : '#c2410c'
 
   return (
     <div ref={wrapRef} style={{ position: 'relative', flexShrink: 0 }}>
@@ -260,25 +260,25 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
   return (
     <div style={{
       borderRadius: 12,
-      background: 'rgba(255,255,255,0.04)',
-      border: '1px solid rgba(255,255,255,0.08)',
+      background: 'var(--page-surface)',
+      border: '1px solid var(--page-border)',
       padding: '1rem 1.2rem',
       transition: 'background 0.2s ease',
     }}
-      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)' }}
-      onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+      onMouseEnter={e => { e.currentTarget.style.background = 'var(--page-surface-2)' }}
+      onMouseLeave={e => { e.currentTarget.style.background = 'var(--page-surface)' }}
     >
       {/* Post header */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
         <Avatar src={post.userAvatar} name={post.userName} size={36} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: '#f1f5f9', flexShrink: 0 }}>{post.userName}</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--chrome-text)', flexShrink: 0 }}>{post.userName}</span>
             <TopicChip topic={post.topic} small />
             {post.algorithmName && (
               <span style={{
                 padding: '2px 8px', borderRadius: 6, fontSize: 10, fontWeight: 600,
-                background: 'rgba(245,129,31,0.1)', border: '1px solid rgba(245,129,31,0.25)', color: '#fdba74',
+                background: 'rgba(245,129,31,0.1)', border: '1px solid rgba(245,129,31,0.25)', color: 'var(--chip-orange-text)',
                 flexShrink: 0,
               }}>
                 {post.algorithmName}
@@ -288,7 +288,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
               {timeAgo(post.timestamp)}
             </span>
           </div>
-          <p style={{ fontSize: 15, color: '#e2e8f0', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+          <p style={{ fontSize: 15, color: 'var(--chrome-text)', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
             {post.text}
           </p>
         </div>
@@ -321,7 +321,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
             color: '#475569', fontSize: 11, fontFamily: 'inherit',
             transition: 'color 0.18s', marginLeft: 'auto',
           }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#f87171' }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--chip-red-text)' }}
             onMouseLeave={e => { e.currentTarget.style.color = '#475569' }}
           >
             <Trash2 size={12} />
@@ -331,7 +331,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
 
       {/* Replies section */}
       {repliesOpen && (
-        <div style={{ marginTop: 12, paddingLeft: 48, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12 }}>
+        <div style={{ marginTop: 12, paddingLeft: 48, borderTop: '1px solid var(--page-surface-2)', paddingTop: 12 }}>
           {repliesLoading ? (
             <p style={{ color: '#64748b', fontSize: 13 }}>Loading replies…</p>
           ) : replies.map(r => {
@@ -341,10 +341,10 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
                 <Avatar src={r.userAvatar} name={r.userName} size={28} />
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#f1f5f9' }}>{r.userName}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--chrome-text)' }}>{r.userName}</span>
                     <span style={{ fontSize: 11, color: '#64748b' }}>{timeAgo(r.timestamp)}</span>
                   </div>
-                  <p style={{ fontSize: 14, color: '#cbd5e1', lineHeight: 1.6, margin: '0 0 5px', whiteSpace: 'pre-wrap' }}>{r.text}</p>
+                  <p style={{ fontSize: 14, color: 'var(--chrome-text-muted)', lineHeight: 1.6, margin: '0 0 5px', whiteSpace: 'pre-wrap' }}>{r.text}</p>
                   <button type="button" onClick={() => handleReplyLike(r.id, r.likedBy)} style={{
                     display: 'flex', alignItems: 'center', gap: 4,
                     background: 'none', border: 'none', cursor: 'pointer', padding: 0,
@@ -370,15 +370,15 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
                   placeholder="Write a reply…"
                   style={{
                     flex: 1, padding: '8px 14px', borderRadius: 20, fontSize: 13,
-                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#f1f5f9', outline: 'none', fontFamily: 'inherit',
+                    background: 'var(--page-surface-2)', border: '1px solid var(--page-border)',
+                    color: 'var(--chrome-text)', outline: 'none', fontFamily: 'inherit',
                   }}
                 />
                 <button type="button" onClick={handleReplySubmit}
                   disabled={!replyText.trim() || postingReply}
                   style={{
                     padding: '8px 14px', borderRadius: 20, border: 'none',
-                    background: replyText.trim() && !postingReply ? '#f5811f' : 'rgba(255,255,255,0.06)',
+                    background: replyText.trim() && !postingReply ? '#f5811f' : 'var(--page-surface-2)',
                     color: replyText.trim() && !postingReply ? '#000' : '#475569',
                     cursor: replyText.trim() && !postingReply ? 'pointer' : 'not-allowed',
                     fontSize: 12, fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 4,
@@ -391,7 +391,7 @@ function PostCard({ post, currentUser, signInWithGoogle }) {
             </div>
           ) : (
             <p style={{ fontSize: 13, color: '#475569' }}>
-              <button type="button" onClick={signInWithGoogle} style={{ background:'none', border:'none', color:'#fdba74', cursor:'pointer', padding:0, fontFamily:'inherit', fontSize:13 }}>
+              <button type="button" onClick={signInWithGoogle} style={{ background:'none', border:'none', color:'var(--chip-orange-text)', cursor:'pointer', padding:0, fontFamily:'inherit', fontSize:13 }}>
                 Sign in
               </button>{' '}to reply.
             </p>
@@ -474,8 +474,8 @@ export default function DiscussionSection() {
     <section
       id="discussion-section"
       style={{
-        background: 'rgba(255,255,255,0.02)',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        background: 'var(--page-surface)',
+        borderTop: '1px solid var(--page-border)',
         padding: '80px 0',
       }}
     >
@@ -486,7 +486,7 @@ export default function DiscussionSection() {
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#f5811f', marginBottom: 10 }}>
             Community
           </p>
-          <h2 style={{ fontSize: 38, fontWeight: 800, color: '#ffffff', marginBottom: 10, lineHeight: 1.15 }}>
+          <h2 style={{ fontSize: 38, fontWeight: 800, color: 'var(--chrome-text)', marginBottom: 10, lineHeight: 1.15 }}>
             💬 Community Discussion
           </h2>
           <p style={{ fontSize: 16, color: '#64748b', lineHeight: 1.6 }}>
@@ -506,12 +506,12 @@ export default function DiscussionSection() {
                 fontWeight: activeTopic === t ? 700 : 600,
                 whiteSpace: 'nowrap', flexShrink: 0, cursor: 'pointer',
                 background: activeTopic === t ? '#f5811f' : 'transparent',
-                color: activeTopic === t ? '#000000' : '#94a3b8',
-                border: activeTopic === t ? '1px solid #f5811f' : '1px solid rgba(255,255,255,0.15)',
+                color: activeTopic === t ? '#000000' : 'var(--chrome-text-muted)',
+                border: activeTopic === t ? '1px solid #f5811f' : '1px solid var(--page-border)',
                 transition: 'all 0.18s',
               }}
-              onMouseEnter={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'rgba(245,129,31,0.4)'; e.currentTarget.style.color = '#fdba74' } }}
-              onMouseLeave={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = '#94a3b8' } }}
+              onMouseEnter={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'rgba(245,129,31,0.4)'; e.currentTarget.style.color = 'var(--chip-orange-text)' } }}
+              onMouseLeave={e => { if (activeTopic !== t) { e.currentTarget.style.borderColor = 'var(--page-border)'; e.currentTarget.style.color = 'var(--chrome-text-muted)' } }}
             >
               {t}
             </button>
@@ -521,7 +521,7 @@ export default function DiscussionSection() {
         {/* Firebase not configured notice */}
         {!firebaseEnabled && (
           <div style={{ padding: '16px 20px', borderRadius: 12, marginBottom: 24, background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.25)' }}>
-            <p style={{ color: '#fcd34d', margin: 0, fontSize: 14, lineHeight: 1.6 }}>
+            <p style={{ color: 'var(--chip-amber-text)', margin: 0, fontSize: 14, lineHeight: 1.6 }}>
               💡 Configure <code style={{ background: 'rgba(0,0,0,0.3)', padding: '1px 5px', borderRadius: 4 }}>VITE_FIREBASE_*</code> environment variables to enable real-time discussion.
             </p>
           </div>
@@ -529,7 +529,7 @@ export default function DiscussionSection() {
 
         {/* Post composer */}
         {user ? (
-          <div style={{ marginBottom: 32, padding: '20px 24px', borderRadius: 16, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ marginBottom: 32, padding: '20px 24px', borderRadius: 16, background: 'var(--page-surface)', border: '1px solid var(--page-border)' }}>
             <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
               <Avatar src={user.avatar} name={user.name} size={38} />
               <textarea
@@ -541,17 +541,17 @@ export default function DiscussionSection() {
                 rows={3}
                 style={{
                   flex: 1, padding: '12px 16px', minHeight: 80,
-                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: 12, color: '#f1f5f9', fontSize: 15, fontFamily: 'inherit',
+                  background: 'var(--page-surface-2)', border: '1px solid var(--page-border)',
+                  borderRadius: 12, color: 'var(--chrome-text)', fontSize: 15, fontFamily: 'inherit',
                   resize: 'vertical', outline: 'none', transition: 'border 0.18s, box-shadow 0.18s',
                 }}
                 onFocus={e => { e.target.style.border = '1px solid #f5811f'; e.target.style.boxShadow = '0 0 0 3px rgba(245,129,31,0.15)' }}
-                onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)'; e.target.style.boxShadow = 'none' }}
+                onBlur={e => { e.target.style.border = '1px solid var(--page-border)'; e.target.style.boxShadow = 'none' }}
               />
             </div>
             <div style={{
               display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap',
-              borderTop: '1px solid rgba(255,255,255,0.08)',
+              borderTop: '1px solid var(--page-border)',
               paddingTop: '0.75rem', marginTop: '0.5rem',
             }}>
               <TopicSelect value={composerTopic} onChange={setComposerTopic} isDark={isDark} />
@@ -561,18 +561,18 @@ export default function DiscussionSection() {
                 placeholder="Algorithm name (optional)"
                 style={{
                   flex: 1, minWidth: 160, padding: '0.5rem 0.75rem', borderRadius: 8, fontSize: 13,
-                  background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                  color: '#f1f5f9', outline: 'none', transition: 'border 0.18s',
+                  background: 'var(--page-surface-2)', border: '1px solid var(--page-border)',
+                  color: 'var(--chrome-text)', outline: 'none', transition: 'border 0.18s',
                 }}
                 onFocus={e => { e.target.style.border = '1px solid #f5811f' }}
-                onBlur={e => { e.target.style.border = '1px solid rgba(255,255,255,0.12)' }}
+                onBlur={e => { e.target.style.border = '1px solid var(--page-border)' }}
               />
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
                 {postSuccess && (
-                  <span style={{ fontSize: 13, color: '#34d399', fontWeight: 600 }}>✓ Posted!</span>
+                  <span style={{ fontSize: 13, color: 'var(--chip-green-text)', fontWeight: 600 }}>✓ Posted!</span>
                 )}
                 {postError && (
-                  <span style={{ fontSize: 13, color: '#f87171' }}>{postError}</span>
+                  <span style={{ fontSize: 13, color: 'var(--chip-red-text)' }}>{postError}</span>
                 )}
                 <button
                   type="button"
@@ -597,7 +597,7 @@ export default function DiscussionSection() {
           </div>
         ) : (
           <div style={{ marginBottom: 32, padding: '24px', borderRadius: 16, textAlign: 'center', background: 'rgba(245,129,31,0.08)', border: '1px solid rgba(245,129,31,0.2)' }}>
-            <p style={{ color: '#94a3b8', marginBottom: 16, fontSize: 15 }}>Sign in to join the discussion</p>
+            <p style={{ color: 'var(--chrome-text-muted)', marginBottom: 16, fontSize: 15 }}>Sign in to join the discussion</p>
             <button type="button" onClick={signInWithGoogle} style={{
               padding: '10px 24px', borderRadius: 24, border: 'none',
               background: 'linear-gradient(135deg,#f5811f,#ff5722)',
@@ -633,12 +633,12 @@ export default function DiscussionSection() {
         {hasMore && !loading && (
           <div style={{ textAlign: 'center', marginTop: 24 }}>
             <button type="button" onClick={() => setLoadLimit(l => l + 20)} style={{
-              padding: '10px 28px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.2)',
-              background: 'transparent', color: '#94a3b8', fontSize: 14, cursor: 'pointer',
+              padding: '10px 28px', borderRadius: 20, border: '1px solid var(--page-border)',
+              background: 'transparent', color: 'var(--chrome-text-muted)', fontSize: 14, cursor: 'pointer',
               fontFamily: 'inherit', transition: 'all 0.18s',
             }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#f1f5f9' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#94a3b8' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--page-surface-2)'; e.currentTarget.style.color = 'var(--chrome-text)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--chrome-text-muted)' }}
             >
               Load more
             </button>

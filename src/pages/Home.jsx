@@ -1,12 +1,16 @@
 import HeroSection from '../components/HomePage/HeroSection'
 import CategoryGrid from '../components/HomePage/CategoryGrid'
 import CursorGlow from '../components/HomePage/CursorGlow'
+import Seo from '../components/Seo'
 
 const MONO = "'IBM Plex Mono', monospace"
 
 export default function Home() {
   return (
     <div style={{ background: '#0d0d0d', position: 'relative' }}>
+      <Seo
+        description="Watch 124 algorithms run step-by-step with synchronized code in Java, C, C++ and Python, plus 108 interview questions. Learn by seeing, not memorizing."
+      />
       {/* ambient cursor glow — homepage only, sits behind content */}
       <CursorGlow />
 
