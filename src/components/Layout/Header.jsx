@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
@@ -177,6 +177,10 @@ export default function Header({ isHomepage }) {
   }
   const handleDiscussion = () => navigate('/discussion')
   const handlePlay = () => navigate('/play')
+  const handlePractice = () => {
+    if (algoMatch) navigate(`/practice?topic=${algoCategory}&algo=${algoId}`)
+    else navigate('/practice')
+  }
 
   const interviewBtn = (big) => (
     <button type="button" className="nav-btn" onClick={handleInterview} style={navBtn(big)}>
@@ -193,6 +197,11 @@ export default function Header({ isHomepage }) {
       <Gamepad2 size={big ? 13 : 12} /> Test Yourself
     </button>
   )
+  const practiceBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={handlePractice} style={navBtn(big)}>
+      <Code2 size={big ? 13 : 12} /> Practice
+    </button>
+  )
 
   /* Homepage header — minimal overlay (always dark, over the dark hero) */
   if (isHomepage) {
@@ -205,6 +214,7 @@ export default function Header({ isHomepage }) {
               style={{ fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
           </Link>
           <div className="flex items-center gap-2">
+            {practiceBtn(false)}
             {playBtn(false)}
             {interviewBtn(false)}
             {discussionBtn(false)}
@@ -228,6 +238,7 @@ export default function Header({ isHomepage }) {
 
         <div className="flex items-center gap-2 flex-shrink-0">
           <SearchTriggerHeader />
+          {practiceBtn(true)}
           {playBtn(true)}
           {interviewBtn(true)}
           {discussionBtn(true)}
