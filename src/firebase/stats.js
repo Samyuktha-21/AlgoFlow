@@ -63,6 +63,10 @@ export function recordInterviewView() {
   bump({ interviewViews: increment(1) })
 }
 
+export function recordPracticeView() {
+  bump({ practiceViews: increment(1) })
+}
+
 /* Realtime subscription — cb receives { visits, logins, algoViews } or null.
    Returns an unsubscribe function. */
 export function subscribeToStats(cb) {
