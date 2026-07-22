@@ -1,17 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
-import Home from './pages/Home'
-import Category from './pages/Category'
-import Algorithm from './pages/Algorithm'
-import Interview from './pages/Interview'
-import DiscussionPage from './pages/DiscussionPage'
 import GlobalSearch from './components/Search/GlobalSearch'
 import FeedbackPrompt from './components/FeedbackPrompt'
 import { registerSearchOpener } from './components/Search/SearchTrigger'
 import { useTheme } from './context/ThemeContext'
 import { recordVisit, recordLearningMinute } from './firebase/stats'
+
+/* Route pages are code-split so each route only ships its own JS */
+const Home           = lazy(() => import('./pages/Home'))
+const Category       = lazy(() => import('./pages/Category'))
+const Algorithm      = lazy(() => import('./pages/Algorithm'))
+const Interview      = lazy(() => import('./pages/Interview'))
+const DiscussionPage = lazy(() => import('./pages/DiscussionPage'))
+const TestYourself   = lazy(() => import('./pages/TestYourself'))
+
+/* Lightweight fallback while a route chunk loads */
+function RouteFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="w-8 h-8 border-[3px] border-blue-400 border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -70,20 +82,23 @@ function App() {
       <FeedbackPrompt />
 
       <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category/:categoryId" element={<Category />} />
-          <Route path="/algorithm/:categoryId/:algorithmId" element={<Algorithm />} />
-          <Route path="/interview" element={<Interview />} />
-          <Route path="/discussion" element={<DiscussionPage />} />
-          <Route path="*" element={
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-              <h1 className="text-6xl font-bold text-gray-300">404</h1>
-              <p className="text-gray-500">Page not found</p>
-              <a href="/" className="text-blue-500 hover:underline">Back to Home</a>
-            </div>
-          } />
-        </Routes>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/category/:categoryId" element={<Category />} />
+            <Route path="/algorithm/:categoryId/:algorithmId" element={<Algorithm />} />
+            <Route path="/interview" element={<Interview />} />
+            <Route path="/discussion" element={<DiscussionPage />} />
+            <Route path="/play" element={<TestYourself />} />
+            <Route path="*" element={
+              <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <h1 className="text-6xl font-bold text-gray-300">404</h1>
+                <p className="text-gray-500">Page not found</p>
+                <a href="/" className="text-blue-500 hover:underline">Back to Home</a>
+              </div>
+            } />
+          </Routes>
+        </Suspense>
       </main>
       {!isHomepage && <Footer />}
     </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { ChevronRight, Target, BarChart2, Globe, CheckCircle } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
+import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check } from 'lucide-react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useVisualization } from '../context/VisualizationContext'
 import { useBeginner } from '../context/BeginnerContext'
 import categories from '../data/categories.json'
@@ -21,6 +21,9 @@ import CodeBlock from '../components/CodeDisplay/CodeBlock'
 import AimPanel from '../components/InfoPanels/AimPanel'
 import ComplexityPanel from '../components/InfoPanels/ComplexityPanel'
 import ApplicationsPanel from '../components/InfoPanels/ApplicationsPanel'
+import Seo from '../components/Seo'
+import { getWhyText, deriveResult } from '../utils/stepExplain'
+import { getDefaultInput } from '../game/defaultInput'
 
 const metaModules  = import.meta.glob('../algorithms/**/*.json')
 const stepsModules = import.meta.glob('../algorithms/**/*.js')
@@ -59,85 +62,6 @@ const OP_LABELS = {
   visit:'Visiting', backtrack:'Backtrack ↩', update:'Update', complete:'Complete ✓',
   initialize:'Initialize', pivot:'Pivot', merge:'Merge', divide:'Divide',
   insert:'Insert', relax:'Relax', enqueue:'Enqueue', dequeue:'Dequeue',
-}
-
-function getDefaultInput(type, inputType) {
-  if (inputType === 'stringPair')   return { input: 'ABCBDAB,BDCAB', target: '' }
-  if (inputType === 'singleString') return { input: 'racecar', target: '' }
-  switch (type) {
-    case 'sorting':     return { input: '64, 34, 25, 12, 22, 11, 90', target: '' }
-    case 'searching':   return { input: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91', target: '23' }
-    case 'graph':       return { input: '0-1, 0-2, 1-3, 1-4, 2-5, 2-6', target: '' }
-    case 'tree':        return { input: '4, 2, 6, 1, 3, 5, 7', target: '' }
-    case 'heap':        return { input: '90, 70, 80, 40, 50, 60, 30', target: '' }
-    case 'dp':          return { input: '5, 3, 8, 1, 9, 2, 7', target: '' }
-    case 'dynamic-programming': return { input: '5, 3, 8, 1, 9, 2, 7', target: '' }
-    case 'backtracking':return { input: '4, 2, 6, 1, 3', target: '' }
-    case 'linked-list': return { input: '1, 2, 3, 4, 5', target: '' }
-    case 'stack':       return { input: '3, 7, 2, 5, 8, 4', target: '' }
-    case 'queue':       return { input: '3, 7, 2, 5, 8, 4', target: '' }
-    case 'array':       return { input: '3, 1, 4, 1, 5, 9, 2, 6', target: '' }
-    case 'fundamentals':return { input: '5, 3, 7, 1, 9, 4, 6', target: '' }
-    case 'hashing':     return { input: '12, 24, 36, 15, 27', target: '' }
-    case 'greedy':      return { input: '10, 20, 30, 5, 15', target: '' }
-    default:            return { input: '5, 3, 7, 1, 9', target: '' }
-  }
-}
-
-function getWhyText(step, algorithmType) {
-  if (!step) return null
-  const { type, array, comparing, swapping, sorted, target, mid, current, queue, pivot } = step
-
-  if (type === 'compare' && Array.isArray(comparing) && comparing.length >= 2 && array) {
-    const [i, j] = comparing
-    const a = array[i], b = array[j]
-    if (a !== undefined && b !== undefined) {
-      if (a > b) return `${a} > ${b} — out of order for ascending sort, so they'll be swapped`
-      return `${a} ≤ ${b} — already in the right order, no swap needed`
-    }
-  }
-  if (type === 'swap' && Array.isArray(swapping) && swapping.length >= 2 && array) {
-    const [i, j] = swapping
-    const a = array[i], b = array[j]
-    if (a !== undefined && b !== undefined)
-      return `Moving ${a} and ${b} — the larger value bubbles toward the end of the array`
-  }
-  if (type === 'pivot' && pivot !== undefined && array)
-    return `${array[pivot]} is the pivot — everything smaller goes left, everything larger goes right`
-  if (type === 'sorted' && Array.isArray(sorted))
-    return `This position is now permanent — the correct value is locked in place`
-  if ((algorithmType === 'searching' || type === 'compare') && mid !== undefined && target !== undefined && array) {
-    const midVal = array[mid]
-    if (midVal === target) return `Middle value ${midVal} equals target — found it!`
-    if (target < midVal) return `Target ${target} < middle value ${midVal} — search the LEFT half next (discard right)`
-    return `Target ${target} > middle value ${midVal} — search the RIGHT half next (discard left)`
-  }
-  if (type === 'found') return `Target found! Binary search takes at most log₂(n) comparisons — far faster than checking every element`
-  if (type === 'visit' && current !== undefined) {
-    if (Array.isArray(queue) && queue.length > 0)
-      return `Processing node ${current} from the front of the queue. BFS always expands closest nodes first — like ripples in a pond`
-    return `Exploring as deep as possible from node ${current} before backtracking (DFS)`
-  }
-  if (type === 'enqueue')
-    return `Adding unvisited neighbours to the queue so they'll be explored in order of discovery`
-  if (type === 'backtrack')
-    return `Dead end — no valid option here. Backtracking to try a different choice`
-  if (type === 'update')
-    return `Storing this result so we never recompute it — this is memoization, the core of dynamic programming`
-  return null
-}
-
-function deriveResult(step) {
-  if (!step) return null
-  if (step.found >= 0) return `Found at index ${step.found}`
-  if (step.found === -2) return 'Not found in array'
-  if (step.array && step.sorted?.length === step.array.length) return step.array.join(' → ')
-  if (step.visited?.length > 0 && !step.current && !step.queue?.length) return `Visited: ${step.visited.join(' → ')}`
-  if (step.result !== undefined) return String(step.result)
-  if (step.dp?.length && !step.current) return `dp result: ${step.dp[step.dp.length-1]}`
-  if (step.description?.toLowerCase().includes('complete') || step.description?.toLowerCase().includes('sorted'))
-    return step.description
-  return null
 }
 
 /* ── Step description bar — pinned INSIDE the visualization panel top ── */
@@ -287,9 +211,22 @@ function FinalAnswerDisplay() {
   )
 }
 
+const VALID_LANGS = ['java', 'c', 'cpp', 'python']
+
 export default function Algorithm() {
   const { categoryId, algorithmId } = useParams()
-  const { setSteps, play, setSpeed } = useVisualization()
+  const { setSteps, play, pause, next, prev, reset, setSpeed, goTo, isPlaying, steps, currentIndex } = useVisualization()
+  const prefersReducedMotion = useReducedMotion()
+
+  /* ── Shareable-link params: ?input=&target=&step=&lang= ── */
+  const [searchParams] = useSearchParams()
+  const sharedInput  = searchParams.get('input')
+  const sharedTarget = searchParams.get('target')
+  const sharedStep   = searchParams.get('step')
+  const sharedLang   = searchParams.get('lang')
+
+  const [lastRun, setLastRun] = useState({ input: '', target: '' })
+  const [shared, setShared]   = useState(false)
 
   /* Feed the homepage live "algos explored" counter + this algorithm's own view count */
   useEffect(() => {
@@ -303,7 +240,7 @@ export default function Algorithm() {
   const [isLoading, setIsLoading]     = useState(true)
   const [notImplemented, setNotImplemented] = useState(false)
   const [activeTab, setActiveTab]     = useState('aim')
-  const [language, setLanguage]       = useState('java')
+  const [language, setLanguage]       = useState(() => VALID_LANGS.includes(sharedLang) ? sharedLang : 'java')
   const [autoRunDone, setAutoRunDone] = useState(false)
 
   /* ── Split-screen state ── */
@@ -321,6 +258,34 @@ export default function Algorithm() {
     check()
     window.addEventListener('resize', check, { passive: true })
     return () => window.removeEventListener('resize', check)
+  }, [])
+
+  /* ── Keyboard shortcuts for the visualizer (ignored while typing) ── */
+  const kbRef = useRef({})
+  /* Keep the ref fresh each render without touching it during render */
+  useEffect(() => {
+    kbRef.current = { isPlaying, play, pause, next, prev, reset, hasSteps: steps.length > 0 }
+  })
+  useEffect(() => {
+    const onKey = (e) => {
+      const t = e.target
+      const tag = t?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t?.isContentEditable) return
+      const k = kbRef.current
+      if (!k.hasSteps) return
+      if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault()
+        k.isPlaying ? k.pause() : k.play()
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault(); k.next()
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault(); k.prev()
+      } else if (e.key === 'r' || e.key === 'R') {
+        k.reset()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   useEffect(() => {
@@ -400,6 +365,7 @@ export default function Algorithm() {
     if (!stepsModule?.generateSteps) return { error: 'Algorithm not yet implemented' }
     const type      = metadata?.type || 'sorting'
     const inputType = metadata?.inputType
+    setLastRun({ input: inputStr || '', target: targetStr || '' })
 
     if (type === 'searching') {
       const p = parseSearchInput(inputStr, targetStr)
@@ -439,14 +405,42 @@ export default function Algorithm() {
     if (!metadata || !stepsModule?.generateSteps || autoRunDone || isLoading) return
     setAutoRunDone(true)
     const def = getDefaultInput(metadata.type, metadata.inputType)
-    const result = handleVisualize(def.input, def.target || '')
-    if (!result?.error) {
+    /* Seed from a shared link if present, otherwise use the default input */
+    const initInput  = sharedInput  ?? def.input
+    const initTarget = sharedTarget ?? (def.target || '')
+    const result = handleVisualize(initInput, initTarget)
+    if (result?.error) return
+    if (sharedStep != null) {
+      /* Restore the exact step from a shared link (steps are set by now) */
+      const n = parseInt(sharedStep, 10)
+      if (!Number.isNaN(n)) setTimeout(() => goTo(n), 60)
+    } else if (!prefersReducedMotion) {
+      /* Respect reduced-motion: seed the steps but don't auto-animate */
       setSpeed('0.5x')
       setTimeout(() => play(), 600)
     }
-  }, [metadata, stepsModule, autoRunDone, isLoading, handleVisualize, play, setSpeed])
+  }, [metadata, stepsModule, autoRunDone, isLoading, handleVisualize, play, setSpeed,
+      goTo, prefersReducedMotion, sharedInput, sharedTarget, sharedStep])
 
   const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType) : null
+  const shownInput   = sharedInput  ?? defaultInput?.input
+  const shownTarget  = sharedTarget ?? defaultInput?.target
+
+  const handleShare = async () => {
+    const params = new URLSearchParams()
+    const input  = lastRun.input  || shownInput  || ''
+    const target = lastRun.target || shownTarget || ''
+    if (input)  params.set('input', input)
+    if (target) params.set('target', target)
+    params.set('lang', language)
+    params.set('step', String(currentIndex))
+    const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+    try {
+      await navigator.clipboard.writeText(url)
+      setShared(true)
+      setTimeout(() => setShared(false), 1500)
+    } catch { /* clipboard unavailable */ }
+  }
 
   /* ── Loading state ── */
   if (isLoading) {
@@ -495,6 +489,11 @@ export default function Algorithm() {
 
   return (
     <div style={{ position:'relative', minHeight:'100vh' }}>
+      <Seo
+        title={`${metadata.name}${category?.name ? ` — ${category.name}` : ''}`}
+        description={metadata.description}
+        type="article"
+      />
       <ThemeBackground themeId={themeId} variant="page" />
 
       <div style={{ position:'relative', zIndex:10 }}>
@@ -527,6 +526,23 @@ export default function Algorithm() {
                 border:'1px solid rgba(59,130,246,0.35)',
               }}>Live</span>
               <AlgoViewsBadge categoryId={categoryId} algorithmId={algorithmId} isLight={isLight} />
+              <button
+                type="button"
+                onClick={handleShare}
+                aria-label={shared ? 'Link copied' : 'Copy shareable link'}
+                title="Copy a link to this input & step"
+                style={{
+                  marginLeft: 'auto', display:'flex', alignItems:'center', gap:6,
+                  padding:'6px 12px', borderRadius:8, fontSize:12, fontWeight:600, cursor:'pointer',
+                  color: shared ? '#34d399' : (isLight ? '#1e40af' : '#93c5fd'),
+                  background: shared ? 'rgba(52,211,153,0.12)' : 'rgba(59,130,246,0.14)',
+                  border: `1px solid ${shared ? 'rgba(52,211,153,0.5)' : 'rgba(59,130,246,0.35)'}`,
+                  transition: 'all 0.15s',
+                }}
+              >
+                {shared ? <Check size={14} /> : <Share2 size={14} />}
+                {shared ? 'Copied!' : 'Share'}
+              </button>
             </div>
             <p style={{ fontSize:14, color: textMuted, lineHeight:1.6, maxWidth:780 }}>
               {metadata.description}
@@ -682,8 +698,8 @@ export default function Algorithm() {
                 algorithmType={metadata.type}
                 inputType={metadata.inputType}
                 onVisualize={handleVisualize}
-                defaultValue={defaultInput?.input}
-                defaultTarget={defaultInput?.target}
+                defaultValue={shownInput}
+                defaultTarget={shownTarget}
               />
             </div>
             <div className="lg:col-span-2">

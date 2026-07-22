@@ -1,50 +1,29 @@
+import { Suspense } from 'react'
 import { useVisualization } from '../../context/VisualizationContext'
-import SortVisualizer from './SortVisualizer'
-import SearchVisualizer from './SearchVisualizer'
-import GraphVisualizer from './GraphVisualizer'
-import ArrayVisualizer from './ArrayVisualizer'
-import DPVisualizer from './DPVisualizer'
-import TreeVisualizer from './TreeVisualizer'
-import LinkedListVisualizer from './LinkedListVisualizer'
-import StackVisualizer from './StackVisualizer'
-import HeapVisualizer from './HeapVisualizer'
-import BacktrackingVisualizer from './BacktrackingVisualizer'
-
-const VISUALIZER_MAP = {
-  sorting:        SortVisualizer,
-  searching:      SearchVisualizer,
-  graph:          GraphVisualizer,
-  array:          ArrayVisualizer,
-  'linked-list':  LinkedListVisualizer,
-  stack:          StackVisualizer,
-  queue:          StackVisualizer,
-  'stack-queue':  StackVisualizer,
-  tree:           TreeVisualizer,
-  heap:           HeapVisualizer,
-  dp:             DPVisualizer,
-  'dynamic-programming': DPVisualizer,
-  backtracking:   BacktrackingVisualizer,
-  greedy:         ArrayVisualizer,
-  hashing:        ArrayVisualizer,
-  fundamentals:   ArrayVisualizer,
-}
+import { VISUALIZER_MAP } from './visualizerMap'
 
 /* When embedded=true the outer glass wrapper is omitted —
    the parent split panel provides its own background. */
 export default function VisualizerCanvas({ algorithmType, themeId, metadata, embedded }) {
   const { currentStep } = useVisualization()
-  const VisualizerComponent = VISUALIZER_MAP[algorithmType] || ArrayVisualizer
+  const VisualizerComponent = VISUALIZER_MAP[algorithmType] || VISUALIZER_MAP.array
 
   const LIGHT_THEMES = new Set(['water', 'puzzle', 'chain', 'books'])
   const isLightTheme = LIGHT_THEMES.has(themeId)
 
   const inner = (
     <div className="p-4 flex flex-col" style={{ minHeight: 380 }}>
-      <VisualizerComponent
-        step={currentStep}
-        themeId={themeId}
-        metadata={metadata}
-      />
+      <Suspense fallback={
+        <div className="flex items-center justify-center" style={{ minHeight: 340 }}>
+          <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }>
+        <VisualizerComponent
+          step={currentStep}
+          themeId={themeId}
+          metadata={metadata}
+        />
+      </Suspense>
     </div>
   )
 
