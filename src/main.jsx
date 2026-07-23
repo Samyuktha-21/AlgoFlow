@@ -6,16 +6,19 @@ import { ThemeProvider } from './context/ThemeContext.jsx'
 import { VisualizationProvider } from './context/VisualizationContext.jsx'
 import { BeginnerProvider } from './context/BeginnerContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { ProgressProvider } from './context/ProgressContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <ThemeProvider>
       <AuthProvider>
-        <BeginnerProvider>
-          <VisualizationProvider>
-            <App />
-          </VisualizationProvider>
-        </BeginnerProvider>
+        <ProgressProvider>
+          <BeginnerProvider>
+            <VisualizationProvider>
+              <App />
+            </VisualizationProvider>
+          </BeginnerProvider>
+        </ProgressProvider>
       </AuthProvider>
     </ThemeProvider>
   </BrowserRouter>,
