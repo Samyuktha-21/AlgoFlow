@@ -1,5 +1,6 @@
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2 } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
@@ -64,6 +65,17 @@ const GoogleIcon = () => (
 
 function LoginButton() {
   const { user, loading, authError, signingIn, signInWithGoogle, logout } = useAuth()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onDoc = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false) }
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey) }
+  }, [menuOpen])
 
   if (loading) {
     return (
@@ -73,13 +85,41 @@ function LoginButton() {
 
   if (user) {
     return (
-      <div style={{ display:'flex', alignItems:'center', gap:8, padding:'3px 3px 3px 12px', background:'var(--chrome-btn-bg)', border:'1px solid var(--chrome-btn-border)', borderRadius:24 }}>
-        <span style={{ fontSize:13, color:'var(--chrome-text-muted)', maxWidth:80, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
-          {user.name?.split(' ')[0]}
-        </span>
-        <img src={user.avatar} alt={user.name} onClick={logout} title="Click to sign out"
-          style={{ width:30, height:30, borderRadius:'50%', border:'1px solid var(--chrome-border)', cursor:'pointer' }}
-        />
+      <div ref={menuRef} style={{ position: 'relative' }}>
+        <button
+          type="button"
+          onClick={() => setMenuOpen(o => !o)}
+          aria-haspopup="menu"
+          aria-expanded={menuOpen}
+          title="Account menu"
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '3px 8px 3px 12px', background: 'var(--chrome-btn-bg)', border: '1px solid var(--chrome-btn-border)', borderRadius: 24, cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          <span style={{ fontSize: 13, color: 'var(--chrome-text-muted)', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {user.name?.split(' ')[0]}
+          </span>
+          <img src={user.avatar} alt={user.name} style={{ width: 30, height: 30, borderRadius: '50%', border: '1px solid var(--chrome-border)' }} />
+          <ChevronDown size={13} style={{ color: 'var(--chrome-text-muted)' }} />
+        </button>
+        {menuOpen && (
+          <div role="menu" style={{ position: 'absolute', right: 0, top: 'calc(100% + 6px)', minWidth: 170, background: 'var(--chrome-bg)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--chrome-border)', borderRadius: 10, padding: 6, boxShadow: '0 8px 30px rgba(0,0,0,0.35)', zIndex: 60 }}>
+            <Link
+              to="/profile"
+              role="menuitem"
+              onClick={() => setMenuOpen(false)}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 7, fontSize: 13, fontWeight: 600, color: 'var(--chrome-text)', textDecoration: 'none' }}
+            >
+              <LayoutDashboard size={15} /> Dashboard
+            </Link>
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => { setMenuOpen(false); logout() }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px', borderRadius: 7, fontSize: 13, fontWeight: 600, color: 'var(--chrome-text)', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left' }}
+            >
+              <LogOut size={15} /> Sign out
+            </button>
+          </div>
+        )}
       </div>
     )
   }
