@@ -15,7 +15,18 @@ export function subscribeToProgress(uid, cb) {
       doc(db, 'users', uid),
       snap => {
         const d = snap.exists() ? snap.data() : {}
-        cb({ learned: d.learned || {}, bookmarks: d.bookmarks || {} })
+        cb({
+          learned: d.learned || {},
+          bookmarks: d.bookmarks || {},
+          solved: d.solved || {},
+          dailyCount: d.dailyCount || 0,
+          currentStreak: d.currentStreak || 0,
+          longestStreak: d.longestStreak || 0,
+          lastDailyDate: d.lastDailyDate || '',
+          quizXp: d.quizXp || 0,
+          quizXpDate: d.quizXpDate || '',
+          quizXpToday: d.quizXpToday || 0,
+        })
       },
       e => console.warn('Progress subscription failed:', e.message),
     )
@@ -45,3 +56,15 @@ async function setField(uid, field, key, on) {
 
 export function setLearned(uid, key, on)  { return setField(uid, 'learned', key, on) }
 export function setBookmark(uid, key, on) { return setField(uid, 'bookmarks', key, on) }
+export function setSolved(uid, problemId, on) { return setField(uid, 'solved', problemId, on) }
+
+/* Direct field update for engagement counters (xp/streak/daily). */
+export async function updateEngagement(uid, fields) {
+  if (!firebaseEnabled || !db || !uid) return
+  const ref = doc(db, 'users', uid)
+  try {
+    await updateDoc(ref, fields)
+  } catch {
+    try { await setDoc(ref, fields, { merge: true }) } catch (e) { console.warn('Engagement write failed:', e.message) }
+  }
+}
