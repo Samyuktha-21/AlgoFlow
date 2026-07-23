@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link, useSearchParams } from 'react-router-dom'
-import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check } from 'lucide-react'
+import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check, Code2 } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useVisualization } from '../context/VisualizationContext'
 import { useBeginner } from '../context/BeginnerContext'
@@ -526,13 +526,25 @@ export default function Algorithm() {
                 border:'1px solid rgba(59,130,246,0.35)',
               }}>Live</span>
               <AlgoViewsBadge categoryId={categoryId} algorithmId={algorithmId} isLight={isLight} />
+              <Link
+                to={`/practice?topic=${categoryId}&algo=${algorithmId}`}
+                style={{
+                  marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600,
+                  color: isLight ? '#b45309' : '#fdba74',
+                  background: 'rgba(245,129,31,0.14)', border: '1px solid rgba(245,129,31,0.35)',
+                  textDecoration: 'none',
+                }}
+              >
+                <Code2 size={14} /> Practice
+              </Link>
               <button
                 type="button"
                 onClick={handleShare}
                 aria-label={shared ? 'Link copied' : 'Copy shareable link'}
                 title="Copy a link to this input & step"
                 style={{
-                  marginLeft: 'auto', display:'flex', alignItems:'center', gap:6,
+                  marginLeft: 8, display:'flex', alignItems:'center', gap:6,
                   padding:'6px 12px', borderRadius:8, fontSize:12, fontWeight:600, cursor:'pointer',
                   color: shared ? '#34d399' : (isLight ? '#1e40af' : '#93c5fd'),
                   background: shared ? 'rgba(52,211,153,0.12)' : 'rgba(59,130,246,0.14)',

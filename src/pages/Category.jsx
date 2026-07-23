@@ -103,6 +103,18 @@ export default function Category() {
             >Home</Link>
             <ChevronRight size={10} style={{ color: contrast.breadcrumb }} />
             <span style={{ color: contrast.breadcrumb, fontSize: '0.72rem' }}>{category.name}</span>
+            <Link
+              to={`/practice?topic=${categoryId}`}
+              style={{
+                marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 5,
+                fontSize: '0.72rem', fontWeight: 600, textDecoration: 'none',
+                color: contrast.heading,
+                background: contrast.statBg, border: `1px solid ${contrast.statBorder}`,
+                borderRadius: 20, padding: '0.25rem 0.7rem',
+              }}
+            >
+              Practice {category.name} ↗
+            </Link>
           </div>
 
           {/* Main row */}
