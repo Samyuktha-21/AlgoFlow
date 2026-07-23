@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ChevronRight, ArrowRight, Eye } from 'lucide-react'
+import { ChevronRight, ArrowRight, Eye, Check, Bookmark } from 'lucide-react'
 import categories from '../data/categories.json'
 import registry from '../data/algorithmRegistry.json'
 import ThemeBackground from '../components/Visualizer/ThemeBackground'
 import { getThemeContrast } from '../utils/contrastColor'
 import { subscribeToCategoryViews, formatViews } from '../firebase/algoStats'
 import Seo from '../components/Seo'
+import { useProgress } from '../context/ProgressContext'
 
 /* ── Per-theme accent colors ─────────────────────────────────── */
 const THEME_ACCENT = {
@@ -221,6 +222,7 @@ function StatBadge({ value, label, contrast }) {
 }
 
 function AlgoCard({ algo, categoryId, accent, r, g, b, cfg, contrast, views }) {
+  const { isLearned, isBookmarked } = useProgress()
   const baseBg     = contrast.cardBg
   const hoverBg    = contrast.isLight ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.09)'
   const baseBorder = contrast.cardBorder
@@ -300,6 +302,12 @@ function AlgoCard({ algo, categoryId, accent, r, g, b, cfg, contrast, views }) {
             <Eye size={10} />
             {formatViews(views)}
           </span>
+        )}
+        {isBookmarked(categoryId, algo.id) && (
+          <Bookmark size={12} style={{ color: '#fbbf24', fill: '#fbbf24', flexShrink: 0 }} />
+        )}
+        {isLearned(categoryId, algo.id) && (
+          <Check size={13} style={{ color: contrast.isLight ? '#059669' : '#34d399', flexShrink: 0 }} />
         )}
         <ArrowRight
           size={13}
