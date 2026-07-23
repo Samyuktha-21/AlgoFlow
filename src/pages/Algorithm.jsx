@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link, useSearchParams } from 'react-router-dom'
-import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check } from 'lucide-react'
+import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check, Bookmark, BookmarkCheck } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useVisualization } from '../context/VisualizationContext'
 import { useBeginner } from '../context/BeginnerContext'
+import { useAuth } from '../context/AuthContext'
+import { useProgress } from '../context/ProgressContext'
 import categories from '../data/categories.json'
 import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/validators'
 import { getCategoryTheme } from '../themes/themeConfig'
@@ -215,6 +217,8 @@ const VALID_LANGS = ['java', 'c', 'cpp', 'python']
 
 export default function Algorithm() {
   const { categoryId, algorithmId } = useParams()
+  const { user, signInWithGoogle } = useAuth()
+  const { isLearned, isBookmarked, toggleLearned, toggleBookmark } = useProgress()
   const { setSteps, play, pause, next, prev, reset, setSpeed, goTo, isPlaying, steps, currentIndex } = useVisualization()
   const prefersReducedMotion = useReducedMotion()
 
@@ -526,13 +530,62 @@ export default function Algorithm() {
                 border:'1px solid rgba(59,130,246,0.35)',
               }}>Live</span>
               <AlgoViewsBadge categoryId={categoryId} algorithmId={algorithmId} isLight={isLight} />
+              {user ? (
+                <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <button
+                    type="button"
+                    onClick={() => toggleLearned(categoryId, algorithmId)}
+                    title={isLearned(categoryId, algorithmId) ? 'Learned — click to unmark' : 'Mark as learned'}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                      color: isLearned(categoryId, algorithmId) ? (isLight ? '#065f46' : '#6ee7b7') : (isLight ? '#334155' : '#cbd5e1'),
+                      background: isLearned(categoryId, algorithmId) ? 'rgba(52,211,153,0.15)' : 'rgba(148,163,184,0.12)',
+                      border: `1px solid ${isLearned(categoryId, algorithmId) ? 'rgba(52,211,153,0.5)' : 'rgba(148,163,184,0.3)'}`,
+                      transition: 'all 0.15s', fontFamily: 'inherit',
+                    }}
+                  >
+                    <CheckCircle size={14} /> {isLearned(categoryId, algorithmId) ? 'Learned' : 'Mark learned'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleBookmark(categoryId, algorithmId)}
+                    aria-label={isBookmarked(categoryId, algorithmId) ? 'Remove bookmark' : 'Bookmark this algorithm'}
+                    title={isBookmarked(categoryId, algorithmId) ? 'Bookmarked — click to remove' : 'Bookmark'}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 32, height: 32, borderRadius: 8, cursor: 'pointer',
+                      color: isBookmarked(categoryId, algorithmId) ? '#fbbf24' : (isLight ? '#64748b' : '#94a3b8'),
+                      background: isBookmarked(categoryId, algorithmId) ? 'rgba(251,191,36,0.15)' : 'rgba(148,163,184,0.12)',
+                      border: `1px solid ${isBookmarked(categoryId, algorithmId) ? 'rgba(251,191,36,0.5)' : 'rgba(148,163,184,0.3)'}`,
+                      transition: 'all 0.15s',
+                    }}
+                  >
+                    {isBookmarked(categoryId, algorithmId) ? <BookmarkCheck size={15} /> : <Bookmark size={15} />}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={signInWithGoogle}
+                  style={{
+                    marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                    color: isLight ? '#1e40af' : '#93c5fd',
+                    background: 'rgba(59,130,246,0.14)', border: '1px solid rgba(59,130,246,0.35)',
+                    transition: 'all 0.15s', fontFamily: 'inherit',
+                  }}
+                >
+                  <CheckCircle size={14} /> Sign in to track progress
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleShare}
                 aria-label={shared ? 'Link copied' : 'Copy shareable link'}
                 title="Copy a link to this input & step"
                 style={{
-                  marginLeft: 'auto', display:'flex', alignItems:'center', gap:6,
+                  marginLeft: 8, display:'flex', alignItems:'center', gap:6,
                   padding:'6px 12px', borderRadius:8, fontSize:12, fontWeight:600, cursor:'pointer',
                   color: shared ? '#34d399' : (isLight ? '#1e40af' : '#93c5fd'),
                   background: shared ? 'rgba(52,211,153,0.12)' : 'rgba(59,130,246,0.14)',
