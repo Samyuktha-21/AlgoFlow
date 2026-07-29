@@ -18,6 +18,7 @@ const TestYourself   = lazy(() => import('./pages/TestYourself'))
 const Profile        = lazy(() => import('./pages/Profile'))
 const Practice       = lazy(() => import('./pages/Practice'))
 const Daily          = lazy(() => import('./pages/Daily'))
+const Leaderboard    = lazy(() => import('./pages/Leaderboard'))
 
 /* Lightweight fallback while a route chunk loads */
 function RouteFallback() {
@@ -96,6 +97,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/practice" element={<Practice />} />
             <Route path="/daily" element={<Daily />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="*" element={
               <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                 <h1 className="text-6xl font-bold text-gray-300">404</h1>

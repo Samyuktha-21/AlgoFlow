@@ -6,6 +6,7 @@ import ChallengeCard from '../components/game/ChallengeCard'
 import { buildPool, allNames } from '../game/pool'
 import { makeDailyChallenge } from '../game/dailyChallenge'
 import { dateStr } from '../utils/xp'
+import { recordDailyCompletion } from '../firebase/leaderboard'
 import { useAuth } from '../context/AuthContext'
 import { useProgress } from '../context/ProgressContext'
 
@@ -34,7 +35,10 @@ export default function Daily() {
     if (answered) return
     setSelectedIndex(i)
     setAnswered(true)
-    if (challenge?.options[i]?.isCorrect && user && !dailyDoneToday) completeDaily()
+    if (challenge?.options[i]?.isCorrect && user && !dailyDoneToday) {
+      completeDaily()            // personal profile/badges (users/{uid})
+      recordDailyCompletion()    // verified public leaderboard (Cloud Function)
+    }
   }
   const retry = () => { setAnswered(false); setSelectedIndex(-1) }
 

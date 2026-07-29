@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame, Trophy } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { useProgress } from '../../context/ProgressContext'
@@ -210,6 +210,11 @@ export default function Header({ isHomepage }) {
       <Flame size={big ? 13 : 12} /> {user && currentStreak > 0 ? `Daily · ${currentStreak}` : 'Daily'}
     </button>
   )
+  const leaderboardBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={() => navigate('/leaderboard')} style={navBtn(big)}>
+      <Trophy size={big ? 13 : 12} /> Ranks
+    </button>
+  )
 
   /* Homepage header — minimal overlay (always dark, over the dark hero) */
   if (isHomepage) {
@@ -223,6 +228,7 @@ export default function Header({ isHomepage }) {
           </Link>
           <div className="flex items-center gap-2">
             {dailyBtn(false)}
+            {leaderboardBtn(false)}
             {practiceBtn(false)}
             {playBtn(false)}
             {interviewBtn(false)}
@@ -248,6 +254,7 @@ export default function Header({ isHomepage }) {
         <div className="flex items-center gap-2 flex-shrink-0">
           <SearchTriggerHeader />
           {dailyBtn(true)}
+          {leaderboardBtn(true)}
           {practiceBtn(true)}
           {playBtn(true)}
           {interviewBtn(true)}
