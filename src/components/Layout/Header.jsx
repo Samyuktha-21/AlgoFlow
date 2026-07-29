@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
+import { useProgress } from '../../context/ProgressContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
 
 const GLASS = {
@@ -167,6 +168,8 @@ export default function Header({ isHomepage }) {
   useTheme() // keeps ThemeProvider context active
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const { currentStreak } = useProgress()
 
   const algoMatch = pathname.match(/^\/algorithm\/([^/]+)\/([^/]+)$/)
   const [, algoCategory, algoId] = algoMatch || []
@@ -202,6 +205,11 @@ export default function Header({ isHomepage }) {
       <Code2 size={big ? 13 : 12} /> Practice
     </button>
   )
+  const dailyBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={() => navigate('/daily')} style={navBtn(big)}>
+      <Flame size={big ? 13 : 12} /> {user && currentStreak > 0 ? `Daily · ${currentStreak}` : 'Daily'}
+    </button>
+  )
 
   /* Homepage header — minimal overlay (always dark, over the dark hero) */
   if (isHomepage) {
@@ -214,6 +222,7 @@ export default function Header({ isHomepage }) {
               style={{ fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
           </Link>
           <div className="flex items-center gap-2">
+            {dailyBtn(false)}
             {practiceBtn(false)}
             {playBtn(false)}
             {interviewBtn(false)}
@@ -238,6 +247,7 @@ export default function Header({ isHomepage }) {
 
         <div className="flex items-center gap-2 flex-shrink-0">
           <SearchTriggerHeader />
+          {dailyBtn(true)}
           {practiceBtn(true)}
           {playBtn(true)}
           {interviewBtn(true)}

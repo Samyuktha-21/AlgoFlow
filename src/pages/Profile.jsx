@@ -6,6 +6,7 @@ import registry from '../data/algorithmRegistry.json'
 import { useAuth } from '../context/AuthContext'
 import { useProgress } from '../context/ProgressContext'
 import { computeProgress, splitKey } from '../utils/progressStats'
+import { xpToNext } from '../utils/xp'
 
 /* Progress dashboard: overall + per-topic completion, bookmarks, and recently
    learned. Signed out → a sign-in CTA. Gated behind the existing Google auth. */
@@ -26,6 +27,15 @@ function ProgressBar({ pct, label, sub, to, big }) {
     </div>
   )
   return to ? <Link to={to} style={{ textDecoration: 'none' }}>{body}</Link> : body
+}
+
+function Stat({ label, value, sub }) {
+  return (
+    <div style={{ padding: '12px 14px', borderRadius: 12, background: 'var(--page-surface)', border: '1px solid var(--page-border)' }}>
+      <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--chrome-text)' }}>{value}</div>
+      <div style={{ fontSize: 12, color: '#64748b' }}>{label}{sub ? ` · ${sub}` : ''}</div>
+    </div>
+  )
 }
 
 function ListCard({ title, empty, entries }) {
@@ -53,7 +63,7 @@ function ListCard({ title, empty, entries }) {
 
 export default function Profile() {
   const { user, signInWithGoogle } = useAuth()
-  const { learned, bookmarks } = useProgress()
+  const { learned, bookmarks, xp, level, currentStreak, longestStreak, solvedCount } = useProgress()
 
   if (!user) {
     return (
@@ -90,6 +100,13 @@ export default function Profile() {
             <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--chrome-text)', margin: 0 }}>{user.name}</h1>
             <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>{overall.learned} of {overall.total} algorithms learned</p>
           </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 20 }}>
+          <Stat label="Level" value={level} sub={`${xpToNext(xp).inLevel}/100 to next`} />
+          <Stat label="Total XP" value={xp} />
+          <Stat label="Current streak" value={`🔥 ${currentStreak}`} sub={`longest ${longestStreak}`} />
+          <Stat label="Problems solved" value={solvedCount} />
         </div>
 
         <ProgressBar pct={overall.pct} label="Overall" big />
