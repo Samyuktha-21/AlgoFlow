@@ -55,7 +55,7 @@ export function ProgressProvider({ children }) {
       learned, bookmarks, solved, loading,
       isLearned, isBookmarked, isSolved,
       toggleLearned, toggleBookmark, toggleSolved,
-      xp, level, currentStreak, longestStreak, solvedCount, dailyDoneToday,
+      xp, level, currentStreak, longestStreak, solvedCount, dailyCount, dailyDoneToday,
       completeDaily, awardQuizXp,
     }}>
       {children}
