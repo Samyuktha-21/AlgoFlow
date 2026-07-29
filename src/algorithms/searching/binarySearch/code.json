@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function binarySearch(a, target) {\n  let lo = 0, hi = a.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (a[mid] === target) return mid;\n    if (a[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return -1;\n}\n\nconsole.log(binarySearch([2, 5, 8, 12, 16, 23, 38, 56, 72, 91], 23));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class BinarySearch {\n    public int search(int[] arr, int target) {\n        int low = 0, high = arr.length - 1;\n        \n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            \n            if (arr[mid] == target) {\n                return mid;          // Found!\n            } else if (arr[mid] < target) {\n                low = mid + 1;      // Search right half\n            } else {\n                high = mid - 1;    // Search left half\n            }\n        }\n        return -1;  // Not found\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};\n        BinarySearch bs = new BinarySearch();\n        System.out.println(bs.search(arr, 23));  // Output: 5\n        System.out.println(bs.search(arr, 10));  // Output: -1\n    }\n}",

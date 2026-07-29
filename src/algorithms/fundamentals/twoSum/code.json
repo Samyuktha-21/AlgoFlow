@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need), i];\n    seen.set(nums[i], i);\n  }\n  return [];\n}\n\nconsole.log(twoSum([2, 7, 11, 15], 9));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Arrays;\npublic class TwoPointers {\n    public int[] twoSum(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n        while (left < right) {\n            int sum = arr[left] + arr[right];\n            if (sum == target) return new int[]{left, right};\n            else if (sum < target) left++;\n            else right--;\n        }\n        return new int[]{-1, -1}; // no pair found\n    }\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 4, 6, 8, 9, 14, 15};\n        int[] result = new TwoPointers().twoSum(arr, 13);\n        System.out.println(result[0] + \", \" + result[1]); // 0, 6\n    }\n}",

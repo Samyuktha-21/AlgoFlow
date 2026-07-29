@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function countOccurrences(a, target) {\n  let count = 0;\n  for (const x of a) if (x === target) count++;\n  return count;\n}\n\nconsole.log(countOccurrences([1, 2, 2, 3, 2, 4, 2], 2));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.HashMap;\nimport java.util.Map;\npublic class CountOccurrences {\n    public Map<Integer, Integer> count(int[] arr) {\n        Map<Integer, Integer> freq = new HashMap<>();\n        for (int x : arr) freq.merge(x, 1, Integer::sum);\n        return freq;\n    }\n    public static void main(String[] args) {\n        Map<Integer,Integer> freq = new CountOccurrences().count(new int[]{1,2,2,3,3,3,1});\n        freq.forEach((k,v) -> System.out.println(k + \" → \" + v));\n    }\n}",

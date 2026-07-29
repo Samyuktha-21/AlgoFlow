@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function isPalindrome(s) {\n  let lo = 0, hi = s.length - 1;\n  while (lo < hi) {\n    if (s[lo] !== s[hi]) return false;\n    lo++;\n    hi--;\n  }\n  return true;\n}\n\nconsole.log(isPalindrome('racecar'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class PalindromeCheck {\n    public boolean isPalindrome(String s) {\n        int left = 0, right = s.length() - 1;\n        while (left < right) {\n            if (s.charAt(left) != s.charAt(right)) return false;\n            left++; right--;\n        }\n        return true;\n    }\n    public static void main(String[] args) {\n        PalindromeCheck pc = new PalindromeCheck();\n        System.out.println(pc.isPalindrome(\"racecar\")); // true\n        System.out.println(pc.isPalindrome(\"hello\"));   // false\n    }\n}",

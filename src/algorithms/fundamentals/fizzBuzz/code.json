@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function fizzBuzz(n) {\n  const result = [];\n  for (let i = 1; i <= n; i++) {\n    if (i % 15 === 0) result.push('FizzBuzz');\n    else if (i % 3 === 0) result.push('Fizz');\n    else if (i % 5 === 0) result.push('Buzz');\n    else result.push(String(i));\n  }\n  return result;\n}\n\nconsole.log(fizzBuzz(15).join(' '));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class FizzBuzz {\n    public void fizzBuzz(int n) {\n        for (int i = 1; i <= n; i++) {\n            if      (i % 15 == 0) System.out.println(\"FizzBuzz\");\n            else if (i % 3  == 0) System.out.println(\"Fizz\");\n            else if (i % 5  == 0) System.out.println(\"Buzz\");\n            else                  System.out.println(i);\n        }\n    }\n    public static void main(String[] args) { new FizzBuzz().fizzBuzz(20); }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function jumpSearch(a, target) {\n  const n = a.length;\n  const step = Math.floor(Math.sqrt(n));\n  let prev = 0, curr = step;\n  while (curr < n && a[Math.min(curr, n) - 1] < target) {\n    prev = curr;\n    curr += step;\n  }\n  for (let i = prev; i < Math.min(curr, n); i++) {\n    if (a[i] === target) return i;\n  }\n  return -1;\n}\n\nconsole.log(jumpSearch([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55], 55));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class JumpSearch {\n    public int search(int[] arr, int target) {\n        int n = arr.length;\n        int step = (int)Math.sqrt(n), prev = 0;\n        while (arr[Math.min(step, n)-1] < target) {\n            prev = step;\n            step += (int)Math.sqrt(n);\n            if (prev >= n) return -1;\n        }\n        while (arr[prev] < target) {\n            prev++;\n            if (prev == Math.min(step, n)) return -1;\n        }\n        return arr[prev] == target ? prev : -1;\n    }\n    public static void main(String[] args) {\n        int[] arr = {0,1,1,2,3,5,8,13,21,34,55,89,144,233,377};\n        System.out.println(new JumpSearch().search(arr, 55));\n    }\n}",

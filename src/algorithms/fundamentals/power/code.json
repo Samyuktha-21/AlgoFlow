@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function power(base, exp) {\n  let result = 1;\n  while (exp > 0) {\n    if (exp & 1) result *= base;\n    base *= base;\n    exp = Math.floor(exp / 2);\n  }\n  return result;\n}\n\nconsole.log(power(2, 10));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class Power {\n    public double myPow(double x, int n) {\n        if (n < 0) { x = 1 / x; n = -n; }\n        double result = 1;\n        while (n > 0) {\n            if (n % 2 == 1) result *= x;\n            x *= x;\n            n /= 2;\n        }\n        return result;\n    }\n    public static void main(String[] args) {\n        System.out.println(new Power().myPow(2, 10)); // 1024.0\n        System.out.println(new Power().myPow(3, 5));  // 243.0\n    }\n}",

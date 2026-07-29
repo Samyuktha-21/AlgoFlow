@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function isPrime(n) {\n  if (n < 2) return false;\n  for (let i = 2; i * i <= n; i++) {\n    if (n % i === 0) return false;\n  }\n  return true;\n}\n\nconsole.log(isPrime(29));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class PrimeCheck {\n    public boolean isPrime(int n) {\n        if (n < 2) return false;\n        if (n == 2) return true;\n        if (n % 2 == 0) return false;\n        for (int i = 3; i * i <= n; i += 2)\n            if (n % i == 0) return false;\n        return true;\n    }\n    public static void main(String[] args) {\n        PrimeCheck pc = new PrimeCheck();\n        for (int i = 2; i <= 30; i++)\n            if (pc.isPrime(i)) System.out.print(i + \" \");\n    }\n}",

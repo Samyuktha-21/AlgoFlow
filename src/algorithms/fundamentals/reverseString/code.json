@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function reverseString(s) {\n  let result = '';\n  for (let i = s.length - 1; i >= 0; i--) result += s[i];\n  return result;\n}\n\nconsole.log(reverseString('algorithm'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class ReverseString {\n    public void reverseString(char[] s) {\n        int left = 0, right = s.length - 1;\n        while (left < right) {\n            char temp = s[left]; s[left++] = s[right]; s[right--] = temp;\n        }\n    }\n    public static void main(String[] args) {\n        char[] s = \"hello\".toCharArray();\n        new ReverseString().reverseString(s);\n        System.out.println(new String(s)); // olleh\n    }\n}",
