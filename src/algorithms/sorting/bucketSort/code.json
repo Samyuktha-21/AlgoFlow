@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function bucketSort(a, bucketCount = 5) {\n  if (a.length === 0) return a;\n  const min = Math.min(...a), max = Math.max(...a);\n  const size = (max - min) / bucketCount || 1;\n  const buckets = Array.from({ length: bucketCount + 1 }, () => []);\n  for (const x of a) buckets[Math.floor((x - min) / size)].push(x);\n  const result = [];\n  for (const b of buckets) {\n    b.sort((p, q) => p - q);\n    result.push(...b);\n  }\n  return result;\n}\n\nconsole.log(bucketSort([29, 25, 3, 49, 9, 37, 21, 43]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class BucketSort {\n    public void sort(float[] arr) {\n        int n = arr.length;\n        List<Float>[] buckets = new ArrayList[n];\n        for (int i = 0; i < n; i++) buckets[i] = new ArrayList<>();\n        for (float v : arr) buckets[(int)(n * v)].add(v);\n        for (List<Float> b : buckets) Collections.sort(b);\n        int idx = 0;\n        for (List<Float> b : buckets)\n            for (float v : b) arr[idx++] = v;\n    }\n    public static void main(String[] args) {\n        float[] arr = {0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};\n        new BucketSort().sort(arr);\n        for (float v : arr) System.out.printf(\"%.3f \", v);\n    }\n}",

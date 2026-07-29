@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function radixSort(a) {\n  if (a.length === 0) return a;\n  const max = Math.max(...a);\n  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {\n    const output = new Array(a.length);\n    const count = new Array(10).fill(0);\n    for (const x of a) count[Math.floor(x / exp) % 10]++;\n    for (let i = 1; i < 10; i++) count[i] += count[i - 1];\n    for (let i = a.length - 1; i >= 0; i--) {\n      const d = Math.floor(a[i] / exp) % 10;\n      output[--count[d]] = a[i];\n    }\n    for (let i = 0; i < a.length; i++) a[i] = output[i];\n  }\n  return a;\n}\n\nconsole.log(radixSort([170, 45, 75, 90, 802, 24, 2, 66]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Arrays;\npublic class RadixSort {\n    void countSort(int[] arr, int n, int exp) {\n        int[] output = new int[n], count = new int[10];\n        for (int i = 0; i < n; i++) count[(arr[i]/exp)%10]++;\n        for (int i = 1; i < 10; i++) count[i] += count[i-1];\n        for (int i = n-1; i >= 0; i--) output[--count[(arr[i]/exp)%10]] = arr[i];\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n    void sort(int[] arr) {\n        int max = Arrays.stream(arr).max().getAsInt();\n        for (int exp = 1; max/exp > 0; exp *= 10) countSort(arr, arr.length, exp);\n    }\n    public static void main(String[] args) {\n        int[] arr = {170,45,75,90,802,24,2,66};\n        new RadixSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

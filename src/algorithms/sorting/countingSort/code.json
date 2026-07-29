@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function countingSort(a) {\n  if (a.length === 0) return a;\n  const max = Math.max(...a);\n  const count = new Array(max + 1).fill(0);\n  for (const x of a) count[x]++;\n  const result = [];\n  for (let v = 0; v <= max; v++) {\n    while (count[v]-- > 0) result.push(v);\n  }\n  return result;\n}\n\nconsole.log(countingSort([4, 2, 2, 8, 3, 3, 1]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Arrays;\npublic class CountingSort {\n    public void sort(int[] arr) {\n        int n = arr.length, max = Arrays.stream(arr).max().getAsInt();\n        int[] count = new int[max + 1];\n        for (int v : arr) count[v]++;\n        for (int i = 1; i <= max; i++) count[i] += count[i-1];\n        int[] output = new int[n];\n        for (int i = n - 1; i >= 0; i--) output[--count[arr[i]]] = arr[i];\n        System.arraycopy(output, 0, arr, 0, n);\n    }\n    public static void main(String[] args) {\n        int[] arr = {4, 2, 2, 8, 3, 3, 1};\n        new CountingSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

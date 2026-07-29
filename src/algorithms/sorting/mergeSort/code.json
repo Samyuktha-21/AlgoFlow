@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function mergeSort(a) {\n  if (a.length <= 1) return a;\n  const mid = Math.floor(a.length / 2);\n  const left = mergeSort(a.slice(0, mid));\n  const right = mergeSort(a.slice(mid));\n  const merged = [];\n  let i = 0, j = 0;\n  while (i < left.length && j < right.length) {\n    merged.push(left[i] <= right[j] ? left[i++] : right[j++]);\n  }\n  return merged.concat(left.slice(i), right.slice(j));\n}\n\nconsole.log(mergeSort([64, 34, 25, 12, 22, 11, 90]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class MergeSort {\n    public void sort(int[] arr, int left, int right) {\n        if (left < right) {\n            int mid = left + (right - left) / 2;\n            sort(arr, left, mid);\n            sort(arr, mid + 1, right);\n            merge(arr, left, mid, right);\n        }\n    }\n    void merge(int[] arr, int left, int mid, int right) {\n        int n1 = mid - left + 1, n2 = right - mid;\n        int[] L = new int[n1], R = new int[n2];\n        for (int i = 0; i < n1; i++) L[i] = arr[left + i];\n        for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];\n        int i = 0, j = 0, k = left;\n        while (i < n1 && j < n2)\n            arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];\n        while (i < n1) arr[k++] = L[i++];\n        while (j < n2) arr[k++] = R[j++];\n    }\n    public static void main(String[] args) {\n        int[] arr = {38, 27, 43, 3, 9, 82, 10};\n        MergeSort ms = new MergeSort();\n        ms.sort(arr, 0, arr.length - 1);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

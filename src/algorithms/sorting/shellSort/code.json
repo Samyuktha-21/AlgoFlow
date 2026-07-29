@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function shellSort(a) {\n  const n = a.length;\n  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {\n    for (let i = gap; i < n; i++) {\n      const temp = a[i];\n      let j = i;\n      while (j >= gap && a[j - gap] > temp) {\n        a[j] = a[j - gap];\n        j -= gap;\n      }\n      a[j] = temp;\n    }\n  }\n  return a;\n}\n\nconsole.log(shellSort([64, 34, 25, 12, 22, 11, 90]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class ShellSort {\n    public void sort(int[] arr) {\n        int n = arr.length;\n        for (int gap = n/2; gap > 0; gap /= 2) {\n            for (int i = gap; i < n; i++) {\n                int temp = arr[i], j = i;\n                while (j >= gap && arr[j - gap] > temp) {\n                    arr[j] = arr[j - gap];\n                    j -= gap;\n                }\n                arr[j] = temp;\n            }\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {12,34,54,2,3};\n        new ShellSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

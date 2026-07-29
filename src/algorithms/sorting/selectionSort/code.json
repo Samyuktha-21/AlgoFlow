@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function selectionSort(a) {\n  const n = a.length;\n  for (let i = 0; i < n - 1; i++) {\n    let min = i;\n    for (let j = i + 1; j < n; j++) {\n      if (a[j] < a[min]) min = j;\n    }\n    if (min !== i) [a[i], a[min]] = [a[min], a[i]];\n  }\n  return a;\n}\n\nconsole.log(selectionSort([64, 34, 25, 12, 22, 11, 90]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class SelectionSort {\n    public void sort(int[] arr) {\n        int n = arr.length;\n        for (int i = 0; i < n - 1; i++) {\n            int minIdx = i;\n            for (int j = i + 1; j < n; j++) {\n                if (arr[j] < arr[minIdx]) minIdx = j;\n            }\n            int temp = arr[minIdx];\n            arr[minIdx] = arr[i];\n            arr[i] = temp;\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {64, 25, 12, 22, 11};\n        new SelectionSort().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

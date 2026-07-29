@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function quickSort(a) {\n  if (a.length <= 1) return a;\n  const pivot = a[a.length - 1];\n  const left = [], right = [];\n  for (let i = 0; i < a.length - 1; i++) {\n    (a[i] < pivot ? left : right).push(a[i]);\n  }\n  return [...quickSort(left), pivot, ...quickSort(right)];\n}\n\nconsole.log(quickSort([64, 34, 25, 12, 22, 11, 90]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class QuickSort {\n    int partition(int[] arr, int low, int high) {\n        int pivot = arr[high], i = low - 1;\n        for (int j = low; j < high; j++) {\n            if (arr[j] <= pivot) {\n                i++;\n                int tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;\n            }\n        }\n        int tmp = arr[i+1]; arr[i+1] = arr[high]; arr[high] = tmp;\n        return i + 1;\n    }\n    void sort(int[] arr, int low, int high) {\n        if (low < high) {\n            int pi = partition(arr, low, high);\n            sort(arr, low, pi - 1);\n            sort(arr, pi + 1, high);\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {10,7,8,9,1,5};\n        new QuickSort().sort(arr, 0, arr.length-1);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",
