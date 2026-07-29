@@ -213,7 +213,12 @@ function FinalAnswerDisplay() {
   )
 }
 
-const VALID_LANGS = ['java', 'c', 'cpp', 'python']
+/* Canonical language order + labels. Tabs are rendered dynamically from the
+   languages actually present in an algorithm's code.json, so a language can be
+   rolled out incrementally without showing empty panels. */
+const LANG_ORDER = ['java', 'c', 'cpp', 'python', 'javascript']
+const LANG_LABELS = { java: 'Java', c: 'C', cpp: 'C++', python: 'Python', javascript: 'JavaScript' }
+const VALID_LANGS = LANG_ORDER
 
 export default function Algorithm() {
   const { categoryId, algorithmId } = useParams()
@@ -361,7 +366,11 @@ export default function Algorithm() {
     return () => { cancelled = true }
   }, [categoryId, algorithmId])
 
-  const currentCode     = codeData?.[language]?.code || ''
+  /* Languages this algorithm actually ships, in canonical order; the effective
+     language falls back to the first available if the selected one is absent. */
+  const availableLangs  = LANG_ORDER.filter(l => codeData && codeData[l])
+  const activeLang      = codeData && codeData[language] ? language : (availableLangs[0] || language)
+  const currentCode     = codeData?.[activeLang]?.code || ''
   const { currentStep } = useVisualization()
   const highlightedLine = currentStep?.codeLine || null
 
@@ -699,9 +708,9 @@ export default function Algorithm() {
                 padding:'0 12px', flexShrink:0,
                 background: 'rgba(0,0,0,0.25)', gap:2,
               }}>
-                {(['java', 'c', 'cpp', 'python']).map(lang => {
-                  const active = language === lang
-                  const label  = lang === 'cpp' ? 'C++' : lang === 'c' ? 'C' : lang === 'python' ? 'Python' : 'Java'
+                {availableLangs.map(lang => {
+                  const active = activeLang === lang
+                  const label  = LANG_LABELS[lang] || lang
                   return (
                     <button
                       type="button"
@@ -731,7 +740,7 @@ export default function Algorithm() {
                 {currentCode ? (
                   <CodeBlock
                     code={currentCode}
-                    language={language}
+                    language={activeLang}
                     highlightedLine={highlightedLine}
                     accentColor={themeAccent}
                     accentRgb={themeAccRgb}
