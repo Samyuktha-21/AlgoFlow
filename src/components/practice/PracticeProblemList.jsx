@@ -1,9 +1,11 @@
 import { useMemo } from 'react'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, CheckCircle2 } from 'lucide-react'
 import categories from '../../data/categories.json'
 import registry from '../../data/algorithmRegistry.json'
 import { practiceProblems } from '../../data/practiceProblems'
 import { filterProblems } from '../../utils/practiceFilter'
+import { useAuth } from '../../context/AuthContext'
+import { useProgress } from '../../context/ProgressContext'
 
 const DIFF = {
   easy:   { bg: '#dcfce7', color: '#15803d', border: '#86efac' },
@@ -24,6 +26,8 @@ export default function PracticeProblemList({ topic, algo, onTopicChange, onAlgo
   )
   const problems = useMemo(() => filterProblems(practiceProblems, topic, algo), [topic, algo])
   const active = useMemo(() => problems.find(p => p.id === activeId) || null, [problems, activeId])
+  const { user, signInWithGoogle } = useAuth()
+  const { isSolved, toggleSolved } = useProgress()
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -63,6 +67,7 @@ export default function PracticeProblemList({ topic, algo, onTopicChange, onAlgo
               }}>{p.difficulty}</span>
               <span style={{ flex: 1, fontSize: '0.9rem', fontWeight: 600, color: 'var(--chrome-text)' }}>{p.title}</span>
               <span style={{ fontSize: '0.68rem', color: 'var(--chrome-text-muted)', flexShrink: 0 }}>{p.source}</span>
+              {isSolved(p.id) && <CheckCircle2 size={14} style={{ color: '#22c55e', flexShrink: 0 }} />}
               <a href={p.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
                 title={`Open on ${p.source}`} style={{ color: '#fdba74', display: 'inline-flex', flexShrink: 0 }}>
                 <ExternalLink size={14} />
@@ -78,8 +83,25 @@ export default function PracticeProblemList({ topic, algo, onTopicChange, onAlgo
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', color: '#f5811f' }}>NOW SOLVING</span>
             <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--chrome-text)' }}>{active.title}</span>
+            {user ? (
+              <button type="button" onClick={() => toggleSolved(active.id)}
+                style={{
+                  marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 5,
+                  padding: '4px 10px', borderRadius: 20, fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                  color: isSolved(active.id) ? '#065f46' : 'var(--chrome-text-muted)',
+                  background: isSolved(active.id) ? 'rgba(34,197,94,0.16)' : 'var(--page-surface-2)',
+                  border: `1px solid ${isSolved(active.id) ? 'rgba(34,197,94,0.5)' : 'var(--page-border)'}`,
+                }}>
+                <CheckCircle2 size={13} /> {isSolved(active.id) ? 'Solved' : 'Mark solved'}
+              </button>
+            ) : (
+              <button type="button" onClick={signInWithGoogle}
+                style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', color: 'var(--chrome-text-muted)', background: 'var(--page-surface-2)', border: '1px solid var(--page-border)' }}>
+                Sign in to track
+              </button>
+            )}
             <a href={active.url} target="_blank" rel="noopener noreferrer"
-              style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: '#fdba74', textDecoration: 'none' }}>
+              style={{ marginLeft: 4, display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: '#fdba74', textDecoration: 'none' }}>
               Open on {active.source} <ExternalLink size={12} />
             </a>
           </div>
