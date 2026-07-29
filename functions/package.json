@@ -1,0 +1,13 @@
+{
+  "name": "functions",
+  "description": "AlgoFlow Cloud Functions — verified leaderboard (Phase 4c)",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^5.1.0"
+  }
+}

@@ -13,13 +13,13 @@ const firebaseConfig = {
 
 export const firebaseEnabled = !!firebaseConfig.apiKey
 
-let _auth = null, _db = null, _googleProvider = null
+let _app = null, _auth = null, _db = null, _googleProvider = null
 
 if (firebaseEnabled) {
   try {
-    const app = initializeApp(firebaseConfig)
-    _auth = getAuth(app)
-    _db = getFirestore(app)
+    _app = initializeApp(firebaseConfig)
+    _auth = getAuth(_app)
+    _db = getFirestore(_app)
     _googleProvider = new GoogleAuthProvider()
     _googleProvider.setCustomParameters({ prompt: 'select_account' })
   } catch (e) {
@@ -27,6 +27,7 @@ if (firebaseEnabled) {
   }
 }
 
+export const app            = _app
 export const auth           = _auth
 export const db             = _db
 export const googleProvider = _googleProvider
