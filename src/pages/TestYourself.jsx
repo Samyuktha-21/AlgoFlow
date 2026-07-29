@@ -11,6 +11,7 @@ import { generateComplexity } from '../game/challenges/complexity'
 import { generateNextOp } from '../game/challenges/nextOp'
 import { generateFinalOutput } from '../game/challenges/finalOutput'
 import { generateNameAlgorithm } from '../game/challenges/nameAlgorithm'
+import { useProgress } from '../context/ProgressContext'
 
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)]
 
@@ -53,6 +54,7 @@ export default function TestYourself() {
   const [isNewBest, setIsNewBest] = useState(false)
   const [lastConfig, setLastConfig] = useState(null)
   const [setupError, setSetupError] = useState('')
+  const { awardQuizXp } = useProgress()
 
   const loadNext = useCallback(async (p, nm) => {
     setLoading(true); setAnswered(false); setSelectedIndex(-1)
@@ -76,6 +78,7 @@ export default function TestYourself() {
     setSelectedIndex(i)
     setAnswered(true)
     const isCorrect = !!challenge.options[i]?.isCorrect
+    if (isCorrect) awardQuizXp()
     setSession(s => recordType(scoreAnswer(s, isCorrect), challenge.type, isCorrect))
   }
 
