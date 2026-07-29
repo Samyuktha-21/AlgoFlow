@@ -91,11 +91,13 @@ export default function ChallengeCard({ challenge, answered, selectedIndex, onSe
             {chosenCorrect ? '✓ Correct!' : '✗ Not quite'}
           </div>
           <p style={{ color: 'var(--chrome-text-muted)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>{explanation}</p>
-          <button type="button" onClick={onNext}
-            style={{ marginTop: 14, padding: '10px 22px', borderRadius: 10, border: 'none', cursor: 'pointer',
-              background: 'linear-gradient(135deg,#f5811f,#ff5722)', color: '#000', fontWeight: 700, fontSize: 14 }}>
-            Next →
-          </button>
+          {onNext && (
+            <button type="button" onClick={onNext}
+              style={{ marginTop: 14, padding: '10px 22px', borderRadius: 10, border: 'none', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#f5811f,#ff5722)', color: '#000', fontWeight: 700, fontSize: 14 }}>
+              Next →
+            </button>
+          )}
         </div>
       )}
     </div>
