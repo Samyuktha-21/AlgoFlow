@@ -1,11 +1,13 @@
-/* Pure leaderboard scoring + ranking for Phase 4c. The Cloud Function and the
-   client render use the SAME score formula so ranks are consistent. The score
-   is built only from server-verified daily signals (completions + longest
-   streak) — quiz/practice XP is client-written and NOT trusted for the public
-   board. No side effects, so it's node-testable. See the 4c design spec. */
+/* Pure leaderboard scoring + ranking. The public board score is a user's TOTAL
+   XP (daily + quiz + practice), computed server-side by the Cloud Functions and
+   mirrored to leaderboard/{uid}. This util keeps the SAME formula as
+   src/utils/xp.computeXp so any client-side score render matches the server.
+   XP fields are server-authoritative (rules deny client XP writes), so the
+   board can safely include quiz/practice XP. No side effects → node-testable. */
+import { computeXp } from './xp.js'
 
-export function leaderboardScore({ dailyCount = 0, longestStreak = 0 } = {}) {
-  return dailyCount * 20 + longestStreak * 10
+export function leaderboardScore({ solvedCount = 0, dailyCount = 0, quizXp = 0 } = {}) {
+  return computeXp({ solvedCount, dailyCount, quizXp })
 }
 
 /* Sort entries into ranked order and annotate each with a `rank`. Standard

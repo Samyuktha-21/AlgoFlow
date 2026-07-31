@@ -1,9 +1,9 @@
 import assert from 'node:assert'
 import { leaderboardScore, rankEntries } from '../src/utils/leaderboard.js'
 
-// score = dailyCount*20 + longestStreak*10
-assert.strictEqual(leaderboardScore({ dailyCount: 5, longestStreak: 3 }), 130)
-assert.strictEqual(leaderboardScore({ dailyCount: 0, longestStreak: 0 }), 0)
+// score = total XP = solved*15 + daily*20 + quizXp (matches src/utils/xp computeXp)
+assert.strictEqual(leaderboardScore({ solvedCount: 2, dailyCount: 3, quizXp: 25 }), 115)
+assert.strictEqual(leaderboardScore({ dailyCount: 5 }), 100)
 assert.strictEqual(leaderboardScore({}), 0)
 assert.strictEqual(leaderboardScore(), 0)
 

@@ -6,6 +6,12 @@ import { progressKey } from '../utils/progressStats'
 
 export { progressKey }
 
+/* NOTE: learned/bookmarks are still written directly by the client (allowed by
+   firestore.rules). Every XP-bearing field (solved, dailyCount, streaks,
+   quizXp*, xp) is now server-authoritative and written ONLY by Cloud Functions
+   — see src/firebase/leaderboard.js (recordDailyCompletion/recordQuizXp/
+   recordSolved). The old client XP writers were removed so rules can lock XP. */
+
 /* Real-time subscription to the signed-in user's progress maps.
    cb receives { learned, bookmarks } (each defaulting to {}). */
 export function subscribeToProgress(uid, cb) {
@@ -56,15 +62,3 @@ async function setField(uid, field, key, on) {
 
 export function setLearned(uid, key, on)  { return setField(uid, 'learned', key, on) }
 export function setBookmark(uid, key, on) { return setField(uid, 'bookmarks', key, on) }
-export function setSolved(uid, problemId, on) { return setField(uid, 'solved', problemId, on) }
-
-/* Direct field update for engagement counters (xp/streak/daily). */
-export async function updateEngagement(uid, fields) {
-  if (!firebaseEnabled || !db || !uid) return
-  const ref = doc(db, 'users', uid)
-  try {
-    await updateDoc(ref, fields)
-  } catch {
-    try { await setDoc(ref, fields, { merge: true }) } catch (e) { console.warn('Engagement write failed:', e.message) }
-  }
-}

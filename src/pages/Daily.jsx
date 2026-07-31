@@ -5,8 +5,7 @@ import Seo from '../components/Seo'
 import ChallengeCard from '../components/game/ChallengeCard'
 import { buildPool, allNames } from '../game/pool'
 import { makeDailyChallenge } from '../game/dailyChallenge'
-import { dateStr } from '../utils/xp'
-import { recordDailyCompletion } from '../firebase/leaderboard'
+import { utcDateStr } from '../utils/xp'
 import { useAuth } from '../context/AuthContext'
 import { useProgress } from '../context/ProgressContext'
 
@@ -25,7 +24,7 @@ export default function Daily() {
     let live = true
     ;(async () => {
       const pool = buildPool([])
-      const ch = await makeDailyChallenge(dateStr(), pool, allNames(pool))
+      const ch = await makeDailyChallenge(utcDateStr(), pool, allNames(pool))
       if (live) { setChallenge(ch); setLoading(false) }
     })()
     return () => { live = false }
@@ -36,8 +35,7 @@ export default function Daily() {
     setSelectedIndex(i)
     setAnswered(true)
     if (challenge?.options[i]?.isCorrect && user && !dailyDoneToday) {
-      completeDaily()            // personal profile/badges (users/{uid})
-      recordDailyCompletion()    // verified public leaderboard (Cloud Function)
+      completeDaily()   // one server call updates profile XP + public board together
     }
   }
   const retry = () => { setAnswered(false); setSelectedIndex(-1) }

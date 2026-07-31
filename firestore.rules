@@ -48,11 +48,27 @@ service cloud.firestore {
         && request.resource.data.views == resource.data.get('views', 0) + 1;
     }
 
-    // ── User profiles ──────────────────────────────────────────
-    // Docs hold email addresses; only the owner ever reads their
-    // own doc (author name/avatar are denormalized onto posts).
+    // ── User profiles + progress ───────────────────────────────
+    // Only the owner reads their own doc (holds email). The client may write
+    // ONLY profile + learned/bookmarks; every XP-bearing field (solved,
+    // solvedCount, dailyCount, streaks, quizXp*, xp, …) is writable solely by
+    // the Cloud Functions Admin SDK (which bypasses rules), so XP cannot be
+    // forged from the browser. Keep this whitelist in sync with the client
+    // writers (AuthContext profile write + ProgressContext learned/bookmarks).
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      function ownsDoc() { return request.auth != null && request.auth.uid == userId; }
+      function clientKeys() {
+        return [
+          'uid', 'name', 'email', 'avatar', 'joinedAt', 'lastSeen',
+          'postsCount', 'commentsCount', 'role',
+          'learned', 'bookmarks'
+        ];
+      }
+      allow read:   if ownsDoc();
+      allow create: if ownsDoc() && request.resource.data.keys().hasOnly(clientKeys());
+      allow update: if ownsDoc()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(clientKeys());
+      allow delete: if false;
     }
 
     // ── Verified leaderboard ───────────────────────────────────

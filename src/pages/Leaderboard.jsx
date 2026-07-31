@@ -6,9 +6,10 @@ import { subscribeToLeaderboard } from '../firebase/leaderboard'
 import { rankEntries } from '../utils/leaderboard'
 import { useAuth } from '../context/AuthContext'
 
-/* Public verified leaderboard (Phase 4c). Ranks players by server-computed
-   daily-challenge score. Anyone can view; the board is written only by the
-   recordDailyCompletion Cloud Function, so scores can't be forged. */
+/* Public leaderboard. Ranks players by total XP (daily + quiz + practice),
+   computed server-side and mirrored to leaderboard/{uid} by the Cloud
+   Functions. Anyone can view; the board is function-written only, so scores
+   can't be forged from the client. */
 const MEDAL = { 1: '#facc15', 2: '#cbd5e1', 3: '#d8a06a' }
 
 export default function Leaderboard() {
@@ -35,7 +36,7 @@ export default function Leaderboard() {
           <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--chrome-text)', margin: 0 }}>Leaderboard</h1>
         </div>
         <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 18px' }}>
-          Ranked by daily-challenge score — completions and streaks, verified server-side.
+          Ranked by total XP — daily challenges, quizzes, and solved problems, computed server-side.
           {' '}<Link to="/daily" style={{ color: '#f5811f', fontWeight: 600, textDecoration: 'none' }}>Play today's →</Link>
         </p>
 
