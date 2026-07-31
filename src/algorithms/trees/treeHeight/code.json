@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class TreeNode {\n  constructor(val) {\n    this.val = val;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nfunction height(root) {\n  if (!root) return 0;\n  return 1 + Math.max(height(root.left), height(root.right));\n}\n\nconst root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nroot.left.left.left = new TreeNode(5);\nconsole.log(height(root));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class TreeHeight {\n    public int height(TreeNode root) {\n        if (root == null) return -1;  // -1 for edge count\n        int leftH  = height(root.left);\n        int rightH = height(root.right);\n        return 1 + Math.max(leftH, rightH);\n    }\n    public static void main(String[] args) {\n        TreeNode root = new TreeNode(1);\n        root.left = new TreeNode(2);\n        root.right = new TreeNode(3);\n        root.left.left = new TreeNode(4);\n        System.out.println(new TreeHeight().height(root)); // 2\n    }\n}",

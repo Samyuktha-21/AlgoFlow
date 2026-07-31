@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class TreeNode {\n  constructor(val) {\n    this.val = val;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nfunction mirror(root) {\n  if (!root) return null;\n  [root.left, root.right] = [mirror(root.right), mirror(root.left)];\n  return root;\n}\n\nfunction inorder(root, out = []) {\n  if (!root) return out;\n  inorder(root.left, out);\n  out.push(root.val);\n  inorder(root.right, out);\n  return out;\n}\n\nconst root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nroot.left.right = new TreeNode(5);\nconsole.log(inorder(mirror(root)).join(' '));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class MirrorTree {\n    public TreeNode mirror(TreeNode root) {\n        if (root == null) return null;\n        TreeNode left  = mirror(root.left);\n        TreeNode right = mirror(root.right);\n        root.left  = right;\n        root.right = left;\n        return root;\n    }\n}",

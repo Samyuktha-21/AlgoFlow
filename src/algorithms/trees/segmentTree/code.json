@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class SegmentTree {\n  constructor(nums) {\n    this.n = nums.length;\n    this.tree = new Array(2 * this.n).fill(0);\n    for (let i = 0; i < this.n; i++) this.tree[this.n + i] = nums[i];\n    for (let i = this.n - 1; i > 0; i--) this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n  }\n  update(index, value) {\n    let i = index + this.n;\n    this.tree[i] = value;\n    while (i > 1) {\n      i >>= 1;\n      this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n    }\n  }\n  query(left, right) {\n    let sum = 0;\n    let l = left + this.n, r = right + this.n + 1;\n    while (l < r) {\n      if (l & 1) sum += this.tree[l++];\n      if (r & 1) sum += this.tree[--r];\n      l >>= 1;\n      r >>= 1;\n    }\n    return sum;\n  }\n}\n\nconst st = new SegmentTree([1, 3, 5, 7, 9, 11]);\nconsole.log(st.query(1, 3)); // 3+5+7 = 15\nst.update(1, 10);\nconsole.log(st.query(1, 3)); // 10+5+7 = 22",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class SegmentTree {\n    int[] tree;\n    int n;\n    SegmentTree(int[] arr) {\n        n = arr.length;\n        tree = new int[4 * n];\n        build(arr, 0, 0, n - 1);\n    }\n    void build(int[] arr, int node, int start, int end) {\n        if (start == end) { tree[node] = arr[start]; return; }\n        int mid = (start + end) / 2;\n        build(arr, 2*node+1, start, mid);\n        build(arr, 2*node+2, mid+1, end);\n        tree[node] = tree[2*node+1] + tree[2*node+2];\n    }\n    int query(int node, int start, int end, int l, int r) {\n        if (r < start || end < l) return 0;\n        if (l <= start && end <= r) return tree[node];\n        int mid = (start + end) / 2;\n        return query(2*node+1,start,mid,l,r) + query(2*node+2,mid+1,end,l,r);\n    }\n}",

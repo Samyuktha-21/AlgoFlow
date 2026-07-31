@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class TreeNode {\n  constructor(val) {\n    this.val = val;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nfunction isBalanced(root) {\n  let balanced = true;\n  const height = (node) => {\n    if (!node) return 0;\n    const lh = height(node.left);\n    const rh = height(node.right);\n    if (Math.abs(lh - rh) > 1) balanced = false;\n    return 1 + Math.max(lh, rh);\n  };\n  height(root);\n  return balanced;\n}\n\nconst root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nconsole.log(isBalanced(root));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class BalancedTree {\n    public boolean isBalanced(TreeNode root) {\n        return checkHeight(root) != -1;\n    }\n    private int checkHeight(TreeNode node) {\n        if (node == null) return 0;\n        int left = checkHeight(node.left);\n        if (left == -1) return -1;  // left subtree unbalanced\n        int right = checkHeight(node.right);\n        if (right == -1) return -1; // right subtree unbalanced\n        if (Math.abs(left - right) > 1) return -1; // current node unbalanced\n        return 1 + Math.max(left, right);\n    }\n}",
