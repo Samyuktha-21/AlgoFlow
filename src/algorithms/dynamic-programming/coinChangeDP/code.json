@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function coinChange(coins, amount) {\n  const dp = new Array(amount + 1).fill(Infinity);\n  dp[0] = 0;\n  for (const coin of coins) {\n    for (let x = coin; x <= amount; x++) {\n      dp[x] = Math.min(dp[x], dp[x - coin] + 1);\n    }\n  }\n  return dp[amount] === Infinity ? -1 : dp[amount];\n}\n\nconsole.log(coinChange([1, 2, 5], 11));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Arrays;\npublic class CoinChange {\n    public int coinChange(int[] coins, int amount) {\n        int[] dp = new int[amount + 1];\n        Arrays.fill(dp, amount + 1);\n        dp[0] = 0;\n        for (int i = 1; i <= amount; i++)\n            for (int coin : coins)\n                if (coin <= i) dp[i] = Math.min(dp[i], dp[i - coin] + 1);\n        return dp[amount] > amount ? -1 : dp[amount];\n    }\n    public static void main(String[] args) {\n        System.out.println(new CoinChange().coinChange(new int[]{1,5,6,9}, 11)); // 2\n    }\n}",

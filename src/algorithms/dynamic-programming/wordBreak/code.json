@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function wordBreak(s, wordDict) {\n  const words = new Set(wordDict);\n  const dp = new Array(s.length + 1).fill(false);\n  dp[0] = true;\n  for (let i = 1; i <= s.length; i++) {\n    for (let j = 0; j < i; j++) {\n      if (dp[j] && words.has(s.slice(j, i))) {\n        dp[i] = true;\n        break;\n      }\n    }\n  }\n  return dp[s.length];\n}\n\nconsole.log(wordBreak('leetcode', ['leet', 'code']));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class WordBreak {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        Set<String> dict = new HashSet<>(wordDict);\n        int n = s.length();\n        boolean[] dp = new boolean[n + 1];\n        dp[0] = true;\n        for (int i = 1; i <= n; i++)\n            for (int j = 0; j < i; j++)\n                if (dp[j] && dict.contains(s.substring(j, i))) { dp[i] = true; break; }\n        return dp[n];\n    }\n    public static void main(String[] args) {\n        System.out.println(new WordBreak().wordBreak(\"leetcode\", Arrays.asList(\"leet\",\"code\"))); // true\n    }\n}",

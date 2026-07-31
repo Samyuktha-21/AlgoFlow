@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function eggDrop(eggs, floors) {\n  const dp = Array.from({ length: eggs + 1 }, () => new Array(floors + 1).fill(0));\n  for (let j = 1; j <= floors; j++) dp[1][j] = j;\n  for (let i = 2; i <= eggs; i++) {\n    for (let j = 1; j <= floors; j++) {\n      dp[i][j] = Infinity;\n      for (let x = 1; x <= j; x++) {\n        const worst = 1 + Math.max(dp[i - 1][x - 1], dp[i][j - x]);\n        dp[i][j] = Math.min(dp[i][j], worst);\n      }\n    }\n  }\n  return dp[eggs][floors];\n}\n\nconsole.log(eggDrop(2, 10));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class EggDrop {\n    public int superEggDrop(int k, int n) {\n        // dp[m][k] = max floors testable with m moves and k eggs\n        int[][] dp = new int[n+1][k+1];\n        int m = 0;\n        while (dp[m][k] < n) {\n            m++;\n            for (int j = 1; j <= k; j++)\n                dp[m][j] = dp[m-1][j-1] + dp[m-1][j] + 1;\n        }\n        return m;\n    }\n    public static void main(String[] args) {\n        System.out.println(new EggDrop().superEggDrop(2, 100)); // 14\n        System.out.println(new EggDrop().superEggDrop(3, 14));  // 4\n    }\n}",

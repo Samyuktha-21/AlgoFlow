@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function matrixChainOrder(dims) {\n  const n = dims.length - 1;\n  const dp = Array.from({ length: n }, () => new Array(n).fill(0));\n  for (let len = 2; len <= n; len++) {\n    for (let i = 0; i <= n - len; i++) {\n      const j = i + len - 1;\n      dp[i][j] = Infinity;\n      for (let k = i; k < j; k++) {\n        const cost = dp[i][k] + dp[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1];\n        dp[i][j] = Math.min(dp[i][j], cost);\n      }\n    }\n  }\n  return dp[0][n - 1];\n}\n\n// dims [1,2,3,4] => matrices 1x2, 2x3, 3x4\nconsole.log(matrixChainOrder([1, 2, 3, 4]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class MatrixChain {\n    public int mcm(int[] dims) {\n        int n = dims.length - 1;\n        int[][] dp = new int[n][n];\n        for (int len = 2; len <= n; len++)\n            for (int i = 0; i < n - len + 1; i++) {\n                int j = i + len - 1; dp[i][j] = Integer.MAX_VALUE;\n                for (int k = i; k < j; k++) {\n                    int cost = dp[i][k] + dp[k+1][j] + dims[i]*dims[k+1]*dims[j+1];\n                    if (cost < dp[i][j]) dp[i][j] = cost;\n                }\n            }\n        return dp[0][n-1];\n    }\n    public static void main(String[] args) {\n        System.out.println(new MatrixChain().mcm(new int[]{10,30,5,60})); // 27000\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function rodCutting(prices, n) {\n  const dp = new Array(n + 1).fill(0);\n  for (let i = 1; i <= n; i++) {\n    for (let j = 1; j <= i; j++) {\n      dp[i] = Math.max(dp[i], prices[j - 1] + dp[i - j]);\n    }\n  }\n  return dp[n];\n}\n\nconsole.log(rodCutting([1, 5, 8, 9, 10, 17, 17, 20], 8));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class RodCutting {\n    public int maxProfit(int[] price, int n) {\n        int[] dp = new int[n + 1];\n        for (int i = 1; i <= n; i++)\n            for (int j = 1; j <= i; j++)\n                dp[i] = Math.max(dp[i], price[j-1] + dp[i-j]);\n        return dp[n];\n    }\n    public static void main(String[] args) {\n        int[] price = {1,5,8,9,10,17,17,20};\n        System.out.println(new RodCutting().maxProfit(price, 8)); // 22\n    }\n}",

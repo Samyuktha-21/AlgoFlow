@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function editDistance(a, b) {\n  const m = a.length, n = b.length;\n  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));\n  for (let i = 0; i <= m; i++) dp[i][0] = i;\n  for (let j = 0; j <= n; j++) dp[0][j] = j;\n  for (let i = 1; i <= m; i++) {\n    for (let j = 1; j <= n; j++) {\n      if (a[i - 1] === b[j - 1]) dp[i][j] = dp[i - 1][j - 1];\n      else dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);\n    }\n  }\n  return dp[m][n];\n}\n\nconsole.log(editDistance('horse', 'ros'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class EditDistance {\n    public int minDistance(String s1, String s2) {\n        int m=s1.length(), n=s2.length();\n        int[][] dp = new int[m+1][n+1];\n        for (int i=0; i<=m; i++) dp[i][0] = i;\n        for (int j=0; j<=n; j++) dp[0][j] = j;\n        for (int i=1; i<=m; i++)\n            for (int j=1; j<=n; j++)\n                dp[i][j] = s1.charAt(i-1)==s2.charAt(j-1)\n                    ? dp[i-1][j-1]\n                    : 1 + Math.min(dp[i-1][j], Math.min(dp[i][j-1], dp[i-1][j-1]));\n        return dp[m][n];\n    }\n    public static void main(String[] args) {\n        System.out.println(new EditDistance().minDistance(\"horse\",\"ros\")); // 3\n        System.out.println(new EditDistance().minDistance(\"intention\",\"execution\")); // 5\n    }\n}",

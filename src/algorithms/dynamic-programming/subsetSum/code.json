@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function subsetSum(nums, target) {\n  const dp = new Array(target + 1).fill(false);\n  dp[0] = true;\n  for (const num of nums) {\n    for (let s = target; s >= num; s--) {\n      dp[s] = dp[s] || dp[s - num];\n    }\n  }\n  return dp[target];\n}\n\nconsole.log(subsetSum([3, 34, 4, 12, 5, 2], 9));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class SubsetSum {\n    public boolean subsetSum(int[] arr, int target) {\n        int n = arr.length;\n        boolean[][] dp = new boolean[n+1][target+1];\n        for (int i = 0; i <= n; i++) dp[i][0] = true;\n        for (int i = 1; i <= n; i++)\n            for (int j = 1; j <= target; j++) {\n                dp[i][j] = dp[i-1][j];\n                if (arr[i-1] <= j) dp[i][j] |= dp[i-1][j-arr[i-1]];\n            }\n        return dp[n][target];\n    }\n    public static void main(String[] args) {\n        System.out.println(new SubsetSum().subsetSum(new int[]{3,34,4,12,5,2}, 9)); // true (4+5)\n    }\n}",
