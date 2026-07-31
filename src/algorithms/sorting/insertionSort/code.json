@@ -23,5 +23,30 @@
     "language": "python",
     "code": "def insertion_sort(a):\n    for i in range(1, len(a)):\n        key = a[i]\n        j = i - 1\n        while j >= 0 and a[j] > key:\n            a[j + 1] = a[j]\n            j -= 1\n        a[j + 1] = key\n    return a\n\nprint(insertion_sort([12, 11, 13, 5, 6]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "4": 3,
+      "6": 4,
+      "7": 5
+    },
+    "cpp": {
+      "3": 5,
+      "4": 6,
+      "6": 7,
+      "7": 8
+    },
+    "python": {
+      "4": 2,
+      "6": 4,
+      "7": 5,
+      "9": 7
+    },
+    "javascript": {
+      "4": 2,
+      "6": 4,
+      "7": 5,
+      "9": 7
+    }
   }
 }

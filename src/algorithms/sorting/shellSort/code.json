@@ -11,17 +11,43 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid shellSort(int a[], int n) {\n    for(int gap=n/2;gap>0;gap/=2)\n        for(int i=gap;i<n;i++){int t=a[i],j=i;\n            while(j>=gap&&a[j-gap]>t){a[j]=a[j-gap];j-=gap;}a[j]=t;}\n}\nint main(){int a[]={12,34,54,2,3};shellSort(a,5);for(int i=0;i<5;i++)printf(\"%d \",a[i]);return 0;}",
+    "code": "#include <stdio.h>\n\nvoid shellSort(int a[], int n) {\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int t = a[i], j = i;\n            while (j >= gap && a[j - gap] > t) {\n                a[j] = a[j - gap];\n                j -= gap;\n            }\n            a[j] = t;\n        }\n    }\n}\n\nint main() {\n    int a[] = {12, 34, 54, 2, 3};\n    shellSort(a, 5);\n    for (int i = 0; i < 5; i++) printf(\"%d \", a[i]);\n    return 0;\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid shellSort(vector<int>& a){int n=a.size();\n    for(int gap=n/2;gap>0;gap/=2)\n        for(int i=gap;i<n;i++){int t=a[i],j=i;\n            while(j>=gap&&a[j-gap]>t){a[j]=a[j-gap];j-=gap;}a[j]=t;}}\nint main(){vector<int> a={12,34,54,2,3};shellSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvoid shellSort(vector<int>& a) {\n    int n = a.size();\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int t = a[i], j = i;\n            while (j >= gap && a[j - gap] > t) {\n                a[j] = a[j - gap];\n                j -= gap;\n            }\n            a[j] = t;\n        }\n    }\n}\n\nint main() {\n    vector<int> a = {12, 34, 54, 2, 3};\n    shellSort(a);\n    for (int v : a) cout << v << \" \";\n    return 0;\n}",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def shell_sort(a):\n    n = len(a)\n    gap = n // 2\n    while gap > 0:\n        for i in range(gap, n):\n            temp = a[i]\n            j = i\n            while j >= gap and a[j - gap] > temp:\n                a[j] = a[j - gap]\n                j -= gap\n            a[j] = temp\n        gap //= 2\n    return a\n\nprint(shell_sort([12, 34, 54, 2, 3]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "5": 5,
+      "7": 7,
+      "9": 9
+    },
+    "cpp": {
+      "3": 6,
+      "5": 8,
+      "7": 10,
+      "9": 12
+    },
+    "python": {
+      "5": 5,
+      "7": 8,
+      "9": 10,
+      "11": 11
+    },
+    "javascript": {
+      "3": 2,
+      "5": 4,
+      "7": 7,
+      "9": 9,
+      "11": 11
+    }
   }
 }

@@ -11,17 +11,29 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nvoid countSort(int a[],int n,int exp){int out[n],cnt[10]={0};\nfor(int i=0;i<n;i++)cnt[(a[i]/exp)%10]++;\nfor(int i=1;i<10;i++)cnt[i]+=cnt[i-1];\nfor(int i=n-1;i>=0;i--)out[--cnt[(a[i]/exp)%10]]=a[i];\nfor(int i=0;i<n;i++)a[i]=out[i];}\nvoid radixSort(int a[],int n){int mx=a[0];for(int i=1;i<n;i++)if(a[i]>mx)mx=a[i];\nfor(int e=1;mx/e>0;e*=10)countSort(a,n,e);}\nint main(){int a[]={170,45,75,90,802,24,2,66};radixSort(a,8);for(int i=0;i<8;i++)printf(\"%d \",a[i]);return 0;}",
+    "code": "#include <stdio.h>\n\nvoid countSort(int a[], int n, int exp) {\n    int out[n], cnt[10] = {0};\n    for (int i = 0; i < n; i++) cnt[(a[i] / exp) % 10]++;\n    for (int i = 1; i < 10; i++) cnt[i] += cnt[i - 1];\n    for (int i = n - 1; i >= 0; i--) out[--cnt[(a[i] / exp) % 10]] = a[i];\n    for (int i = 0; i < n; i++) a[i] = out[i];\n}\n\nvoid radixSort(int a[], int n) {\n    int mx = a[0];\n    for (int i = 1; i < n; i++) if (a[i] > mx) mx = a[i];\n    for (int exp = 1; mx / exp > 0; exp *= 10) countSort(a, n, exp);\n}\n\nint main() {\n    int a[] = {170, 45, 75, 90, 802, 24, 2, 66};\n    radixSort(a, 8);\n    for (int i = 0; i < 8; i++) printf(\"%d \", a[i]);\n    return 0;\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid countSort(vector<int>& a,int exp){int n=a.size();vector<int> out(n),cnt(10,0);\nfor(int v:a)cnt[(v/exp)%10]++;for(int i=1;i<10;i++)cnt[i]+=cnt[i-1];\nfor(int i=n-1;i>=0;i--)out[--cnt[(a[i]/exp)%10]]=a[i];a=out;}\nvoid radixSort(vector<int>& a){int mx=*max_element(a.begin(),a.end());\nfor(int e=1;mx/e>0;e*=10)countSort(a,e);}\nint main(){vector<int> a={170,45,75,90,802,24,2,66};radixSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvoid countSort(vector<int>& a, int exp) {\n    int n = a.size();\n    vector<int> out(n), cnt(10, 0);\n    for (int v : a) cnt[(v / exp) % 10]++;\n    for (int i = 1; i < 10; i++) cnt[i] += cnt[i - 1];\n    for (int i = n - 1; i >= 0; i--) out[--cnt[(a[i] / exp) % 10]] = a[i];\n    a = out;\n}\n\nvoid radixSort(vector<int>& a) {\n    int mx = *max_element(a.begin(), a.end());\n    for (int exp = 1; mx / exp > 0; exp *= 10) countSort(a, exp);\n}\n\nint main() {\n    vector<int> a = {170, 45, 75, 90, 802, 24, 2, 66};\n    radixSort(a);\n    for (int v : a) cout << v << \" \";\n    return 0;\n}",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def radix_sort(a):\n    if not a:\n        return a\n    exp = 1\n    while max(a) // exp > 0:\n        buckets = [[] for _ in range(10)]\n        for x in a:\n            buckets[(x // exp) % 10].append(x)\n        a = [x for bucket in buckets for x in bucket]\n        exp *= 10\n    return a\n\nprint(radix_sort([170, 45, 75, 90, 802, 24, 2, 66]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "7": 7
+    },
+    "cpp": {
+      "7": 11
+    },
+    "javascript": {
+      "2": 1,
+      "7": 9
+    }
   }
 }

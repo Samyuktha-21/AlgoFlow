@@ -11,17 +11,30 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\nvoid insertionSort(float a[],int n){for(int i=1;i<n;i++){float k=a[i];int j=i-1;while(j>=0&&a[j]>k){a[j+1]=a[j];j--;}a[j+1]=k;}}\nvoid bucketSort(float a[],int n){float buckets[n][n];int cnt[n];for(int i=0;i<n;i++)cnt[i]=0;\nfor(int i=0;i<n;i++){int b=(int)(n*a[i]);buckets[b][cnt[b]++]=a[i];}\nfor(int i=0;i<n;i++)insertionSort(buckets[i],cnt[i]);\nint idx=0;for(int i=0;i<n;i++)for(int j=0;j<cnt[i];j++)a[idx++]=buckets[i][j];}\nint main(){float a[]={0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};bucketSort(a,6);for(int i=0;i<6;i++)printf(\"%.3f \",a[i]);return 0;}",
+    "code": "#include <stdio.h>\n\nvoid insertionSort(float a[], int n) {\n    for (int i = 1; i < n; i++) {\n        float k = a[i];\n        int j = i - 1;\n        while (j >= 0 && a[j] > k) { a[j + 1] = a[j]; j--; }\n        a[j + 1] = k;\n    }\n}\n\nvoid bucketSort(float a[], int n) {\n    float buckets[n][n];\n    int cnt[n];\n    for (int i = 0; i < n; i++) cnt[i] = 0;\n    for (int i = 0; i < n; i++) {\n        int b = (int)(n * a[i]);\n        buckets[b][cnt[b]++] = a[i];\n    }\n    for (int i = 0; i < n; i++) insertionSort(buckets[i], cnt[i]);\n    int idx = 0;\n    for (int i = 0; i < n; i++)\n        for (int j = 0; j < cnt[i]; j++) a[idx++] = buckets[i][j];\n}\n\nint main() {\n    float a[] = {0.897f, 0.565f, 0.656f, 0.1234f, 0.665f, 0.3434f};\n    bucketSort(a, 6);\n    for (int i = 0; i < 6; i++) printf(\"%.3f \", a[i]);\n    return 0;\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid bucketSort(vector<float>& arr) {\n    int n=arr.size(); vector<vector<float>> buckets(n);\n    for(float v:arr) buckets[(int)(n*v)].push_back(v);\n    for(auto& b:buckets) sort(b.begin(),b.end());\n    int idx=0; for(auto& b:buckets) for(float v:b) arr[idx++]=v;\n}\nint main(){vector<float> a={0.897f,0.565f,0.656f,0.1234f,0.665f,0.3434f};bucketSort(a);for(float v:a)printf(\"%.3f \",v);return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvoid bucketSort(vector<float>& arr) {\n    int n = arr.size();\n    vector<vector<float>> buckets(n);\n    for (float v : arr) buckets[(int)(n * v)].push_back(v);\n    for (auto& b : buckets) sort(b.begin(), b.end());\n    int idx = 0;\n    for (auto& b : buckets)\n        for (float v : b) arr[idx++] = v;\n}\n\nint main() {\n    vector<float> a = {0.897f, 0.565f, 0.656f, 0.1234f, 0.665f, 0.3434f};\n    bucketSort(a);\n    for (float v : a) printf(\"%.3f \", v);\n    return 0;\n}",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def bucket_sort(a):\n    if not a:\n        return a\n    n = len(a)\n    lo, hi = min(a), max(a)\n    buckets = [[] for _ in range(n)]\n    for x in a:\n        idx = int((x - lo) / (hi - lo + 1) * n)\n        buckets[idx].append(x)\n    result = []\n    for bucket in buckets:\n        result.extend(sorted(bucket))\n    return result\n\nprint(bucket_sort([0.42, 0.32, 0.23, 0.52, 0.25, 0.47]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "9": 21
+    },
+    "cpp": {
+      "7": 9,
+      "9": 11,
+      "10": 12
+    },
+    "javascript": {
+      "10": 8
+    }
   }
 }

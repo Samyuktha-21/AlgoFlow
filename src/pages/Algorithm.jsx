@@ -26,6 +26,7 @@ import ApplicationsPanel from '../components/InfoPanels/ApplicationsPanel'
 import Seo from '../components/Seo'
 import { getWhyText, deriveResult } from '../utils/stepExplain'
 import { getDefaultInput } from '../game/defaultInput'
+import { resolveHighlightLine } from '../utils/highlightLine'
 
 const metaModules  = import.meta.glob('../algorithms/**/*.json')
 const stepsModules = import.meta.glob('../algorithms/**/*.js')
@@ -372,7 +373,9 @@ export default function Algorithm() {
   const activeLang      = codeData && codeData[language] ? language : (availableLangs[0] || language)
   const currentCode     = codeData?.[activeLang]?.code || ''
   const { currentStep } = useVisualization()
-  const highlightedLine = currentStep?.codeLine || null
+  /* codeLine is authored against the Java block; translate it to the active
+     language via code.json's lineMap (Java = identity; unmapped = no highlight). */
+  const highlightedLine = resolveHighlightLine(currentStep?.codeLine, activeLang, codeData?.lineMap)
 
   const handleVisualize = useCallback((inputStr, targetStr) => {
     if (!stepsModule?.generateSteps) return { error: 'Algorithm not yet implemented' }

@@ -23,5 +23,34 @@
     "language": "python",
     "code": "def selection_sort(a):\n    n = len(a)\n    for i in range(n - 1):\n        min_idx = i\n        for j in range(i + 1, n):\n            if a[j] < a[min_idx]:\n                min_idx = j\n        a[i], a[min_idx] = a[min_idx], a[i]\n    return a\n\nprint(selection_sort([64, 25, 12, 22, 11]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "4": 3,
+      "6": 5,
+      "7": 6,
+      "10": 7
+    },
+    "cpp": {
+      "3": 5,
+      "4": 6,
+      "6": 8,
+      "7": 9,
+      "10": 10
+    },
+    "python": {
+      "3": 2,
+      "4": 3,
+      "6": 5,
+      "7": 6,
+      "10": 8
+    },
+    "javascript": {
+      "3": 2,
+      "4": 3,
+      "6": 5,
+      "7": 6,
+      "10": 8
+    }
   }
 }

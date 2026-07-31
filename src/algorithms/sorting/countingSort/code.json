@@ -11,17 +11,30 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nvoid countingSort(int arr[], int n) {\n    int max=arr[0]; for(int i=1;i<n;i++) if(arr[i]>max)max=arr[i];\n    int count[max+1]; memset(count,0,sizeof(count));\n    for(int i=0;i<n;i++) count[arr[i]]++;\n    for(int i=1;i<=max;i++) count[i]+=count[i-1];\n    int out[n];\n    for(int i=n-1;i>=0;i--) out[--count[arr[i]]]=arr[i];\n    for(int i=0;i<n;i++) arr[i]=out[i];\n}\nint main(){int a[]={4,2,2,8,3,3,1};countingSort(a,7);for(int i=0;i<7;i++)printf(\"%d \",a[i]);return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\n\nvoid countingSort(int arr[], int n) {\n    int max = arr[0];\n    for (int i = 1; i < n; i++) if (arr[i] > max) max = arr[i];\n    int count[max + 1];\n    memset(count, 0, sizeof(count));\n    for (int i = 0; i < n; i++) count[arr[i]]++;\n    for (int i = 1; i <= max; i++) count[i] += count[i - 1];\n    int out[n];\n    for (int i = n - 1; i >= 0; i--) out[--count[arr[i]]] = arr[i];\n    for (int i = 0; i < n; i++) arr[i] = out[i];\n}\n\nint main() {\n    int a[] = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a, 7);\n    for (int i = 0; i < 7; i++) printf(\"%d \", a[i]);\n    return 0;\n}",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid countingSort(vector<int>& arr) {\n    int n=arr.size(), mx=*max_element(arr.begin(),arr.end());\n    vector<int> cnt(mx+1,0), out(n);\n    for(int v:arr) cnt[v]++;\n    for(int i=1;i<=mx;i++) cnt[i]+=cnt[i-1];\n    for(int i=n-1;i>=0;i--) out[--cnt[arr[i]]]=arr[i];\n    arr=out;\n}\nint main(){vector<int> a={4,2,2,8,3,3,1};countingSort(a);for(int v:a)cout<<v<<\" \";return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvoid countingSort(vector<int>& arr) {\n    int n = arr.size(), mx = *max_element(arr.begin(), arr.end());\n    vector<int> cnt(mx + 1, 0), out(n);\n    for (int v : arr) cnt[v]++;\n    for (int i = 1; i <= mx; i++) cnt[i] += cnt[i - 1];\n    for (int i = n - 1; i >= 0; i--) out[--cnt[arr[i]]] = arr[i];\n    arr = out;\n}\n\nint main() {\n    vector<int> a = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a);\n    for (int v : a) cout << v << \" \";\n    return 0;\n}",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def counting_sort(a):\n    if not a:\n        return a\n    lo, hi = min(a), max(a)\n    count = [0] * (hi - lo + 1)\n    for x in a:\n        count[x - lo] += 1\n    result = []\n    for i, c in enumerate(count):\n        result.extend([i + lo] * c)\n    return result\n\nprint(counting_sort([4, 2, 2, 8, 3, 3, 1]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "5": 7,
+      "7": 10
+    },
+    "cpp": {
+      "7": 10
+    },
+    "javascript": {
+      "2": 1,
+      "5": 4
+    }
   }
 }
