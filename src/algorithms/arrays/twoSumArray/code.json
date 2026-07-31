@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function twoSumSorted(a, target) {\n  let lo = 0, hi = a.length - 1;\n  while (lo < hi) {\n    const sum = a[lo] + a[hi];\n    if (sum === target) return [lo, hi];\n    if (sum < target) lo++;\n    else hi--;\n  }\n  return [];\n}\n\nconsole.log(twoSumSorted([1, 3, 4, 5, 7, 11], 9));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class TwoSumArray {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer,Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int comp = target - nums[i];\n            if (map.containsKey(comp)) return new int[]{map.get(comp), i};\n            map.put(nums[i], i);\n        }\n        return new int[]{-1,-1};\n    }\n    public static void main(String[] args) {\n        int[] r = new TwoSumArray().twoSum(new int[]{2,7,11,15}, 9);\n        System.out.println(r[0]+\",\"+r[1]);\n    }\n}",

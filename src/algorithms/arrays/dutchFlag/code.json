@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function dutchFlag(a) {\n  let low = 0, mid = 0, high = a.length - 1;\n  while (mid <= high) {\n    if (a[mid] === 0) {\n      [a[low], a[mid]] = [a[mid], a[low]];\n      low++;\n      mid++;\n    } else if (a[mid] === 1) {\n      mid++;\n    } else {\n      [a[mid], a[high]] = [a[high], a[mid]];\n      high--;\n    }\n  }\n  return a;\n}\n\nconsole.log(dutchFlag([2, 0, 2, 1, 1, 0, 0, 2, 1]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class DutchFlag {\n    public void sort(int[] arr) {\n        int lo = 0, mid = 0, hi = arr.length - 1;\n        while (mid <= hi) {\n            if (arr[mid] == 0) {\n                int tmp = arr[lo]; arr[lo] = arr[mid]; arr[mid] = tmp;\n                lo++; mid++;\n            } else if (arr[mid] == 1) {\n                mid++;\n            } else {\n                int tmp = arr[mid]; arr[mid] = arr[hi]; arr[hi] = tmp;\n                hi--;\n            }\n        }\n    }\n    public static void main(String[] args) {\n        int[] arr = {2,0,2,1,1,0};\n        new DutchFlag().sort(arr);\n        for (int v : arr) System.out.print(v + \" \");\n    }\n}",

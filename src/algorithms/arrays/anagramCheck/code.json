@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function isAnagram(s, t) {\n  if (s.length !== t.length) return false;\n  const count = {};\n  for (const c of s) count[c] = (count[c] || 0) + 1;\n  for (const c of t) {\n    if (!count[c]) return false;\n    count[c]--;\n  }\n  return true;\n}\n\nconsole.log(isAnagram('listen', 'silent'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class AnagramCheck {\n    public boolean isAnagram(String s, String t) {\n        if (s.length() != t.length()) return false;\n        int[] count = new int[26];\n        for (char c : s.toCharArray()) count[c - 'a']++;\n        for (char c : t.toCharArray()) count[c - 'a']--;\n        for (int x : count) if (x != 0) return false;\n        return true;\n    }\n    public static void main(String[] args) {\n        AnagramCheck ac = new AnagramCheck();\n        System.out.println(ac.isAnagram(\"anagram\", \"nagaram\")); // true\n        System.out.println(ac.isAnagram(\"rat\", \"car\"));          // false\n    }\n}",

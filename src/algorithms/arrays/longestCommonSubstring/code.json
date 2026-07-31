@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function longestCommonSubstring(a, b) {\n  const m = a.length, n = b.length;\n  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));\n  let best = 0, end = 0;\n  for (let i = 1; i <= m; i++) {\n    for (let j = 1; j <= n; j++) {\n      if (a[i - 1] === b[j - 1]) {\n        dp[i][j] = dp[i - 1][j - 1] + 1;\n        if (dp[i][j] > best) {\n          best = dp[i][j];\n          end = i;\n        }\n      }\n    }\n  }\n  return a.slice(end - best, end);\n}\n\nconsole.log(longestCommonSubstring('ABABC', 'BABCA'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class LCS_Substring {\n    public int longestCommonSubstring(String s1, String s2) {\n        int m=s1.length(), n=s2.length(), max=0;\n        int[][] dp = new int[m+1][n+1];\n        for (int i=1; i<=m; i++)\n            for (int j=1; j<=n; j++) {\n                if (s1.charAt(i-1) == s2.charAt(j-1)) {\n                    dp[i][j] = dp[i-1][j-1] + 1;\n                    max = Math.max(max, dp[i][j]);\n                }\n            }\n        return max;\n    }\n    public static void main(String[] args) {\n        System.out.println(new LCS_Substring().longestCommonSubstring(\"ABCBDAB\",\"BDCAB\")); // 2\n    }\n}",
