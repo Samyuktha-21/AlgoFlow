@@ -1,9 +1,41 @@
 # Phase 4c — Verified Leaderboard — Design Spec
 
-**Date:** 2026-07-29
-**Status:** Draft (design) — implemented same session, batch review + deploy pending
+**Date:** 2026-07-29 · **Amended:** 2026-07-31
+**Status:** Implemented; deploy pending (Blaze).
 **Depends on:** Phase 4a (`/daily`, streak logic), Phase 3b (`useAuth`, `users/{uid}`), Firebase project `algoflow-d499d`.
 **Roadmap:** final slice of Phase 4 (engagement loop). This is the first feature to add a **backend** (Cloud Functions) — a deliberate departure from the prior "no backend" constraint, approved by the user.
+
+---
+
+## ⚠️ Amendment (2026-07-31) — supersedes the daily-only design below
+
+The board was reworked from "daily-only, server-verified" into a **server-authoritative total-XP** model. Where this amendment conflicts with §1–§9, the amendment wins.
+
+**What changed and why:** the user chose to (a) keep Cloud Functions on the **Blaze** plan, (b) make **all** XP unspoofable (not just the board), and (c) score the board by **total XP (daily + quiz + practice)**.
+
+1. **All XP is now server-authoritative.** Three callables own every XP write: `recordDailyCompletion`, `recordQuizXp`, `recordSolved` (`functions/index.js`; pure math in `functions/logic.js`). `firestore.rules` now **denies the client any XP-field write** on `users/{uid}` (client may write only profile + `learned`/`bookmarks`). This closes the old "edit your own `users/{uid}` XP in the console" hole that 4a/4b left open.
+2. **Board score = total XP** = `solvedCount·15 + dailyCount·20 + quizXp` (matches `src/utils/xp.computeXp`). Decision §2's `dailyCount·20 + longestStreak·10` is retired.
+3. **One source of truth (kills the dual-write clash).** Each callable, in one transaction, writes the canonical `users/{uid}` XP fields **and** mirrors the public subset (+ `score`, `xp`) to `leaderboard/{uid}`. The old 4a `updateEngagement` client write and the Daily.jsx dual `completeDaily()` + `recordDailyCompletion()` path are gone.
+4. **UTC everywhere.** The client uses `utcDateStr()` for the daily challenge + done-check so it agrees with the server's UTC stamping (removes the §6 cross-midnight off-by-one).
+5. **Anti-farm caps** (in `functions/logic.js`): 1 daily/UTC-day, quiz 100 XP/day, 30 new solves/UTC-day.
+6. **Unchanged residual:** the daily answer + the random quiz are still **not** re-verified server-side (needs the `src/game` engine ported into functions) — those XP sources are rate-capped self-reports. Practice "solved" is inherently self-reported (external judges).
+
+**Data model (amended):**
+```
+leaderboard/{uid}: { displayName, photoURL, score(=xp), xp, dailyCount,
+                     currentStreak, longestStreak, updatedAt }   // Function-written only
+users/{uid}: profile + learned/bookmarks (client)  +  server-only XP fields:
+             solved{}, solvedCount, solvedToday, solvedDate,
+             dailyCount, currentStreak, longestStreak, lastDailyDate,
+             quizXp, quizXpToday, quizXpDate, xp
+```
+**Tests:** `scripts/test-functions-logic.mjs` (streak/quiz-cap/solve-cap/score) + `scripts/test-leaderboard.mjs` (score = total XP) + `scripts/test-xp.mjs` (`utcDateStr`).
+
+**Deploy (unchanged, Blaze):** `cd functions && npm install && firebase deploy --only functions,firestore:rules`. Deploy functions **and** rules together — rules lock XP fields, so if the functions aren't live, XP earning fails closed.
+
+---
+
+## Original 2026-07-29 design (historical — see amendment above)
 
 ## 1. Goal
 
