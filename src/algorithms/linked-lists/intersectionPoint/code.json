@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction getIntersection(headA, headB) {\n  let a = headA, b = headB;\n  while (a !== b) {\n    a = a ? a.next : headB;\n    b = b ? b.next : headA;\n  }\n  return a;\n}\n\nconst c1 = new ListNode(8), c2 = new ListNode(10);\nc1.next = c2;\nconst a1 = new ListNode(3); a1.next = c1;\nconst b1 = new ListNode(4), b2 = new ListNode(6);\nb1.next = b2; b2.next = c1;\nconsole.log(getIntersection(a1, b1).val);",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class IntersectionPoint {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        ListNode p1 = headA, p2 = headB;\n        while (p1 != p2) {\n            p1 = (p1 == null) ? headB : p1.next;\n            p2 = (p2 == null) ? headA : p2.next;\n        }\n        return p1; // null if no intersection\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class CircularQueue {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.q = new Array(capacity);\n    this.head = 0;\n    this.count = 0;\n  }\n  enqueue(x) {\n    if (this.count === this.capacity) return false;\n    this.q[(this.head + this.count) % this.capacity] = x;\n    this.count++;\n    return true;\n  }\n  dequeue() {\n    if (this.count === 0) return undefined;\n    const x = this.q[this.head];\n    this.head = (this.head + 1) % this.capacity;\n    this.count--;\n    return x;\n  }\n}\n\nconst cq = new CircularQueue(3);\ncq.enqueue(1); cq.enqueue(2); cq.enqueue(3);\nconsole.log(cq.dequeue(), cq.enqueue(4), cq.dequeue());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class CircularQueue {\n    int[] arr; int front=0, rear=0, size=0, cap;\n    CircularQueue(int k) { arr = new int[k]; cap = k; }\n    boolean enQueue(int val) {\n        if (size == cap) return false;\n        arr[rear] = val;\n        rear = (rear + 1) % cap;\n        size++;\n        return true;\n    }\n    int deQueue() {\n        if (size == 0) return -1;\n        int val = arr[front];\n        front = (front + 1) % cap;\n        size--;\n        return val;\n    }\n    int Front() { return size == 0 ? -1 : arr[front]; }\n    boolean isEmpty() { return size == 0; }\n    boolean isFull()  { return size == cap; }\n}",

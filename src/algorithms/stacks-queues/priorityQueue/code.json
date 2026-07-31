@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class PriorityQueue {\n  constructor() {\n    this.heap = [];\n  }\n  push(x) {\n    this.heap.push(x);\n    let i = this.heap.length - 1;\n    while (i > 0) {\n      const parent = (i - 1) >> 1;\n      if (this.heap[parent] <= this.heap[i]) break;\n      [this.heap[parent], this.heap[i]] = [this.heap[i], this.heap[parent]];\n      i = parent;\n    }\n  }\n  pop() {\n    const top = this.heap[0];\n    const last = this.heap.pop();\n    if (this.heap.length) {\n      this.heap[0] = last;\n      let i = 0;\n      const n = this.heap.length;\n      while (true) {\n        let smallest = i;\n        const l = 2 * i + 1, r = 2 * i + 2;\n        if (l < n && this.heap[l] < this.heap[smallest]) smallest = l;\n        if (r < n && this.heap[r] < this.heap[smallest]) smallest = r;\n        if (smallest === i) break;\n        [this.heap[i], this.heap[smallest]] = [this.heap[smallest], this.heap[i]];\n        i = smallest;\n      }\n    }\n    return top;\n  }\n}\n\nconst pq = new PriorityQueue();\n[5, 1, 8, 3].forEach(x => pq.push(x));\nconsole.log(pq.pop(), pq.pop(), pq.pop());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.PriorityQueue;\npublic class PriorityQueueDemo {\n    public static void main(String[] args) {\n        PriorityQueue<Integer> pq = new PriorityQueue<>(); // min priority\n        pq.offer(5); pq.offer(1); pq.offer(3); pq.offer(9); pq.offer(2);\n        while (!pq.isEmpty()) System.out.print(pq.poll() + \" \");\n        // Output: 1 2 3 5 9\n\n        // Max priority queue\n        PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a,b)->b-a);\n        maxPQ.offer(5); maxPQ.offer(1); maxPQ.offer(3);\n        System.out.println(maxPQ.peek()); // 5\n    }\n}",

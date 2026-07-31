@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class MinStack {\n  constructor() {\n    this.stack = [];\n    this.mins = [];\n  }\n  push(x) {\n    this.stack.push(x);\n    this.mins.push(this.mins.length === 0 ? x : Math.min(x, this.getMin()));\n  }\n  pop() {\n    this.mins.pop();\n    return this.stack.pop();\n  }\n  top() {\n    return this.stack[this.stack.length - 1];\n  }\n  getMin() {\n    return this.mins[this.mins.length - 1];\n  }\n}\n\nconst s = new MinStack();\ns.push(5); s.push(2); s.push(7);\nconsole.log(s.getMin(), s.pop(), s.getMin());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Stack;\npublic class MinStack {\n    Stack<Integer> stack = new Stack<>();\n    Stack<Integer> minStack = new Stack<>();\n    public void push(int val) {\n        stack.push(val);\n        int min = minStack.isEmpty() ? val : Math.min(val, minStack.peek());\n        minStack.push(min);\n    }\n    public void pop() { stack.pop(); minStack.pop(); }\n    public int top() { return stack.peek(); }\n    public int getMin() { return minStack.peek(); }\n    public static void main(String[] args) {\n        MinStack ms = new MinStack();\n        ms.push(-2); ms.push(0); ms.push(-3);\n        System.out.println(ms.getMin()); // -3\n        ms.pop();\n        System.out.println(ms.getMin()); // -2\n    }\n}",

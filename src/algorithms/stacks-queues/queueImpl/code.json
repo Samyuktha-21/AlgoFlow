@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class Queue {\n  constructor() {\n    this.items = [];\n  }\n  enqueue(x) {\n    this.items.push(x);\n  }\n  dequeue() {\n    return this.items.shift();\n  }\n  front() {\n    return this.items[0];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst q = new Queue();\nq.enqueue('a'); q.enqueue('b'); q.enqueue('c');\nconsole.log(q.dequeue(), q.front(), q.isEmpty());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class Queue {\n    int[] arr;\n    int front = 0, rear = 0, size = 0, capacity;\n    Queue(int capacity) { arr = new int[capacity]; this.capacity = capacity; }\n    void enqueue(int val) {\n        arr[rear] = val;\n        rear = (rear + 1) % capacity;\n        size++;\n    }\n    int dequeue() {\n        int val = arr[front];\n        front = (front + 1) % capacity;\n        size--;\n        return val;\n    }\n    int front() { return arr[front]; }\n    boolean isEmpty() { return size == 0; }\n    public static void main(String[] args) {\n        Queue q = new Queue(10);\n        q.enqueue(1); q.enqueue(2); q.enqueue(3);\n        System.out.println(q.dequeue()); // 1\n        System.out.println(q.front());   // 2\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class Stack {\n  constructor() {\n    this.items = [];\n  }\n  push(x) {\n    this.items.push(x);\n  }\n  pop() {\n    return this.items.pop();\n  }\n  peek() {\n    return this.items[this.items.length - 1];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst st = new Stack();\nst.push(1); st.push(2); st.push(3);\nconsole.log(st.pop(), st.peek(), st.isEmpty());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class Stack {\n    int[] arr;\n    int top = -1;\n    Stack(int capacity) { arr = new int[capacity]; }\n    void push(int val) {\n        if (top == arr.length - 1) throw new RuntimeException(\"Stack overflow\");\n        arr[++top] = val;\n    }\n    int pop() {\n        if (top == -1) throw new RuntimeException(\"Stack underflow\");\n        return arr[top--];\n    }\n    int peek() { return arr[top]; }\n    boolean isEmpty() { return top == -1; }\n    public static void main(String[] args) {\n        Stack s = new Stack(10);\n        s.push(1); s.push(2); s.push(3);\n        System.out.println(s.pop()); // 3\n        System.out.println(s.peek()); // 2\n    }\n}",

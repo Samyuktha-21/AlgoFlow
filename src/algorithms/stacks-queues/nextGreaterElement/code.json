@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function nextGreaterElement(a) {\n  const result = new Array(a.length).fill(-1);\n  const stack = [];\n  for (let i = 0; i < a.length; i++) {\n    while (stack.length && a[stack[stack.length - 1]] < a[i]) {\n      result[stack.pop()] = a[i];\n    }\n    stack.push(i);\n  }\n  return result;\n}\n\nconsole.log(nextGreaterElement([4, 5, 2, 25, 7, 8]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class NextGreaterElement {\n    public int[] nextGreater(int[] arr) {\n        int n = arr.length;\n        int[] result = new int[n];\n        Arrays.fill(result, -1);\n        Stack<Integer> stack = new Stack<>(); // stores indices\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && arr[stack.peek()] < arr[i])\n                result[stack.pop()] = arr[i];\n            stack.push(i);\n        }\n        return result;\n    }\n    public static void main(String[] args) {\n        int[] arr = {4, 5, 2, 25};\n        int[] res = new NextGreaterElement().nextGreater(arr);\n        for (int v : res) System.out.print(v + \" \"); // 5 25 25 -1\n    }\n}",

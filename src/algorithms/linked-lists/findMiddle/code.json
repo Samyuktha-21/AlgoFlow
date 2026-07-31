@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction findMiddle(head) {\n  let slow = head, fast = head;\n  while (fast && fast.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n  }\n  return slow;\n}\n\nlet head = null;\nfor (const v of [5, 4, 3, 2, 1]) {\n  const n = new ListNode(v);\n  n.next = head;\n  head = n;\n}\nconsole.log(findMiddle(head).val);",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class FindMiddle {\n    public ListNode findMiddle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n    public static void main(String[] args) {\n        // Create list 1->2->3->4->5\n        // findMiddle returns node 3\n    }\n}",

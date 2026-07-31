@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.map = new Map();\n  }\n  get(key) {\n    if (!this.map.has(key)) return -1;\n    const val = this.map.get(key);\n    this.map.delete(key);\n    this.map.set(key, val);\n    return val;\n  }\n  put(key, val) {\n    if (this.map.has(key)) this.map.delete(key);\n    else if (this.map.size >= this.capacity) this.map.delete(this.map.keys().next().value);\n    this.map.set(key, val);\n  }\n}\n\nconst cache = new LRUCache(2);\ncache.put(1, 1); cache.put(2, 2);\nconsole.log(cache.get(1)); // 1\ncache.put(3, 3);           // evicts key 2\nconsole.log(cache.get(2)); // -1",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class LRUCache {\n    int cap;\n    LinkedHashMap<Integer,Integer> cache;\n    LRUCache(int capacity) {\n        this.cap = capacity;\n        cache = new LinkedHashMap<>(capacity, 0.75f, true) {\n            protected boolean removeEldestEntry(Map.Entry e) { return size() > cap; }\n        };\n    }\n    public int get(int key) { return cache.getOrDefault(key, -1); }\n    public void put(int key, int value) { cache.put(key, value); }\n    public static void main(String[] args) {\n        LRUCache c = new LRUCache(2);\n        c.put(1,1); c.put(2,2); System.out.println(c.get(1));\n        c.put(3,3); System.out.println(c.get(2)); // -1 evicted\n    }\n}",

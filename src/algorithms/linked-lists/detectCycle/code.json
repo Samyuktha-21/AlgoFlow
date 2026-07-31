@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction hasCycle(head) {\n  let slow = head, fast = head;\n  while (fast && fast.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n    if (slow === fast) return true;\n  }\n  return false;\n}\n\nconst a = new ListNode(1), b = new ListNode(2), c = new ListNode(3);\na.next = b; b.next = c; c.next = a; // cycle back to head\nconsole.log(hasCycle(a));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class DetectCycle {\n    static class ListNode { int val; ListNode next; ListNode(int v){val=v;} }\n    public boolean hasCycle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true;  // Cycle!\n        }\n        return false;\n    }\n    public ListNode detectCycleStart(ListNode head) {\n        ListNode slow=head, fast=head;\n        while(fast!=null&&fast.next!=null){slow=slow.next;fast=fast.next.next;if(slow==fast)break;}\n        if(fast==null||fast.next==null) return null;\n        slow=head;\n        while(slow!=fast){slow=slow.next;fast=fast.next;}\n        return slow; // cycle entry point\n    }\n}",

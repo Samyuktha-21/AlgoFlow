@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function isValid(s) {\n  const stack = [];\n  const pairs = { ')': '(', ']': '[', '}': '{' };\n  for (const c of s) {\n    if (c in pairs) {\n      if (stack.pop() !== pairs[c]) return false;\n    } else {\n      stack.push(c);\n    }\n  }\n  return stack.length === 0;\n}\n\nconsole.log(isValid('([{}])'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Stack;\npublic class ValidParenthesesStack {\n    public boolean isValid(String s) {\n        Stack<Character> stack = new Stack<>();\n        for (char c : s.toCharArray()) {\n            if (\"([{\".indexOf(c) >= 0) { stack.push(c); continue; }\n            if (stack.isEmpty()) return false;\n            char top = stack.pop();\n            if ((c==')' && top!='(') || (c==']' && top!='[') || (c=='}' && top!='{')) return false;\n        }\n        return stack.isEmpty();\n    }\n    public static void main(String[] args) {\n        System.out.println(new ValidParenthesesStack().isValid(\"{[()]}\"));  // true\n        System.out.println(new ValidParenthesesStack().isValid(\"{[}\"));     // false\n    }\n}",
