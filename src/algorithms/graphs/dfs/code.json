@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function dfs(graph, start) {\n  const visited = new Set();\n  const order = [];\n  const traverse = (node) => {\n    visited.add(node);\n    order.push(node);\n    for (const next of graph[node] || []) {\n      if (!visited.has(next)) traverse(next);\n    }\n  };\n  traverse(start);\n  return order;\n}\n\nconst graph = { 0: [1, 2], 1: [0, 3, 4], 2: [0, 5], 3: [1], 4: [1], 5: [2] };\nconsole.log(dfs(graph, 0).join(' '));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class DFS {\n    public void dfs(List<List<Integer>> graph, int start) {\n        int n = graph.size();\n        boolean[] visited = new boolean[n];\n        Stack<Integer> stack = new Stack<>();\n        stack.push(start);\n        while (!stack.isEmpty()) {\n            int node = stack.pop();\n            if (visited[node]) continue;\n            visited[node] = true;\n            System.out.print(node + \" \");\n            for (int neighbor : graph.get(node))\n                if (!visited[neighbor]) stack.push(neighbor);\n        }\n    }\n    public static void main(String[] args) {\n        List<List<Integer>> g = new ArrayList<>();\n        for(int i=0;i<6;i++) g.add(new ArrayList<>());\n        g.get(0).addAll(Arrays.asList(1,2));\n        g.get(1).addAll(Arrays.asList(0,3,4));\n        g.get(2).addAll(Arrays.asList(0,5));\n        new DFS().dfs(g, 0);\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function floydWarshall(dist) {\n  const n = dist.length;\n  const d = dist.map(row => [...row]);\n  for (let k = 0; k < n; k++) {\n    for (let i = 0; i < n; i++) {\n      for (let j = 0; j < n; j++) {\n        if (d[i][k] + d[k][j] < d[i][j]) {\n          d[i][j] = d[i][k] + d[k][j];\n        }\n      }\n    }\n  }\n  return d;\n}\n\nconst INF = Infinity;\nconst graph = [\n  [0, 3, INF, 7],\n  [8, 0, 2, INF],\n  [5, INF, 0, 1],\n  [2, INF, INF, 0],\n];\nconsole.log(JSON.stringify(floydWarshall(graph)));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class FloydWarshall {\n    static final int INF = 99999;\n    public void floydWarshall(int[][] dist, int V) {\n        for (int k = 0; k < V; k++)\n            for (int i = 0; i < V; i++)\n                for (int j = 0; j < V; j++)\n                    if (dist[i][k] + dist[k][j] < dist[i][j])\n                        dist[i][j] = dist[i][k] + dist[k][j];\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function bellmanFord(n, edges, source) {\n  const dist = new Array(n).fill(Infinity);\n  dist[source] = 0;\n  for (let i = 0; i < n - 1; i++) {\n    for (const [u, v, w] of edges) {\n      if (dist[u] !== Infinity && dist[u] + w < dist[v]) {\n        dist[v] = dist[u] + w;\n      }\n    }\n  }\n  for (const [u, v, w] of edges) {\n    if (dist[u] !== Infinity && dist[u] + w < dist[v]) return null; // negative cycle\n  }\n  return dist;\n}\n\nconst edges = [[0, 1, 4], [0, 2, 5], [1, 2, -3], [2, 3, 4], [1, 3, 6]];\nconsole.log(JSON.stringify(bellmanFord(4, edges, 0)));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class BellmanFord {\n    int[] bellmanFord(int v, int[][] edges, int src) {\n        int[] dist = new int[v];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n        for (int i = 0; i < v - 1; i++)\n            for (int[] e : edges) {\n                int u=e[0], w=e[1], wt=e[2];\n                if (dist[u] != Integer.MAX_VALUE && dist[u] + wt < dist[w])\n                    dist[w] = dist[u] + wt;\n            }\n        // Check negative cycle\n        for (int[] e : edges)\n            if (dist[e[0]] != Integer.MAX_VALUE && dist[e[0]] + e[2] < dist[e[1]])\n                System.out.println(\"Negative cycle detected!\");\n        return dist;\n    }\n}",

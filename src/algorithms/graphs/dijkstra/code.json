@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function dijkstra(graph, start) {\n  const dist = {};\n  for (const node in graph) dist[node] = Infinity;\n  dist[start] = 0;\n  const pq = [[0, start]];\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [d, node] = pq.shift();\n    if (d > dist[node]) continue;\n    for (const [next, weight] of graph[node]) {\n      const nd = d + weight;\n      if (nd < dist[next]) {\n        dist[next] = nd;\n        pq.push([nd, next]);\n      }\n    }\n  }\n  return dist;\n}\n\nconst graph = {\n  A: [['B', 4], ['C', 1]],\n  B: [['D', 1]],\n  C: [['B', 2], ['D', 5]],\n  D: [],\n};\nconsole.log(JSON.stringify(dijkstra(graph, 'A')));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class Dijkstra {\n    public int[] dijkstra(int[][] graph, int src) {\n        int n = graph.length;\n        int[] dist = new int[n];\n        boolean[] visited = new boolean[n];\n        Arrays.fill(dist, Integer.MAX_VALUE);\n        dist[src] = 0;\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->a[0]-b[0]);\n        pq.offer(new int[]{0, src});\n        while (!pq.isEmpty()) {\n            int[] curr = pq.poll();\n            int u = curr[1];\n            if (visited[u]) continue;\n            visited[u] = true;\n            for (int v = 0; v < n; v++) {\n                if (graph[u][v] != 0 && !visited[v] && dist[u] + graph[u][v] < dist[v]) {\n                    dist[v] = dist[u] + graph[u][v];\n                    pq.offer(new int[]{dist[v], v});\n                }\n            }\n        }\n        return dist;\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function bfs(graph, start) {\n  const visited = new Set([start]);\n  const queue = [start];\n  const order = [];\n  while (queue.length) {\n    const node = queue.shift();\n    order.push(node);\n    for (const next of graph[node] || []) {\n      if (!visited.has(next)) {\n        visited.add(next);\n        queue.push(next);\n      }\n    }\n  }\n  return order;\n}\n\nconst graph = { 0: [1, 2], 1: [0, 3, 4], 2: [0, 5], 3: [1], 4: [1], 5: [2] };\nconsole.log(bfs(graph, 0).join(' '));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\n\npublic class BFS {\n    public void bfs(List<List<Integer>> graph, int start) {\n        int n = graph.size();\n        boolean[] visited = new boolean[n];\n        Queue<Integer> queue = new LinkedList<>();\n        \n        visited[start] = true;\n        queue.offer(start);\n        \n        while (!queue.isEmpty()) {\n            int node = queue.poll();\n            System.out.print(node + \" \");\n            \n            for (int neighbor : graph.get(node)) {\n                if (!visited[neighbor]) {\n                    visited[neighbor] = true;\n                    queue.offer(neighbor);\n                }\n            }\n        }\n    }\n\n    public static void main(String[] args) {\n        List<List<Integer>> graph = new ArrayList<>();\n        for (int i = 0; i < 6; i++) graph.add(new ArrayList<>());\n        graph.get(0).addAll(Arrays.asList(1, 2));\n        graph.get(1).addAll(Arrays.asList(0, 3, 4));\n        graph.get(2).addAll(Arrays.asList(0, 5));\n        new BFS().bfs(graph, 0);  // Output: 0 1 2 3 4 5\n    }\n}",

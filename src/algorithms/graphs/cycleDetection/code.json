@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function hasCycle(graph) {\n  const WHITE = 0, GRAY = 1, BLACK = 2;\n  const color = {};\n  for (const node in graph) color[node] = WHITE;\n  const dfs = (node) => {\n    color[node] = GRAY;\n    for (const next of graph[node] || []) {\n      if (color[next] === GRAY) return true;\n      if (color[next] === WHITE && dfs(next)) return true;\n    }\n    color[node] = BLACK;\n    return false;\n  };\n  for (const node in graph) {\n    if (color[node] === WHITE && dfs(node)) return true;\n  }\n  return false;\n}\n\nconst graph = { 0: [1], 1: [2], 2: [0], 3: [] };\nconsole.log(hasCycle(graph));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class CycleDetection {\n    boolean hasCycle(int[][] adj, int V) {\n        boolean[] visited = new boolean[V];\n        boolean[] recStack = new boolean[V];\n        for (int i = 0; i < V; i++)\n            if (!visited[i] && dfs(adj, i, visited, recStack)) return true;\n        return false;\n    }\n    boolean dfs(int[][] adj, int v, boolean[] vis, boolean[] rec) {\n        vis[v] = true; rec[v] = true;\n        for (int u : adj[v]) {\n            if (!vis[u] && dfs(adj, u, vis, rec)) return true;\n            else if (rec[u]) return true; // back edge = cycle\n        }\n        rec[v] = false;\n        return false;\n    }\n}",

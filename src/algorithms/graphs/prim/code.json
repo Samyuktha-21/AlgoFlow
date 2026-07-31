@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function prim(graph, start) {\n  const visited = new Set();\n  const pq = [[0, start]];\n  let cost = 0;\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [w, node] = pq.shift();\n    if (visited.has(node)) continue;\n    visited.add(node);\n    cost += w;\n    for (const [next, weight] of graph[node]) {\n      if (!visited.has(next)) pq.push([weight, next]);\n    }\n  }\n  return cost;\n}\n\nconst graph = {\n  0: [[1, 10], [2, 6], [3, 5]],\n  1: [[0, 10], [3, 15]],\n  2: [[0, 6], [3, 4]],\n  3: [[0, 5], [1, 15], [2, 4]],\n};\nconsole.log(prim(graph, 0));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class Prim {\n    public int primMST(int[][] graph) {\n        int n = graph.length;\n        int[] key = new int[n];\n        boolean[] inMST = new boolean[n];\n        Arrays.fill(key, Integer.MAX_VALUE);\n        key[0] = 0;\n        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n        pq.offer(new int[]{0, 0});\n        int totalWeight = 0;\n        while (!pq.isEmpty()) {\n            int u = pq.poll()[1];\n            if (inMST[u]) continue;\n            inMST[u] = true;\n            totalWeight += key[u];\n            for (int v = 0; v < n; v++) {\n                if (graph[u][v] != 0 && !inMST[v] && graph[u][v] < key[v]) {\n                    key[v] = graph[u][v];\n                    pq.offer(new int[]{key[v], v});\n                }\n            }\n        }\n        return totalWeight;\n    }\n}",

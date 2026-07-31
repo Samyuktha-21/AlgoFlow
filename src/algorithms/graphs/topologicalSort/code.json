@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "// Kahn's algorithm (BFS on in-degrees).\nfunction topologicalSort(graph) {\n  const inDegree = {};\n  for (const node in graph) inDegree[node] = 0;\n  for (const node in graph) {\n    for (const next of graph[node]) inDegree[next] = (inDegree[next] || 0) + 1;\n  }\n  const queue = Object.keys(graph).filter(n => inDegree[n] === 0);\n  const order = [];\n  while (queue.length) {\n    const node = queue.shift();\n    order.push(node);\n    for (const next of graph[node]) {\n      inDegree[next]--;\n      if (inDegree[next] === 0) queue.push(String(next));\n    }\n  }\n  return order;\n}\n\nconst graph = { 5: [2, 0], 4: [0, 1], 2: [3], 3: [1], 0: [], 1: [] };\nconsole.log(topologicalSort(graph).join(' '));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class TopologicalSort {\n    public List<Integer> topoSort(int v, List<List<Integer>> adj) {\n        int[] inDeg = new int[v];\n        for (List<Integer> nbrs : adj)\n            for (int nb : nbrs) inDeg[nb]++;\n        Queue<Integer> q = new LinkedList<>();\n        for (int i = 0; i < v; i++) if (inDeg[i] == 0) q.offer(i);\n        List<Integer> order = new ArrayList<>();\n        while (!q.isEmpty()) {\n            int node = q.poll();\n            order.add(node);\n            for (int nb : adj.get(node)) if (--inDeg[nb] == 0) q.offer(nb);\n        }\n        if (order.size() != v) System.out.println(\"Cycle detected!\");\n        return order;\n    }\n}",

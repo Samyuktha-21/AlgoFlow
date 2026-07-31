@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function isBipartite(graph) {\n  const color = {};\n  for (const start in graph) {\n    if (color[start] !== undefined) continue;\n    const queue = [start];\n    color[start] = 0;\n    while (queue.length) {\n      const node = queue.shift();\n      for (const next of graph[node]) {\n        if (color[next] === undefined) {\n          color[next] = 1 - color[node];\n          queue.push(next);\n        } else if (color[next] === color[node]) {\n          return false;\n        }\n      }\n    }\n  }\n  return true;\n}\n\nconst graph = { 0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2] };\nconsole.log(isBipartite(graph));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class BipartiteCheck {\n    public boolean isBipartite(int[][] adj, int V) {\n        int[] color = new int[V]; Arrays.fill(color, -1);\n        for (int start = 0; start < V; start++) {\n            if (color[start] != -1) continue;\n            color[start] = 0;\n            Queue<Integer> q = new LinkedList<>();\n            q.offer(start);\n            while (!q.isEmpty()) {\n                int u = q.poll();\n                for (int v : adj[u]) {\n                    if (color[v] == -1) { color[v] = 1 - color[u]; q.offer(v); }\n                    else if (color[v] == color[u]) return false;\n                }\n            }\n        }\n        return true;\n    }\n}",
