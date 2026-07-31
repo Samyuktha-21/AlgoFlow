@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function fractionalKnapsack(items, capacity) {\n  items.sort((a, b) => b.value / b.weight - a.value / a.weight);\n  let total = 0;\n  for (const item of items) {\n    if (capacity >= item.weight) {\n      capacity -= item.weight;\n      total += item.value;\n    } else {\n      total += item.value * (capacity / item.weight);\n      break;\n    }\n  }\n  return total;\n}\n\nconst items = [{ value: 60, weight: 10 }, { value: 100, weight: 20 }, { value: 120, weight: 30 }];\nconsole.log(fractionalKnapsack(items, 50));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.Arrays;\npublic class FractionalKnapsack {\n    static class Item { int weight, value; double ratio; Item(int w,int v){weight=w;value=v;ratio=(double)v/w;} }\n    public double maxValue(int W, int[] wt, int[] val) {\n        Item[] items = new Item[wt.length];\n        for (int i = 0; i < wt.length; i++) items[i] = new Item(wt[i], val[i]);\n        Arrays.sort(items, (a,b) -> Double.compare(b.ratio, a.ratio));\n        double total = 0;\n        for (Item item : items) {\n            if (W >= item.weight) { total += item.value; W -= item.weight; }\n            else { total += item.ratio * W; break; }\n        }\n        return total;\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "// Optimal file merge (greedy): always merge the two smallest files first.\nfunction minMergeCost(files) {\n  const heap = [...files];\n  let cost = 0;\n  while (heap.length > 1) {\n    heap.sort((a, b) => a - b);\n    const a = heap.shift();\n    const b = heap.shift();\n    const merged = a + b;\n    cost += merged;\n    heap.push(merged);\n  }\n  return cost;\n}\n\nconsole.log(minMergeCost([20, 30, 10, 5]));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class OptimalFileMerge {\n    public static long minCost(int[] files) {\n        PriorityQueue<Long> pq = new PriorityQueue<>();\n        for (int f : files) pq.add((long)f);\n        long totalCost = 0;\n        while (pq.size() > 1) {\n            long a = pq.poll(), b = pq.poll();\n            totalCost += a + b;\n            pq.add(a + b);\n        }\n        return totalCost;\n    }\n    public static void main(String[] args) {\n        int[] files = {2, 3, 4, 5, 6};\n        System.out.println(\"Minimum merge cost: \" + minCost(files));\n    }\n}",

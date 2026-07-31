@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function permutations(nums) {\n  const result = [];\n  const backtrack = (current, remaining) => {\n    if (remaining.length === 0) {\n      result.push([...current]);\n      return;\n    }\n    for (let i = 0; i < remaining.length; i++) {\n      current.push(remaining[i]);\n      backtrack(current, [...remaining.slice(0, i), ...remaining.slice(i + 1)]);\n      current.pop();\n    }\n  };\n  backtrack([], nums);\n  return result;\n}\n\nconsole.log(JSON.stringify(permutations([1, 2, 3])));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class Permutations {\n    List<List<Integer>> result = new ArrayList<>();\n    public List<List<Integer>> permute(int[] nums) {\n        backtrack(nums, new ArrayList<>(), new boolean[nums.length]);\n        return result;\n    }\n    void backtrack(int[] nums, List<Integer> current, boolean[] used) {\n        if (current.size() == nums.length) { result.add(new ArrayList<>(current)); return; }\n        for (int i = 0; i < nums.length; i++) {\n            if (!used[i]) {\n                used[i] = true; current.add(nums[i]);\n                backtrack(nums, current, used);\n                used[i] = false; current.remove(current.size()-1); // backtrack\n            }\n        }\n    }\n}",

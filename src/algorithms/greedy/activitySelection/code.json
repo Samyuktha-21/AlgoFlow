@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function activitySelection(activities) {\n  activities.sort((a, b) => a[1] - b[1]);\n  const selected = [activities[0]];\n  let lastEnd = activities[0][1];\n  for (let i = 1; i < activities.length; i++) {\n    if (activities[i][0] >= lastEnd) {\n      selected.push(activities[i]);\n      lastEnd = activities[i][1];\n    }\n  }\n  return selected;\n}\n\nconsole.log(JSON.stringify(activitySelection([[1, 4], [3, 5], [0, 6], [5, 7], [3, 9], [5, 9], [6, 10], [8, 11]])));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class ActivitySelection {\n    public List<Integer> select(int[] start, int[] end) {\n        int n = start.length;\n        Integer[] idx = new Integer[n];\n        for (int i = 0; i < n; i++) idx[i] = i;\n        Arrays.sort(idx, (a,b) -> end[a] - end[b]); // sort by finish time\n        List<Integer> selected = new ArrayList<>();\n        int lastEnd = -1;\n        for (int i : idx) {\n            if (start[i] >= lastEnd) {\n                selected.add(i);\n                lastEnd = end[i];\n            }\n        }\n        return selected;\n    }\n    public static void main(String[] args) {\n        int[] s={1,3,0,5,8,5}, e={2,4,6,7,9,9};\n        System.out.println(new ActivitySelection().select(s,e));\n    }\n}",

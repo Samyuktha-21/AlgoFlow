@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function jobSequencing(jobs) {\n  jobs.sort((a, b) => b.profit - a.profit);\n  const maxDeadline = Math.max(...jobs.map(j => j.deadline));\n  const slots = new Array(maxDeadline + 1).fill(null);\n  let totalProfit = 0;\n  for (const job of jobs) {\n    for (let t = job.deadline; t > 0; t--) {\n      if (!slots[t]) {\n        slots[t] = job.id;\n        totalProfit += job.profit;\n        break;\n      }\n    }\n  }\n  return { totalProfit, sequence: slots.filter(Boolean) };\n}\n\nconst jobs = [\n  { id: 'a', deadline: 2, profit: 100 },\n  { id: 'b', deadline: 1, profit: 19 },\n  { id: 'c', deadline: 2, profit: 27 },\n  { id: 'd', deadline: 1, profit: 25 },\n  { id: 'e', deadline: 3, profit: 15 },\n];\nconsole.log(JSON.stringify(jobSequencing(jobs)));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class JobSequencing {\n    public int[] scheduleJobs(int[] profit, int[] deadline) {\n        int n = profit.length, maxD = Arrays.stream(deadline).max().getAsInt();\n        Integer[] idx = new Integer[n];\n        for (int i = 0; i < n; i++) idx[i] = i;\n        Arrays.sort(idx, (a,b) -> profit[b]-profit[a]);\n        int[] slot = new int[maxD+1]; Arrays.fill(slot, -1);\n        int totalProfit = 0, count = 0;\n        for (int i : idx) {\n            for (int j = deadline[i]; j >= 1; j--) {\n                if (slot[j] == -1) { slot[j] = i; totalProfit += profit[i]; count++; break; }\n            }\n        }\n        return new int[]{count, totalProfit};\n    }\n}",

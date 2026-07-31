@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function combinations(n, k) {\n  const result = [];\n  const backtrack = (start, current) => {\n    if (current.length === k) {\n      result.push([...current]);\n      return;\n    }\n    for (let i = start; i <= n; i++) {\n      current.push(i);\n      backtrack(i + 1, current);\n      current.pop();\n    }\n  };\n  backtrack(1, []);\n  return result;\n}\n\nconsole.log(JSON.stringify(combinations(4, 2)));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class Combinations {\n    public List<List<Integer>> combine(int n, int k) {\n        List<List<Integer>> result = new ArrayList<>();\n        backtrack(1, n, k, new ArrayList<>(), result);\n        return result;\n    }\n    void backtrack(int start, int n, int k, List<Integer> current, List<List<Integer>> result) {\n        if (current.size() == k) { result.add(new ArrayList<>(current)); return; }\n        for (int i = start; i <= n-(k-current.size())+1; i++) { // pruning\n            current.add(i);\n            backtrack(i+1, n, k, current, result);\n            current.remove(current.size()-1);\n        }\n    }\n    public static void main(String[] args) {\n        System.out.println(new Combinations().combine(4, 2));\n    }\n}",
