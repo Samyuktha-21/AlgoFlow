@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function kmpSearch(text, pattern) {\n  const lps = new Array(pattern.length).fill(0);\n  let len = 0;\n  for (let i = 1; i < pattern.length;) {\n    if (pattern[i] === pattern[len]) lps[i++] = ++len;\n    else if (len > 0) len = lps[len - 1];\n    else lps[i++] = 0;\n  }\n  const matches = [];\n  let i = 0, j = 0;\n  while (i < text.length) {\n    if (text[i] === pattern[j]) { i++; j++; }\n    if (j === pattern.length) { matches.push(i - j); j = lps[j - 1]; }\n    else if (i < text.length && text[i] !== pattern[j]) {\n      if (j > 0) j = lps[j - 1];\n      else i++;\n    }\n  }\n  return matches;\n}\n\nconsole.log(kmpSearch('ABABDABACDABABCABAB', 'ABABCABAB'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class KMP {\n    int[] buildLPS(String pattern) {\n        int m = pattern.length(), len = 0;\n        int[] lps = new int[m];\n        int i = 1;\n        while (i < m) {\n            if (pattern.charAt(i) == pattern.charAt(len)) { lps[i++] = ++len; }\n            else if (len > 0) { len = lps[len-1]; }\n            else { lps[i++] = 0; }\n        }\n        return lps;\n    }\n    void search(String text, String pattern) {\n        int n = text.length(), m = pattern.length();\n        int[] lps = buildLPS(pattern);\n        int i = 0, j = 0;\n        while (i < n) {\n            if (text.charAt(i) == pattern.charAt(j)) { i++; j++; }\n            if (j == m) { System.out.println(\"Found at \" + (i-j)); j = lps[j-1]; }\n            else if (i < n && text.charAt(i) != pattern.charAt(j)) {\n                if (j > 0) j = lps[j-1]; else i++;\n            }\n        }\n    }\n}",

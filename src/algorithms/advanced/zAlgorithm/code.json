@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function zAlgorithm(s) {\n  const n = s.length;\n  const z = new Array(n).fill(0);\n  let l = 0, r = 0;\n  for (let i = 1; i < n; i++) {\n    if (i < r) z[i] = Math.min(r - i, z[i - l]);\n    while (i + z[i] < n && s[z[i]] === s[i + z[i]]) z[i]++;\n    if (i + z[i] > r) { l = i; r = i + z[i]; }\n  }\n  return z;\n}\n\n// Substring search: run Z on pattern + separator + text.\nfunction search(text, pattern) {\n  const combined = pattern + '$' + text;\n  const z = zAlgorithm(combined);\n  const matches = [];\n  for (let i = pattern.length + 1; i < combined.length; i++) {\n    if (z[i] === pattern.length) matches.push(i - pattern.length - 1);\n  }\n  return matches;\n}\n\nconsole.log(search('ababababa', 'aba'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class ZAlgorithm {\n    public int[] zFunction(String s) {\n        int n = s.length(); int[] z = new int[n];\n        z[0] = n; int l=0, r=0;\n        for (int i=1; i<n; i++) {\n            if (i < r) z[i] = Math.min(r-i, z[i-l]);\n            while (i+z[i] < n && s.charAt(z[i]) == s.charAt(i+z[i])) z[i]++;\n            if (i+z[i] > r) { l=i; r=i+z[i]; }\n        }\n        return z;\n    }\n    // Pattern matching: search s+##+text, occurrences where z[i]==|pattern|\n}",

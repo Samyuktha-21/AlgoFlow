@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function buildSuffixArray(s) {\n  const n = s.length;\n  const suffixes = [];\n  for (let i = 0; i < n; i++) suffixes.push({ index: i, suffix: s.slice(i) });\n  suffixes.sort((a, b) => (a.suffix < b.suffix ? -1 : a.suffix > b.suffix ? 1 : 0));\n  return suffixes.map(x => x.index);\n}\n\nconsole.log(buildSuffixArray('banana'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class SuffixArray {\n    public static int[] buildSA(String s) {\n        int n = s.length();\n        Integer[] sa = new Integer[n];\n        for (int i=0;i<n;i++) sa[i]=i;\n        int[] rank = new int[n], tmp = new int[n];\n        for (int i=0;i<n;i++) rank[i]=s.charAt(i);\n        for (int gap=1;gap<n;gap*=2) {\n            final int[] r=rank, g=gap;\n            java.util.Arrays.sort(sa,(a,b)->{\n                if(r[a]!=r[b]) return r[a]-r[b];\n                int ra=a+g<n?r[a+g]:-1, rb=b+g<n?r[b+g]:-1;\n                return ra-rb;\n            });\n            tmp[sa[0]]=0;\n            for(int i=1;i<n;i++){\n                tmp[sa[i]]=tmp[sa[i-1]];\n                int pa=sa[i-1],pb=sa[i];\n                if(r[pa]!=r[pb]||(pa+g<n?r[pa+g]:-1)!=(pb+g<n?r[pb+g]:-1)) tmp[sa[i]]++;\n            }\n            System.arraycopy(tmp,0,rank,0,n);\n        }\n        int[] result=new int[n]; for(int i=0;i<n;i++) result[i]=sa[i]; return result;\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function rabinKarp(text, pattern) {\n  const d = 256, q = 101;\n  const m = pattern.length, n = text.length;\n  const matches = [];\n  if (m > n) return matches;\n  let h = 1;\n  for (let i = 0; i < m - 1; i++) h = (h * d) % q;\n  let p = 0, t = 0;\n  for (let i = 0; i < m; i++) {\n    p = (d * p + pattern.charCodeAt(i)) % q;\n    t = (d * t + text.charCodeAt(i)) % q;\n  }\n  for (let i = 0; i <= n - m; i++) {\n    if (p === t) {\n      let match = true;\n      for (let j = 0; j < m; j++) {\n        if (text[i + j] !== pattern[j]) { match = false; break; }\n      }\n      if (match) matches.push(i);\n    }\n    if (i < n - m) {\n      t = (d * (t - text.charCodeAt(i) * h) + text.charCodeAt(i + m)) % q;\n      if (t < 0) t += q;\n    }\n  }\n  return matches;\n}\n\nconsole.log(rabinKarp('GEEKS FOR GEEKS', 'GEEK'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class RabinKarp {\n    static final int BASE = 256, MOD = 101;\n    public void search(String text, String pattern) {\n        int n=text.length(), m=pattern.length();\n        int h = (int)Math.pow(BASE, m-1) % MOD;\n        int pH = 0, tH = 0;\n        for (int i=0; i<m; i++) { pH=(BASE*pH+pattern.charAt(i))%MOD; tH=(BASE*tH+text.charAt(i))%MOD; }\n        for (int i=0; i<=n-m; i++) {\n            if (pH==tH && text.substring(i,i+m).equals(pattern)) System.out.println(\"Found at \"+i);\n            if (i<n-m) { tH=(BASE*(tH-text.charAt(i)*h)+text.charAt(i+m))%MOD; if(tH<0)tH+=MOD; }\n        }\n    }\n}",

@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "// Andrew's monotone chain convex hull.\nfunction convexHull(points) {\n  points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);\n  const lower = [];\n  for (const p of points) {\n    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();\n    lower.push(p);\n  }\n  const upper = [];\n  for (let i = points.length - 1; i >= 0; i--) {\n    const p = points[i];\n    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();\n    upper.push(p);\n  }\n  lower.pop();\n  upper.pop();\n  return lower.concat(upper);\n}\n\nconst points = [[0, 0], [1, 1], [2, 2], [2, 0], [0, 2], [1, 0]];\nconsole.log(JSON.stringify(convexHull(points)));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class ConvexHull {\n    static long cross(long[] O, long[] A, long[] B) {\n        return (A[0]-O[0])*(B[1]-O[1]) - (A[1]-O[1])*(B[0]-O[0]);\n    }\n    public static long[][] convexHull(long[][] points) {\n        int n = points.length;\n        if (n < 2) return points;\n        Arrays.sort(points, (a,b) -> a[0]!=b[0] ? Long.compare(a[0],b[0]) : Long.compare(a[1],b[1]));\n        long[][] hull = new long[2*n][2];\n        int k = 0;\n        for (int i=0;i<n;i++) { while(k>=2&&cross(hull[k-2],hull[k-1],points[i])<=0) k--; hull[k++]=points[i]; }\n        for (int i=n-2,t=k+1;i>=0;i--) { while(k>=t&&cross(hull[k-2],hull[k-1],points[i])<=0) k--; hull[k++]=points[i]; }\n        return Arrays.copyOf(hull, k-1);\n    }\n}",
