@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class MedianFinder {\n  constructor() {\n    this.low = [];  // max side (kept sorted ascending; max at end)\n    this.high = []; // min side (kept sorted ascending; min at front)\n  }\n  addNum(x) {\n    this.low.push(x);\n    this.low.sort((a, b) => a - b);\n    this.high.push(this.low.pop());\n    this.high.sort((a, b) => a - b);\n    if (this.high.length > this.low.length) this.low.push(this.high.shift());\n  }\n  findMedian() {\n    if (this.low.length > this.high.length) return this.low[this.low.length - 1];\n    return (this.low[this.low.length - 1] + this.high[0]) / 2;\n  }\n}\n\nconst mf = new MedianFinder();\n[5, 15, 1, 3].forEach(x => mf.addNum(x));\nconsole.log(mf.findMedian());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class MedianStream {\n    PriorityQueue<Integer> low = new PriorityQueue<>(Collections.reverseOrder()); // max-heap\n    PriorityQueue<Integer> high = new PriorityQueue<>(); // min-heap\n    public void addNum(int num) {\n        low.offer(num);\n        high.offer(low.poll());\n        if (low.size() < high.size()) low.offer(high.poll());\n    }\n    public double findMedian() {\n        return low.size() > high.size() ? low.peek() : (low.peek() + high.peek()) / 2.0;\n    }\n}",

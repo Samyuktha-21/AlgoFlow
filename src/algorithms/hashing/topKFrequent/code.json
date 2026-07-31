@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function topKFrequent(nums, k) {\n  const freq = new Map();\n  for (const x of nums) freq.set(x, (freq.get(x) || 0) + 1);\n  return [...freq.entries()]\n    .sort((a, b) => b[1] - a[1])\n    .slice(0, k)\n    .map(e => e[0]);\n}\n\nconsole.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class TopKFrequent {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer,Integer> freq = new HashMap<>();\n        for (int n : nums) freq.merge(n, 1, Integer::sum);\n        PriorityQueue<Integer> heap = new PriorityQueue<>((a,b) -> freq.get(a)-freq.get(b));\n        for (int n : freq.keySet()) { heap.offer(n); if (heap.size() > k) heap.poll(); }\n        return heap.stream().mapToInt(Integer::intValue).toArray();\n    }\n    public static void main(String[] args) {\n        System.out.println(Arrays.toString(new TopKFrequent().topKFrequent(new int[]{1,1,1,2,2,3}, 2)));\n    }\n}",

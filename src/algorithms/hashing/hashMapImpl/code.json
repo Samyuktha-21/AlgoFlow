@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class HashMap {\n  constructor(size = 16) {\n    this.buckets = Array.from({ length: size }, () => []);\n    this.size = size;\n  }\n  _hash(key) {\n    let h = 0;\n    for (const c of String(key)) h = (h * 31 + c.charCodeAt(0)) % this.size;\n    return h;\n  }\n  set(key, value) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    if (pair) pair[1] = value;\n    else bucket.push([key, value]);\n  }\n  get(key) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    return pair ? pair[1] : undefined;\n  }\n}\n\nconst m = new HashMap();\nm.set('apple', 3); m.set('banana', 5);\nconsole.log(m.get('apple'), m.get('banana'), m.get('cherry'));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.*;\npublic class HashTable {\n    static final int SIZE = 11;\n    List<int[]>[] table = new ArrayList[SIZE];\n    HashTable() { for(int i=0;i<SIZE;i++) table[i]=new ArrayList<>(); }\n    int hash(int key) { return key % SIZE; }\n    void put(int key, int val) {\n        int idx = hash(key);\n        for (int[] kv : table[idx]) if (kv[0] == key) { kv[1] = val; return; }\n        table[idx].add(new int[]{key, val});\n    }\n    Integer get(int key) {\n        for (int[] kv : table[hash(key)]) if (kv[0] == key) return kv[1];\n        return null;\n    }\n    boolean remove(int key) {\n        List<int[]> bucket = table[hash(key)];\n        return bucket.removeIf(kv -> kv[0] == key);\n    }\n}",

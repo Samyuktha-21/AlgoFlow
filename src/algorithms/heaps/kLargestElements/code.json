@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function kLargest(a, k) {\n  const heap = []; // min-heap of size k\n  const push = (x) => {\n    heap.push(x);\n    let i = heap.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (heap[p] <= heap[i]) break;\n      [heap[p], heap[i]] = [heap[i], heap[p]];\n      i = p;\n    }\n  };\n  const pop = () => {\n    const top = heap[0], last = heap.pop();\n    if (heap.length) {\n      heap[0] = last;\n      let i = 0;\n      while (true) {\n        let s = i; const l = 2 * i + 1, r = 2 * i + 2;\n        if (l < heap.length && heap[l] < heap[s]) s = l;\n        if (r < heap.length && heap[r] < heap[s]) s = r;\n        if (s === i) break;\n        [heap[i], heap[s]] = [heap[s], heap[i]];\n        i = s;\n      }\n    }\n    return top;\n  };\n  for (const x of a) {\n    push(x);\n    if (heap.length > k) pop();\n  }\n  return heap.sort((x, y) => y - x);\n}\n\nconsole.log(kLargest([3, 2, 1, 5, 6, 4], 3));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.PriorityQueue;\npublic class KLargest {\n    public int[] kLargest(int[] arr, int k) {\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (int num : arr) {\n            minHeap.offer(num);\n            if (minHeap.size() > k) minHeap.poll();\n        }\n        int[] result = new int[k];\n        for (int i = k-1; i >= 0; i--) result[i] = minHeap.poll();\n        return result;\n    }\n}",

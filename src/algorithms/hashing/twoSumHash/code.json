@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need), i];\n    seen.set(nums[i], i);\n  }\n  return [];\n}\n\nconsole.log(twoSum([2, 7, 11, 15], 9));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.HashMap;\npublic class TwoSumHash {\n    public int[] twoSum(int[] nums, int target) {\n        HashMap<Integer, Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (map.containsKey(complement)) return new int[]{map.get(complement), i};\n            map.put(nums[i], i);\n        }\n        return new int[]{-1, -1};\n    }\n    public static void main(String[] args) {\n        int[] result = new TwoSumHash().twoSum(new int[]{2,7,11,15}, 9);\n        System.out.println(result[0] + \", \" + result[1]); // 0, 1\n    }\n}",

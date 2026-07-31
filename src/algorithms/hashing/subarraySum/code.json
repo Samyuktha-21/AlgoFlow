@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "function subarraySum(nums, k) {\n  const map = new Map([[0, 1]]);\n  let sum = 0, count = 0;\n  for (const x of nums) {\n    sum += x;\n    count += map.get(sum - k) || 0;\n    map.set(sum, (map.get(sum) || 0) + 1);\n  }\n  return count;\n}\n\nconsole.log(subarraySum([1, 1, 1], 2));",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "import java.util.HashMap;\npublic class SubarraySum {\n    public int subarraySum(int[] nums, int k) {\n        HashMap<Integer,Integer> map = new HashMap<>();\n        map.put(0, 1);\n        int count = 0, prefixSum = 0;\n        for (int num : nums) {\n            prefixSum += num;\n            count += map.getOrDefault(prefixSum - k, 0);\n            map.merge(prefixSum, 1, Integer::sum);\n        }\n        return count;\n    }\n    public static void main(String[] args) {\n        System.out.println(new SubarraySum().subarraySum(new int[]{1,1,1}, 2)); // 2\n    }\n}",

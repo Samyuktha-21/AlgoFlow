@@ -1,4 +1,9 @@
 {
+  "javascript": {
+    "language": "javascript",
+    "code": "class MaxHeap {\n  constructor() {\n    this.heap = [];\n  }\n  push(x) {\n    this.heap.push(x);\n    let i = this.heap.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (this.heap[p] >= this.heap[i]) break;\n      [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]];\n      i = p;\n    }\n  }\n  pop() {\n    const top = this.heap[0], last = this.heap.pop();\n    if (this.heap.length) {\n      this.heap[0] = last;\n      let i = 0;\n      const n = this.heap.length;\n      while (true) {\n        let largest = i;\n        const l = 2 * i + 1, r = 2 * i + 2;\n        if (l < n && this.heap[l] > this.heap[largest]) largest = l;\n        if (r < n && this.heap[r] > this.heap[largest]) largest = r;\n        if (largest === i) break;\n        [this.heap[i], this.heap[largest]] = [this.heap[largest], this.heap[i]];\n        i = largest;\n      }\n    }\n    return top;\n  }\n}\n\nconst h = new MaxHeap();\n[3, 1, 6, 5, 2, 4].forEach(x => h.push(x));\nconsole.log(h.pop(), h.pop(), h.pop());",
+    "lineKeys": {}
+  },
   "java": {
     "language": "java",
     "code": "public class MaxHeap {\n    int[] heap;\n    int size;\n    MaxHeap(int[] arr) {\n        heap = arr.clone();\n        size = arr.length;\n        buildHeap();\n    }\n    void buildHeap() {\n        for (int i = size/2 - 1; i >= 0; i--) heapify(i);\n    }\n    void heapify(int i) {\n        int largest = i, l = 2*i+1, r = 2*i+2;\n        if (l < size && heap[l] > heap[largest]) largest = l;\n        if (r < size && heap[r] > heap[largest]) largest = r;\n        if (largest != i) {\n            int tmp = heap[i]; heap[i] = heap[largest]; heap[largest] = tmp;\n            heapify(largest);\n        }\n    }\n    public static void main(String[] args) {\n        MaxHeap h = new MaxHeap(new int[]{3,1,6,5,2,4});\n        for (int v : h.heap) System.out.print(v + \" \");\n    }\n}",
