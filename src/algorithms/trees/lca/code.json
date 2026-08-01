@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nNode* lca(Node*r, int p, int q) {\n    if (!r||r->v==p||r->v==q)return r;\n    Node*l=lca(r->l, p, q), *ri=lca(r->r, p, q);\n    if (l&&ri)return r;\n    return l?l:ri;\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n} Node;\nNode* lca(Node*r, int p, int q) {\n    if (!r||r->v==p||r->v==q)return r;\n    Node*l=lca(r->l, p, q), *ri=lca(r->r, p, q);\n    if (l&&ri)return r;\n    return l?l:ri;\n}\n",
     "lineKeys": {}
   },
   "cpp": {

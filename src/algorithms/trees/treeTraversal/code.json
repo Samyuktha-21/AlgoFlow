@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n}\nNode;\nNode* newNode(int v) {\n    Node* n=malloc(sizeof(Node));\n    n->v=v;\n    n->l=n->r=NULL;\n    return n;\n}\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    printf(\"%d \", n->v);\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    printf(\"%d \", n->v);\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    printf(\"%d \", n->v);\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n} Node;\nNode* newNode(int v) {\n    Node* n=malloc(sizeof(Node));\n    n->v=v;\n    n->l=n->r=NULL;\n    return n;\n}\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    printf(\"%d \", n->v);\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    printf(\"%d \", n->v);\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    printf(\"%d \", n->v);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\nusing namespace std;\nstruct Node {\n    int v;\n    Node *l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {\n    }\n};\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    cout<<n->v<<\" \";\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    cout<<n->v<<\" \";\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    cout<<n->v<<\" \";\n}\n",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node {\n    int v;\n    Node *l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {}\n};\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    cout<<n->v<<\" \";\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    cout<<n->v<<\" \";\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    cout<<n->v<<\" \";\n}\n",
     "lineKeys": {}
   },
   "python": {

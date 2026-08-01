@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    long x, y;\n}\nPt;\nlong cross(Pt O, Pt A, Pt B) {\n    return (A.x-O.x)*(B.y-O.y)-(A.y-O.y)*(B.x-O.x);\n}\nint cmp(const void*a, const void*b) {\n    Pt*p=(Pt*)a, *q=(Pt*)b;\n    return p->x!=q->x?p->x-q->x:p->y-q->y;\n}\n/* Graham scan builds hull in O(n log n) */\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    long x, y;\n} Pt;\nlong cross(Pt O, Pt A, Pt B) {\n    return (A.x-O.x)*(B.y-O.y)-(A.y-O.y)*(B.x-O.x);\n}\nint cmp(const void*a, const void*b) {\n    Pt*p=(Pt*)a, *q=(Pt*)b;\n    return p->x!=q->x?p->x-q->x:p->y-q->y;\n}\n/* Graham scan builds hull in O(n log n) */\n",
     "lineKeys": {}
   },
   "cpp": {

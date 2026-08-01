@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nint checkH(Node* n) {\n    if (!n)return 0;\n    int l=checkH(n->l);\n    if (l==-1)return -1;\n    int r=checkH(n->r);\n    if (r==-1)return -1;\n    if (abs(l-r)>1)return -1;\n    return 1+(l>r?l:r);\n}\nint isBalanced(Node* root) {\n    return checkH(root)!=-1;\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n} Node;\nint checkH(Node* n) {\n    if (!n)return 0;\n    int l=checkH(n->l);\n    if (l==-1)return -1;\n    int r=checkH(n->r);\n    if (r==-1)return -1;\n    if (abs(l-r)>1)return -1;\n    return 1+(l>r?l:r);\n}\nint isBalanced(Node* root) {\n    return checkH(root)!=-1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {

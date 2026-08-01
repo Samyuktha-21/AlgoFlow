@@ -16,12 +16,33 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nint main() {\n    queue<int>q;\n    q.push(1);\n    q.push(2);\n    q.push(3);\n    cout<<q.front()<<\" \";\n    q.pop();\n    cout<<q.front()<<endl;\n    return 0;\n}\n",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Queue {\n    vector<int> arr;\n    int head = 0, rear = 0, size = 0, capacity;\n    Queue(int cap) : arr(cap), capacity(cap) {}\n    void enqueue(int val) {\n        arr[rear] = val;\n        rear = (rear + 1) % capacity;\n        size++;\n    }\n    int dequeue() {\n        int val = arr[head];\n        head = (head + 1) % capacity;\n        size--;\n        return val;\n    }\n    int front() { return arr[head]; }\n    bool isEmpty() { return size == 0; }\n};\n\nint main() {\n    Queue q(10);\n    q.enqueue(1);\n    q.enqueue(2);\n    q.enqueue(3);\n    cout << q.dequeue() << \" \" << q.front() << endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class Queue:\n    def __init__(self):\n        self.in_stack = []\n        self.out_stack = []\n\n    def enqueue(self, val):\n        self.in_stack.append(val)\n\n    def dequeue(self):\n        if not self.out_stack:\n            while self.in_stack:\n                self.out_stack.append(self.in_stack.pop())\n        return self.out_stack.pop() if self.out_stack else None\n\n    def is_empty(self):\n        return not self.in_stack and not self.out_stack\n\nq = Queue()\nq.enqueue(10); q.enqueue(20); q.enqueue(30)\nprint(q.dequeue())\nq.enqueue(40)\nprint(q.dequeue(), q.dequeue(), q.dequeue())",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "7": 4
+    },
+    "cpp": {
+      "2": 6,
+      "4": 8,
+      "7": 11
+    },
+    "python": {
+      "2": 3,
+      "4": 2,
+      "7": 7
+    },
+    "javascript": {
+      "2": 3,
+      "4": 2,
+      "7": 6
+    }
   }
 }

@@ -23,5 +23,35 @@
     "language": "python",
     "code": "def next_greater(nums):\n    result = [-1] * len(nums)\n    stack = []  # indices with unresolved answers\n    for i, x in enumerate(nums):\n        while stack and nums[stack[-1]] < x:\n            result[stack.pop()] = x\n        stack.append(i)\n    return result\n\nprint(next_greater([4, 5, 2, 25, 7, 8]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "5": 4,
+      "7": 3,
+      "9": 6,
+      "11": 7
+    },
+    "cpp": {
+      "2": 5,
+      "5": 7,
+      "7": 8,
+      "9": 10,
+      "11": 14
+    },
+    "python": {
+      "2": 1,
+      "5": 2,
+      "7": 3,
+      "9": 5,
+      "11": 7
+    },
+    "javascript": {
+      "2": 1,
+      "5": 2,
+      "7": 3,
+      "9": 5,
+      "11": 8
+    }
   }
 }

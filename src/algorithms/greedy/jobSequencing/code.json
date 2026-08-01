@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int id, profit, deadline;\n}\nJob;\nint cmp(const void*a, const void*b) {\n    return ((Job*)b)->profit-((Job*)a)->profit;\n}\nvoid schedule(Job jobs[], int n) {\n    qsort(jobs, n, sizeof(Job), cmp);\n    int slot[n+1], p=0, c=0;\n    for (int i=0; i<=n; i++)slot[i]=-1;\n    for (int i=0; i<n; i++)for (int j=jobs[i].deadline; j>=1; j--)if (slot[j]==-1) {\n        slot[j]=jobs[i].id;\n        p+=jobs[i].profit;\n        c++;\n        break;\n    }\n    printf(\"%d jobs, profit=%d\\n\", c, p);\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int id, profit, deadline;\n} Job;\nint cmp(const void*a, const void*b) {\n    return ((Job*)b)->profit-((Job*)a)->profit;\n}\nvoid schedule(Job jobs[], int n) {\n    qsort(jobs, n, sizeof(Job), cmp);\n    int slot[n+1], p=0, c=0;\n    for (int i=0; i<=n; i++)slot[i]=-1;\n    for (int i=0; i<n; i++)for (int j=jobs[i].deadline; j>=1; j--)if (slot[j]==-1) {\n        slot[j]=jobs[i].id;\n        p+=jobs[i].profit;\n        c++;\n        break;\n    }\n    printf(\"%d jobs, profit=%d\\n\", c, p);\n}\n",
     "lineKeys": {}
   },
   "cpp": {

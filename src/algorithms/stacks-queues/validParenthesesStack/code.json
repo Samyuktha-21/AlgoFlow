@@ -23,5 +23,31 @@
     "language": "python",
     "code": "def is_valid(s):\n    pairs = {')': '(', ']': '[', '}': '{'}\n    stack = []\n    for ch in s:\n        if ch in '([{':\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n\nprint(is_valid(\"{[()]}\"))\nprint(is_valid(\"([)]\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "4": 3,
+      "8": 10,
+      "11": 14
+    },
+    "cpp": {
+      "2": 4,
+      "4": 5,
+      "8": 12,
+      "11": 16
+    },
+    "python": {
+      "2": 1,
+      "4": 3,
+      "8": 7,
+      "11": 9
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "8": 6,
+      "11": 11
+    }
   }
 }

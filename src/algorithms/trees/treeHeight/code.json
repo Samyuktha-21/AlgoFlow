@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nint height(Node* n) {\n    if (!n)return -1;\n    int l=height(n->l), r=height(n->r);\n    return 1+(l>r?l:r);\n}\nint main() {\n    /* build tree and call height(root) */\n    return 0;\n}\n",
+    "code": "#include <stdio.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n} Node;\nint height(Node* n) {\n    if (!n)return -1;\n    int l=height(n->l), r=height(n->r);\n    return 1+(l>r?l:r);\n}\nint main() {\n    /* build tree and call height(root) */\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <algorithm>\nusing namespace std;\nstruct Node {\n    int v;\n    Node*l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {\n    }\n};\nint height(Node* n) {\n    if (!n)return -1;\n    return 1+max(height(n->l), height(n->r));\n}\n",
+    "code": "#include <iostream>\n#include <algorithm>\nusing namespace std;\nstruct Node {\n    int v;\n    Node*l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {}\n};\nint height(Node* n) {\n    if (!n)return -1;\n    return 1+max(height(n->l), height(n->r));\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    char ch;\n    int freq;\n    struct Node *l, *r;\n}\nNode;\nNode* mk(char c, int f) {\n    Node*n=calloc(1, sizeof(Node));\n    n->ch=c;\n    n->freq=f;\n    return n;\n}\nvoid print(Node* n, char* buf, int d) {\n    if (!n->l && !n->r) {\n        buf[d]=0;\n        printf(\"%c: %s\\n\", n->ch, buf);\n        return;\n    }\n    if (n->l) {\n        buf[d]='0';\n        print(n->l, buf, d+1);\n    }\n    if (n->r) {\n        buf[d]='1';\n        print(n->r, buf, d+1);\n    }\n}\n/* Use a min-heap or sorted array to extract two minimum freq nodes each step */\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    char ch;\n    int freq;\n    struct Node *l, *r;\n} Node;\nNode* mk(char c, int f) {\n    Node*n=calloc(1, sizeof(Node));\n    n->ch=c;\n    n->freq=f;\n    return n;\n}\nvoid print(Node* n, char* buf, int d) {\n    if (!n->l && !n->r) {\n        buf[d]=0;\n        printf(\"%c: %s\\n\", n->ch, buf);\n        return;\n    }\n    if (n->l) {\n        buf[d]='0';\n        print(n->l, buf, d+1);\n    }\n    if (n->r) {\n        buf[d]='1';\n        print(n->r, buf, d+1);\n    }\n}\n/* Use a min-heap or sorted array to extract two minimum freq nodes each step */\n",
     "lineKeys": {}
   },
   "cpp": {

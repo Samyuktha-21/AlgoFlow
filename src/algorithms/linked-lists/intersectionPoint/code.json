@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* intersect(Node*h1, Node*h2) {\n    Node*p=h1, *q=h2;\n    while (p!=q) {\n        p=p?p->next:h2;\n        q=q?q->next:h1;\n    }\n    return p;\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n} Node;\nNode* intersect(Node*h1, Node*h2) {\n    Node*p=h1, *q=h2;\n    while (p!=q) {\n        p=p?p->next:h2;\n        q=q?q->next:h1;\n    }\n    return p;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,27 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef get_intersection(a, b):\n    p, q = a, b\n    while p is not q:\n        p = p.next if p else b\n        q = q.next if q else a\n    return p\n\nshared = Node(8)\nshared.next = Node(10)\na = Node(3); a.next = Node(7); a.next.next = shared\nb = Node(99); b.next = shared\nnode = get_intersection(a, b)\nprint(node.val if node else None)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "3": 7,
+      "5": 9
+    },
+    "cpp": {
+      "2": 5,
+      "3": 6,
+      "5": 8
+    },
+    "python": {
+      "2": 5,
+      "3": 6,
+      "5": 8
+    },
+    "javascript": {
+      "2": 8,
+      "3": 9,
+      "5": 11
+    }
   }
 }

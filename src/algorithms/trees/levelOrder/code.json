@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int val;\n    struct Node*l, *r;\n}\nNode;\n// BFS using array as queue\nvoid levelOrder(Node* root) {\n    if (!root)return;\n    Node*q[100];\n    int fr=0, re=0;\n    q[re++]=root;\n    while (fr<re) {\n        Node*n=q[fr++];\n        printf(\"%d \", n->val);\n        if (n->l)q[re++]=n->l;\n        if (n->r)q[re++]=n->r;\n    }\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int val;\n    struct Node*l, *r;\n} Node;\n// BFS using array as queue\nvoid levelOrder(Node* root) {\n    if (!root)return;\n    Node*q[100];\n    int fr=0, re=0;\n    q[re++]=root;\n    while (fr<re) {\n        Node*n=q[fr++];\n        printf(\"%d \", n->val);\n        if (n->l)q[re++]=n->l;\n        if (n->r)q[re++]=n->r;\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <queue>\nusing namespace std;\nstruct Node {\n    int val;\n    Node*l, *r;\n    Node(int v):val(v), l(nullptr), r(nullptr) {\n    }\n};\nvoid levelOrder(Node* root) {\n    if (!root)return;\n    queue<Node*>q;\n    q.push(root);\n    while (!q.empty()) {\n        Node*n=q.front();\n        q.pop();\n        cout<<n->val<<\" \";\n        if (n->l)q.push(n->l);\n        if (n->r)q.push(n->r);\n    }\n}\n",
+    "code": "#include <iostream>\n#include <queue>\nusing namespace std;\nstruct Node {\n    int val;\n    Node*l, *r;\n    Node(int v):val(v), l(nullptr), r(nullptr) {}\n};\nvoid levelOrder(Node* root) {\n    if (!root)return;\n    queue<Node*>q;\n    q.push(root);\n    while (!q.empty()) {\n        Node*n=q.front();\n        q.pop();\n        cout<<n->val<<\" \";\n        if (n->l)q.push(n->l);\n        if (n->r)q.push(n->r);\n    }\n}\n",
     "lineKeys": {}
   },
   "python": {

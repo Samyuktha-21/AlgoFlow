@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int u, v, w;\n}\nEdge;\nint par[100], rnk[100];\nint find(int x) {\n    return par[x]==x?x:(par[x]=find(par[x]));\n}\nint unite(int a, int b) {\n    int ra=find(a), rb=find(b);\n    if (ra==rb)return 0;\n    if (rnk[ra]<rnk[rb])par[ra]=rb;\n    else if (rnk[ra]>rnk[rb])par[rb]=ra;\n    else {\n        par[rb]=ra;\n        rnk[ra]++;\n    }\n    return 1;\n}\nint cmp(const void*a, const void*b) {\n    return ((Edge*)a)->w-((Edge*)b)->w;\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int u, v, w;\n} Edge;\nint par[100], rnk[100];\nint find(int x) {\n    return par[x]==x?x:(par[x]=find(par[x]));\n}\nint unite(int a, int b) {\n    int ra=find(a), rb=find(b);\n    if (ra==rb)return 0;\n    if (rnk[ra]<rnk[rb])par[ra]=rb;\n    else if (rnk[ra]>rnk[rb])par[rb]=ra;\n    else {\n        par[rb]=ra;\n        rnk[ra]++;\n    }\n    return 1;\n}\nint cmp(const void*a, const void*b) {\n    return ((Edge*)a)->w-((Edge*)b)->w;\n}\n",
     "lineKeys": {}
   },
   "cpp": {

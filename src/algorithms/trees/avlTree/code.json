@@ -16,7 +16,7 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <algorithm>\nusing namespace std;\nstruct Node {\n    int v, h;\n    Node*l, *r;\n    Node(int x):v(x), h(1), l(nullptr), r(nullptr) {\n    }\n};\nint ht(Node*n) {\n    return n?n->h:0;\n}\nint bf(Node*n) {\n    return n?ht(n->l)-ht(n->r):0;\n}\nNode* rR(Node*y) {\n    Node*x=y->l;\n    y->l=x->r;\n    x->r=y;\n    y->h=1+max(ht(y->l), ht(y->r));\n    x->h=1+max(ht(x->l), ht(x->r));\n    return x;\n}\nNode* rL(Node*x) {\n    Node*y=x->r;\n    x->r=y->l;\n    y->l=x;\n    x->h=1+max(ht(x->l), ht(x->r));\n    y->h=1+max(ht(y->l), ht(y->r));\n    return y;\n}\n",
+    "code": "#include <algorithm>\nusing namespace std;\nstruct Node {\n    int v, h;\n    Node*l, *r;\n    Node(int x):v(x), h(1), l(nullptr), r(nullptr) {}\n};\nint ht(Node*n) {\n    return n?n->h:0;\n}\nint bf(Node*n) {\n    return n?ht(n->l)-ht(n->r):0;\n}\nNode* rR(Node*y) {\n    Node*x=y->l;\n    y->l=x->r;\n    x->r=y;\n    y->h=1+max(ht(y->l), ht(y->r));\n    x->h=1+max(ht(x->l), ht(x->r));\n    return x;\n}\nNode* rL(Node*x) {\n    Node*y=x->r;\n    x->r=y->l;\n    y->l=x;\n    x->h=1+max(ht(x->l), ht(x->r));\n    y->h=1+max(ht(y->l), ht(y->r));\n    return y;\n}\n",
     "lineKeys": {}
   },
   "python": {

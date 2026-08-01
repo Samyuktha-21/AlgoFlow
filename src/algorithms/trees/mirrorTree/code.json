@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nvoid mirror(Node* n) {\n    if (!n)return;\n    Node*t=n->l;\n    n->l=n->r;\n    n->r=t;\n    mirror(n->l);\n    mirror(n->r);\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n} Node;\nvoid mirror(Node* n) {\n    if (!n)return;\n    Node*t=n->l;\n    n->l=n->r;\n    n->r=t;\n    mirror(n->l);\n    mirror(n->r);\n}\n",
     "lineKeys": {}
   },
   "cpp": {

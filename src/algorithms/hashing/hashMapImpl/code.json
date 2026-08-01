@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#define SIZE 11\ntypedef struct Node {\n    int key, val;\n    struct Node* next;\n}\nNode;\nNode* table[SIZE]= {0};\nint hash(int k) {\n    return k%SIZE;\n}\nvoid put(int k, int v) {\n    int i=hash(k);\n    for (Node* n=table[i]; n; n=n->next)if (n->key==k) {\n        n->val=v;\n        return;\n    }\n    Node* n=(Node*)malloc(sizeof(Node));\n    n->key=k;\n    n->val=v;\n    n->next=table[i];\n    table[i]=n;\n}\nint get(int k) {\n    for (Node* n=table[hash(k)]; n; n=n->next)if (n->key==k)return n->val;\n    return -1;\n}\n",
+    "code": "#include <stdio.h>\n#define SIZE 11\ntypedef struct Node {\n    int key, val;\n    struct Node* next;\n} Node;\nNode* table[SIZE]= {0};\nint hash(int k) {\n    return k%SIZE;\n}\nvoid put(int k, int v) {\n    int i=hash(k);\n    for (Node* n=table[i]; n; n=n->next)if (n->key==k) {\n        n->val=v;\n        return;\n    }\n    Node* n=(Node*)malloc(sizeof(Node));\n    n->key=k;\n    n->val=v;\n    n->next=table[i];\n    table[i]=n;\n}\nint get(int k) {\n    for (Node* n=table[hash(k)]; n; n=n->next)if (n->key==k)return n->val;\n    return -1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <list>\n#include <vector>\nusing namespace std;\nclass HashTable {\n    int sz;\n    vector<list<pair<int, int>>>t;\n    int h(int k) {\n        return abs(k)%sz;\n    }\n    public:HashTable(int s=11):sz(s), t(s) {\n    }\n    void put(int k, int v) {\n        auto&b=t[h(k)];\n        for (auto&p:b)if (p.first==k) {\n            p.second=v;\n            return;\n        }\n        b.push_back({k, v});\n    }\n    int get(int k) {\n        for (auto&p:t[h(k)])if (p.first==k)return p.second;\n        return -1;\n    }\n};\n",
+    "code": "#include <iostream>\n#include <list>\n#include <vector>\nusing namespace std;\nclass HashTable {\n    int sz;\n    vector<list<pair<int, int>>>t;\n    int h(int k) {\n        return abs(k)%sz;\n    }\n    public:HashTable(int s=11):sz(s), t(s) {}\n    void put(int k, int v) {\n        auto&b=t[h(k)];\n        for (auto&p:b)if (p.first==k) {\n            p.second=v;\n            return;\n        }\n        b.push_back({k, v});\n    }\n    int get(int k) {\n        for (auto&p:t[h(k)])if (p.first==k)return p.second;\n        return -1;\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int w, v;\n    double r;\n}\nItem;\nint cmp(const void*a, const void*b) {\n    return ((Item*)b)->r>((Item*)a)->r?1:-1;\n}\ndouble fracKnapsack(int W, int wt[], int v[], int n) {\n    Item it[n];\n    for (int i=0; i<n; i++) {\n        it[i].w=wt[i];\n        it[i].v=v[i];\n        it[i].r=(double)v[i]/wt[i];\n    }\n    qsort(it, n, sizeof(Item), cmp);\n    double tot=0;\n    for (int i=0; i<n&&W>0; i++) {\n        if (W>=it[i].w) {\n            tot+=it[i].v;\n            W-=it[i].w;\n        }else {\n            tot+=it[i].r*W;\n            W=0;\n        }\n    }\n    return tot;\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int w, v;\n    double r;\n} Item;\nint cmp(const void*a, const void*b) {\n    return ((Item*)b)->r>((Item*)a)->r?1:-1;\n}\ndouble fracKnapsack(int W, int wt[], int v[], int n) {\n    Item it[n];\n    for (int i=0; i<n; i++) {\n        it[i].w=wt[i];\n        it[i].v=v[i];\n        it[i].r=(double)v[i]/wt[i];\n    }\n    qsort(it, n, sizeof(Item), cmp);\n    double tot=0;\n    for (int i=0; i<n&&W>0; i++) {\n        if (W>=it[i].w) {\n            tot+=it[i].v;\n            W-=it[i].w;\n        }else {\n            tot+=it[i].r*W;\n            W=0;\n        }\n    }\n    return tot;\n}\n",
     "lineKeys": {}
   },
   "cpp": {

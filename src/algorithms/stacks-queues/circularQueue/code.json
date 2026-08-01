@@ -16,12 +16,34 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\nusing namespace std;\nstruct CirQ {\n    vector<int>a;\n    int fr=0, re=0, sz=0;\n    CirQ(int k):a(k) {\n    }\n    bool enq(int v) {\n        if (sz==(int)a.size())return false;\n        a[re]=v;\n        re=(re+1)%a.size();\n        sz++;\n        return true;\n    }\n    int deq() {\n        if (!sz)return -1;\n        int v=a[fr];\n        fr=(fr+1)%a.size();\n        sz--;\n        return v;\n    }\n};\n",
+    "code": "#include <vector>\nusing namespace std;\nstruct CirQ {\n    vector<int>a;\n    int fr=0, re=0, sz=0;\n    CirQ(int k):a(k) {}\n    bool enq(int v) {\n        if (sz==(int)a.size())return false;\n        a[re]=v;\n        re=(re+1)%a.size();\n        sz++;\n        return true;\n    }\n    int deq() {\n        if (!sz)return -1;\n        int v=a[fr];\n        fr=(fr+1)%a.size();\n        sz--;\n        return v;\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class CircularQueue:\n    def __init__(self, capacity):\n        self.data = [None] * capacity\n        self.capacity = capacity\n        self.front = self.size = 0\n\n    def enqueue(self, val):\n        if self.size == self.capacity:\n            return False\n        self.data[(self.front + self.size) % self.capacity] = val\n        self.size += 1\n        return True\n\n    def dequeue(self):\n        if self.size == 0:\n            return None\n        val = self.data[self.front]\n        self.front = (self.front + 1) % self.capacity\n        self.size -= 1\n        return val\n\nq = CircularQueue(3)\nq.enqueue(1); q.enqueue(2); q.enqueue(3)\nprint(q.dequeue())\nq.enqueue(4)   # wraps around\nprint(q.dequeue(), q.dequeue(), q.dequeue())",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "5": 4,
+      "9": 8
+    },
+    "cpp": {
+      "2": 4,
+      "5": 8,
+      "9": 12
+    },
+    "python": {
+      "2": 3,
+      "5": 8,
+      "9": 12
+    },
+    "javascript": {
+      "2": 4,
+      "5": 9,
+      "9": 12
+    }
   }
 }

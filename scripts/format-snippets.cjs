@@ -183,14 +183,24 @@ function format(src, lang) {
         continue
       }
       braces.pop()
+      const emptyBody = out.length && out[out.length - 1].trimEnd().endsWith('{') && !line.trim()
+      if (emptyBody) {
+        // `{}` — don't spread an empty body over two lines.
+        out[out.length - 1] = out[out.length - 1].trimEnd() + '}'
+        depth = Math.max(0, depth - 1)
+        i++
+        continue
+      }
       flush()
       depth = Math.max(0, depth - 1)
       line = '}'
-      // Look ahead: `} else`, `} while(...)`, `};`, `},`, `})` stay attached.
+      // Look ahead: `} else`, `} while(...)`, `};`, `},`, `})` stay attached,
+      // and so does the declarator in `typedef struct {...} Name;`.
       let j = i + 1
       while (j < n && /\s/.test(src[j])) j++
-      const rest = src.slice(j, j + 10)
+      const rest = src.slice(j, j + 40)
       if (CONTINUES.test(rest) || /^[;,)\].]/.test(rest)) { i++; continue }
+      if (/^[A-Za-z_]\w*\s*(\[[^\]]*\]\s*)?[;,]/.test(rest)) { line += ' '; i++; continue }
       flush()
       i++
       continue

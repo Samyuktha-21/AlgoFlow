@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class Node {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n    this.bottom = null;\n  }\n}\n\nfunction mergeBottom(a, b) {\n  const dummy = new Node(0);\n  let tail = dummy;\n  while (a && b) {\n    if (a.val <= b.val) {\n      tail.bottom = a;\n      a = a.bottom;\n    } else {\n      tail.bottom = b;\n      b = b.bottom;\n    }\n    tail = tail.bottom;\n  }\n  tail.bottom = a || b;\n  return dummy.bottom;\n}\n\nfunction flatten(head) {\n  if (!head || !head.next) return head;\n  head.next = flatten(head.next);\n  return mergeBottom(head, head.next);\n}\n\nfunction makeList(arr) {\n  let head = null, tail = null;\n  for (const v of arr) {\n    const n = new Node(v);\n    if (!head) head = tail = n;\n    else {\n      tail.bottom = n;\n      tail = n;\n    }\n  }\n  return head;\n}\nconst l1 = makeList([5, 7, 8, 30]);\nl1.next = makeList([10, 20]);\nl1.next.next = makeList([19, 22, 50]);\nl1.next.next.next = makeList([28, 35, 40, 45]);\nconst flat = flatten(l1);\nconst out = [];\nfor (let n = flat; n; n = n.bottom) out.push(n.val);\nconsole.log(out.join(' '));\n",
+    "code": "class Node {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n    this.child = null;\n  }\n}\n\nfunction flatten(head) {\n  if (head === null) return null;\n  let curr = head;\n  while (curr) {\n    if (curr.child) {\n      const nxt = curr.next;\n      curr.next = curr.child;\n      curr.child = null;\n      let tail = curr.next;\n      while (tail.next) tail = tail.next;\n      tail.next = nxt;\n    }\n    curr = curr.next;\n  }\n  return head;\n}\n\nconst a = new Node(1), b = new Node(2), c = new Node(3), d = new Node(4);\na.next = b;\nb.next = c;\nb.child = d;\nconst out = [];\nfor (let n = flatten(a); n; n = n.next) out.push(n.val);\nconsole.log(out.join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next, *child;\n}\nNode;\n// Flatten by connecting child lists inline\n",
+    "code": "#include <stdlib.h>\n\ntypedef struct Node {\n    int v;\n    struct Node *next, *child;\n} Node;\n\nNode* flatten(Node* head) {\n    if (!head) return NULL;\n    Node* curr = head;\n    while (curr) {\n        if (curr->child) {\n            Node* nxt = curr->next;\n            curr->next = curr->child;\n            curr->child = NULL;\n            Node* tail = curr->next;\n            while (tail->next) tail = tail->next;\n            tail->next = nxt;\n        }\n        curr = curr->next;\n    }\n    return head;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,30 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next, self.child = val, None, None\n\ndef flatten(head):\n    cur = head\n    while cur:\n        if cur.child:\n            nxt = cur.next\n            cur.next = cur.child\n            cur.child = None\n            tail = cur.next\n            while tail.next:\n                tail = tail.next\n            tail.next = nxt\n        cur = cur.next\n    return head\n\na, b, c, d = Node(1), Node(2), Node(3), Node(4)\na.next, b.next = b, c\nb.child = d           # 1 -> 2 -> 3, with child 4 under 2\nhead = flatten(a)\nout = []\nwhile head:\n    out.append(head.val)\n    head = head.next\nprint(out)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "4": 8,
+      "5": 9,
+      "6": 10
+    },
+    "cpp": {
+      "2": 1,
+      "4": 5,
+      "5": 6,
+      "6": 7
+    },
+    "python": {
+      "2": 1,
+      "4": 5,
+      "6": 6
+    },
+    "javascript": {
+      "2": 1,
+      "4": 9,
+      "5": 10,
+      "6": 11
+    }
   }
 }

@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int key, val;\n    struct Node *prev, *next;\n}\nNode;\n/* Hash table maps key -> Node pointer; DLL tracks recency */\n",
+    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int key, val;\n    struct Node *prev, *next;\n} Node;\n/* Hash table maps key -> Node pointer; DLL tracks recency */\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int, int>> lst;\n    unordered_map<int, list<pair<int, int>>::iterator> mp;\n    public:\n    LRUCache(int c): cap(c) {\n    }\n    int get(int k) {\n        if (!mp.count(k))return -1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) lst.erase(mp[k]);\n        else if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int, int>> lst;\n    unordered_map<int, list<pair<int, int>>::iterator> mp;\n    public:\n    LRUCache(int c): cap(c) {}\n    int get(int k) {\n        if (!mp.count(k))return -1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) lst.erase(mp[k]);\n        else if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

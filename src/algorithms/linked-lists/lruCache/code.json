@@ -16,12 +16,38 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache {\n    int cap;\n    list<pair<int, int>>lst;\n    unordered_map<int, list<pair<int, int>>::iterator>mp;\n    LRUCache(int c):cap(c) {\n    }\n    int get(int k) {\n        if (!mp.count(k))return-1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) {\n            lst.splice(lst.begin(), lst, mp[k]);\n            mp[k]->second=v;\n            return;\n        }\n        if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
+    "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache {\n    int cap;\n    list<pair<int, int>>lst;\n    unordered_map<int, list<pair<int, int>>::iterator>mp;\n    LRUCache(int c):cap(c) {}\n    int get(int k) {\n        if (!mp.count(k))return-1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) {\n            lst.splice(lst.begin(), lst, mp[k]);\n            mp[k]->second=v;\n            return;\n        }\n        if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class LRUCache:\n    \"\"\"Doubly linked list + dict, O(1) get and put.\"\"\"\n    class Node:\n        def __init__(self, key=0, val=0):\n            self.key, self.val = key, val\n            self.prev = self.next = None\n\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.map = {}\n        self.head, self.tail = self.Node(), self.Node()\n        self.head.next, self.tail.prev = self.tail, self.head\n\n    def _remove(self, node):\n        node.prev.next, node.next.prev = node.next, node.prev\n\n    def _add_front(self, node):\n        node.next, node.prev = self.head.next, self.head\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key):\n        if key not in self.map:\n            return -1\n        node = self.map[key]\n        self._remove(node)\n        self._add_front(node)\n        return node.val\n\n    def put(self, key, value):\n        if key in self.map:\n            self._remove(self.map[key])\n        node = self.Node(key, value)\n        self.map[key] = node\n        self._add_front(node)\n        if len(self.map) > self.capacity:\n            lru = self.tail.prev\n            self._remove(lru)\n            del self.map[lru.key]\n\ncache = LRUCache(2)\ncache.put(1, 1)\ncache.put(2, 2)\nprint(cache.get(1))\ncache.put(3, 3)   # evicts key 2\nprint(cache.get(2))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 4,
+      "6": 3
+    },
+    "cpp": {
+      "2": 4,
+      "5": 8,
+      "6": 5,
+      "9": 7
+    },
+    "python": {
+      "2": 1,
+      "5": 8,
+      "6": 9,
+      "9": 11,
+      "10": 12
+    },
+    "javascript": {
+      "2": 1,
+      "5": 2,
+      "6": 3,
+      "9": 4,
+      "10": 5
+    }
   }
 }

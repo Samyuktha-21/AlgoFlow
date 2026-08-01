@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* removeNth(Node*head, int n) {\n    Node d;\n    d.next=head;\n    Node*f=&d, *s=&d;\n    for (int i=0; i<=n; i++)f=f->next;\n    while (f) {\n        s=s->next;\n        f=f->next;\n    }\n    s->next=s->next->next;\n    return d.next;\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n} Node;\nNode* removeNth(Node*head, int n) {\n    Node d;\n    d.next=head;\n    Node*f=&d, *s=&d;\n    for (int i=0; i<=n; i++)f=f->next;\n    while (f) {\n        s=s->next;\n        f=f->next;\n    }\n    s->next=s->next->next;\n    return d.next;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,39 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef remove_nth_from_end(head, n):\n    dummy = Node(0)\n    dummy.next = head\n    fast = slow = dummy\n    for _ in range(n):\n        fast = fast.next\n    while fast.next:\n        fast = fast.next\n        slow = slow.next\n    slow.next = slow.next.next\n    return dummy.next\n\nhead = Node(1)\ncur = head\nfor v in [2, 3, 4, 5]:\n    cur.next = Node(v)\n    cur = cur.next\nhead = remove_nth_from_end(head, 2)\nout = []\nwhile head:\n    out.append(head.val)\n    head = head.next\nprint(out)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "3": 7,
+      "5": 9,
+      "6": 10,
+      "8": 15,
+      "9": 16
+    },
+    "cpp": {
+      "2": 5,
+      "3": 6,
+      "5": 8,
+      "6": 9,
+      "8": 14,
+      "9": 15
+    },
+    "python": {
+      "2": 5,
+      "3": 6,
+      "5": 8,
+      "6": 9,
+      "8": 14,
+      "9": 15
+    },
+    "javascript": {
+      "2": 8,
+      "3": 9,
+      "5": 11,
+      "6": 12,
+      "8": 17,
+      "9": 18
+    }
   }
 }

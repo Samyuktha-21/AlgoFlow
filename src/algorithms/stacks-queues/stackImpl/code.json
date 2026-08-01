@@ -16,12 +16,37 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <stack>\n#include <iostream>\nusing namespace std;\nint main() {\n    stack<int>s;\n    s.push(1);\n    s.push(2);\n    s.push(3);\n    cout<<s.top()<<\" \";\n    s.pop();\n    cout<<s.top()<<endl;\n    return 0;\n}\n",
+    "code": "#include <iostream>\n#include <vector>\n#include <stdexcept>\nusing namespace std;\n\nstruct Stack {\n    vector<int> arr;\n    int top = -1;\n    Stack(int capacity) : arr(capacity) {}\n    void push(int val) {\n        if (top == (int)arr.size() - 1) throw runtime_error(\"Stack overflow\");\n        arr[++top] = val;\n    }\n    int pop() {\n        if (top == -1) throw runtime_error(\"Stack underflow\");\n        return arr[top--];\n    }\n    int peek() { return arr[top]; }\n    bool isEmpty() { return top == -1; }\n};\n\nint main() {\n    Stack s(10);\n    s.push(1);\n    s.push(2);\n    s.push(3);\n    cout << s.pop() << \" \" << s.peek() << endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class Stack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, val):\n        self.items.append(val)\n\n    def pop(self):\n        return self.items.pop() if self.items else None\n\n    def peek(self):\n        return self.items[-1] if self.items else None\n\n    def is_empty(self):\n        return not self.items\n\ns = Stack()\ns.push(1); s.push(2); s.push(3)\nprint(s.pop())\nprint(s.peek())\nprint(s.is_empty())",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "7": 4,
+      "9": 6
+    },
+    "cpp": {
+      "2": 7,
+      "4": 9,
+      "7": 12,
+      "9": 14
+    },
+    "python": {
+      "2": 3,
+      "4": 2,
+      "7": 6,
+      "9": 8
+    },
+    "javascript": {
+      "2": 3,
+      "4": 2,
+      "7": 6,
+      "9": 8
+    }
   }
 }

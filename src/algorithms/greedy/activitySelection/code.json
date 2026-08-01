@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int s, e, i;\n}\nAct;\nint cmp(const void* a, const void* b) {\n    return ((Act*)a)->e-((Act*)b)->e;\n}\nint main() {\n    Act acts[]= { {\n        1, 2, 0\n    }, {3, 4, 1}, {0, 6, 2}, {5, 7, 3}, {8, 9, 4}, {5, 9, 5}};\n    int n=6;\n    qsort(acts, n, sizeof(Act), cmp);\n    int lastEnd=-1;\n    for (int i=0; i<n; i++) if (acts[i].s>=lastEnd) {\n        printf(\"Activity %d \", acts[i].i);\n        lastEnd=acts[i].e;\n    }\n    return 0;\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int s, e, i;\n} Act;\nint cmp(const void* a, const void* b) {\n    return ((Act*)a)->e-((Act*)b)->e;\n}\nint main() {\n    Act acts[]= { {\n        1, 2, 0\n    }, {3, 4, 1}, {0, 6, 2}, {5, 7, 3}, {8, 9, 4}, {5, 9, 5}};\n    int n=6;\n    qsort(acts, n, sizeof(Act), cmp);\n    int lastEnd=-1;\n    for (int i=0; i<n; i++) if (acts[i].s>=lastEnd) {\n        printf(\"Activity %d \", acts[i].i);\n        lastEnd=acts[i].e;\n    }\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {

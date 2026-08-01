@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdbool.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nbool hasPath(Node*n, int t) {\n    if (!n)return false;\n    if (!n->l&&!n->r)return n->v==t;\n    return hasPath(n->l, t-n->v)||hasPath(n->r, t-n->v);\n}\n",
+    "code": "#include <stdbool.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n} Node;\nbool hasPath(Node*n, int t) {\n    if (!n)return false;\n    if (!n->l&&!n->r)return n->v==t;\n    return hasPath(n->l, t-n->v)||hasPath(n->r, t-n->v);\n}\n",
     "lineKeys": {}
   },
   "cpp": {

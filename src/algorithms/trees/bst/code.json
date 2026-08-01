@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n}\nNode;\nNode* insert(Node* n, int v) {\n    if (!n) {\n        Node* nd=malloc(sizeof(Node));\n        nd->v=v;\n        nd->l=nd->r=NULL;\n        return nd;\n    }\n    if (v<n->v)n->l=insert(n->l, v);\n    else if (v>n->v)n->r=insert(n->r, v);\n    return n;\n}\nint search(Node* n, int v) {\n    while (n) {\n        if (v==n->v)return 1;\n        n=v<n->v?n->l:n->r;\n    }\n    return 0;\n}\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n} Node;\nNode* insert(Node* n, int v) {\n    if (!n) {\n        Node* nd=malloc(sizeof(Node));\n        nd->v=v;\n        nd->l=nd->r=NULL;\n        return nd;\n    }\n    if (v<n->v)n->l=insert(n->l, v);\n    else if (v>n->v)n->r=insert(n->r, v);\n    return n;\n}\nint search(Node* n, int v) {\n    while (n) {\n        if (v==n->v)return 1;\n        n=v<n->v?n->l:n->r;\n    }\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\nusing namespace std;\nstruct Node {\n    int v;\n    Node *l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {\n    }\n};\nNode* insert(Node* n, int v) {\n    if (!n)return new Node(v);\n    if (v<n->v)n->l=insert(n->l, v);\n    else if (v>n->v)n->r=insert(n->r, v);\n    return n;\n}\nbool search(Node* n, int v) {\n    while (n) {\n        if (v==n->v)return true;\n        n=v<n->v?n->l:n->r;\n    }\n    return false;\n}\n",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node {\n    int v;\n    Node *l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {}\n};\nNode* insert(Node* n, int v) {\n    if (!n)return new Node(v);\n    if (v<n->v)n->l=insert(n->l, v);\n    else if (v>n->v)n->r=insert(n->r, v);\n    return n;\n}\nbool search(Node* n, int v) {\n    while (n) {\n        if (v==n->v)return true;\n        n=v<n->v?n->l:n->r;\n    }\n    return false;\n}\n",
     "lineKeys": {}
   },
   "python": {

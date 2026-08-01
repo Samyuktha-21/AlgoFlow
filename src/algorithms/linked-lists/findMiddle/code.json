@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* findMiddle(Node*h) {\n    Node*s=h, *f=h;\n    while (f&&f->next) {\n        s=s->next;\n        f=f->next->next;\n    }\n    return s;\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n} Node;\nNode* findMiddle(Node*h) {\n    Node*s=h, *f=h;\n    while (f&&f->next) {\n        s=s->next;\n        f=f->next->next;\n    }\n    return s;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,30 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef find_middle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow.val\n\nhead = Node(1)\ncur = head\nfor v in [2, 3, 4, 5]:\n    cur.next = Node(v)\n    cur = cur.next\nprint(find_middle(head))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 7,
+      "4": 9,
+      "5": 10,
+      "7": 12
+    },
+    "cpp": {
+      "2": 5,
+      "4": 7,
+      "5": 8,
+      "7": 10
+    },
+    "python": {
+      "2": 5,
+      "4": 7,
+      "5": 8
+    },
+    "javascript": {
+      "2": 8,
+      "4": 10,
+      "5": 11,
+      "7": 13
+    }
   }
 }

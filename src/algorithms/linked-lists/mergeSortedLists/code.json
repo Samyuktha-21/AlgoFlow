@@ -11,17 +11,47 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* merge(Node*a, Node*b) {\n    Node d, *c=&d;\n    d.next=NULL;\n    while (a&&b) {\n        if (a->v<=b->v) {\n            c->next=a;\n            a=a->next;\n        }else {\n            c->next=b;\n            b=b->next;\n        }\n        c=c->next;\n    }\n    c->next=a?a:b;\n    return d.next;\n}\n",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n} Node;\nNode* merge(Node*a, Node*b) {\n    Node d, *c=&d;\n    d.next=NULL;\n    while (a&&b) {\n        if (a->v<=b->v) {\n            c->next=a;\n            a=a->next;\n        }else {\n            c->next=b;\n            b=b->next;\n        }\n        c=c->next;\n    }\n    c->next=a?a:b;\n    return d.next;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "using namespace std;\nstruct Node {\n    int v;\n    Node*next;\n    Node(int x):v(x), next(nullptr) {\n    }\n};\nNode* merge(Node*a, Node*b) {\n    Node d(0);\n    Node*c=&d;\n    while (a&&b) {\n        if (a->v<=b->v) {\n            c->next=a;\n            a=a->next;\n        }else {\n            c->next=b;\n            b=b->next;\n        }\n        c=c->next;\n    }\n    c->next=a?a:b;\n    return d.next;\n}\n",
+    "code": "using namespace std;\nstruct Node {\n    int v;\n    Node*next;\n    Node(int x):v(x), next(nullptr) {}\n};\nNode* merge(Node*a, Node*b) {\n    Node d(0);\n    Node*c=&d;\n    while (a&&b) {\n        if (a->v<=b->v) {\n            c->next=a;\n            a=a->next;\n        }else {\n            c->next=b;\n            b=b->next;\n        }\n        c=c->next;\n    }\n    c->next=a?a:b;\n    return d.next;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.next = val, None\n\ndef merge(l1, l2):\n    dummy = Node(0)\n    tail = dummy\n    while l1 and l2:\n        if l1.val <= l2.val:\n            tail.next, l1 = l1, l1.next\n        else:\n            tail.next, l2 = l2, l2.next\n        tail = tail.next\n    tail.next = l1 or l2\n    return dummy.next\n\ndef build(vals):\n    dummy = Node(0)\n    cur = dummy\n    for v in vals:\n        cur.next = Node(v)\n        cur = cur.next\n    return dummy.next\n\nm = merge(build([1, 2, 4]), build([1, 3, 4]))\nout = []\nwhile m:\n    out.append(m.val)\n    m = m.next\nprint(out)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "4": 9,
+      "5": 10,
+      "7": 17,
+      "9": 19
+    },
+    "cpp": {
+      "2": 7,
+      "4": 10,
+      "5": 11,
+      "7": 18,
+      "9": 20
+    },
+    "python": {
+      "2": 5,
+      "4": 8,
+      "5": 9,
+      "7": 13,
+      "9": 14
+    },
+    "javascript": {
+      "2": 8,
+      "4": 11,
+      "5": 12,
+      "7": 19,
+      "9": 21
+    }
   }
 }
