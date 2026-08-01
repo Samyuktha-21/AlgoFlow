@@ -23,5 +23,38 @@
     "language": "python",
     "code": "def dutch_flag_sort(a):\n    low, mid, high = 0, 0, len(a) - 1\n    while mid <= high:\n        if a[mid] == 0:\n            a[low], a[mid] = a[mid], a[low]\n            low += 1; mid += 1\n        elif a[mid] == 1:\n            mid += 1\n        else:\n            a[mid], a[high] = a[high], a[mid]\n            high -= 1\n    return a\n\nprint(dutch_flag_sort([2, 0, 2, 1, 1, 0]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "5": 5,
+      "6": 6,
+      "8": 11,
+      "10": 12,
+      "12": 16
+    },
+    "cpp": {
+      "2": 4,
+      "5": 7,
+      "6": 8,
+      "8": 9,
+      "10": 10
+    },
+    "python": {
+      "2": 1,
+      "5": 4,
+      "6": 5,
+      "8": 7,
+      "10": 9,
+      "12": 11
+    },
+    "javascript": {
+      "2": 1,
+      "5": 4,
+      "6": 5,
+      "8": 8,
+      "10": 10,
+      "12": 12
+    }
   }
 }
