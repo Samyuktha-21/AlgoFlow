@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n// Simple O(n*k) approach for clarity\nvoid kLargest(int a[], int n, int k) {\n    for (int i=0; i<k; i++) {\n        int mx=i;\n        for (int j=i+1; j<n; j++)if (a[j]>a[mx])mx=j;\n        int t=a[i];\n        a[i]=a[mx];\n        a[mx]=t;\n        printf(\"%d \", a[i]);\n    }\n}\n",
+    "code": "#include <stdio.h>\n\nint heap[128];\nint hn = 0;\n\nvoid push(int x) {\n    heap[hn] = x;\n    int i = hn++;\n    while (i > 0 && heap[(i - 1) / 2] > heap[i]) {\n        int t = heap[i];\n        heap[i] = heap[(i - 1) / 2];\n        heap[(i - 1) / 2] = t;\n        i = (i - 1) / 2;\n    }\n}\n\nvoid pop(void) {\n    heap[0] = heap[--hn];\n    int i = 0;\n    while (1) {\n        int l = 2 * i + 1, r = 2 * i + 2, s = i;\n        if (l < hn && heap[l] < heap[s]) s = l;\n        if (r < hn && heap[r] < heap[s]) s = r;\n        if (s == i) break;\n        int t = heap[i];\n        heap[i] = heap[s];\n        heap[s] = t;\n        i = s;\n    }\n}\n\nvoid kLargest(int a[], int n, int k) {\n    for (int i = 0; i < n; i++) {\n        push(a[i]);\n        if (hn > k) pop();\n    }\n    int result[16];\n    for (int i = k - 1; i >= 0; i--) {\n        result[i] = heap[0];\n        pop();\n    }\n    for (int i = 0; i < k; i++) printf(\"%d \", result[i]);\n}\n\nint main() {\n    int a[] = {3, 2, 1, 5, 6, 4};\n    kLargest(a, 6, 3);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,31 @@
     "language": "python",
     "code": "import heapq\n\ndef k_largest(nums, k):\n    heap = nums[:k]\n    heapq.heapify(heap)  # min-heap of size k\n    for x in nums[k:]:\n        if x > heap[0]:\n            heapq.heapreplace(heap, x)\n    return sorted(heap, reverse=True)\n\nprint(k_largest([3, 2, 1, 5, 6, 4], 3))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 34,
+      "4": 3,
+      "8": 38,
+      "9": 39
+    },
+    "cpp": {
+      "2": 4,
+      "4": 5,
+      "8": 9,
+      "9": 10
+    },
+    "python": {
+      "2": 3,
+      "4": 5,
+      "8": 8,
+      "9": 9
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "8": 34,
+      "9": 35
+    }
   }
 }

@@ -23,5 +23,38 @@
     "language": "python",
     "code": "def heapify(a, n, i):\n    largest = i\n    left, right = 2 * i + 1, 2 * i + 2\n    if left < n and a[left] > a[largest]:\n        largest = left\n    if right < n and a[right] > a[largest]:\n        largest = right\n    if largest != i:\n        a[i], a[largest] = a[largest], a[i]\n        heapify(a, n, largest)\n\ndef heap_sort(a):\n    n = len(a)\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(a, n, i)\n    for i in range(n - 1, 0, -1):\n        a[0], a[i] = a[i], a[0]\n        heapify(a, i, 0)\n    return a\n\nprint(heap_sort([12, 11, 13, 5, 6, 7]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "8": 13,
+      "10": 16
+    },
+    "cpp": {
+      "2": 4,
+      "4": 6,
+      "5": 7,
+      "6": 8,
+      "8": 13,
+      "10": 16
+    },
+    "python": {
+      "2": 1,
+      "4": 4,
+      "5": 6,
+      "6": 8,
+      "8": 12,
+      "10": 16
+    },
+    "javascript": {
+      "2": 3,
+      "4": 7,
+      "6": 8,
+      "8": 1,
+      "10": 15
+    }
   }
 }

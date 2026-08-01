@@ -16,12 +16,49 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct MinHeap {\n    vector<int>h;\n    void insert(int v) {\n        h.push_back(v);\n        push_heap(h.begin(), h.end(), greater<int>());\n    }\n    int extractMin() {\n        pop_heap(h.begin(), h.end(), greater<int>());\n        int m=h.back();\n        h.pop_back();\n        return m;\n    }\n};\n",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct MinHeap {\n    vector<int> heap;\n    MinHeap(int capacity) { heap.reserve(capacity); }\n    void insert(int val) {\n        heap.push_back(val);\n        int i = (int)heap.size() - 1;\n        while (i > 0 && heap[(i - 1) / 2] > heap[i]) {\n            int tmp = heap[i];\n            heap[i] = heap[(i - 1) / 2];\n            heap[(i - 1) / 2] = tmp;\n            i = (i - 1) / 2;\n        }\n    }\n    int extractMin() {\n        int mn = heap[0];\n        heap[0] = heap.back();\n        heap.pop_back();\n        siftDown(0);\n        return mn;\n    }\n    void siftDown(int i) {\n        int n = (int)heap.size();\n        int smallest = i, l = 2 * i + 1, r = 2 * i + 2;\n        if (l < n && heap[l] < heap[smallest]) smallest = l;\n        if (r < n && heap[r] < heap[smallest]) smallest = r;\n        if (smallest != i) {\n            int tmp = heap[i];\n            heap[i] = heap[smallest];\n            heap[smallest] = tmp;\n            siftDown(smallest);\n        }\n    }\n};\n\nint main() {\n    MinHeap h(16);\n    for (int v : {90, 70, 80, 40, 50, 60, 30}) h.insert(v);\n    cout << h.extractMin() << endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class MinHeap:\n    def __init__(self):\n        self.heap = []\n\n    def push(self, val):\n        self.heap.append(val)\n        i = len(self.heap) - 1\n        while i > 0 and self.heap[(i - 1) // 2] > self.heap[i]:\n            parent = (i - 1) // 2\n            self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]\n            i = parent\n\n    def pop(self):\n        top = self.heap[0]\n        self.heap[0] = self.heap[-1]\n        self.heap.pop()\n        i, n = 0, len(self.heap)\n        while True:\n            smallest, l, r = i, 2 * i + 1, 2 * i + 2\n            if l < n and self.heap[l] < self.heap[smallest]: smallest = l\n            if r < n and self.heap[r] < self.heap[smallest]: smallest = r\n            if smallest == i:\n                break\n            self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]\n            i = smallest\n        return top\n\nh = MinHeap()\nfor v in [3, 10, 5, 1, 8]:\n    h.push(v)\nprint(h.pop(), h.pop(), h.pop())",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "6": 4,
+      "7": 5,
+      "8": 6,
+      "9": 7,
+      "10": 10
+    },
+    "cpp": {
+      "2": 6,
+      "4": 7,
+      "6": 9,
+      "7": 10,
+      "8": 11,
+      "9": 12,
+      "10": 15
+    },
+    "python": {
+      "2": 3,
+      "4": 2,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 10,
+      "10": 11
+    },
+    "javascript": {
+      "2": 3,
+      "4": 2,
+      "6": 6,
+      "7": 7,
+      "8": 10,
+      "9": 11,
+      "10": 12
+    }
   }
 }

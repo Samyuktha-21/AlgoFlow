@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class MaxHeap {\n  constructor() {\n    this.heap = [];\n  }\n  push(x) {\n    this.heap.push(x);\n    let i = this.heap.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (this.heap[p] >= this.heap[i]) break;\n      [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]];\n      i = p;\n    }\n  }\n  pop() {\n    const top = this.heap[0], last = this.heap.pop();\n    if (this.heap.length) {\n      this.heap[0] = last;\n      let i = 0;\n      const n = this.heap.length;\n      while (true) {\n        let largest = i;\n        const l = 2 * i + 1, r = 2 * i + 2;\n        if (l < n && this.heap[l] > this.heap[largest]) largest = l;\n        if (r < n && this.heap[r] > this.heap[largest]) largest = r;\n        if (largest === i) break;\n        [this.heap[i], this.heap[largest]] = [this.heap[largest], this.heap[i]];\n        i = largest;\n      }\n    }\n    return top;\n  }\n}\n\nconst h = new MaxHeap();\n[3, 1, 6, 5, 2, 4].forEach(x => h.push(x));\nconsole.log(h.pop(), h.pop(), h.pop());",
+    "code": "class MaxHeap {\n  constructor(arr) {\n    this.heap = [...arr];\n    this.size = arr.length;\n    this.buildHeap();\n  }\n  buildHeap() {\n    for (let i = Math.floor(this.size / 2) - 1; i >= 0; i--) this.heapify(i);\n  }\n  heapify(i) {\n    let largest = i;\n    const l = 2 * i + 1, r = 2 * i + 2;\n    if (l < this.size && this.heap[l] > this.heap[largest]) largest = l;\n    if (r < this.size && this.heap[r] > this.heap[largest]) largest = r;\n    if (largest !== i) {\n      [this.heap[i], this.heap[largest]] = [this.heap[largest], this.heap[i]];\n      this.heapify(largest);\n    }\n  }\n}\n\nconst h = new MaxHeap([3, 1, 6, 5, 2, 4]);\nconsole.log(h.heap.join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -21,7 +21,33 @@
   },
   "python": {
     "language": "python",
-    "code": "class MaxHeap:\n    def __init__(self):\n        self.heap = []\n\n    def push(self, val):\n        self.heap.append(val)\n        i = len(self.heap) - 1\n        while i > 0 and self.heap[(i - 1) // 2] < self.heap[i]:\n            parent = (i - 1) // 2\n            self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]\n            i = parent\n\n    def pop(self):\n        top = self.heap[0]\n        self.heap[0] = self.heap[-1]\n        self.heap.pop()\n        i, n = 0, len(self.heap)\n        while True:\n            largest, l, r = i, 2 * i + 1, 2 * i + 2\n            if l < n and self.heap[l] > self.heap[largest]: largest = l\n            if r < n and self.heap[r] > self.heap[largest]: largest = r\n            if largest == i:\n                break\n            self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]\n            i = largest\n        return top\n\nh = MaxHeap()\nfor v in [3, 10, 5, 1, 8]:\n    h.push(v)\nprint(h.pop(), h.pop(), h.pop())",
+    "code": "class MaxHeap:\n    def __init__(self, arr):\n        self.heap = list(arr)\n        self.size = len(arr)\n        self.build_heap()\n\n    def build_heap(self):\n        for i in range(self.size // 2 - 1, -1, -1):\n            self.heapify(i)\n\n    def heapify(self, i):\n        largest, l, r = i, 2 * i + 1, 2 * i + 2\n        if l < self.size and self.heap[l] > self.heap[largest]:\n            largest = l\n        if r < self.size and self.heap[r] > self.heap[largest]:\n            largest = r\n        if largest != i:\n            self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]\n            self.heapify(largest)\n\n\nh = MaxHeap([3, 1, 6, 5, 2, 4])\nprint(h.heap)\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "7": 21,
+      "9": 14,
+      "14": 5
+    },
+    "cpp": {
+      "2": 19,
+      "7": 20,
+      "9": 14,
+      "14": 7
+    },
+    "python": {
+      "2": 3,
+      "7": 5,
+      "9": 7,
+      "14": 13
+    },
+    "javascript": {
+      "2": 3,
+      "7": 5,
+      "9": 7,
+      "14": 13
+    }
   }
 }

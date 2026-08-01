@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\n// Collect all values, then rebuild sorted (a min-heap of k heads is the\n// classic O(N log k) approach; shown simply here for the reference view).\nfunction mergeKLists(lists) {\n  const values = [];\n  for (const head of lists) {\n    for (let n = head; n; n = n.next) values.push(n.val);\n  }\n  values.sort((a, b) => a - b);\n  const dummy = new ListNode(0);\n  let tail = dummy;\n  for (const v of values) {\n    tail.next = new ListNode(v);\n    tail = tail.next;\n  }\n  return dummy.next;\n}\n\nfunction build(arr) {\n  const dummy = new ListNode(0);\n  let tail = dummy;\n  for (const v of arr) {\n    tail.next = new ListNode(v);\n    tail = tail.next;\n  }\n  return dummy.next;\n}\nconst merged = mergeKLists([build([1, 4, 5]), build([1, 3, 4]), build([2, 6])]);\nconst out = [];\nfor (let n = merged; n; n = n.next) out.push(n.val);\nconsole.log(out.join(' '));\n",
+    "code": "// Min-heap of the k list heads: O(N log k).\nclass MinHeap {\n  constructor() {\n    this.data = [];\n  }\n  push(entry) {\n    this.data.push(entry);\n    let i = this.data.length - 1;\n    while (i > 0) {\n      const p = (i - 1) >> 1;\n      if (this.data[p][0] <= this.data[i][0]) break;\n      [this.data[p], this.data[i]] = [this.data[i], this.data[p]];\n      i = p;\n    }\n  }\n  pop() {\n    const top = this.data[0], last = this.data.pop();\n    if (this.data.length) {\n      this.data[0] = last;\n      let i = 0;\n      const n = this.data.length;\n      while (true) {\n        let s = i;\n        const l = 2 * i + 1, r = 2 * i + 2;\n        if (l < n && this.data[l][0] < this.data[s][0]) s = l;\n        if (r < n && this.data[r][0] < this.data[s][0]) s = r;\n        if (s === i) break;\n        [this.data[i], this.data[s]] = [this.data[s], this.data[i]];\n        i = s;\n      }\n    }\n    return top;\n  }\n  get size() {\n    return this.data.length;\n  }\n}\n\nfunction mergeKLists(lists) {\n  const heap = new MinHeap();\n  for (let i = 0; i < lists.length; i++) {\n    if (lists[i].length > 0) heap.push([lists[i][0], i, 0]);\n  }\n  const merged = [];\n  while (heap.size > 0) {\n    const [val, li, pos] = heap.pop();\n    merged.push(val);\n    if (pos + 1 < lists[li].length) heap.push([lists[li][pos + 1], li, pos + 1]);\n  }\n  return merged;\n}\n\nconsole.log(mergeKLists([[1, 4, 5], [1, 3, 4], [2, 6]]).join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n// Min-heap based K-way merge",
+    "code": "#include <stdio.h>\n\n/* Heap entries are (value, listIndex, positionInList). */\nint hv[64], hl[64], hp[64];\nint hn = 0;\n\nvoid push(int v, int li, int pos) {\n    int i = hn++;\n    hv[i] = v;\n    hl[i] = li;\n    hp[i] = pos;\n    while (i > 0 && hv[(i - 1) / 2] > hv[i]) {\n        int p = (i - 1) / 2;\n        int a = hv[i]; hv[i] = hv[p]; hv[p] = a;\n        int b = hl[i]; hl[i] = hl[p]; hl[p] = b;\n        int c = hp[i]; hp[i] = hp[p]; hp[p] = c;\n        i = p;\n    }\n}\n\nvoid pop(void) {\n    hn--;\n    hv[0] = hv[hn];\n    hl[0] = hl[hn];\n    hp[0] = hp[hn];\n    int i = 0;\n    while (1) {\n        int l = 2 * i + 1, r = 2 * i + 2, s = i;\n        if (l < hn && hv[l] < hv[s]) s = l;\n        if (r < hn && hv[r] < hv[s]) s = r;\n        if (s == i) break;\n        int a = hv[i]; hv[i] = hv[s]; hv[s] = a;\n        int b = hl[i]; hl[i] = hl[s]; hl[s] = b;\n        int c = hp[i]; hp[i] = hp[s]; hp[s] = c;\n        i = s;\n    }\n}\n\nvoid mergeK(int lists[][8], int lens[], int k) {\n    for (int i = 0; i < k; i++)\n        if (lens[i] > 0) push(lists[i][0], i, 0);\n    while (hn > 0) {\n        int v = hv[0], li = hl[0], pos = hp[0];\n        pop();\n        printf(\"%d \", v);\n        if (pos + 1 < lens[li]) push(lists[li][pos + 1], li, pos + 1);\n    }\n}\n\nint main() {\n    int lists[3][8] = {{1, 4, 5}, {1, 3, 4}, {2, 6}};\n    int lens[3] = {3, 3, 2};\n    mergeK(lists, lens, 3);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,30 @@
     "language": "python",
     "code": "import heapq\n\ndef merge_k_sorted(lists):\n    heap = [(lst[0], i, 0) for i, lst in enumerate(lists) if lst]\n    heapq.heapify(heap)\n    merged = []\n    while heap:\n        val, li, idx = heapq.heappop(heap)\n        merged.append(val)\n        if idx + 1 < len(lists[li]):\n            heapq.heappush(heap, (lists[li][idx + 1], li, idx + 1))\n    return merged\n\nprint(merge_k_sorted([[1, 4, 5], [1, 3, 4], [2, 6]]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 39,
+      "5": 40,
+      "6": 41,
+      "8": 42
+    },
+    "cpp": {
+      "2": 4,
+      "5": 9,
+      "8": 11
+    },
+    "python": {
+      "2": 3,
+      "5": 4,
+      "6": 5,
+      "8": 7
+    },
+    "javascript": {
+      "2": 39,
+      "5": 41,
+      "6": 42,
+      "8": 45
+    }
   }
 }

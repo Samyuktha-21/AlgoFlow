@@ -7,7 +7,7 @@ module.exports = {
   reverseLinkedList: {
     lineMap: {
       c:          { 2: 2, 4: 6, 6: 8, 7: 9, 9: 11 },
-      cpp:        { 2: 3, 4: 9, 6: 11, 7: 12, 9: 14 },
+      cpp:        { 2: 3, 4: 8, 6: 10, 7: 11, 9: 13 },
       python:     { 2: 1, 4: 5, 6: 7, 7: 8, 9: 10 },
       javascript: { 2: 1, 4: 8, 6: 10, 7: 11, 9: 13 },
     },
@@ -16,8 +16,8 @@ module.exports = {
   /* java: 2 = the node type, 4 = the two pointers, 6 = advance the slow one. */
   detectCycle: {
     lineMap: {
-      c:          { 2: 2, 4: 8, 6: 10 },
-      cpp:        { 2: 3, 4: 10, 6: 12 },
+      c:          { 2: 2, 4: 7, 6: 9 },
+      cpp:        { 2: 3, 4: 9, 6: 11 },
       python:     { 2: 1, 4: 6, 6: 8 },
       javascript: { 2: 1, 4: 9, 6: 11 },
     },
@@ -27,7 +27,7 @@ module.exports = {
      7 = close the loop (middle reached). */
   findMiddle: {
     lineMap: {
-      c:          { 2: 7, 4: 9, 5: 10, 7: 12 },
+      c:          { 2: 6, 4: 8, 5: 9, 7: 11 },
       cpp:        { 2: 5, 4: 7, 5: 8, 7: 10 },
       python:     { 2: 5, 4: 7, 5: 8, 7: null },
       javascript: { 2: 8, 4: 10, 5: 11, 7: 13 },
