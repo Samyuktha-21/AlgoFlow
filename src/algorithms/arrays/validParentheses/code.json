@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function validParentheses(s) {\n  const stack = [];\n  const pairs = { ')': '(', ']': '[', '}': '{' };\n  for (const c of s) {\n    if (c === '(' || c === '[' || c === '{') stack.push(c);\n    else if (stack.pop() !== pairs[c]) return false;\n  }\n  return stack.length === 0;\n}\n\nconsole.log(validParentheses('{[()]}'));",
+    "code": "function validParentheses(s) {\n  const stack = [];\n  const pairs = { ')': '(', ']': '[', '}': '{'};\n  for (const c of s) {\n    if (c === '(' || c === '[' || c === '{') stack.push(c);\n    else if (stack.pop() !== pairs[c]) return false;\n  }\n  return stack.length === 0;\n}\n\nconsole.log(validParentheses('{[()]}'));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nint isValid(char*s){char stk[100];int top=-1;\nfor(int i=0;s[i];i++){char c=s[i];if(c=='('||c=='['||c=='{')stk[++top]=c;\nelse{if(top<0)return 0;char t=stk[top--];if((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return 0;}}return top==-1;}\nint main(){printf(\"%d %d\\n\",isValid(\"({[]})\"),isValid(\"([)]\"));return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isValid(char*s) {\n    char stk[100];\n    int top=-1;\n    for (int i=0; s[i]; i++) {\n        char c=s[i];\n        if (c=='('||c=='['||c=='{')stk[++top]=c;\n        else {\n            if (top<0)return 0;\n            char t=stk[top--];\n            if ((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return 0;\n        }\n    }\n    return top==-1;\n}\nint main() {\n    printf(\"%d %d\\n\", isValid(\"({[]})\"), isValid(\"([)]\"));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s){stack<char>stk;for(char c:s){if(c=='('||c=='['||c=='{')stk.push(c);else{if(stk.empty())return false;char t=stk.top();stk.pop();if((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return false;}}return stk.empty();}",
+    "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s) {\n    stack<char>stk;\n    for (char c:s) {\n        if (c=='('||c=='['||c=='{')stk.push(c);\n        else {\n            if (stk.empty())return false;\n            char t=stk.top();\n            stk.pop();\n            if ((c==')'&&t!='(')||(c==']'&&t!='[')||(c=='}'&&t!='{'))return false;\n        }\n    }\n    return stk.empty();\n}\n",
     "lineKeys": {}
   },
   "python": {

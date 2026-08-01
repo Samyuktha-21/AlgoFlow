@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nvoid mirror(Node* n){if(!n)return;Node*t=n->l;n->l=n->r;n->r=t;mirror(n->l);mirror(n->r);}",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nvoid mirror(Node* n) {\n    if (!n)return;\n    Node*t=n->l;\n    n->l=n->r;\n    n->r=t;\n    mirror(n->l);\n    mirror(n->r);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <algorithm>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nvoid mirror(Node* n){if(!n)return;swap(n->l,n->r);mirror(n->l);mirror(n->r);}",
+    "code": "#include <algorithm>\nusing namespace std;\nstruct Node {\n    int v;\n    Node*l, *r;\n};\nvoid mirror(Node* n) {\n    if (!n)return;\n    swap(n->l, n->r);\n    mirror(n->l);\n    mirror(n->r);\n}\n",
     "lineKeys": {}
   },
   "python": {

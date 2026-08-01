@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class Queue {\n  constructor() {\n    this.items = [];\n  }\n  enqueue(x) {\n    this.items.push(x);\n  }\n  dequeue() {\n    return this.items.shift();\n  }\n  front() {\n    return this.items[0];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst q = new Queue();\nq.enqueue('a'); q.enqueue('b'); q.enqueue('c');\nconsole.log(q.dequeue(), q.front(), q.isEmpty());",
+    "code": "class Queue {\n  constructor() {\n    this.items = [];\n  }\n  enqueue(x) {\n    this.items.push(x);\n  }\n  dequeue() {\n    return this.items.shift();\n  }\n  front() {\n    return this.items[0];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst q = new Queue();\nq.enqueue('a');\nq.enqueue('b');\nq.enqueue('c');\nconsole.log(q.dequeue(), q.front(), q.isEmpty());\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint arr[100],fr=0,re=0;\nvoid enqueue(int v){arr[re++]=v;}\nint dequeue(){return arr[fr++];}\nint front(){return arr[fr];}\nint main(){enqueue(1);enqueue(2);enqueue(3);printf(\"%d %d\\n\",dequeue(),front());return 0;}",
+    "code": "#include <stdio.h>\nint arr[100], fr=0, re=0;\nvoid enqueue(int v) {\n    arr[re++]=v;\n}\nint dequeue() {\n    return arr[fr++];\n}\nint front() {\n    return arr[fr];\n}\nint main() {\n    enqueue(1);\n    enqueue(2);\n    enqueue(3);\n    printf(\"%d %d\\n\", dequeue(), front());\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nint main(){queue<int>q;q.push(1);q.push(2);q.push(3);cout<<q.front()<<\" \";q.pop();cout<<q.front()<<endl;return 0;}",
+    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nint main() {\n    queue<int>q;\n    q.push(1);\n    q.push(2);\n    q.push(3);\n    cout<<q.front()<<\" \";\n    q.pop();\n    cout<<q.front()<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

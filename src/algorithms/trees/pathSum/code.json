@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdbool.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nbool hasPath(Node*n,int t){if(!n)return false;if(!n->l&&!n->r)return n->v==t;return hasPath(n->l,t-n->v)||hasPath(n->r,t-n->v);}",
+    "code": "#include <stdbool.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nbool hasPath(Node*n, int t) {\n    if (!n)return false;\n    if (!n->l&&!n->r)return n->v==t;\n    return hasPath(n->l, t-n->v)||hasPath(n->r, t-n->v);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "struct Node{int v;Node*l,*r;};\nbool hasPath(Node*n,int t){if(!n)return false;if(!n->l&&!n->r)return n->v==t;return hasPath(n->l,t-n->v)||hasPath(n->r,t-n->v);}",
+    "code": "struct Node {\n    int v;\n    Node*l, *r;\n};\nbool hasPath(Node*n, int t) {\n    if (!n)return false;\n    if (!n->l&&!n->r)return n->v==t;\n    return hasPath(n->l, t-n->v)||hasPath(n->r, t-n->v);\n}\n",
     "lineKeys": {}
   },
   "python": {

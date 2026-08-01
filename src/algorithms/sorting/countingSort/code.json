@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n\nvoid countingSort(int arr[], int n) {\n    int max = arr[0];\n    for (int i = 1; i < n; i++) if (arr[i] > max) max = arr[i];\n    int count[max + 1];\n    memset(count, 0, sizeof(count));\n    for (int i = 0; i < n; i++) count[arr[i]]++;\n    for (int i = 1; i <= max; i++) count[i] += count[i - 1];\n    int out[n];\n    for (int i = n - 1; i >= 0; i--) out[--count[arr[i]]] = arr[i];\n    for (int i = 0; i < n; i++) arr[i] = out[i];\n}\n\nint main() {\n    int a[] = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a, 7);\n    for (int i = 0; i < 7; i++) printf(\"%d \", a[i]);\n    return 0;\n}",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid countingSort(int arr[], int n) {\n    int max = arr[0];\n    for (int i = 1; i < n; i++) if (arr[i] > max) max = arr[i];\n    int count[max + 1];\n    memset(count, 0, sizeof(count));\n    for (int i = 0; i < n; i++) count[arr[i]]++;\n    for (int i = 1; i <= max; i++) count[i] += count[i - 1];\n    int out[n];\n    for (int i = n - 1; i >= 0; i--) out[--count[arr[i]]] = arr[i];\n    for (int i = 0; i < n; i++) arr[i] = out[i];\n}\n\nint main() {\n    int a[] = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a, 7);\n    for (int i = 0; i < 7; i++) printf(\"%d \", a[i]);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,18 +23,5 @@
     "language": "python",
     "code": "def counting_sort(a):\n    if not a:\n        return a\n    lo, hi = min(a), max(a)\n    count = [0] * (hi - lo + 1)\n    for x in a:\n        count[x - lo] += 1\n    result = []\n    for i, c in enumerate(count):\n        result.extend([i + lo] * c)\n    return result\n\nprint(counting_sort([4, 2, 2, 8, 3, 3, 1]))",
     "lineKeys": {}
-  },
-  "lineMap": {
-    "c": {
-      "5": 7,
-      "7": 10
-    },
-    "cpp": {
-      "7": 10
-    },
-    "javascript": {
-      "2": 1,
-      "5": 4
-    }
   }
 }

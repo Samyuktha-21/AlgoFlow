@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function countOccurrences(a, target) {\n  let count = 0;\n  for (const x of a) if (x === target) count++;\n  return count;\n}\n\nconsole.log(countOccurrences([1, 2, 2, 3, 2, 4, 2], 2));",
+    "code": "// Count occurrences using a frequency map\nfunction countOccurrences(arr) {\n  const freq = new Map();\n  for (const x of arr) freq.set(x, (freq.get(x) || 0) + 1);\n  return freq;\n}\n\nconsole.log([...countOccurrences([1, 2, 2, 3, 3, 3, 1])]);\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,17 +11,39 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid countOccurrences(int a[],int n){int freq[1000]={0};for(int i=0;i<n;i++)freq[a[i]]++;for(int i=0;i<1000;i++)if(freq[i])printf(\"%d->%d\\n\",i,freq[i]);}",
+    "code": "#include <stdio.h>\n\nvoid countOccurrences(int arr[], int n) {\n    int freq[1000] = {0};\n    for (int i = 0; i < n; i++) freq[arr[i]]++;\n    for (int i = 0; i < 1000; i++)\n        if (freq[i]) printf(\"%d -> %d\\n\", i, freq[i]);\n}\n\nint main() {\n    int arr[] = {1, 2, 2, 3, 3, 3, 1};\n    countOccurrences(arr, 7);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <vector>\n#include <iostream>\nusing namespace std;\nauto countOcc(vector<int>&a){unordered_map<int,int>m;for(int x:a)m[x]++;return m;}",
+    "code": "#include <iostream>\n#include <unordered_map>\n#include <vector>\nusing namespace std;\n\nunordered_map<int, int> countOccurrences(vector<int>& arr) {\n    unordered_map<int, int> freq;\n    for (int x : arr) freq[x]++;\n    return freq;\n}\n\nint main() {\n    vector<int> arr = {1, 2, 2, 3, 3, 3, 1};\n    for (auto& [k, v] : countOccurrences(arr)) cout << k << \" -> \" << v << endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
-    "code": "def count_occurrences(a, target):\n    count = 0\n    for x in a:\n        if x == target:\n            count += 1\n    return count\n\nprint(count_occurrences([1, 2, 3, 2, 2, 5], 2))",
+    "code": "from collections import defaultdict\n\ndef count_occurrences(arr):\n    freq = defaultdict(int)\n    for x in arr:\n        freq[x] += 1\n    return freq\n\nprint(dict(count_occurrences([1, 2, 2, 3, 3, 3, 1])))\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 1,
+      "4": 3,
+      "5": 4
+    },
+    "cpp": {
+      "2": 2,
+      "4": 6,
+      "5": 7
+    },
+    "python": {
+      "2": 1,
+      "4": 3,
+      "5": 4
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "5": 3
+    }
   }
 }

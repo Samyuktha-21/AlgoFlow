@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nvoid revStr(char*s){int l=0,r=strlen(s)-1;while(l<r){char t=s[l];s[l++]=s[r];s[r--]=t;}}\nint main(){char s[]=\"hello\";revStr(s);printf(\"%s\\n\",s);return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid revStr(char*s) {\n    int l=0, r=strlen(s)-1;\n    while (l<r) {\n        char t=s[l];\n        s[l++]=s[r];\n        s[r--]=t;\n    }\n}\nint main() {\n    char s[]=\"hello\";\n    revStr(s);\n    printf(\"%s\\n\", s);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nvoid reverseString(string&s){reverse(s.begin(),s.end());}\nint main(){string s=\"hello\";reverseString(s);cout<<s<<endl;return 0;}",
+    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nvoid reverseString(string&s) {\n    reverse(s.begin(), s.end());\n}\nint main() {\n    string s=\"hello\";\n    reverseString(s);\n    cout<<s<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

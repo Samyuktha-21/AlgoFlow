@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint subSum(int a[],int n,int k){int cnt=0,ps=0,m[10007]={0};m[0]=1;\nfor(int i=0;i<n;i++){ps+=a[i];cnt+=m[(ps-k+10007)%10007];m[(ps+10007)%10007]++;}return cnt;}",
+    "code": "#include <stdio.h>\nint subSum(int a[], int n, int k) {\n    int cnt=0, ps=0, m[10007]= {0};\n    m[0]=1;\n    for (int i=0; i<n; i++) {\n        ps+=a[i];\n        cnt+=m[(ps-k+10007)%10007];\n        m[(ps+10007)%10007]++;\n    }\n    return cnt;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nint subarraySum(vector<int>&a,int k){unordered_map<int,int>m;m[0]=1;int cnt=0,ps=0;\nfor(int x:a){ps+=x;cnt+=m.count(ps-k)?m[ps-k]:0;m[ps]++;}return cnt;}",
+    "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nint subarraySum(vector<int>&a, int k) {\n    unordered_map<int, int>m;\n    m[0]=1;\n    int cnt=0, ps=0;\n    for (int x:a) {\n        ps+=x;\n        cnt+=m.count(ps-k)?m[ps-k]:0;\n        m[ps]++;\n    }\n    return cnt;\n}\n",
     "lineKeys": {}
   },
   "python": {

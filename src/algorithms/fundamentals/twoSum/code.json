@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need), i];\n    seen.set(nums[i], i);\n  }\n  return [];\n}\n\nconsole.log(twoSum([2, 7, 11, 15], 9));",
+    "code": "function twoSum(arr, target) {\n  let left = 0, right = arr.length - 1;\n  while (left < right) {\n    const sum = arr[left] + arr[right];\n    if (sum === target) return [left, right];\n    else if (sum < target) left++;\n    else right--;\n  }\n  return [-1, -1];\n}\n\nconsole.log(twoSum([1, 2, 4, 6, 8, 9, 14, 15], 13));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,17 +11,47 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid twoSum(int arr[],int n,int target){int l=0,r=n-1;\nwhile(l<r){int s=arr[l]+arr[r];if(s==target){printf(\"%d+%d=%d at [%d,%d]\",arr[l],arr[r],target,l,r);return;}\nelse if(s<target)l++;else r--;} printf(\"No pair found\");}\nint main(){int a[]={1,2,4,6,8,9,14,15};twoSum(a,8,13);return 0;}",
+    "code": "#include <stdio.h>\nvoid twoSum(int arr[], int n, int target) {\n    int l=0, r=n-1;\n    while (l<r) {\n        int s=arr[l]+arr[r];\n        if (s==target) {\n            printf(\"%d+%d=%d at [%d,%d]\", arr[l], arr[r], target, l, r);\n            return;\n        } else if (s<target)l++;\n        else r--;\n    }\n    printf(\"No pair found\");\n}\nint main() {\n    int a[]= {1, 2, 4, 6, 8, 9, 14, 15};\n    twoSum(a, 8, 13);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\npair<int,int> twoSum(vector<int>& a, int t){int l=0,r=a.size()-1;\nwhile(l<r){int s=a[l]+a[r];if(s==t)return{l,r};else if(s<t)l++;else r--;}return{-1,-1};}\nint main(){vector<int> a={1,2,4,6,8,9,14,15};auto [l,r]=twoSum(a,13);cout<<l<<\",\"<<r<<endl;return 0;}",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\npair<int, int> twoSum(vector<int>& a, int t) {\n    int l=0, r=a.size()-1;\n    while (l<r) {\n        int s=a[l]+a[r];\n        if (s==t)return {l, r};\n        else if (s<t)l++;\n        else r--;\n    }\n    return {-1, -1};\n}\nint main() {\n    vector<int> a= {1, 2, 4, 6, 8, 9, 14, 15};\n    auto [l, r]=twoSum(a, 13);\n    cout<<l<<\",\"<<r<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
-    "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return [-1, -1]\n\nprint(two_sum([2, 7, 11, 15], 9))",
+    "code": "def two_sum(arr, target):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        total = arr[left] + arr[right]\n        if total == target:\n            return [left, right]\n        elif total < target:\n            left += 1\n        else:\n            right -= 1\n    return [-1, -1]\n\n\nprint(two_sum([1, 2, 4, 6, 8, 9, 14, 15], 13))\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 1,
+      "4": 3,
+      "5": 4,
+      "7": 6,
+      "8": 9
+    },
+    "cpp": {
+      "2": 1,
+      "4": 5,
+      "5": 6,
+      "7": 8,
+      "8": 9
+    },
+    "python": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "7": 5,
+      "8": 7
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "7": 5,
+      "8": 6
+    }
   }
 }

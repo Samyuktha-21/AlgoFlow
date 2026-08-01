@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class MinStack {\n  constructor() {\n    this.stack = [];\n    this.mins = [];\n  }\n  push(x) {\n    this.stack.push(x);\n    this.mins.push(this.mins.length === 0 ? x : Math.min(x, this.getMin()));\n  }\n  pop() {\n    this.mins.pop();\n    return this.stack.pop();\n  }\n  top() {\n    return this.stack[this.stack.length - 1];\n  }\n  getMin() {\n    return this.mins[this.mins.length - 1];\n  }\n}\n\nconst s = new MinStack();\ns.push(5); s.push(2); s.push(7);\nconsole.log(s.getMin(), s.pop(), s.getMin());",
+    "code": "class MinStack {\n  constructor() {\n    this.stack = [];\n    this.mins = [];\n  }\n  push(x) {\n    this.stack.push(x);\n    this.mins.push(this.mins.length === 0 ? x : Math.min(x, this.getMin()));\n  }\n  pop() {\n    this.mins.pop();\n    return this.stack.pop();\n  }\n  top() {\n    return this.stack[this.stack.length - 1];\n  }\n  getMin() {\n    return this.mins[this.mins.length - 1];\n  }\n}\n\nconst s = new MinStack();\ns.push(5);\ns.push(2);\ns.push(7);\nconsole.log(s.getMin(), s.pop(), s.getMin());\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint main_stack[100],min_stack[100],top=-1;\nvoid push(int v){main_stack[++top]=v;min_stack[top]=top==0?v:(v<min_stack[top-1]?v:min_stack[top-1]);}\nvoid pop(){top--;}\nint getMin(){return min_stack[top];}",
+    "code": "#include <stdio.h>\nint main_stack[100], min_stack[100], top=-1;\nvoid push(int v) {\n    main_stack[++top]=v;\n    min_stack[top]=top==0?v:(v<min_stack[top-1]?v:min_stack[top-1]);\n}\nvoid pop() {\n    top--;\n}\nint getMin() {\n    return min_stack[top];\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <stack>\nusing namespace std;\nstruct MinStack{stack<int>s,ms;\nvoid push(int v){s.push(v);ms.push(ms.empty()?v:min(v,ms.top()));}\nvoid pop(){s.pop();ms.pop();}\nint top(){return s.top();}\nint getMin(){return ms.top();}};",
+    "code": "#include <stack>\nusing namespace std;\nstruct MinStack {\n    stack<int>s, ms;\n    void push(int v) {\n        s.push(v);\n        ms.push(ms.empty()?v:min(v, ms.top()));\n    }\n    void pop() {\n        s.pop();\n        ms.pop();\n    }\n    int top() {\n        return s.top();\n    }\n    int getMin() {\n        return ms.top();\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

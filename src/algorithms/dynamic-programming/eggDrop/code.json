@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint eggDrop(int k,int n){int dp[n+1][k+1],m=0;for(int i=0;i<=n;i++)for(int j=0;j<=k;j++)dp[i][j]=0;\nwhile(dp[m][k]<n){m++;for(int j=1;j<=k;j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;}return m;}\nint main(){printf(\"%d\\n\",eggDrop(2,100));return 0;}",
+    "code": "#include <stdio.h>\nint eggDrop(int k, int n) {\n    int dp[n+1][k+1], m=0;\n    for (int i=0; i<=n; i++)for (int j=0; j<=k; j++)dp[i][j]=0;\n    while (dp[m][k]<n) {\n        m++;\n        for (int j=1; j<=k; j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;\n    }\n    return m;\n}\nint main() {\n    printf(\"%d\\n\", eggDrop(2, 100));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "int superEggDrop(int k,int n){vector<vector<int>>dp(n+1,vector<int>(k+1,0));int m=0;while(dp[m][k]<n){m++;for(int j=1;j<=k;j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;}return m;}",
+    "code": "int superEggDrop(int k, int n) {\n    vector<vector<int>>dp(n+1, vector<int>(k+1, 0));\n    int m=0;\n    while (dp[m][k]<n) {\n        m++;\n        for (int j=1; j<=k; j++)dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1;\n    }\n    return m;\n}\n",
     "lineKeys": {}
   },
   "python": {

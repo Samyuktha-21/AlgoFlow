@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "// Recursive Cooley-Tukey FFT. Complex numbers are { re, im }.\nfunction fft(input) {\n  const n = input.length;\n  if (n === 1) return [input[0]];\n  const even = fft(input.filter((_, i) => i % 2 === 0));\n  const odd = fft(input.filter((_, i) => i % 2 === 1));\n  const result = new Array(n);\n  for (let k = 0; k < n / 2; k++) {\n    const angle = (-2 * Math.PI * k) / n;\n    const tw = { re: Math.cos(angle), im: Math.sin(angle) };\n    const t = {\n      re: tw.re * odd[k].re - tw.im * odd[k].im,\n      im: tw.re * odd[k].im + tw.im * odd[k].re,\n    };\n    result[k] = { re: even[k].re + t.re, im: even[k].im + t.im };\n    result[k + n / 2] = { re: even[k].re - t.re, im: even[k].im - t.im };\n  }\n  return result;\n}\n\nconst signal = [1, 1, 1, 1].map(x => ({ re: x, im: 0 }));\nconst spectrum = fft(signal);\nconsole.log(spectrum.map(c => Math.round(c.re) + '+' + Math.round(c.im) + 'i').join(', '));",
+    "code": "// Recursive Cooley-Tukey FFT. Complex numbers are { re, im }.\nfunction fft(input) {\n  const n = input.length;\n  if (n === 1) return [input[0]];\n  const even = fft(input.filter((_, i) => i % 2 === 0));\n  const odd = fft(input.filter((_, i) => i % 2 === 1));\n  const result = new Array(n);\n  for (let k = 0; k < n / 2; k++) {\n    const angle = (-2 * Math.PI * k) / n;\n    const tw = { re: Math.cos(angle), im: Math.sin(angle)};\n    const t = { re: tw.re * odd[k].re - tw.im * odd[k].im, im: tw.re * odd[k].im + tw.im * odd[k].re,};\n    result[k] = { re: even[k].re + t.re, im: even[k].im + t.im};\n    result[k + n / 2] = { re: even[k].re - t.re, im: even[k].im - t.im};\n  }\n  return result;\n}\n\nconst signal = [1, 1, 1, 1].map(x => ({ re: x, im: 0 }));\nconst spectrum = fft(signal);\nconsole.log(spectrum.map(c => Math.round(c.re) + '+' + Math.round(c.im) + 'i').join(', '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -16,7 +16,7 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef complex<double> cd;\nconst double PI = acos(-1);\nvoid fft(vector<cd>& a, bool inv=false){\n    int n=a.size();\n    for(int i=1,j=0;i<n;i++){int bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j)swap(a[i],a[j]);}\n    for(int len=2;len<=n;len<<=1){\n        double ang=2*PI/len*(inv?-1:1);\n        cd wlen(cos(ang),sin(ang));\n        for(int i=0;i<n;i+=len){cd w(1);for(int j=0;j<len/2;j++,w*=wlen){cd u=a[i+j],v=a[i+j+len/2]*w;a[i+j]=u+v;a[i+j+len/2]=u-v;}}\n    }\n    if(inv) for(auto&x:a) x/=n;\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef complex<double> cd;\nconst double PI = acos(-1);\nvoid fft(vector<cd>& a, bool inv=false) {\n    int n=a.size();\n    for (int i=1, j=0; i<n; i++) {\n        int bit=n>>1;\n        for (; j&bit; bit>>=1)j^=bit;\n        j^=bit;\n        if (i<j)swap(a[i], a[j]);\n    }\n    for (int len=2; len<=n; len<<=1) {\n        double ang=2*PI/len*(inv?-1:1);\n        cd wlen(cos(ang), sin(ang));\n        for (int i=0; i<n; i+=len) {\n            cd w(1);\n            for (int j=0; j<len/2; j++, w*=wlen) {\n                cd u=a[i+j], v=a[i+j+len/2]*w;\n                a[i+j]=u+v;\n                a[i+j+len/2]=u-v;\n            }\n        }\n    }\n    if (inv) for (auto&x:a) x/=n;\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\nlong minMergeCost(int* files, int n) {\n    /* Use min-heap — simplified with sorted array for small n */\n    long total=0, arr[100]; for(int i=0;i<n;i++) arr[i]=files[i];\n    for(int cnt=n;cnt>1;cnt--) {\n        /* sort and take two smallest */\n        for(int i=0;i<cnt-1;i++) for(int j=0;j<cnt-i-1;j++) if(arr[j]>arr[j+1]){long t=arr[j];arr[j]=arr[j+1];arr[j+1]=t;}\n        long m=arr[0]+arr[1]; total+=m;\n        arr[0]=m; for(int i=1;i<cnt-1;i++) arr[i]=arr[i+1]; cnt--;\n    }\n    return total;\n}",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\nlong minMergeCost(int* files, int n) {\n    /* Use min-heap — simplified with sorted array for small n */\n    long total=0, arr[100];\n    for (int i=0; i<n; i++) arr[i]=files[i];\n    for (int cnt=n; cnt>1; cnt--) {\n        /* sort and take two smallest */\n        for (int i=0; i<cnt-1; i++) for (int j=0; j<cnt-i-1; j++) if (arr[j]>arr[j+1]) {\n            long t=arr[j];\n            arr[j]=arr[j+1];\n            arr[j+1]=t;\n        }\n        long m=arr[0]+arr[1];\n        total+=m;\n        arr[0]=m;\n        for (int i=1; i<cnt-1; i++) arr[i]=arr[i+1];\n        cnt--;\n    }\n    return total;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nlong long minMergeCost(vector<int>& files) {\n    priority_queue<long long, vector<long long>, greater<long long>> pq(files.begin(), files.end());\n    long long total = 0;\n    while (pq.size() > 1) {\n        auto a = pq.top(); pq.pop();\n        auto b = pq.top(); pq.pop();\n        total += a + b; pq.push(a + b);\n    }\n    return total;\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nlong long minMergeCost(vector<int>& files) {\n    priority_queue<long long, vector<long long>, greater<long long>> pq(files.begin(), files.end());\n    long long total = 0;\n    while (pq.size() > 1) {\n        auto a = pq.top();\n        pq.pop();\n        auto b = pq.top();\n        pq.pop();\n        total += a + b;\n        pq.push(a + b);\n    }\n    return total;\n}\n",
     "lineKeys": {}
   },
   "python": {

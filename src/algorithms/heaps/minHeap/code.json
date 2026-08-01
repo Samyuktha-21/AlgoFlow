@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint heap[100],sz=0;\nvoid insert(int v){heap[sz++]=v;int i=sz-1;\nwhile(i>0&&heap[(i-1)/2]>heap[i]){int t=heap[i];heap[i]=heap[(i-1)/2];heap[(i-1)/2]=t;i=(i-1)/2;}}\nvoid siftDown(int i){int s=i,l=2*i+1,r=2*i+2,t;\nif(l<sz&&heap[l]<heap[s])s=l;if(r<sz&&heap[r]<heap[s])s=r;\nif(s!=i){t=heap[i];heap[i]=heap[s];heap[s]=t;siftDown(s);}}\nint extractMin(){int m=heap[0];heap[0]=heap[--sz];siftDown(0);return m;}",
+    "code": "#include <stdio.h>\nint heap[100], sz=0;\nvoid insert(int v) {\n    heap[sz++]=v;\n    int i=sz-1;\n    while (i>0&&heap[(i-1)/2]>heap[i]) {\n        int t=heap[i];\n        heap[i]=heap[(i-1)/2];\n        heap[(i-1)/2]=t;\n        i=(i-1)/2;\n    }\n}\nvoid siftDown(int i) {\n    int s=i, l=2*i+1, r=2*i+2, t;\n    if (l<sz&&heap[l]<heap[s])s=l;\n    if (r<sz&&heap[r]<heap[s])s=r;\n    if (s!=i) {\n        t=heap[i];\n        heap[i]=heap[s];\n        heap[s]=t;\n        siftDown(s);\n    }\n}\nint extractMin() {\n    int m=heap[0];\n    heap[0]=heap[--sz];\n    siftDown(0);\n    return m;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct MinHeap{vector<int>h;\nvoid insert(int v){h.push_back(v);push_heap(h.begin(),h.end(),greater<int>());}\nint extractMin(){pop_heap(h.begin(),h.end(),greater<int>());int m=h.back();h.pop_back();return m;}};",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nstruct MinHeap {\n    vector<int>h;\n    void insert(int v) {\n        h.push_back(v);\n        push_heap(h.begin(), h.end(), greater<int>());\n    }\n    int extractMin() {\n        pop_heap(h.begin(), h.end(), greater<int>());\n        int m=h.back();\n        h.pop_back();\n        return m;\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

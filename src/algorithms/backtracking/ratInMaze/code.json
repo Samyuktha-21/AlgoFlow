@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function ratInMaze(maze) {\n  const n = maze.length;\n  const solution = Array.from({ length: n }, () => new Array(n).fill(0));\n  const solve = (r, c) => {\n    if (r === n - 1 && c === n - 1 && maze[r][c] === 1) {\n      solution[r][c] = 1;\n      return true;\n    }\n    if (r >= 0 && c >= 0 && r < n && c < n && maze[r][c] === 1 && solution[r][c] === 0) {\n      solution[r][c] = 1;\n      if (solve(r + 1, c)) return true;\n      if (solve(r, c + 1)) return true;\n      solution[r][c] = 0;\n      return false;\n    }\n    return false;\n  };\n  return solve(0, 0) ? solution : null;\n}\n\nconst maze = [\n  [1, 0, 0, 0],\n  [1, 1, 0, 1],\n  [0, 1, 0, 0],\n  [1, 1, 1, 1],\n];\nconsole.log(JSON.stringify(ratInMaze(maze)));",
+    "code": "function ratInMaze(maze) {\n  const n = maze.length;\n  const solution = Array.from({ length: n }, () => new Array(n).fill(0));\n  const solve = (r, c) => {\n    if (r === n - 1 && c === n - 1 && maze[r][c] === 1) {\n      solution[r][c] = 1;\n      return true;\n    }\n    if (r >= 0 && c >= 0 && r < n && c < n && maze[r][c] === 1 && solution[r][c] === 0) {\n      solution[r][c] = 1;\n      if (solve(r + 1, c)) return true;\n      if (solve(r, c + 1)) return true;\n      solution[r][c] = 0;\n      return false;\n    }\n    return false;\n  };\n  return solve(0, 0) ? solution : null;\n}\n\nconst maze = [ [1, 0, 0, 0], [1, 1, 0, 1], [0, 1, 0, 0], [1, 1, 1, 1], ];\nconsole.log(JSON.stringify(ratInMaze(maze)));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint maze[4][4]={{1,0,0,0},{1,1,0,1},{0,1,0,0},{0,1,1,1}};\nint vis[4][4]={0},n=4;\nint dr[]={1,-1,0,0},dc[]={0,0,-1,1};char path[100],pi=0;\nvoid solve(int r,int c){if(r==n-1&&c==n-1){path[pi]=0;printf(\"%s\\n\",path);return;}vis[r][c]=1;\nfor(int i=0;i<4;i++){int nr=r+dr[i],nc=c+dc[i];if(nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&maze[nr][nc]){path[pi++]=\"DULR\"[i];solve(nr,nc);pi--;}}vis[r][c]=0;}",
+    "code": "#include <stdio.h>\nint maze[4][4]= { {\n    1, 0, 0, 0\n}, {1, 1, 0, 1}, {0, 1, 0, 0}, {0, 1, 1, 1}};\nint vis[4][4]= {0}, n=4;\nint dr[]= {1, -1, 0, 0}, dc[]= {0, 0, -1, 1};\nchar path[100], pi=0;\nvoid solve(int r, int c) {\n    if (r==n-1&&c==n-1) {\n        path[pi]=0;\n        printf(\"%s\\n\", path);\n        return;\n    }\n    vis[r][c]=1;\n    for (int i=0; i<4; i++) {\n        int nr=r+dr[i], nc=c+dc[i];\n        if (nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&maze[nr][nc]) {\n            path[pi++]=\"DULR\"[i];\n            solve(nr, nc);\n            pi--;\n        }\n    }\n    vis[r][c]=0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <string>\nusing namespace std;\nint dr[]={1,-1,0,0},dc[]={0,0,-1,1};string dirs=\"DULR\";\nvoid solve(vector<vector<int>>&m,int r,int c,int n,string&p,vector<string>&res,vector<vector<bool>>&vis){if(r==n-1&&c==n-1){res.push_back(p);return;}vis[r][c]=true;for(int i=0;i<4;i++){int nr=r+dr[i],nc=c+dc[i];if(nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&m[nr][nc]){p+=dirs[i];solve(m,nr,nc,n,p,res,vis);p.pop_back();}}vis[r][c]=false;}",
+    "code": "#include <vector>\n#include <string>\nusing namespace std;\nint dr[]= {1, -1, 0, 0}, dc[]= {0, 0, -1, 1};\nstring dirs=\"DULR\";\nvoid solve(vector<vector<int>>&m, int r, int c, int n, string&p, vector<string>&res, vector<vector<bool>>&vis) {\n    if (r==n-1&&c==n-1) {\n        res.push_back(p);\n        return;\n    }\n    vis[r][c]=true;\n    for (int i=0; i<4; i++) {\n        int nr=r+dr[i], nc=c+dc[i];\n        if (nr>=0&&nr<n&&nc>=0&&nc<n&&!vis[nr][nc]&&m[nr][nc]) {\n            p+=dirs[i];\n            solve(m, nr, nc, n, p, res, vis);\n            p.pop_back();\n        }\n    }\n    vis[r][c]=false;\n}\n",
     "lineKeys": {}
   },
   "python": {

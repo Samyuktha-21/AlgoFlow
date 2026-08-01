@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid egyptian(int n, int d) {\n    if (d%n==0){printf(\"1/%d \",d/n);return;}\n    int x=d/n+1;\n    printf(\"1/%d + \",x);\n    egyptian(n*x-d, d*x);\n}",
+    "code": "#include <stdio.h>\nvoid egyptian(int n, int d) {\n    if (d%n==0) {\n        printf(\"1/%d \", d/n);\n        return;\n    }\n    int x=d/n+1;\n    printf(\"1/%d + \", x);\n    egyptian(n*x-d, d*x);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nvoid egyptian(int n, int d) {\n    if (d % n == 0) { cout << \"1/\" << d/n; return; }\n    int x = d/n + 1;\n    cout << \"1/\" << x << \" + \";\n    egyptian(n*x - d, d*x);\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nvoid egyptian(int n, int d) {\n    if (d % n == 0) {\n        cout << \"1/\" << d/n;\n        return;\n    }\n    int x = d/n + 1;\n    cout << \"1/\" << x << \" + \";\n    egyptian(n*x - d, d*x);\n}\n",
     "lineKeys": {}
   },
   "python": {

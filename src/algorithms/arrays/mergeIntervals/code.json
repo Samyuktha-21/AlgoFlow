@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return (*(int**)a)[0]-(*(int**)b)[0];}\n// Merge intervals after sorting by start\n",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void*a, const void*b) {\n    return (*(int**)a)[0]-(*(int**)b)[0];\n}\n// Merge intervals after sorting by start\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvector<vector<int>> merge(vector<vector<int>>& iv){sort(iv.begin(),iv.end());vector<vector<int>>res={iv[0]};\nfor(auto& v:iv){if(v[0]<=res.back()[1])res.back()[1]=max(res.back()[1],v[1]);else res.push_back(v);}return res;}",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvector<vector<int>> merge(vector<vector<int>>& iv) {\n    sort(iv.begin(), iv.end());\n    vector<vector<int>>res= {iv[0]};\n    for (auto& v:iv) {\n        if (v[0]<=res.back()[1])res.back()[1]=max(res.back()[1], v[1]);\n        else res.push_back(v);\n    }\n    return res;\n}\n",
     "lineKeys": {}
   },
   "python": {

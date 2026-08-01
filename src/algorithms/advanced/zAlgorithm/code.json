@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function zAlgorithm(s) {\n  const n = s.length;\n  const z = new Array(n).fill(0);\n  let l = 0, r = 0;\n  for (let i = 1; i < n; i++) {\n    if (i < r) z[i] = Math.min(r - i, z[i - l]);\n    while (i + z[i] < n && s[z[i]] === s[i + z[i]]) z[i]++;\n    if (i + z[i] > r) { l = i; r = i + z[i]; }\n  }\n  return z;\n}\n\n// Substring search: run Z on pattern + separator + text.\nfunction search(text, pattern) {\n  const combined = pattern + '$' + text;\n  const z = zAlgorithm(combined);\n  const matches = [];\n  for (let i = pattern.length + 1; i < combined.length; i++) {\n    if (z[i] === pattern.length) matches.push(i - pattern.length - 1);\n  }\n  return matches;\n}\n\nconsole.log(search('ababababa', 'aba'));",
+    "code": "function zAlgorithm(s) {\n  const n = s.length;\n  const z = new Array(n).fill(0);\n  let l = 0, r = 0;\n  for (let i = 1; i < n; i++) {\n    if (i < r) z[i] = Math.min(r - i, z[i - l]);\n    while (i + z[i] < n && s[z[i]] === s[i + z[i]]) z[i]++;\n    if (i + z[i] > r) {\n      l = i;\n      r = i + z[i];\n    }\n  }\n  return z;\n}\n\n// Substring search: run Z on pattern + separator + text.\nfunction search(text, pattern) {\n  const combined = pattern + '$' + text;\n  const z = zAlgorithm(combined);\n  const matches = [];\n  for (let i = pattern.length + 1; i < combined.length; i++) {\n    if (z[i] === pattern.length) matches.push(i - pattern.length - 1);\n  }\n  return matches;\n}\n\nconsole.log(search('ababababa', 'aba'));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nvoid zFunction(char*s,int z[]){int n=strlen(s),l=0,r=0;z[0]=n;\nfor(int i=1;i<n;i++){if(i<r)z[i]=z[i-l]<r-i?z[i-l]:r-i;else z[i]=0;while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i];}}}",
+    "code": "#include <stdio.h>\n#include <string.h>\nvoid zFunction(char*s, int z[]) {\n    int n=strlen(s), l=0, r=0;\n    z[0]=n;\n    for (int i=1; i<n; i++) {\n        if (i<r)z[i]=z[i-l]<r-i?z[i-l]:r-i;\n        else z[i]=0;\n        while (i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;\n        if (i+z[i]>r) {\n            l=i;\n            r=i+z[i];\n        }\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <string>\n#include <vector>\nusing namespace std;\nvector<int> zFunc(string s){int n=s.size(),l=0,r=0;vector<int>z(n);z[0]=n;\nfor(int i=1;i<n;i++){if(i<r)z[i]=min(r-i,z[i-l]);while(i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;if(i+z[i]>r){l=i;r=i+z[i];}}return z;}",
+    "code": "#include <string>\n#include <vector>\nusing namespace std;\nvector<int> zFunc(string s) {\n    int n=s.size(), l=0, r=0;\n    vector<int>z(n);\n    z[0]=n;\n    for (int i=1; i<n; i++) {\n        if (i<r)z[i]=min(r-i, z[i-l]);\n        while (i+z[i]<n&&s[z[i]]==s[i+z[i]])z[i]++;\n        if (i+z[i]>r) {\n            l=i;\n            r=i+z[i];\n        }\n    }\n    return z;\n}\n",
     "lineKeys": {}
   },
   "python": {

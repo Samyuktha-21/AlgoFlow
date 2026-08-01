@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next;}Node;\nNode* findMiddle(Node*h){Node*s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;}return s;}",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* findMiddle(Node*h) {\n    Node*s=h, *f=h;\n    while (f&&f->next) {\n        s=s->next;\n        f=f->next->next;\n    }\n    return s;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "struct Node{int v;Node*next;};\nNode* findMiddle(Node*h){Node*s=h,*f=h;while(f&&f->next){s=s->next;f=f->next->next;}return s;}",
+    "code": "struct Node {\n    int v;\n    Node*next;\n};\nNode* findMiddle(Node*h) {\n    Node*s=h, *f=h;\n    while (f&&f->next) {\n        s=s->next;\n        f=f->next->next;\n    }\n    return s;\n}\n",
     "lineKeys": {}
   },
   "python": {

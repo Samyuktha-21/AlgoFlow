@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n\nint partition(int a[], int low, int high) {\n    int pivot = a[high], i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (a[j] <= pivot) {\n            i++;\n            int tmp = a[i]; a[i] = a[j]; a[j] = tmp;\n        }\n    }\n    int tmp = a[i + 1]; a[i + 1] = a[high]; a[high] = tmp;\n    return i + 1;\n}\n\nvoid quickSort(int a[], int low, int high) {\n    if (low < high) {\n        int pi = partition(a, low, high);\n        quickSort(a, low, pi - 1);\n        quickSort(a, pi + 1, high);\n    }\n}\n\nint main() {\n    int a[] = {10, 7, 8, 9, 1, 5};\n    quickSort(a, 0, 5);\n    for (int i = 0; i < 6; i++) printf(\"%d \", a[i]);\n    return 0;\n}",
+    "code": "#include <stdio.h>\nint partition(int a[], int low, int high) {\n    int pivot = a[high], i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (a[j] <= pivot) {\n            i++;\n            int tmp = a[i];\n            a[i] = a[j];\n            a[j] = tmp;\n        }\n    }\n    int tmp = a[i + 1];\n    a[i + 1] = a[high];\n    a[high] = tmp;\n    return i + 1;\n}\n\nvoid quickSort(int a[], int low, int high) {\n    if (low < high) {\n        int pi = partition(a, low, high);\n        quickSort(a, low, pi - 1);\n        quickSort(a, pi + 1, high);\n    }\n}\n\nint main() {\n    int a[] = {10, 7, 8, 9, 1, 5};\n    quickSort(a, 0, 5);\n    for (int i = 0; i < 6; i++) printf(\"%d \", a[i]);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,22 +23,5 @@
     "language": "python",
     "code": "def quick_sort(a, low=0, high=None):\n    if high is None:\n        high = len(a) - 1\n    if low < high:\n        pivot = a[high]\n        i = low - 1\n        for j in range(low, high):\n            if a[j] <= pivot:\n                i += 1\n                a[i], a[j] = a[j], a[i]\n        a[i + 1], a[high] = a[high], a[i + 1]\n        quick_sort(a, low, i)\n        quick_sort(a, i + 2, high)\n    return a\n\nprint(quick_sort([10, 7, 8, 9, 1, 5]))",
     "lineKeys": {}
-  },
-  "lineMap": {
-    "c": {
-      "2": 3,
-      "3": 4,
-      "5": 6,
-      "6": 7
-    },
-    "cpp": {
-      "3": 6,
-      "5": 8,
-      "6": 9
-    },
-    "python": {
-      "3": 6,
-      "5": 8
-    }
   }
 }

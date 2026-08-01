@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid slidingMax(int a[],int n,int k,int res[]){int dq[n],fr=0,re=0;\nfor(int i=0;i<n;i++){while(fr<re&&dq[fr]<i-k+1)fr++;\nwhile(fr<re&&a[dq[re-1]]<=a[i])re--;dq[re++]=i;if(i>=k-1)res[i-k+1]=a[dq[fr]];}}",
+    "code": "#include <stdio.h>\nvoid slidingMax(int a[], int n, int k, int res[]) {\n    int dq[n], fr=0, re=0;\n    for (int i=0; i<n; i++) {\n        while (fr<re&&dq[fr]<i-k+1)fr++;\n        while (fr<re&&a[dq[re-1]]<=a[i])re--;\n        dq[re++]=i;\n        if (i>=k-1)res[i-k+1]=a[dq[fr]];\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <deque>\n#include <vector>\nusing namespace std;\nvector<int> maxSlidingWindow(vector<int>&a,int k){int n=a.size();vector<int>res;deque<int>dq;\nfor(int i=0;i<n;i++){while(!dq.empty()&&dq.front()<i-k+1)dq.pop_front();\nwhile(!dq.empty()&&a[dq.back()]<=a[i])dq.pop_back();dq.push_back(i);if(i>=k-1)res.push_back(a[dq.front()]);}return res;}",
+    "code": "#include <deque>\n#include <vector>\nusing namespace std;\nvector<int> maxSlidingWindow(vector<int>&a, int k) {\n    int n=a.size();\n    vector<int>res;\n    deque<int>dq;\n    for (int i=0; i<n; i++) {\n        while (!dq.empty()&&dq.front()<i-k+1)dq.pop_front();\n        while (!dq.empty()&&a[dq.back()]<=a[i])dq.pop_back();\n        dq.push_back(i);\n        if (i>=k-1)res.push_back(a[dq.front()]);\n    }\n    return res;\n}\n",
     "lineKeys": {}
   },
   "python": {

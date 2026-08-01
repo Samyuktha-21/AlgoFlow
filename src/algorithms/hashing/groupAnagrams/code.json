@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\nint cmp(const void*a,const void*b){return *(char*)a-*(char*)b;}\n// Group by sorted key — omitted for brevity in C",
+    "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\nint cmp(const void*a, const void*b) {\n    return *(char*)a-*(char*)b;\n}\n// Group by sorted key — omitted for brevity in C\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\nvector<vector<string>> groupAnagrams(vector<string>&strs){unordered_map<string,vector<string>>m;\nfor(auto&s:strs){string k=s;sort(k.begin(),k.end());m[k].push_back(s);}\nvector<vector<string>>res;for(auto&p:m)res.push_back(p.second);return res;}",
+    "code": "#include <unordered_map>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\nvector<vector<string>> groupAnagrams(vector<string>&strs) {\n    unordered_map<string, vector<string>>m;\n    for (auto&s:strs) {\n        string k=s;\n        sort(k.begin(), k.end());\n        m[k].push_back(s);\n    }\n    vector<vector<string>>res;\n    for (auto&p:m)res.push_back(p.second);\n    return res;\n}\n",
     "lineKeys": {}
   },
   "python": {

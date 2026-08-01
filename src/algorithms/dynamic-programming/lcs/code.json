@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#define max(a,b) ((a)>(b)?(a):(b))\nint lcs(char* s1,char* s2){int m=strlen(s1),n=strlen(s2),dp[m+1][n+1];\nfor(int i=0;i<=m;i++) for(int j=0;j<=n;j++) dp[i][j]=i==0||j==0?0:s1[i-1]==s2[j-1]?dp[i-1][j-1]+1:max(dp[i-1][j],dp[i][j-1]);\nreturn dp[m][n];}\nint main(){printf(\"%d\\n\",lcs(\"ABCBDAB\",\"BDCAB\"));return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define max(a,b) ((a)>(b)?(a):(b))\nint lcs(char* s1, char* s2) {\n    int m=strlen(s1), n=strlen(s2), dp[m+1][n+1];\n    for (int i=0; i<=m; i++) for (int j=0; j<=n; j++) dp[i][j]=i==0||j==0?0:s1[i-1]==s2[j-1]?dp[i-1][j-1]+1:max(dp[i-1][j], dp[i][j-1]);\n    return dp[m][n];\n}\nint main() {\n    printf(\"%d\\n\", lcs(\"ABCBDAB\", \"BDCAB\"));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint lcs(const string& a,const string& b){int m=a.size(),n=b.size();vector<vector<int>>dp(m+1,vector<int>(n+1,0));\nfor(int i=1;i<=m;i++)for(int j=1;j<=n;j++)dp[i][j]=a[i-1]==b[j-1]?dp[i-1][j-1]+1:max(dp[i-1][j],dp[i][j-1]);\nreturn dp[m][n];}\nint main(){cout<<lcs(\"ABCBDAB\",\"BDCAB\")<<endl;return 0;}",
+    "code": "#include <iostream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\nint lcs(const string& a, const string& b) {\n    int m=a.size(), n=b.size();\n    vector<vector<int>>dp(m+1, vector<int>(n+1, 0));\n    for (int i=1; i<=m; i++)for (int j=1; j<=n; j++)dp[i][j]=a[i-1]==b[j-1]?dp[i-1][j-1]+1:max(dp[i-1][j], dp[i][j-1]);\n    return dp[m][n];\n}\nint main() {\n    cout<<lcs(\"ABCBDAB\", \"BDCAB\")<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

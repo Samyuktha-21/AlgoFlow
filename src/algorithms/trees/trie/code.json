@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#define ALPHA 26\ntypedef struct Node{struct Node*ch[ALPHA];int end;}Trie;\nvoid insert(Trie*root,char*w){Trie*n=root;for(int i=0;w[i];i++){int c=w[i]-'a';if(!n->ch[c])n->ch[c]=calloc(1,sizeof(Trie));n=n->ch[c];}n->end=1;}\nint search(Trie*root,char*w){Trie*n=root;for(int i=0;w[i];i++){int c=w[i]-'a';if(!n->ch[c])return 0;n=n->ch[c];}return n->end;}",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define ALPHA 26\ntypedef struct Node {\n    struct Node*ch[ALPHA];\n    int end;\n}\nTrie;\nvoid insert(Trie*root, char*w) {\n    Trie*n=root;\n    for (int i=0; w[i]; i++) {\n        int c=w[i]-'a';\n        if (!n->ch[c])n->ch[c]=calloc(1, sizeof(Trie));\n        n=n->ch[c];\n    }\n    n->end=1;\n}\nint search(Trie*root, char*w) {\n    Trie*n=root;\n    for (int i=0; w[i]; i++) {\n        int c=w[i]-'a';\n        if (!n->ch[c])return 0;\n        n=n->ch[c];\n    }\n    return n->end;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie{array<Trie*,26>ch{};bool end=false;};\nvoid insert(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])n->ch[c-'a']=new Trie();n=n->ch[c-'a'];}n->end=true;}\nbool search(Trie*r,const string&w){Trie*n=r;for(char c:w){if(!n->ch[c-'a'])return false;n=n->ch[c-'a'];}return n->end;}",
+    "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie {\n    array<Trie*, 26>ch {\n    };\n    bool end=false;\n};\nvoid insert(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])n->ch[c-'a']=new Trie();\n        n=n->ch[c-'a'];\n    }\n    n->end=true;\n}\nbool search(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])return false;\n        n=n->ch[c-'a'];\n    }\n    return n->end;\n}\n",
     "lineKeys": {}
   },
   "python": {

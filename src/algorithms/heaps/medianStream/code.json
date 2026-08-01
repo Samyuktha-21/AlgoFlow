@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class MedianFinder {\n  constructor() {\n    this.low = [];  // max side (kept sorted ascending; max at end)\n    this.high = []; // min side (kept sorted ascending; min at front)\n  }\n  addNum(x) {\n    this.low.push(x);\n    this.low.sort((a, b) => a - b);\n    this.high.push(this.low.pop());\n    this.high.sort((a, b) => a - b);\n    if (this.high.length > this.low.length) this.low.push(this.high.shift());\n  }\n  findMedian() {\n    if (this.low.length > this.high.length) return this.low[this.low.length - 1];\n    return (this.low[this.low.length - 1] + this.high[0]) / 2;\n  }\n}\n\nconst mf = new MedianFinder();\n[5, 15, 1, 3].forEach(x => mf.addNum(x));\nconsole.log(mf.findMedian());",
+    "code": "class MedianFinder {\n  constructor() {\n    this.low = [];\n    // max side (kept sorted ascending; max at end)\n    this.high = [];\n    // min side (kept sorted ascending; min at front)\n  }\n  addNum(x) {\n    this.low.push(x);\n    this.low.sort((a, b) => a - b);\n    this.high.push(this.low.pop());\n    this.high.sort((a, b) => a - b);\n    if (this.high.length > this.low.length) this.low.push(this.high.shift());\n  }\n  findMedian() {\n    if (this.low.length > this.high.length) return this.low[this.low.length - 1];\n    return (this.low[this.low.length - 1] + this.high[0]) / 2;\n  }\n}\n\nconst mf = new MedianFinder();\n[5, 15, 1, 3].forEach(x => mf.addNum(x));\nconsole.log(mf.findMedian());\n",
     "lineKeys": {}
   },
   "java": {
@@ -16,7 +16,7 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nstruct MedianStream{priority_queue<int>low;priority_queue<int,vector<int>,greater<int>>high;\nvoid add(int n){low.push(n);high.push(low.top());low.pop();if(low.size()<high.size()){low.push(high.top());high.pop();}}\ndouble median(){return low.size()>high.size()?low.top():(low.top()+high.top())/2.0;}};",
+    "code": "#include <queue>\n#include <iostream>\nusing namespace std;\nstruct MedianStream {\n    priority_queue<int>low;\n    priority_queue<int, vector<int>, greater<int>>high;\n    void add(int n) {\n        low.push(n);\n        high.push(low.top());\n        low.pop();\n        if (low.size()<high.size()) {\n            low.push(high.top());\n            high.pop();\n        }\n    }\n    double median() {\n        return low.size()>high.size()?low.top():(low.top()+high.top())/2.0;\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

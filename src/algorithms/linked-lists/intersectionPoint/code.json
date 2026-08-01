@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction getIntersection(headA, headB) {\n  let a = headA, b = headB;\n  while (a !== b) {\n    a = a ? a.next : headB;\n    b = b ? b.next : headA;\n  }\n  return a;\n}\n\nconst c1 = new ListNode(8), c2 = new ListNode(10);\nc1.next = c2;\nconst a1 = new ListNode(3); a1.next = c1;\nconst b1 = new ListNode(4), b2 = new ListNode(6);\nb1.next = b2; b2.next = c1;\nconsole.log(getIntersection(a1, b1).val);",
+    "code": "class ListNode {\n  constructor(val) {\n    this.val = val;\n    this.next = null;\n  }\n}\n\nfunction getIntersection(headA, headB) {\n  let a = headA, b = headB;\n  while (a !== b) {\n    a = a ? a.next : headB;\n    b = b ? b.next : headA;\n  }\n  return a;\n}\n\nconst c1 = new ListNode(8), c2 = new ListNode(10);\nc1.next = c2;\nconst a1 = new ListNode(3);\na1.next = c1;\nconst b1 = new ListNode(4), b2 = new ListNode(6);\nb1.next = b2;\nb2.next = c1;\nconsole.log(getIntersection(a1, b1).val);\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*next;}Node;\nNode* intersect(Node*h1,Node*h2){Node*p=h1,*q=h2;while(p!=q){p=p?p->next:h2;q=q?q->next:h1;}return p;}",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*next;\n}\nNode;\nNode* intersect(Node*h1, Node*h2) {\n    Node*p=h1, *q=h2;\n    while (p!=q) {\n        p=p?p->next:h2;\n        q=q?q->next:h1;\n    }\n    return p;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "struct Node{int v;Node*next;};\nNode* intersect(Node*h1,Node*h2){Node*p=h1,*q=h2;while(p!=q){p=p?p->next:h2;q=q?q->next:h1;}return p;}",
+    "code": "struct Node {\n    int v;\n    Node*next;\n};\nNode* intersect(Node*h1, Node*h2) {\n    Node*p=h1, *q=h2;\n    while (p!=q) {\n        p=p?p->next:h2;\n        q=q?q->next:h1;\n    }\n    return p;\n}\n",
     "lineKeys": {}
   },
   "python": {

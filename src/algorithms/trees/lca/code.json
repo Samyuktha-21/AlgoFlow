@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdlib.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nNode* lca(Node*r,int p,int q){if(!r||r->v==p||r->v==q)return r;\nNode*l=lca(r->l,p,q),*ri=lca(r->r,p,q);\nif(l&&ri)return r;return l?l:ri;}",
+    "code": "#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nNode* lca(Node*r, int p, int q) {\n    if (!r||r->v==p||r->v==q)return r;\n    Node*l=lca(r->l, p, q), *ri=lca(r->r, p, q);\n    if (l&&ri)return r;\n    return l?l:ri;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "using namespace std;\nstruct Node{int v;Node*l,*r;};\nNode* lca(Node*r,int p,int q){if(!r||r->v==p||r->v==q)return r;\nauto l=lca(r->l,p,q),ri=lca(r->r,p,q);\nif(l&&ri)return r;return l?l:ri;}",
+    "code": "using namespace std;\nstruct Node {\n    int v;\n    Node*l, *r;\n};\nNode* lca(Node*r, int p, int q) {\n    if (!r||r->v==p||r->v==q)return r;\n    auto l=lca(r->l, p, q), ri=lca(r->r, p, q);\n    if (l&&ri)return r;\n    return l?l:ri;\n}\n",
     "lineKeys": {}
   },
   "python": {

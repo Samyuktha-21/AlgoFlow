@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int v;struct Node*l,*r;}Node;\nint checkH(Node* n){if(!n)return 0;int l=checkH(n->l);if(l==-1)return -1;\nint r=checkH(n->r);if(r==-1)return -1;if(abs(l-r)>1)return -1;return 1+(l>r?l:r);}\nint isBalanced(Node* root){return checkH(root)!=-1;}",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node*l, *r;\n}\nNode;\nint checkH(Node* n) {\n    if (!n)return 0;\n    int l=checkH(n->l);\n    if (l==-1)return -1;\n    int r=checkH(n->r);\n    if (r==-1)return -1;\n    if (abs(l-r)>1)return -1;\n    return 1+(l>r?l:r);\n}\nint isBalanced(Node* root) {\n    return checkH(root)!=-1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\nstruct Node{int v;Node*l,*r;};\nint checkH(Node*n){if(!n)return 0;int l=checkH(n->l);if(l==-1)return-1;\nint r=checkH(n->r);if(r==-1)return-1;if(abs(l-r)>1)return-1;return 1+max(l,r);}\nbool isBalanced(Node*root){return checkH(root)!=-1;}",
+    "code": "#include <iostream>\n#include <cmath>\nusing namespace std;\nstruct Node {\n    int v;\n    Node*l, *r;\n};\nint checkH(Node*n) {\n    if (!n)return 0;\n    int l=checkH(n->l);\n    if (l==-1)return-1;\n    int r=checkH(n->r);\n    if (r==-1)return-1;\n    if (abs(l-r)>1)return-1;\n    return 1+max(l, r);\n}\nbool isBalanced(Node*root) {\n    return checkH(root)!=-1;\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class DLLNode {\n  constructor(key, val) {\n    this.key = key;\n    this.val = val;\n    this.prev = null;\n    this.next = null;\n  }\n}\n\nclass LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.map = new Map();\n    this.head = new DLLNode(0, 0);\n    this.tail = new DLLNode(0, 0);\n    this.head.next = this.tail;\n    this.tail.prev = this.head;\n  }\n  _remove(node) {\n    node.prev.next = node.next;\n    node.next.prev = node.prev;\n  }\n  _addFront(node) {\n    node.next = this.head.next;\n    node.prev = this.head;\n    this.head.next.prev = node;\n    this.head.next = node;\n  }\n  get(key) {\n    if (!this.map.has(key)) return -1;\n    const node = this.map.get(key);\n    this._remove(node);\n    this._addFront(node);\n    return node.val;\n  }\n  put(key, val) {\n    if (this.map.has(key)) this._remove(this.map.get(key));\n    const node = new DLLNode(key, val);\n    this._addFront(node);\n    this.map.set(key, node);\n    if (this.map.size > this.capacity) {\n      const lru = this.tail.prev;\n      this._remove(lru);\n      this.map.delete(lru.key);\n    }\n  }\n}\n\nconst cache = new LRUCache(2);\ncache.put(1, 1); cache.put(2, 2);\nconsole.log(cache.get(1)); // 1\ncache.put(3, 3);           // evicts key 2\nconsole.log(cache.get(2)); // -1",
+    "code": "class DLLNode {\n  constructor(key, val) {\n    this.key = key;\n    this.val = val;\n    this.prev = null;\n    this.next = null;\n  }\n}\n\nclass LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.map = new Map();\n    this.head = new DLLNode(0, 0);\n    this.tail = new DLLNode(0, 0);\n    this.head.next = this.tail;\n    this.tail.prev = this.head;\n  }\n  _remove(node) {\n    node.prev.next = node.next;\n    node.next.prev = node.prev;\n  }\n  _addFront(node) {\n    node.next = this.head.next;\n    node.prev = this.head;\n    this.head.next.prev = node;\n    this.head.next = node;\n  }\n  get(key) {\n    if (!this.map.has(key)) return -1;\n    const node = this.map.get(key);\n    this._remove(node);\n    this._addFront(node);\n    return node.val;\n  }\n  put(key, val) {\n    if (this.map.has(key)) this._remove(this.map.get(key));\n    const node = new DLLNode(key, val);\n    this._addFront(node);\n    this.map.set(key, node);\n    if (this.map.size > this.capacity) {\n      const lru = this.tail.prev;\n      this._remove(lru);\n      this.map.delete(lru.key);\n    }\n  }\n}\n\nconst cache = new LRUCache(2);\ncache.put(1, 1);\ncache.put(2, 2);\nconsole.log(cache.get(1));\n// 1\ncache.put(3, 3);\n// evicts key 2\nconsole.log(cache.get(2));\n// -1\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node { int key, val; struct Node *prev, *next; } Node;\n/* Hash table maps key -> Node pointer; DLL tracks recency */",
+    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int key, val;\n    struct Node *prev, *next;\n}\nNode;\n/* Hash table maps key -> Node pointer; DLL tracks recency */\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int,int>> lst;\n    unordered_map<int,list<pair<int,int>>::iterator> mp;\npublic:\n    LRUCache(int c): cap(c){}\n    int get(int k){\n        if(!mp.count(k))return -1;\n        lst.splice(lst.begin(),lst,mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k,int v){\n        if(mp.count(k)) lst.erase(mp[k]);\n        else if((int)lst.size()==cap){ mp.erase(lst.back().first); lst.pop_back(); }\n        lst.push_front({k,v}); mp[k]=lst.begin();\n    }\n};",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nclass LRUCache {\n    int cap;\n    list<pair<int, int>> lst;\n    unordered_map<int, list<pair<int, int>>::iterator> mp;\n    public:\n    LRUCache(int c): cap(c) {\n    }\n    int get(int k) {\n        if (!mp.count(k))return -1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) lst.erase(mp[k]);\n        else if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

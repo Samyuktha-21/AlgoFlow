@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function jobSequencing(jobs) {\n  jobs.sort((a, b) => b.profit - a.profit);\n  const maxDeadline = Math.max(...jobs.map(j => j.deadline));\n  const slots = new Array(maxDeadline + 1).fill(null);\n  let totalProfit = 0;\n  for (const job of jobs) {\n    for (let t = job.deadline; t > 0; t--) {\n      if (!slots[t]) {\n        slots[t] = job.id;\n        totalProfit += job.profit;\n        break;\n      }\n    }\n  }\n  return { totalProfit, sequence: slots.filter(Boolean) };\n}\n\nconst jobs = [\n  { id: 'a', deadline: 2, profit: 100 },\n  { id: 'b', deadline: 1, profit: 19 },\n  { id: 'c', deadline: 2, profit: 27 },\n  { id: 'd', deadline: 1, profit: 25 },\n  { id: 'e', deadline: 3, profit: 15 },\n];\nconsole.log(JSON.stringify(jobSequencing(jobs)));",
+    "code": "function jobSequencing(jobs) {\n  jobs.sort((a, b) => b.profit - a.profit);\n  const maxDeadline = Math.max(...jobs.map(j => j.deadline));\n  const slots = new Array(maxDeadline + 1).fill(null);\n  let totalProfit = 0;\n  for (const job of jobs) {\n    for (let t = job.deadline; t > 0; t--) {\n      if (!slots[t]) {\n        slots[t] = job.id;\n        totalProfit += job.profit;\n        break;\n      }\n    }\n  }\n  return { totalProfit, sequence: slots.filter(Boolean)};\n}\n\nconst jobs = [ { id: 'a', deadline: 2, profit: 100 }, { id: 'b', deadline: 1, profit: 19 }, { id: 'c', deadline: 2, profit: 27 }, { id: 'd', deadline: 1, profit: 25 }, { id: 'e', deadline: 3, profit: 15 }, ];\nconsole.log(JSON.stringify(jobSequencing(jobs)));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int id,profit,deadline;}Job;\nint cmp(const void*a,const void*b){return((Job*)b)->profit-((Job*)a)->profit;}\nvoid schedule(Job jobs[],int n){qsort(jobs,n,sizeof(Job),cmp);int slot[n+1],p=0,c=0;for(int i=0;i<=n;i++)slot[i]=-1;for(int i=0;i<n;i++)for(int j=jobs[i].deadline;j>=1;j--)if(slot[j]==-1){slot[j]=jobs[i].id;p+=jobs[i].profit;c++;break;}printf(\"%d jobs, profit=%d\\n\",c,p);}",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int id, profit, deadline;\n}\nJob;\nint cmp(const void*a, const void*b) {\n    return ((Job*)b)->profit-((Job*)a)->profit;\n}\nvoid schedule(Job jobs[], int n) {\n    qsort(jobs, n, sizeof(Job), cmp);\n    int slot[n+1], p=0, c=0;\n    for (int i=0; i<=n; i++)slot[i]=-1;\n    for (int i=0; i<n; i++)for (int j=jobs[i].deadline; j>=1; j--)if (slot[j]==-1) {\n        slot[j]=jobs[i].id;\n        p+=jobs[i].profit;\n        c++;\n        break;\n    }\n    printf(\"%d jobs, profit=%d\\n\", c, p);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\npair<int,int> scheduleJobs(vector<int>&p,vector<int>&d){int n=p.size(),mx=*max_element(d.begin(),d.end());\nvector<int>idx(n),slot(mx+1,-1);iota(idx.begin(),idx.end(),0);sort(idx.begin(),idx.end(),[&](int a,int b){return p[a]>p[b];});\nint profit=0,cnt=0;for(int i:idx)for(int j=d[i];j>=1;j--)if(slot[j]==-1){slot[j]=i;profit+=p[i];cnt++;break;}return{cnt,profit};}",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\npair<int, int> scheduleJobs(vector<int>&p, vector<int>&d) {\n    int n=p.size(), mx=*max_element(d.begin(), d.end());\n    vector<int>idx(n), slot(mx+1, -1);\n    iota(idx.begin(), idx.end(), 0);\n    sort(idx.begin(), idx.end(), [&](int a, int b){return p[a]>p[b]; });\n    int profit=0, cnt=0;\n    for (int i:idx)for (int j=d[i]; j>=1; j--)if (slot[j]==-1) {\n        slot[j]=i;\n        profit+=p[i];\n        cnt++;\n        break;\n    }\n    return {cnt, profit};\n}\n",
     "lineKeys": {}
   },
   "python": {

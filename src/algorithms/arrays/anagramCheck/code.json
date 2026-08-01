@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nint isAnagram(char*s,char*t){if(strlen(s)!=strlen(t))return 0;int cnt[26]={0};\nfor(int i=0;s[i];i++)cnt[s[i]-'a']++;for(int i=0;t[i];i++)cnt[t[i]-'a']--;\nfor(int i=0;i<26;i++)if(cnt[i])return 0;return 1;}\nint main(){printf(\"%d %d\\n\",isAnagram(\"anagram\",\"nagaram\"),isAnagram(\"rat\",\"car\"));return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isAnagram(char*s, char*t) {\n    if (strlen(s)!=strlen(t))return 0;\n    int cnt[26]= {0};\n    for (int i=0; s[i]; i++)cnt[s[i]-'a']++;\n    for (int i=0; t[i]; i++)cnt[t[i]-'a']--;\n    for (int i=0; i<26; i++)if (cnt[i])return 0;\n    return 1;\n}\nint main() {\n    printf(\"%d %d\\n\", isAnagram(\"anagram\", \"nagaram\"), isAnagram(\"rat\", \"car\"));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <string>\n#include <vector>\nusing namespace std;\nbool isAnagram(string s,string t){if(s.size()!=t.size())return false;vector<int>cnt(26,0);\nfor(char c:s)cnt[c-'a']++;for(char c:t)cnt[c-'a']--;for(int x:cnt)if(x)return false;return true;}",
+    "code": "#include <string>\n#include <vector>\nusing namespace std;\nbool isAnagram(string s, string t) {\n    if (s.size()!=t.size())return false;\n    vector<int>cnt(26, 0);\n    for (char c:s)cnt[c-'a']++;\n    for (char c:t)cnt[c-'a']--;\n    for (int x:cnt)if (x)return false;\n    return true;\n}\n",
     "lineKeys": {}
   },
   "python": {

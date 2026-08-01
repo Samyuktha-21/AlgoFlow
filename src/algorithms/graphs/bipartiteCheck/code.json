@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function isBipartite(graph) {\n  const color = {};\n  for (const start in graph) {\n    if (color[start] !== undefined) continue;\n    const queue = [start];\n    color[start] = 0;\n    while (queue.length) {\n      const node = queue.shift();\n      for (const next of graph[node]) {\n        if (color[next] === undefined) {\n          color[next] = 1 - color[node];\n          queue.push(next);\n        } else if (color[next] === color[node]) {\n          return false;\n        }\n      }\n    }\n  }\n  return true;\n}\n\nconst graph = { 0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2] };\nconsole.log(isBipartite(graph));",
+    "code": "function isBipartite(graph) {\n  const color = {};\n  for (const start in graph) {\n    if (color[start] !== undefined) continue;\n    const queue = [start];\n    color[start] = 0;\n    while (queue.length) {\n      const node = queue.shift();\n      for (const next of graph[node]) {\n        if (color[next] === undefined) {\n          color[next] = 1 - color[node];\n          queue.push(next);\n        } else if (color[next] === color[node]) {\n          return false;\n        }\n      }\n    }\n  }\n  return true;\n}\n\nconst graph = { 0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2]};\nconsole.log(isBipartite(graph));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#define V 6\nint adj[V][V],color[V];\nbool isBipartite(){memset(color,-1,sizeof(color));int q[V],fr=0,re=0;\ncolor[0]=0;q[re++]=0;while(fr<re){int u=q[fr++];for(int v=0;v<V;v++)if(adj[u][v]){if(color[v]==-1){color[v]=1-color[u];q[re++]=v;}else if(color[v]==color[u])return false;}}return true;}",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define V 6\nint adj[V][V], color[V];\nbool isBipartite() {\n    memset(color, -1, sizeof(color));\n    int q[V], fr=0, re=0;\n    color[0]=0;\n    q[re++]=0;\n    while (fr<re) {\n        int u=q[fr++];\n        for (int v=0; v<V; v++)if (adj[u][v]) {\n            if (color[v]==-1) {\n                color[v]=1-color[u];\n                q[re++]=v;\n            }else if (color[v]==color[u])return false;\n        }\n    }\n    return true;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nbool isBipartite(vector<vector<int>>&adj){int V=adj.size();vector<int>col(V,-1);\nfor(int s=0;s<V;s++){if(col[s]!=-1)continue;col[s]=0;queue<int>q;q.push(s);\nwhile(!q.empty()){int u=q.front();q.pop();for(int v:adj[u]){if(col[v]==-1){col[v]=1-col[u];q.push(v);}else if(col[v]==col[u])return false;}}}return true;}",
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nbool isBipartite(vector<vector<int>>&adj) {\n    int V=adj.size();\n    vector<int>col(V, -1);\n    for (int s=0; s<V; s++) {\n        if (col[s]!=-1)continue;\n        col[s]=0;\n        queue<int>q;\n        q.push(s);\n        while (!q.empty()) {\n            int u=q.front();\n            q.pop();\n            for (int v:adj[u]) {\n                if (col[v]==-1) {\n                    col[v]=1-col[u];\n                    q.push(v);\n                }else if (col[v]==col[u])return false;\n            }\n        }\n    }\n    return true;\n}\n",
     "lineKeys": {}
   },
   "python": {

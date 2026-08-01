@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function floydWarshall(dist) {\n  const n = dist.length;\n  const d = dist.map(row => [...row]);\n  for (let k = 0; k < n; k++) {\n    for (let i = 0; i < n; i++) {\n      for (let j = 0; j < n; j++) {\n        if (d[i][k] + d[k][j] < d[i][j]) {\n          d[i][j] = d[i][k] + d[k][j];\n        }\n      }\n    }\n  }\n  return d;\n}\n\nconst INF = Infinity;\nconst graph = [\n  [0, 3, INF, 7],\n  [8, 0, 2, INF],\n  [5, INF, 0, 1],\n  [2, INF, INF, 0],\n];\nconsole.log(JSON.stringify(floydWarshall(graph)));",
+    "code": "function floydWarshall(dist) {\n  const n = dist.length;\n  const d = dist.map(row => [...row]);\n  for (let k = 0; k < n; k++) {\n    for (let i = 0; i < n; i++) {\n      for (let j = 0; j < n; j++) {\n        if (d[i][k] + d[k][j] < d[i][j]) {\n          d[i][j] = d[i][k] + d[k][j];\n        }\n      }\n    }\n  }\n  return d;\n}\n\nconst INF = Infinity;\nconst graph = [ [0, 3, INF, 7], [8, 0, 2, INF], [5, INF, 0, 1], [2, INF, INF, 0], ];\nconsole.log(JSON.stringify(floydWarshall(graph)));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#define INF 99999\nvoid floydWarshall(int d[][10],int V){for(int k=0;k<V;k++)for(int i=0;i<V;i++)for(int j=0;j<V;j++)if(d[i][k]+d[k][j]<d[i][j])d[i][j]=d[i][k]+d[k][j];}",
+    "code": "#include <stdio.h>\n#define INF 99999\nvoid floydWarshall(int d[][10], int V) {\n    for (int k=0; k<V; k++)for (int i=0; i<V; i++)for (int j=0; j<V; j++)if (d[i][k]+d[k][j]<d[i][j])d[i][j]=d[i][k]+d[k][j];\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid floydWarshall(vector<vector<int>>&d){int V=d.size();for(int k=0;k<V;k++)for(int i=0;i<V;i++)for(int j=0;j<V;j++)if(d[i][k]!=1e9&&d[k][j]!=1e9)d[i][j]=min(d[i][j],d[i][k]+d[k][j]);}",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nvoid floydWarshall(vector<vector<int>>&d) {\n    int V=d.size();\n    for (int k=0; k<V; k++)for (int i=0; i<V; i++)for (int j=0; j<V; j++)if (d[i][k]!=1e9&&d[k][j]!=1e9)d[i][j]=min(d[i][j], d[i][k]+d[k][j]);\n}\n",
     "lineKeys": {}
   },
   "python": {

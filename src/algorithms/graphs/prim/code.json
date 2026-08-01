@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function prim(graph, start) {\n  const visited = new Set();\n  const pq = [[0, start]];\n  let cost = 0;\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [w, node] = pq.shift();\n    if (visited.has(node)) continue;\n    visited.add(node);\n    cost += w;\n    for (const [next, weight] of graph[node]) {\n      if (!visited.has(next)) pq.push([weight, next]);\n    }\n  }\n  return cost;\n}\n\nconst graph = {\n  0: [[1, 10], [2, 6], [3, 5]],\n  1: [[0, 10], [3, 15]],\n  2: [[0, 6], [3, 4]],\n  3: [[0, 5], [1, 15], [2, 4]],\n};\nconsole.log(prim(graph, 0));",
+    "code": "function prim(graph, start) {\n  const visited = new Set();\n  const pq = [[0, start]];\n  let cost = 0;\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [w, node] = pq.shift();\n    if (visited.has(node)) continue;\n    visited.add(node);\n    cost += w;\n    for (const [next, weight] of graph[node]) {\n      if (!visited.has(next)) pq.push([weight, next]);\n    }\n  }\n  return cost;\n}\n\nconst graph = { 0: [[1, 10], [2, 6], [3, 5]], 1: [[0, 10], [3, 15]], 2: [[0, 6], [3, 4]], 3: [[0, 5], [1, 15], [2, 4]],};\nconsole.log(prim(graph, 0));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\nint minKey(int key[], int inMST[]) {\n    int min = INT_MAX, idx = -1;\n    for (int i = 0; i < V; i++)\n        if (!inMST[i] && key[i] < min) { min = key[i]; idx = i; }\n    return idx;\n}\nvoid primMST(int graph[][V]) {\n    int key[V], parent[V], inMST[V] = {0};\n    for (int i = 0; i < V; i++) key[i] = INT_MAX;\n    key[0] = 0; parent[0] = -1;\n    for (int cnt = 0; cnt < V - 1; cnt++) {\n        int u = minKey(key, inMST);\n        inMST[u] = 1;\n        for (int v = 0; v < V; v++)\n            if (graph[u][v] && !inMST[v] && graph[u][v] < key[v]) {\n                parent[v] = u; key[v] = graph[u][v];\n            }\n    }\n    for (int i = 1; i < V; i++)\n        printf(\"%d-%d: %d\\n\", parent[i], i, graph[i][parent[i]]);\n}",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\nint minKey(int key[], int inMST[]) {\n    int min = INT_MAX, idx = -1;\n    for (int i = 0; i < V; i++) if (!inMST[i] && key[i] < min) {\n        min = key[i];\n        idx = i;\n    }\n    return idx;\n}\nvoid primMST(int graph[][V]) {\n    int key[V], parent[V], inMST[V] = {0};\n    for (int i = 0; i < V; i++) key[i] = INT_MAX;\n    key[0] = 0;\n    parent[0] = -1;\n    for (int cnt = 0; cnt < V - 1; cnt++) {\n        int u = minKey(key, inMST);\n        inMST[u] = 1;\n        for (int v = 0; v < V; v++) if (graph[u][v] && !inMST[v] && graph[u][v] < key[v]) {\n            parent[v] = u;\n            key[v] = graph[u][v];\n        }\n    }\n    for (int i = 1; i < V; i++) printf(\"%d-%d: %d\\n\", parent[i], i, graph[i][parent[i]]);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint primMST(vector<vector<int>>& g) {\n    int n = g.size();\n    vector<int> key(n, INT_MAX);\n    vector<bool> inMST(n, false);\n    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;\n    key[0] = 0; pq.push({0, 0});\n    int total = 0;\n    while (!pq.empty()) {\n        auto [d, u] = pq.top(); pq.pop();\n        if (inMST[u]) continue;\n        inMST[u] = true; total += d;\n        for (int v = 0; v < n; v++)\n            if (g[u][v] && !inMST[v] && g[u][v] < key[v]) {\n                key[v] = g[u][v]; pq.push({key[v], v});\n            }\n    }\n    return total;\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nint primMST(vector<vector<int>>& g) {\n    int n = g.size();\n    vector<int> key(n, INT_MAX);\n    vector<bool> inMST(n, false);\n    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;\n    key[0] = 0;\n    pq.push({0, 0});\n    int total = 0;\n    while (!pq.empty()) {\n        auto [d, u] = pq.top();\n        pq.pop();\n        if (inMST[u]) continue;\n        inMST[u] = true;\n        total += d;\n        for (int v = 0; v < n; v++) if (g[u][v] && !inMST[v] && g[u][v] < key[v]) {\n            key[v] = g[u][v];\n            pq.push({key[v], v});\n        }\n    }\n    return total;\n}\n",
     "lineKeys": {}
   },
   "python": {

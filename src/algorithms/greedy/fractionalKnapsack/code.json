@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct{int w,v;double r;}Item;\nint cmp(const void*a,const void*b){return ((Item*)b)->r>((Item*)a)->r?1:-1;}\ndouble fracKnapsack(int W,int wt[],int v[],int n){Item it[n];for(int i=0;i<n;i++){it[i].w=wt[i];it[i].v=v[i];it[i].r=(double)v[i]/wt[i];}\nqsort(it,n,sizeof(Item),cmp);double tot=0;for(int i=0;i<n&&W>0;i++){if(W>=it[i].w){tot+=it[i].v;W-=it[i].w;}else{tot+=it[i].r*W;W=0;}}return tot;}",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int w, v;\n    double r;\n}\nItem;\nint cmp(const void*a, const void*b) {\n    return ((Item*)b)->r>((Item*)a)->r?1:-1;\n}\ndouble fracKnapsack(int W, int wt[], int v[], int n) {\n    Item it[n];\n    for (int i=0; i<n; i++) {\n        it[i].w=wt[i];\n        it[i].v=v[i];\n        it[i].r=(double)v[i]/wt[i];\n    }\n    qsort(it, n, sizeof(Item), cmp);\n    double tot=0;\n    for (int i=0; i<n&&W>0; i++) {\n        if (W>=it[i].w) {\n            tot+=it[i].v;\n            W-=it[i].w;\n        }else {\n            tot+=it[i].r*W;\n            W=0;\n        }\n    }\n    return tot;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\ndouble fracKnapsack(int W,vector<int>&wt,vector<int>&v){int n=wt.size();\nvector<pair<double,int>>items;for(int i=0;i<n;i++)items.push_back({(double)v[i]/wt[i],i});\nsort(items.rbegin(),items.rend());double tot=0;\nfor(auto[r,i]:items){if(W>=wt[i]){tot+=v[i];W-=wt[i];}else{tot+=r*W;break;}}return tot;}",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\ndouble fracKnapsack(int W, vector<int>&wt, vector<int>&v) {\n    int n=wt.size();\n    vector<pair<double, int>>items;\n    for (int i=0; i<n; i++)items.push_back({(double)v[i]/wt[i], i});\n    sort(items.rbegin(), items.rend());\n    double tot=0;\n    for (auto[r, i]:items) {\n        if (W>=wt[i]) {\n            tot+=v[i];\n            W-=wt[i];\n        }else {\n            tot+=r*W;\n            break;\n        }\n    }\n    return tot;\n}\n",
     "lineKeys": {}
   },
   "python": {

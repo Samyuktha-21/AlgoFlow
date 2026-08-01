@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <math.h>\nint jumpSearch(int arr[], int n, int target) {\n    int step=(int)sqrt(n), prev=0;\n    while(arr[(step<n?step:n)-1]<target){prev=step;step+=(int)sqrt(n);if(prev>=n)return -1;}\n    while(arr[prev]<target){prev++;if(prev==(step<n?step:n))return -1;}\n    return arr[prev]==target?prev:-1;\n}\nint main(){int a[]={0,1,1,2,3,5,8,13,21,34,55,89};printf(\"%d\\n\",jumpSearch(a,12,55));return 0;}",
+    "code": "#include <stdio.h>\n#include <math.h>\nint jumpSearch(int arr[], int n, int target) {\n    int step=(int)sqrt(n), prev=0;\n    while (arr[(step<n?step:n)-1]<target) {\n        prev=step;\n        step+=(int)sqrt(n);\n        if (prev>=n)return -1;\n    } while (arr[prev]<target) {\n        prev++;\n        if (prev==(step<n?step:n))return -1;\n    }\n    return arr[prev]==target?prev:-1;\n}\nint main() {\n    int a[]= {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89};\n    printf(\"%d\\n\", jumpSearch(a, 12, 55));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\nint jumpSearch(const vector<int>& a, int t) {\n    int n=a.size(), step=sqrt(n), prev=0;\n    while(a[min(step,n)-1]<t){prev=step;step+=sqrt(n);if(prev>=n)return -1;}\n    while(a[prev]<t){prev++;if(prev==min(step,n))return -1;}\n    return a[prev]==t?prev:-1;\n}\nint main(){vector<int> a={0,1,1,2,3,5,8,13,21,34,55,89};cout<<jumpSearch(a,55)<<endl;return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\nint jumpSearch(const vector<int>& a, int t) {\n    int n=a.size(), step=sqrt(n), prev=0;\n    while (a[min(step, n)-1]<t) {\n        prev=step;\n        step+=sqrt(n);\n        if (prev>=n)return -1;\n    } while (a[prev]<t) {\n        prev++;\n        if (prev==min(step, n))return -1;\n    }\n    return a[prev]==t?prev:-1;\n}\nint main() {\n    vector<int> a= {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89};\n    cout<<jumpSearch(a, 55)<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

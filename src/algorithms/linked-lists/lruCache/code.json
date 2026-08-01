@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.map = new Map();\n  }\n  get(key) {\n    if (!this.map.has(key)) return -1;\n    const val = this.map.get(key);\n    this.map.delete(key);\n    this.map.set(key, val);\n    return val;\n  }\n  put(key, val) {\n    if (this.map.has(key)) this.map.delete(key);\n    else if (this.map.size >= this.capacity) this.map.delete(this.map.keys().next().value);\n    this.map.set(key, val);\n  }\n}\n\nconst cache = new LRUCache(2);\ncache.put(1, 1); cache.put(2, 2);\nconsole.log(cache.get(1)); // 1\ncache.put(3, 3);           // evicts key 2\nconsole.log(cache.get(2)); // -1",
+    "code": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.map = new Map();\n  }\n  get(key) {\n    if (!this.map.has(key)) return -1;\n    const val = this.map.get(key);\n    this.map.delete(key);\n    this.map.set(key, val);\n    return val;\n  }\n  put(key, val) {\n    if (this.map.has(key)) this.map.delete(key);\n    else if (this.map.size >= this.capacity) this.map.delete(this.map.keys().next().value);\n    this.map.set(key, val);\n  }\n}\n\nconst cache = new LRUCache(2);\ncache.put(1, 1);\ncache.put(2, 2);\nconsole.log(cache.get(1));\n// 1\ncache.put(3, 3);\n// evicts key 2\nconsole.log(cache.get(2));\n// -1\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n// Simplified LRU with array (educational)\n#define CAP 3\nint keys[CAP],vals[CAP],order[CAP],ord=0,n=0;\nvoid put(int k,int v){for(int i=0;i<n;i++)if(keys[i]==k){vals[i]=v;order[i]=ord++;return;}if(n<CAP){keys[n]=k;vals[n]=v;order[n]=ord++;n++;}else{int mn=0;for(int i=1;i<n;i++)if(order[i]<order[mn])mn=i;keys[mn]=k;vals[mn]=v;order[mn]=ord++;}}\nint get(int k){for(int i=0;i<n;i++)if(keys[i]==k){order[i]=ord++;return vals[i];}return -1;}",
+    "code": "#include <stdio.h>\n// Simplified LRU with array (educational)\n#define CAP 3\nint keys[CAP], vals[CAP], order[CAP], ord=0, n=0;\nvoid put(int k, int v) {\n    for (int i=0; i<n; i++)if (keys[i]==k) {\n        vals[i]=v;\n        order[i]=ord++;\n        return;\n    }\n    if (n<CAP) {\n        keys[n]=k;\n        vals[n]=v;\n        order[n]=ord++;\n        n++;\n    }else {\n        int mn=0;\n        for (int i=1; i<n; i++)if (order[i]<order[mn])mn=i;\n        keys[mn]=k;\n        vals[mn]=v;\n        order[mn]=ord++;\n    }\n}\nint get(int k) {\n    for (int i=0; i<n; i++)if (keys[i]==k) {\n        order[i]=ord++;\n        return vals[i];\n    }\n    return -1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache{int cap;list<pair<int,int>>lst;unordered_map<int,list<pair<int,int>>::iterator>mp;\nLRUCache(int c):cap(c){}\nint get(int k){if(!mp.count(k))return-1;lst.splice(lst.begin(),lst,mp[k]);return mp[k]->second;}\nvoid put(int k,int v){if(mp.count(k)){lst.splice(lst.begin(),lst,mp[k]);mp[k]->second=v;return;}if((int)lst.size()==cap){mp.erase(lst.back().first);lst.pop_back();}lst.push_front({k,v});mp[k]=lst.begin();}};",
+    "code": "#include <unordered_map>\n#include <list>\nusing namespace std;\nstruct LRUCache {\n    int cap;\n    list<pair<int, int>>lst;\n    unordered_map<int, list<pair<int, int>>::iterator>mp;\n    LRUCache(int c):cap(c) {\n    }\n    int get(int k) {\n        if (!mp.count(k))return-1;\n        lst.splice(lst.begin(), lst, mp[k]);\n        return mp[k]->second;\n    }\n    void put(int k, int v) {\n        if (mp.count(k)) {\n            lst.splice(lst.begin(), lst, mp[k]);\n            mp[k]->second=v;\n            return;\n        }\n        if ((int)lst.size()==cap) {\n            mp.erase(lst.back().first);\n            lst.pop_back();\n        }\n        lst.push_front({k, v});\n        mp[k]=lst.begin();\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

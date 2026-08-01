@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class TreeNode {\n  constructor(val) {\n    this.val = val;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nconst preorder = (n, out = []) => { if (n) { out.push(n.val); preorder(n.left, out); preorder(n.right, out); } return out; };\nconst inorder = (n, out = []) => { if (n) { inorder(n.left, out); out.push(n.val); inorder(n.right, out); } return out; };\nconst postorder = (n, out = []) => { if (n) { postorder(n.left, out); postorder(n.right, out); out.push(n.val); } return out; };\n\nconst root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nroot.left.right = new TreeNode(5);\nconsole.log('pre: ' + preorder(root).join(' '));\nconsole.log('in:  ' + inorder(root).join(' '));\nconsole.log('post: ' + postorder(root).join(' '));",
+    "code": "class TreeNode {\n  constructor(val) {\n    this.val = val;\n    this.left = null;\n    this.right = null;\n  }\n}\n\nconst preorder = (n, out = []) => {\n  if (n) {\n    out.push(n.val);\n    preorder(n.left, out);\n    preorder(n.right, out);\n  }\n  return out;\n};\nconst inorder = (n, out = []) => {\n  if (n) {\n    inorder(n.left, out);\n    out.push(n.val);\n    inorder(n.right, out);\n  }\n  return out;\n};\nconst postorder = (n, out = []) => {\n  if (n) {\n    postorder(n.left, out);\n    postorder(n.right, out);\n    out.push(n.val);\n  }\n  return out;\n};\n\nconst root = new TreeNode(1);\nroot.left = new TreeNode(2);\nroot.right = new TreeNode(3);\nroot.left.left = new TreeNode(4);\nroot.left.right = new TreeNode(5);\nconsole.log('pre: ' + preorder(root).join(' '));\nconsole.log('in:  ' + inorder(root).join(' '));\nconsole.log('post: ' + postorder(root).join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node{int v;struct Node *l,*r;}Node;\nNode* newNode(int v){Node* n=malloc(sizeof(Node));n->v=v;n->l=n->r=NULL;return n;}\nvoid inorder(Node* n){if(!n)return;inorder(n->l);printf(\"%d \",n->v);inorder(n->r);}\nvoid preorder(Node* n){if(!n)return;printf(\"%d \",n->v);preorder(n->l);preorder(n->r);}\nvoid postorder(Node* n){if(!n)return;postorder(n->l);postorder(n->r);printf(\"%d \",n->v);}",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n}\nNode;\nNode* newNode(int v) {\n    Node* n=malloc(sizeof(Node));\n    n->v=v;\n    n->l=n->r=NULL;\n    return n;\n}\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    printf(\"%d \", n->v);\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    printf(\"%d \", n->v);\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    printf(\"%d \", n->v);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\nusing namespace std;\nstruct Node{int v;Node *l,*r;Node(int x):v(x),l(nullptr),r(nullptr){}};\nvoid inorder(Node* n){if(!n)return;inorder(n->l);cout<<n->v<<\" \";inorder(n->r);}\nvoid preorder(Node* n){if(!n)return;cout<<n->v<<\" \";preorder(n->l);preorder(n->r);}\nvoid postorder(Node* n){if(!n)return;postorder(n->l);postorder(n->r);cout<<n->v<<\" \";}",
+    "code": "#include <iostream>\nusing namespace std;\nstruct Node {\n    int v;\n    Node *l, *r;\n    Node(int x):v(x), l(nullptr), r(nullptr) {\n    }\n};\nvoid inorder(Node* n) {\n    if (!n)return;\n    inorder(n->l);\n    cout<<n->v<<\" \";\n    inorder(n->r);\n}\nvoid preorder(Node* n) {\n    if (!n)return;\n    cout<<n->v<<\" \";\n    preorder(n->l);\n    preorder(n->r);\n}\nvoid postorder(Node* n) {\n    if (!n)return;\n    postorder(n->l);\n    postorder(n->r);\n    cout<<n->v<<\" \";\n}\n",
     "lineKeys": {}
   },
   "python": {

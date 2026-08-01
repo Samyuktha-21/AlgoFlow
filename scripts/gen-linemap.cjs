@@ -71,27 +71,55 @@ function align(jaTok, tgTok) {
   return byJa
 }
 
-/* Pick ONE correct argument list from the algorithm's metadata (matching how
-   Algorithm.jsx drives generateSteps), with small inputs so step counts stay
-   modest. Feeding wrong-shaped inputs can trigger runaway/OOM, so no brute force. */
-function argsFor(meta) {
-  const t = meta?.type, it = meta?.inputType
-  if (it === 'singleString') return ['racecar']
-  if (it === 'stringPair') return ['ABCBDAB', 'BDCAB']
-  if (t === 'searching') return [[1, 3, 5, 7, 9, 11, 13], 7]
-  return [[5, 2, 8, 1, 9, 3, 7]]   // sorting / array / dp → single small array
+/* Build the SAME generateSteps arguments the Algorithm page uses, by reusing the
+   app's own default input and parsers (src/game/defaultInput.js + validators).
+   Driving the real inputs is what makes the referenced-line set trustworthy —
+   a guessed input shape either throws or exercises the wrong branches. */
+let appMods = null
+async function loadApp() {
+  if (appMods) return appMods
+  const imp = (rel) => import(pathToFileURL(path.resolve(rel)).href)
+  const [di, va] = await Promise.all([imp('src/game/defaultInput.js'), imp('src/utils/validators.js')])
+  appMods = { getDefaultInput: di.getDefaultInput, ...va }
+  return appMods
 }
+
+async function argsFor(meta) {
+  const { getDefaultInput, parseArrayInput, parseSearchInput, parseGraphInput } = await loadApp()
+  const type = meta?.type || 'sorting'
+  const inputType = meta?.inputType
+  const def = getDefaultInput(type, inputType)
+
+  if (type === 'searching') {
+    const p = parseSearchInput(def.input, def.target)
+    return p.error ? null : [p.array, p.target]
+  }
+  if (type === 'graph') {
+    const p = parseGraphInput(def.input)
+    return p.error ? [null, null, 0] : [p.nodes, p.edges, 0]
+  }
+  if (inputType === 'stringPair') {
+    const [a, ...rest] = def.input.split(',')
+    return [a.trim().toUpperCase(), rest.join(',').trim().toUpperCase()]
+  }
+  if (inputType === 'singleString') return [def.input.trim()]
+  const p = parseArrayInput(def.input)
+  return p.error ? null : [p.array]
+}
+
 async function referencedLines(dir) {
   const stepsPath = path.join(dir, 'steps.js')
   if (!fs.existsSync(stepsPath)) return null
   let gen
-  try { gen = (await import(pathToFileURL(stepsPath).href)).generateSteps } catch { return null }
+  try { gen = (await import(pathToFileURL(path.resolve(stepsPath)).href)).generateSteps } catch { return null }
   if (typeof gen !== 'function') return null
   let meta = {}
   try { meta = JSON.parse(fs.readFileSync(path.join(dir, 'metadata.json'), 'utf8')) } catch { /* none */ }
   const set = new Set()
   try {
-    const steps = gen(...argsFor(meta))
+    const a = await argsFor(meta)
+    if (!a) return set
+    const steps = gen(...a)
     if (Array.isArray(steps)) for (const s of steps) if (typeof s?.codeLine === 'number') set.add(s.codeLine)
   } catch { /* generator threw — leave unmapped */ }
   return set

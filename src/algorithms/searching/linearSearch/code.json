@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint linearSearch(int arr[], int n, int target) {\n    for (int i = 0; i < n; i++)\n        if (arr[i] == target) return i;\n    return -1;\n}\nint main() {\n    int arr[] = {4,2,7,1,9,3};\n    printf(\"%d\\n\", linearSearch(arr, 6, 7));\n    printf(\"%d\\n\", linearSearch(arr, 6, 5));\n    return 0;\n}",
+    "code": "#include <stdio.h>\nint linearSearch(int arr[], int n, int target) {\n    for (int i = 0; i < n; i++) if (arr[i] == target) return i;\n    return -1;\n}\nint main() {\n    int arr[] = {4, 2, 7, 1, 9, 3};\n    printf(\"%d\\n\", linearSearch(arr, 6, 7));\n    printf(\"%d\\n\", linearSearch(arr, 6, 5));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint linearSearch(const vector<int>& arr, int target) {\n    for (int i = 0; i < (int)arr.size(); i++)\n        if (arr[i] == target) return i;\n    return -1;\n}\nint main() {\n    vector<int> arr = {4,2,7,1,9,3};\n    cout << linearSearch(arr, 7) << endl;\n    cout << linearSearch(arr, 5) << endl;\n    return 0;\n}",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint linearSearch(const vector<int>& arr, int target) {\n    for (int i = 0; i < (int)arr.size(); i++) if (arr[i] == target) return i;\n    return -1;\n}\nint main() {\n    vector<int> arr = {4, 2, 7, 1, 9, 3};\n    cout << linearSearch(arr, 7) << endl;\n    cout << linearSearch(arr, 5) << endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

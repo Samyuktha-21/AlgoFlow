@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdbool.h>\nbool subsetSum(int a[],int n,int t){bool dp[n+1][t+1];for(int i=0;i<=n;i++)dp[i][0]=true;\nfor(int i=1;i<=n;i++)for(int j=1;j<=t;j++){dp[i][j]=dp[i-1][j];if(a[i-1]<=j)dp[i][j]|=dp[i-1][j-a[i-1]];}return dp[n][t];}\nint main(){int a[]={3,34,4,12,5,2};printf(\"%d\\n\",subsetSum(a,6,9));return 0;}",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\nbool subsetSum(int a[], int n, int t) {\n    bool dp[n+1][t+1];\n    for (int i=0; i<=n; i++)dp[i][0]=true;\n    for (int i=1; i<=n; i++)for (int j=1; j<=t; j++) {\n        dp[i][j]=dp[i-1][j];\n        if (a[i-1]<=j)dp[i][j]|=dp[i-1][j-a[i-1]];\n    }\n    return dp[n][t];\n}\nint main() {\n    int a[]= {3, 34, 4, 12, 5, 2};\n    printf(\"%d\\n\", subsetSum(a, 6, 9));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\nusing namespace std;\nbool subsetSum(vector<int>&a,int t){int n=a.size();vector<vector<bool>>dp(n+1,vector<bool>(t+1,false));\nfor(int i=0;i<=n;i++)dp[i][0]=true;for(int i=1;i<=n;i++)for(int j=1;j<=t;j++){dp[i][j]=dp[i-1][j];if(a[i-1]<=j)dp[i][j]|=dp[i-1][j-a[i-1]];}return dp[n][t];}",
+    "code": "#include <vector>\nusing namespace std;\nbool subsetSum(vector<int>&a, int t) {\n    int n=a.size();\n    vector<vector<bool>>dp(n+1, vector<bool>(t+1, false));\n    for (int i=0; i<=n; i++)dp[i][0]=true;\n    for (int i=1; i<=n; i++)for (int j=1; j<=t; j++) {\n        dp[i][j]=dp[i-1][j];\n        if (a[i-1]<=j)dp[i][j]|=dp[i-1][j-a[i-1]];\n    }\n    return dp[n][t];\n}\n",
     "lineKeys": {}
   },
   "python": {

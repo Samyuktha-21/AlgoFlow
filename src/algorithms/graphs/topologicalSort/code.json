@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "// Kahn's algorithm (BFS on in-degrees).\nfunction topologicalSort(graph) {\n  const inDegree = {};\n  for (const node in graph) inDegree[node] = 0;\n  for (const node in graph) {\n    for (const next of graph[node]) inDegree[next] = (inDegree[next] || 0) + 1;\n  }\n  const queue = Object.keys(graph).filter(n => inDegree[n] === 0);\n  const order = [];\n  while (queue.length) {\n    const node = queue.shift();\n    order.push(node);\n    for (const next of graph[node]) {\n      inDegree[next]--;\n      if (inDegree[next] === 0) queue.push(String(next));\n    }\n  }\n  return order;\n}\n\nconst graph = { 5: [2, 0], 4: [0, 1], 2: [3], 3: [1], 0: [], 1: [] };\nconsole.log(topologicalSort(graph).join(' '));",
+    "code": "// Kahn's algorithm (BFS on in-degrees).\nfunction topologicalSort(graph) {\n  const inDegree = {};\n  for (const node in graph) inDegree[node] = 0;\n  for (const node in graph) {\n    for (const next of graph[node]) inDegree[next] = (inDegree[next] || 0) + 1;\n  }\n  const queue = Object.keys(graph).filter(n => inDegree[n] === 0);\n  const order = [];\n  while (queue.length) {\n    const node = queue.shift();\n    order.push(node);\n    for (const next of graph[node]) {\n      inDegree[next]--;\n      if (inDegree[next] === 0) queue.push(String(next));\n    }\n  }\n  return order;\n}\n\nconst graph = { 5: [2, 0], 4: [0, 1], 2: [3], 3: [1], 0: [], 1: []};\nconsole.log(topologicalSort(graph).join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#define MAX 10\nint inDeg[MAX],adj[MAX][MAX],cnt[MAX],q[MAX],front,rear;\nvoid topoSort(int v){front=rear=0;for(int i=0;i<v;i++)if(!inDeg[i])q[rear++]=i;\nint result[MAX],ri=0;\nwhile(front<rear){int u=q[front++];result[ri++]=u;for(int j=0;j<v;j++)if(adj[u][j]&&--inDeg[j]==0)q[rear++]=j;}\nfor(int i=0;i<ri;i++)printf(\"%d \",result[i]);}",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define MAX 10\nint inDeg[MAX], adj[MAX][MAX], cnt[MAX], q[MAX], front, rear;\nvoid topoSort(int v) {\n    front=rear=0;\n    for (int i=0; i<v; i++)if (!inDeg[i])q[rear++]=i;\n    int result[MAX], ri=0;\n    while (front<rear) {\n        int u=q[front++];\n        result[ri++]=u;\n        for (int j=0; j<v; j++)if (adj[u][j]&&--inDeg[j]==0)q[rear++]=j;\n    }\n    for (int i=0; i<ri; i++)printf(\"%d \", result[i]);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\nvector<int> topoSort(int V, vector<vector<int>>& adj){\n    vector<int> in(V,0);\n    for(auto& nbrs:adj) for(int nb:nbrs) in[nb]++;\n    queue<int> q; for(int i=0;i<V;i++) if(!in[i]) q.push(i);\n    vector<int> res;\n    while(!q.empty()){int u=q.front();q.pop();res.push_back(u);for(int nb:adj[u]) if(--in[nb]==0) q.push(nb);}\n    return res;\n}",
+    "code": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\nvector<int> topoSort(int V, vector<vector<int>>& adj) {\n    vector<int> in(V, 0);\n    for (auto& nbrs:adj) for (int nb:nbrs) in[nb]++;\n    queue<int> q;\n    for (int i=0; i<V; i++) if (!in[i]) q.push(i);\n    vector<int> res;\n    while (!q.empty()) {\n        int u=q.front();\n        q.pop();\n        res.push_back(u);\n        for (int nb:adj[u]) if (--in[nb]==0) q.push(nb);\n    }\n    return res;\n}\n",
     "lineKeys": {}
   },
   "python": {

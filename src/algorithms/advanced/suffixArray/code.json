@@ -16,7 +16,7 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\nvector<int> buildSA(const string& s) {\n    int n=s.size();\n    vector<int> sa(n), rank(n), tmp(n);\n    iota(sa.begin(),sa.end(),0);\n    for(int i=0;i<n;i++) rank[i]=s[i];\n    for(int g=1;g<n;g*=2){\n        auto cmp=[&](int a,int b){\n            if(rank[a]!=rank[b])return rank[a]<rank[b];\n            int ra=a+g<n?rank[a+g]:-1,rb=b+g<n?rank[b+g]:-1;\n            return ra<rb;\n        };\n        sort(sa.begin(),sa.end(),cmp);\n        tmp[sa[0]]=0;\n        for(int i=1;i<n;i++) tmp[sa[i]]=tmp[sa[i-1]]+(cmp(sa[i-1],sa[i])?1:0);\n        rank=tmp;\n    }\n    return sa;\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\nvector<int> buildSA(const string& s) {\n    int n=s.size();\n    vector<int> sa(n), rank(n), tmp(n);\n    iota(sa.begin(), sa.end(), 0);\n    for (int i=0; i<n; i++) rank[i]=s[i];\n    for (int g=1; g<n; g*=2) {\n        auto cmp=[&](int a, int b) {\n            if (rank[a]!=rank[b])return rank[a]<rank[b];\n            int ra=a+g<n?rank[a+g]:-1, rb=b+g<n?rank[b+g]:-1;\n            return ra<rb;\n        };\n        sort(sa.begin(), sa.end(), cmp);\n        tmp[sa[0]]=0;\n        for (int i=1; i<n; i++) tmp[sa[i]]=tmp[sa[i-1]]+(cmp(sa[i-1], sa[i])?1:0);\n        rank=tmp;\n    }\n    return sa;\n}\n",
     "lineKeys": {}
   },
   "python": {

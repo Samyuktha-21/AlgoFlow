@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class Stack {\n  constructor() {\n    this.items = [];\n  }\n  push(x) {\n    this.items.push(x);\n  }\n  pop() {\n    return this.items.pop();\n  }\n  peek() {\n    return this.items[this.items.length - 1];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst st = new Stack();\nst.push(1); st.push(2); st.push(3);\nconsole.log(st.pop(), st.peek(), st.isEmpty());",
+    "code": "class Stack {\n  constructor() {\n    this.items = [];\n  }\n  push(x) {\n    this.items.push(x);\n  }\n  pop() {\n    return this.items.pop();\n  }\n  peek() {\n    return this.items[this.items.length - 1];\n  }\n  isEmpty() {\n    return this.items.length === 0;\n  }\n}\n\nconst st = new Stack();\nst.push(1);\nst.push(2);\nst.push(3);\nconsole.log(st.pop(), st.peek(), st.isEmpty());\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint arr[100],top=-1;\nvoid push(int v){arr[++top]=v;}\nint pop(){return arr[top--];}\nint peek(){return arr[top];}\nint isEmpty(){return top==-1;}\nint main(){push(1);push(2);push(3);printf(\"%d %d\\n\",pop(),peek());return 0;}",
+    "code": "#include <stdio.h>\nint arr[100], top=-1;\nvoid push(int v) {\n    arr[++top]=v;\n}\nint pop() {\n    return arr[top--];\n}\nint peek() {\n    return arr[top];\n}\nint isEmpty() {\n    return top==-1;\n}\nint main() {\n    push(1);\n    push(2);\n    push(3);\n    printf(\"%d %d\\n\", pop(), peek());\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <stack>\n#include <iostream>\nusing namespace std;\nint main(){stack<int>s;s.push(1);s.push(2);s.push(3);cout<<s.top()<<\" \";s.pop();cout<<s.top()<<endl;return 0;}",
+    "code": "#include <stack>\n#include <iostream>\nusing namespace std;\nint main() {\n    stack<int>s;\n    s.push(1);\n    s.push(2);\n    s.push(3);\n    cout<<s.top()<<\" \";\n    s.pop();\n    cout<<s.top()<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

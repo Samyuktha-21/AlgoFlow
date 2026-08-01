@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid makeChange(int coins[],int nc,int amount){for(int i=0;i<nc;i++){printf(\"%d: %d\\n\",coins[i],amount/coins[i]);amount%=coins[i];}}",
+    "code": "#include <stdio.h>\nvoid makeChange(int coins[], int nc, int amount) {\n    for (int i=0; i<nc; i++) {\n        printf(\"%d: %d\\n\", coins[i], amount/coins[i]);\n        amount%=coins[i];\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid makeChange(vector<int>&coins,int a){for(int c:coins){cout<<c<<\": \"<<a/c<<\", \";a%=c;}cout<<endl;}",
+    "code": "#include <vector>\n#include <iostream>\nusing namespace std;\nvoid makeChange(vector<int>&coins, int a) {\n    for (int c:coins) {\n        cout<<c<<\": \"<<a/c<<\", \";\n        a%=c;\n    }\n    cout<<endl;\n}\n",
     "lineKeys": {}
   },
   "python": {

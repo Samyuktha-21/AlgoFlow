@@ -11,17 +11,47 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint main(){for(int i=1;i<=20;i++){if(i%15==0)puts(\"FizzBuzz\");else if(i%3==0)puts(\"Fizz\");else if(i%5==0)puts(\"Buzz\");else printf(\"%d\\n\",i);}return 0;}",
+    "code": "#include <stdio.h>\nint main() {\n    for (int i=1; i<=20; i++) {\n        if (i%15==0)puts(\"FizzBuzz\");\n        else if (i%3==0)puts(\"Fizz\");\n        else if (i%5==0)puts(\"Buzz\");\n        else printf(\"%d\\n\", i);\n    }\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\nusing namespace std;\nint main(){for(int i=1;i<=20;i++){if(i%15==0)cout<<\"FizzBuzz\\n\";else if(i%3==0)cout<<\"Fizz\\n\";else if(i%5==0)cout<<\"Buzz\\n\";else cout<<i<<\"\\n\";}return 0;}",
+    "code": "#include <iostream>\nusing namespace std;\nint main() {\n    for (int i=1; i<=20; i++) {\n        if (i%15==0)cout<<\"FizzBuzz\\n\";\n        else if (i%3==0)cout<<\"Fizz\\n\";\n        else if (i%5==0)cout<<\"Buzz\\n\";\n        else cout<<i<<\"\\n\";\n    }\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def fizz_buzz(n):\n    for i in range(1, n + 1):\n        if i % 15 == 0:\n            print(\"FizzBuzz\")\n        elif i % 3 == 0:\n            print(\"Fizz\")\n        elif i % 5 == 0:\n            print(\"Buzz\")\n        else:\n            print(i)\n\nfizz_buzz(15)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "3": 3,
+      "5": 5,
+      "7": 7,
+      "9": 10
+    },
+    "cpp": {
+      "2": 3,
+      "3": 4,
+      "5": 6,
+      "7": 8,
+      "9": 11
+    },
+    "python": {
+      "2": 1,
+      "3": 2,
+      "5": 5,
+      "7": 9,
+      "9": 10
+    },
+    "javascript": {
+      "2": 1,
+      "3": 3,
+      "5": 5,
+      "7": 7,
+      "9": 10
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function exist(board, word) {\n  const rows = board.length, cols = board[0].length;\n  const dfs = (r, c, i) => {\n    if (i === word.length) return true;\n    if (r < 0 || c < 0 || r >= rows || c >= cols || board[r][c] !== word[i]) return false;\n    const temp = board[r][c];\n    board[r][c] = '#';\n    const found = dfs(r + 1, c, i + 1) || dfs(r - 1, c, i + 1) ||\n                  dfs(r, c + 1, i + 1) || dfs(r, c - 1, i + 1);\n    board[r][c] = temp;\n    return found;\n  };\n  for (let r = 0; r < rows; r++) {\n    for (let c = 0; c < cols; c++) {\n      if (dfs(r, c, 0)) return true;\n    }\n  }\n  return false;\n}\n\nconst board = [\n  ['A', 'B', 'C', 'E'],\n  ['S', 'F', 'C', 'S'],\n  ['A', 'D', 'E', 'E'],\n];\nconsole.log(exist(board, 'ABCCED'));",
+    "code": "function exist(board, word) {\n  const rows = board.length, cols = board[0].length;\n  const dfs = (r, c, i) => {\n    if (i === word.length) return true;\n    if (r < 0 || c < 0 || r >= rows || c >= cols || board[r][c] !== word[i]) return false;\n    const temp = board[r][c];\n    board[r][c] = '#';\n    const found = dfs(r + 1, c, i + 1) || dfs(r - 1, c, i + 1) || dfs(r, c + 1, i + 1) || dfs(r, c - 1, i + 1);\n    board[r][c] = temp;\n    return found;\n  };\n  for (let r = 0; r < rows; r++) {\n    for (let c = 0; c < cols; c++) {\n      if (dfs(r, c, 0)) return true;\n    }\n  }\n  return false;\n}\n\nconst board = [ ['A', 'B', 'C', 'E'], ['S', 'F', 'C', 'S'], ['A', 'D', 'E', 'E'], ];\nconsole.log(exist(board, 'ABCCED'));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nchar g[6][6]; int R,C;\nbool dfs(int r,int c,char*w,int i){if(!w[i])return 1;if(r<0||r>=R||c<0||c>=C||g[r][c]!=w[i])return 0;\nchar t=g[r][c];g[r][c]='#';bool f=dfs(r+1,c,w,i+1)||dfs(r-1,c,w,i+1)||dfs(r,c+1,w,i+1)||dfs(r,c-1,w,i+1);g[r][c]=t;return f;}",
+    "code": "#include <stdio.h>\n#include <string.h>\nchar g[6][6];\nint R, C;\nbool dfs(int r, int c, char*w, int i) {\n    if (!w[i])return 1;\n    if (r<0||r>=R||c<0||c>=C||g[r][c]!=w[i])return 0;\n    char t=g[r][c];\n    g[r][c]='#';\n    bool f=dfs(r+1, c, w, i+1)||dfs(r-1, c, w, i+1)||dfs(r, c+1, w, i+1)||dfs(r, c-1, w, i+1);\n    g[r][c]=t;\n    return f;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <string>\nusing namespace std;\nint R,C;\nbool dfs(vector<vector<char>>&g,int r,int c,string&w,int i){if(i==(int)w.size())return true;if(r<0||r>=R||c<0||c>=C||g[r][c]!=w[i])return false;char t=g[r][c];g[r][c]='#';bool f=dfs(g,r+1,c,w,i+1)||dfs(g,r-1,c,w,i+1)||dfs(g,r,c+1,w,i+1)||dfs(g,r,c-1,w,i+1);g[r][c]=t;return f;}",
+    "code": "#include <vector>\n#include <string>\nusing namespace std;\nint R, C;\nbool dfs(vector<vector<char>>&g, int r, int c, string&w, int i) {\n    if (i==(int)w.size())return true;\n    if (r<0||r>=R||c<0||c>=C||g[r][c]!=w[i])return false;\n    char t=g[r][c];\n    g[r][c]='#';\n    bool f=dfs(g, r+1, c, w, i+1)||dfs(g, r-1, c, w, i+1)||dfs(g, r, c+1, w, i+1)||dfs(g, r, c-1, w, i+1);\n    g[r][c]=t;\n    return f;\n}\n",
     "lineKeys": {}
   },
   "python": {

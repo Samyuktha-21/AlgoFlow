@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint climbStairs(int n){if(n<=2)return n;int dp[n+1];dp[1]=1;dp[2]=2;\nfor(int i=3;i<=n;i++)dp[i]=dp[i-1]+dp[i-2];return dp[n];}\nint main(){printf(\"%d\\n%d\\n\",climbStairs(5),climbStairs(10));return 0;}",
+    "code": "#include <stdio.h>\nint climbStairs(int n) {\n    if (n<=2)return n;\n    int dp[n+1];\n    dp[1]=1;\n    dp[2]=2;\n    for (int i=3; i<=n; i++)dp[i]=dp[i-1]+dp[i-2];\n    return dp[n];\n}\nint main() {\n    printf(\"%d\\n%d\\n\", climbStairs(5), climbStairs(10));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "int climbStairs(int n){if(n<=2)return n;int a=1,b=2,c;\nfor(int i=3;i<=n;i++){c=a+b;a=b;b=c;}return b;}",
+    "code": "int climbStairs(int n) {\n    if (n<=2)return n;\n    int a=1, b=2, c;\n    for (int i=3; i<=n; i++) {\n        c=a+b;\n        a=b;\n        b=c;\n    }\n    return b;\n}\n",
     "lineKeys": {}
   },
   "python": {

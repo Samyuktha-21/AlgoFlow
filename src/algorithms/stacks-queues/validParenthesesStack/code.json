@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function isValid(s) {\n  const stack = [];\n  const pairs = { ')': '(', ']': '[', '}': '{' };\n  for (const c of s) {\n    if (c in pairs) {\n      if (stack.pop() !== pairs[c]) return false;\n    } else {\n      stack.push(c);\n    }\n  }\n  return stack.length === 0;\n}\n\nconsole.log(isValid('([{}])'));",
+    "code": "function isValid(s) {\n  const stack = [];\n  const pairs = { ')': '(', ']': '[', '}': '{'};\n  for (const c of s) {\n    if (c in pairs) {\n      if (stack.pop() !== pairs[c]) return false;\n    } else {\n      stack.push(c);\n    }\n  }\n  return stack.length === 0;\n}\n\nconsole.log(isValid('([{}])'));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint isValid(char*s){char stk[100];int t=-1;for(int i=0;s[i];i++){char c=s[i];if(c=='('||c=='['||c=='{')stk[++t]=c;else{if(t<0)return 0;char p=stk[t--];if((c==')'&&p!='(')||(c==']'&&p!='[')||(c=='}'&&p!='{'))return 0;}}return t==-1;}",
+    "code": "#include <stdio.h>\nint isValid(char*s) {\n    char stk[100];\n    int t=-1;\n    for (int i=0; s[i]; i++) {\n        char c=s[i];\n        if (c=='('||c=='['||c=='{')stk[++t]=c;\n        else {\n            if (t<0)return 0;\n            char p=stk[t--];\n            if ((c==')'&&p!='(')||(c==']'&&p!='[')||(c=='}'&&p!='{'))return 0;\n        }\n    }\n    return t==-1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s){stack<char>st;for(char c:s){if(string(\"([{\").find(c)!=string::npos){st.push(c);continue;}if(st.empty())return false;char p=st.top();st.pop();if((c==')'&&p!='(')||(c==']'&&p!='[')||(c=='}'&&p!='{'))return false;}return st.empty();}",
+    "code": "#include <stack>\n#include <string>\nusing namespace std;\nbool isValid(string s) {\n    stack<char>st;\n    for (char c:s) {\n        if (string(\"([{\").find(c)!=string::npos) {\n            st.push(c);\n            continue;\n        }\n        if (st.empty())return false;\n        char p=st.top();\n        st.pop();\n        if ((c==')'&&p!='(')||(c==']'&&p!='[')||(c=='}'&&p!='{'))return false;\n    }\n    return st.empty();\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function hasCycle(graph) {\n  const WHITE = 0, GRAY = 1, BLACK = 2;\n  const color = {};\n  for (const node in graph) color[node] = WHITE;\n  const dfs = (node) => {\n    color[node] = GRAY;\n    for (const next of graph[node] || []) {\n      if (color[next] === GRAY) return true;\n      if (color[next] === WHITE && dfs(next)) return true;\n    }\n    color[node] = BLACK;\n    return false;\n  };\n  for (const node in graph) {\n    if (color[node] === WHITE && dfs(node)) return true;\n  }\n  return false;\n}\n\nconst graph = { 0: [1], 1: [2], 2: [0], 3: [] };\nconsole.log(hasCycle(graph));",
+    "code": "function hasCycle(graph) {\n  const WHITE = 0, GRAY = 1, BLACK = 2;\n  const color = {};\n  for (const node in graph) color[node] = WHITE;\n  const dfs = (node) => {\n    color[node] = GRAY;\n    for (const next of graph[node] || []) {\n      if (color[next] === GRAY) return true;\n      if (color[next] === WHITE && dfs(next)) return true;\n    }\n    color[node] = BLACK;\n    return false;\n  };\n  for (const node in graph) {\n    if (color[node] === WHITE && dfs(node)) return true;\n  }\n  return false;\n}\n\nconst graph = { 0: [1], 1: [2], 2: [0], 3: []};\nconsole.log(hasCycle(graph));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define V 5\nbool adj[V][V],vis[V],rec[V];\nbool dfs(int v){vis[v]=rec[v]=true;for(int u=0;u<V;u++)if(adj[v][u]){if(!vis[u]&&dfs(u))return true;if(rec[u])return true;}rec[v]=false;return false;}\nbool hasCycle(){for(int i=0;i<V;i++)if(!vis[i]&&dfs(i))return true;return false;}",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define V 5\nbool adj[V][V], vis[V], rec[V];\nbool dfs(int v) {\n    vis[v]=rec[v]=true;\n    for (int u=0; u<V; u++)if (adj[v][u]) {\n        if (!vis[u]&&dfs(u))return true;\n        if (rec[u])return true;\n    }\n    rec[v]=false;\n    return false;\n}\nbool hasCycle() {\n    for (int i=0; i<V; i++)if (!vis[i]&&dfs(i))return true;\n    return false;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\nusing namespace std;\nbool dfs(int v,vector<vector<int>>&adj,vector<bool>&vis,vector<bool>&rec){\nvis[v]=rec[v]=true;for(int u:adj[v]){if(!vis[u]&&dfs(u,adj,vis,rec))return true;if(rec[u])return true;}rec[v]=false;return false;}\nbool hasCycle(vector<vector<int>>&adj){int V=adj.size();vector<bool>vis(V),rec(V);for(int i=0;i<V;i++)if(!vis[i]&&dfs(i,adj,vis,rec))return true;return false;}",
+    "code": "#include <vector>\nusing namespace std;\nbool dfs(int v, vector<vector<int>>&adj, vector<bool>&vis, vector<bool>&rec) {\n    vis[v]=rec[v]=true;\n    for (int u:adj[v]) {\n        if (!vis[u]&&dfs(u, adj, vis, rec))return true;\n        if (rec[u])return true;\n    }\n    rec[v]=false;\n    return false;\n}\nbool hasCycle(vector<vector<int>>&adj) {\n    int V=adj.size();\n    vector<bool>vis(V), rec(V);\n    for (int i=0; i<V; i++)if (!vis[i]&&dfs(i, adj, vis, rec))return true;\n    return false;\n}\n",
     "lineKeys": {}
   },
   "python": {

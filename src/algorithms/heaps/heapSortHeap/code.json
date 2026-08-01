@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid heapify(int a[],int n,int i){int lg=i,l=2*i+1,r=2*i+2,t;\nif(l<n&&a[l]>a[lg])lg=l;if(r<n&&a[r]>a[lg])lg=r;\nif(lg!=i){t=a[i];a[i]=a[lg];a[lg]=t;heapify(a,n,lg);}}\nvoid heapSort(int a[],int n){int i,t;for(i=n/2-1;i>=0;i--)heapify(a,n,i);\nfor(i=n-1;i>0;i--){t=a[0];a[0]=a[i];a[i]=t;heapify(a,i,0);}}",
+    "code": "#include <stdio.h>\nvoid heapify(int a[], int n, int i) {\n    int lg=i, l=2*i+1, r=2*i+2, t;\n    if (l<n&&a[l]>a[lg])lg=l;\n    if (r<n&&a[r]>a[lg])lg=r;\n    if (lg!=i) {\n        t=a[i];\n        a[i]=a[lg];\n        a[lg]=t;\n        heapify(a, n, lg);\n    }\n}\nvoid heapSort(int a[], int n) {\n    int i, t;\n    for (i=n/2-1; i>=0; i--)heapify(a, n, i);\n    for (i=n-1; i>0; i--) {\n        t=a[0];\n        a[0]=a[i];\n        a[i]=t;\n        heapify(a, i, 0);\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <algorithm>\n#include <vector>\nusing namespace std;\nvoid heapify(vector<int>&a,int n,int i){int lg=i,l=2*i+1,r=2*i+2;\nif(l<n&&a[l]>a[lg])lg=l;if(r<n&&a[r]>a[lg])lg=r;if(lg!=i){swap(a[i],a[lg]);heapify(a,n,lg);}}\nvoid heapSort(vector<int>&a){int n=a.size();for(int i=n/2-1;i>=0;i--)heapify(a,n,i);\nfor(int i=n-1;i>0;i--){swap(a[0],a[i]);heapify(a,i,0);}}",
+    "code": "#include <algorithm>\n#include <vector>\nusing namespace std;\nvoid heapify(vector<int>&a, int n, int i) {\n    int lg=i, l=2*i+1, r=2*i+2;\n    if (l<n&&a[l]>a[lg])lg=l;\n    if (r<n&&a[r]>a[lg])lg=r;\n    if (lg!=i) {\n        swap(a[i], a[lg]);\n        heapify(a, n, lg);\n    }\n}\nvoid heapSort(vector<int>&a) {\n    int n=a.size();\n    for (int i=n/2-1; i>=0; i--)heapify(a, n, i);\n    for (int i=n-1; i>0; i--) {\n        swap(a[0], a[i]);\n        heapify(a, i, 0);\n    }\n}\n",
     "lineKeys": {}
   },
   "python": {

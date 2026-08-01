@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct { long x,y; } Pt;\nlong cross(Pt O,Pt A,Pt B){return(A.x-O.x)*(B.y-O.y)-(A.y-O.y)*(B.x-O.x);}\nint cmp(const void*a,const void*b){Pt*p=(Pt*)a,*q=(Pt*)b;return p->x!=q->x?p->x-q->x:p->y-q->y;}\n/* Graham scan builds hull in O(n log n) */",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    long x, y;\n}\nPt;\nlong cross(Pt O, Pt A, Pt B) {\n    return (A.x-O.x)*(B.y-O.y)-(A.y-O.y)*(B.x-O.x);\n}\nint cmp(const void*a, const void*b) {\n    Pt*p=(Pt*)a, *q=(Pt*)b;\n    return p->x!=q->x?p->x-q->x:p->y-q->y;\n}\n/* Graham scan builds hull in O(n log n) */\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef pair<long long,long long> P;\nlong long cross(P O,P A,P B){return(A.first-O.first)*(B.second-O.second)-(A.second-O.second)*(B.first-O.first);}\nvector<P> convexHull(vector<P> pts){\n    int n=pts.size(),k=0;\n    sort(pts.begin(),pts.end());\n    vector<P> h(2*n);\n    for(int i=0;i<n;i++){while(k>=2&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    for(int i=n-2,t=k+1;i>=0;i--){while(k>=t&&cross(h[k-2],h[k-1],pts[i])<=0)k--;h[k++]=pts[i];}\n    return vector<P>(h.begin(),h.begin()+k-1);\n}",
+    "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef pair<long long, long long> P;\nlong long cross(P O, P A, P B) {\n    return (A.first-O.first)*(B.second-O.second)-(A.second-O.second)*(B.first-O.first);\n}\nvector<P> convexHull(vector<P> pts) {\n    int n=pts.size(), k=0;\n    sort(pts.begin(), pts.end());\n    vector<P> h(2*n);\n    for (int i=0; i<n; i++) {\n        while (k>=2&&cross(h[k-2], h[k-1], pts[i])<=0)k--;\n        h[k++]=pts[i];\n    }\n    for (int i=n-2, t=k+1; i>=0; i--) {\n        while (k>=t&&cross(h[k-2], h[k-1], pts[i])<=0)k--;\n        h[k++]=pts[i];\n    }\n    return vector<P>(h.begin(), h.begin()+k-1);\n}\n",
     "lineKeys": {}
   },
   "python": {

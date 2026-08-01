@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint rodCut(int p[],int n){int dp[n+1];dp[0]=0;for(int i=1;i<=n;i++){dp[i]=0;for(int j=1;j<=i;j++)if(p[j-1]+dp[i-j]>dp[i])dp[i]=p[j-1]+dp[i-j];}return dp[n];}\nint main(){int p[]={1,5,8,9,10,17,17,20};printf(\"%d\\n\",rodCut(p,8));return 0;}",
+    "code": "#include <stdio.h>\nint rodCut(int p[], int n) {\n    int dp[n+1];\n    dp[0]=0;\n    for (int i=1; i<=n; i++) {\n        dp[i]=0;\n        for (int j=1; j<=i; j++)if (p[j-1]+dp[i-j]>dp[i])dp[i]=p[j-1]+dp[i-j];\n    }\n    return dp[n];\n}\nint main() {\n    int p[]= {1, 5, 8, 9, 10, 17, 17, 20};\n    printf(\"%d\\n\", rodCut(p, 8));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nint rodCut(vector<int>&p,int n){vector<int>dp(n+1,0);for(int i=1;i<=n;i++)for(int j=1;j<=i;j++)dp[i]=max(dp[i],p[j-1]+dp[i-j]);return dp[n];}",
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nint rodCut(vector<int>&p, int n) {\n    vector<int>dp(n+1, 0);\n    for (int i=1; i<=n; i++)for (int j=1; j<=i; j++)dp[i]=max(dp[i], p[j-1]+dp[i-j]);\n    return dp[n];\n}\n",
     "lineKeys": {}
   },
   "python": {

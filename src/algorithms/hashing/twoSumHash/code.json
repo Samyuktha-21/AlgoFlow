@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#define MOD 1007\nint ht[MOD],hv[MOD];\nint twoSum(int a[],int n,int t){for(int i=0;i<n;i++){int c=t-a[i];if(hv[((c%MOD)+MOD)%MOD]==c)printf(\"[%d,%d]\",ht[((c%MOD)+MOD)%MOD],i);int h=((a[i]%MOD)+MOD)%MOD;ht[h]=i;hv[h]=a[i];}return -1;}",
+    "code": "#include <stdio.h>\n#define MOD 1007\nint ht[MOD], hv[MOD];\nint twoSum(int a[], int n, int t) {\n    for (int i=0; i<n; i++) {\n        int c=t-a[i];\n        if (hv[((c%MOD)+MOD)%MOD]==c)printf(\"[%d,%d]\", ht[((c%MOD)+MOD)%MOD], i);\n        int h=((a[i]%MOD)+MOD)%MOD;\n        ht[h]=i;\n        hv[h]=a[i];\n    }\n    return -1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nvector<int> twoSum(vector<int>&a,int t){unordered_map<int,int>m;for(int i=0;i<(int)a.size();i++){int c=t-a[i];if(m.count(c))return{m[c],i};m[a[i]]=i;}return{-1,-1};}",
+    "code": "#include <unordered_map>\n#include <vector>\nusing namespace std;\nvector<int> twoSum(vector<int>&a, int t) {\n    unordered_map<int, int>m;\n    for (int i=0; i<(int)a.size(); i++) {\n        int c=t-a[i];\n        if (m.count(c))return {m[c], i};\n        m[a[i]]=i;\n    }\n    return {-1, -1};\n}\n",
     "lineKeys": {}
   },
   "python": {

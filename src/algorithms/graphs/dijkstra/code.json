@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function dijkstra(graph, start) {\n  const dist = {};\n  for (const node in graph) dist[node] = Infinity;\n  dist[start] = 0;\n  const pq = [[0, start]];\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [d, node] = pq.shift();\n    if (d > dist[node]) continue;\n    for (const [next, weight] of graph[node]) {\n      const nd = d + weight;\n      if (nd < dist[next]) {\n        dist[next] = nd;\n        pq.push([nd, next]);\n      }\n    }\n  }\n  return dist;\n}\n\nconst graph = {\n  A: [['B', 4], ['C', 1]],\n  B: [['D', 1]],\n  C: [['B', 2], ['D', 5]],\n  D: [],\n};\nconsole.log(JSON.stringify(dijkstra(graph, 'A')));",
+    "code": "function dijkstra(graph, start) {\n  const dist = {};\n  for (const node in graph) dist[node] = Infinity;\n  dist[start] = 0;\n  const pq = [[0, start]];\n  while (pq.length) {\n    pq.sort((a, b) => a[0] - b[0]);\n    const [d, node] = pq.shift();\n    if (d > dist[node]) continue;\n    for (const [next, weight] of graph[node]) {\n      const nd = d + weight;\n      if (nd < dist[next]) {\n        dist[next] = nd;\n        pq.push([nd, next]);\n      }\n    }\n  }\n  return dist;\n}\n\nconst graph = { A: [['B', 4], ['C', 1]], B: [['D', 1]], C: [['B', 2], ['D', 5]], D: [],};\nconsole.log(JSON.stringify(dijkstra(graph, 'A')));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 9\nint minDist(int d[],int vis[]){int mn=INT_MAX,idx=0;for(int v=0;v<V;v++)if(!vis[v]&&d[v]<=mn){mn=d[v];idx=v;}return idx;}\nvoid dijkstra(int g[V][V],int src){int dist[V];int vis[V]={0};for(int i=0;i<V;i++)dist[i]=INT_MAX;dist[src]=0;\nfor(int c=0;c<V-1;c++){int u=minDist(dist,vis);vis[u]=1;for(int v=0;v<V;v++)if(!vis[v]&&g[u][v]&&dist[u]!=INT_MAX&&dist[u]+g[u][v]<dist[v])dist[v]=dist[u]+g[u][v];}\nfor(int i=0;i<V;i++)printf(\"%d \",dist[i]);}",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 9\nint minDist(int d[], int vis[]) {\n    int mn=INT_MAX, idx=0;\n    for (int v=0; v<V; v++)if (!vis[v]&&d[v]<=mn) {\n        mn=d[v];\n        idx=v;\n    }\n    return idx;\n}\nvoid dijkstra(int g[V][V], int src) {\n    int dist[V];\n    int vis[V]= {0};\n    for (int i=0; i<V; i++)dist[i]=INT_MAX;\n    dist[src]=0;\n    for (int c=0; c<V-1; c++) {\n        int u=minDist(dist, vis);\n        vis[u]=1;\n        for (int v=0; v<V; v++)if (!vis[v]&&g[u][v]&&dist[u]!=INT_MAX&&dist[u]+g[u][v]<dist[v])dist[v]=dist[u]+g[u][v];\n    }\n    for (int i=0; i<V; i++)printf(\"%d \", dist[i]);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <climits>\nusing namespace std;\nvector<int> dijkstra(vector<vector<pair<int,int>>>& g, int src){\n    int n=g.size(); vector<int> d(n,INT_MAX); d[src]=0;\n    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq; pq.push({0,src});\n    while(!pq.empty()){auto[du,u]=pq.top();pq.pop();if(du>d[u])continue;\n        for(auto[v,w]:g[u]) if(d[u]+w<d[v]){d[v]=d[u]+w;pq.push({d[v],v});}}\n    return d;\n}",
+    "code": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <climits>\nusing namespace std;\nvector<int> dijkstra(vector<vector<pair<int, int>>>& g, int src) {\n    int n=g.size();\n    vector<int> d(n, INT_MAX);\n    d[src]=0;\n    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;\n    pq.push({0, src});\n    while (!pq.empty()) {\n        auto[du, u]=pq.top();\n        pq.pop();\n        if (du>d[u])continue;\n        for (auto[v, w]:g[u]) if (d[u]+w<d[v]) {\n            d[v]=d[u]+w;\n            pq.push({d[v], v});\n        }\n    }\n    return d;\n}\n",
     "lineKeys": {}
   },
   "python": {

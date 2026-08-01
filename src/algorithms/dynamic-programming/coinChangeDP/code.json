@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#define INF 999999\nint coinChange(int coins[],int nc,int amount){\n    int dp[amount+1]; for(int i=0;i<=amount;i++)dp[i]=INF; dp[0]=0;\n    for(int i=1;i<=amount;i++) for(int j=0;j<nc;j++) if(coins[j]<=i&&dp[i-coins[j]]+1<dp[i])dp[i]=dp[i-coins[j]]+1;\n    return dp[amount]==INF?-1:dp[amount];\n}\nint main(){int c[]={1,5,6,9};printf(\"%d\\n\",coinChange(c,4,11));return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\n#define INF 999999\nint coinChange(int coins[], int nc, int amount) {\n    int dp[amount+1];\n    for (int i=0; i<=amount; i++)dp[i]=INF;\n    dp[0]=0;\n    for (int i=1; i<=amount; i++) for (int j=0; j<nc; j++) if (coins[j]<=i&&dp[i-coins[j]]+1<dp[i])dp[i]=dp[i-coins[j]]+1;\n    return dp[amount]==INF?-1:dp[amount];\n}\nint main() {\n    int c[]= {1, 5, 6, 9};\n    printf(\"%d\\n\", coinChange(c, 4, 11));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <climits>\nusing namespace std;\nint coinChange(vector<int>& coins, int amount){\n    vector<int> dp(amount+1,amount+1); dp[0]=0;\n    for(int i=1;i<=amount;i++) for(int c:coins) if(c<=i) dp[i]=min(dp[i],dp[i-c]+1);\n    return dp[amount]>amount?-1:dp[amount];\n}\nint main(){vector<int> c={1,5,6,9};cout<<coinChange(c,11)<<endl;return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <climits>\nusing namespace std;\nint coinChange(vector<int>& coins, int amount) {\n    vector<int> dp(amount+1, amount+1);\n    dp[0]=0;\n    for (int i=1; i<=amount; i++) for (int c:coins) if (c<=i) dp[i]=min(dp[i], dp[i-c]+1);\n    return dp[amount]>amount?-1:dp[amount];\n}\nint main() {\n    vector<int> c= {1, 5, 6, 9};\n    cout<<coinChange(c, 11)<<endl;\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

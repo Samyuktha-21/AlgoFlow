@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function bellmanFord(n, edges, source) {\n  const dist = new Array(n).fill(Infinity);\n  dist[source] = 0;\n  for (let i = 0; i < n - 1; i++) {\n    for (const [u, v, w] of edges) {\n      if (dist[u] !== Infinity && dist[u] + w < dist[v]) {\n        dist[v] = dist[u] + w;\n      }\n    }\n  }\n  for (const [u, v, w] of edges) {\n    if (dist[u] !== Infinity && dist[u] + w < dist[v]) return null; // negative cycle\n  }\n  return dist;\n}\n\nconst edges = [[0, 1, 4], [0, 2, 5], [1, 2, -3], [2, 3, 4], [1, 3, 6]];\nconsole.log(JSON.stringify(bellmanFord(4, edges, 0)));",
+    "code": "function bellmanFord(n, edges, source) {\n  const dist = new Array(n).fill(Infinity);\n  dist[source] = 0;\n  for (let i = 0; i < n - 1; i++) {\n    for (const [u, v, w] of edges) {\n      if (dist[u] !== Infinity && dist[u] + w < dist[v]) {\n        dist[v] = dist[u] + w;\n      }\n    }\n  }\n  for (const [u, v, w] of edges) {\n    if (dist[u] !== Infinity && dist[u] + w < dist[v]) return null;\n    // negative cycle\n  }\n  return dist;\n}\n\nconst edges = [[0, 1, 4], [0, 2, 5], [1, 2, -3], [2, 3, 4], [1, 3, 6]];\nconsole.log(JSON.stringify(bellmanFord(4, edges, 0)));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\n#define E 8\ntypedef struct{int u,v,w;}Edge;\nvoid bellmanFord(Edge edges[],int src){int dist[V];for(int i=0;i<V;i++)dist[i]=INT_MAX;dist[src]=0;\nfor(int i=0;i<V-1;i++)for(int j=0;j<E;j++)if(dist[edges[j].u]!=INT_MAX&&dist[edges[j].u]+edges[j].w<dist[edges[j].v])dist[edges[j].v]=dist[edges[j].u]+edges[j].w;\nfor(int i=0;i<V;i++)printf(\"%d \",dist[i]);}",
+    "code": "#include <stdio.h>\n#include <limits.h>\n#define V 5\n#define E 8\ntypedef struct {\n    int u, v, w;\n}\nEdge;\nvoid bellmanFord(Edge edges[], int src) {\n    int dist[V];\n    for (int i=0; i<V; i++)dist[i]=INT_MAX;\n    dist[src]=0;\n    for (int i=0; i<V-1; i++)for (int j=0; j<E; j++)if (dist[edges[j].u]!=INT_MAX&&dist[edges[j].u]+edges[j].w<dist[edges[j].v])dist[edges[j].v]=dist[edges[j].u]+edges[j].w;\n    for (int i=0; i<V; i++)printf(\"%d \", dist[i]);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\nvector<int> bellmanFord(int V,vector<tuple<int,int,int>>& edges,int src){\n    vector<int> d(V,INT_MAX);d[src]=0;\n    for(int i=0;i<V-1;i++)for(auto [u,v,w]:edges) if(d[u]!=INT_MAX&&d[u]+w<d[v]) d[v]=d[u]+w;\n    return d;\n}",
+    "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\nvector<int> bellmanFord(int V, vector<tuple<int, int, int>>& edges, int src) {\n    vector<int> d(V, INT_MAX);\n    d[src]=0;\n    for (int i=0; i<V-1; i++)for (auto [u, v, w]:edges) if (d[u]!=INT_MAX&&d[u]+w<d[v]) d[v]=d[u]+w;\n    return d;\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function dfs(graph, start) {\n  const visited = new Set();\n  const order = [];\n  const traverse = (node) => {\n    visited.add(node);\n    order.push(node);\n    for (const next of graph[node] || []) {\n      if (!visited.has(next)) traverse(next);\n    }\n  };\n  traverse(start);\n  return order;\n}\n\nconst graph = { 0: [1, 2], 1: [0, 3, 4], 2: [0, 5], 3: [1], 4: [1], 5: [2] };\nconsole.log(dfs(graph, 0).join(' '));",
+    "code": "function dfs(graph, start) {\n  const visited = new Set();\n  const order = [];\n  const traverse = (node) => {\n    visited.add(node);\n    order.push(node);\n    for (const next of graph[node] || []) {\n      if (!visited.has(next)) traverse(next);\n    }\n  };\n  traverse(start);\n  return order;\n}\n\nconst graph = { 0: [1, 2], 1: [0, 3, 4], 2: [0, 5], 3: [1], 4: [1], 5: [2]};\nconsole.log(dfs(graph, 0).join(' '));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define MAX 100\nint graph[MAX][MAX], visited[MAX], stack[MAX], top=-1;\nvoid dfs(int n, int start) {\n    stack[++top]=start;\n    while(top>=0){\n        int node=stack[top--];\n        if(visited[node]) continue;\n        visited[node]=1; printf(\"%d \",node);\n        for(int i=n-1;i>=0;i--) if(graph[node][i]&&!visited[i]) stack[++top]=i;\n    }\n}\nint main(){/* Add edges and call dfs(6, 0) */ return 0;}",
+    "code": "#include <stdio.h>\n#include <stdbool.h>\n#define MAX 100\nint graph[MAX][MAX], visited[MAX], stack[MAX], top=-1;\nvoid dfs(int n, int start) {\n    stack[++top]=start;\n    while (top>=0) {\n        int node=stack[top--];\n        if (visited[node]) continue;\n        visited[node]=1;\n        printf(\"%d \", node);\n        for (int i=n-1; i>=0; i--) if (graph[node][i]&&!visited[i]) stack[++top]=i;\n    }\n}\nint main() {\n    /* Add edges and call dfs(6, 0) */\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\nvoid dfs(const vector<vector<int>>& g, int start){\n    int n=g.size(); vector<bool> vis(n,false); stack<int> st;\n    st.push(start);\n    while(!st.empty()){int node=st.top();st.pop();\n        if(vis[node])continue;vis[node]=true;cout<<node<<\" \";\n        for(int nb:g[node]) if(!vis[nb]) st.push(nb);}\n}\nint main(){vector<vector<int>> g={{1,2},{0,3,4},{0,5},{1},{1},{2}};dfs(g,0);return 0;}",
+    "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\nvoid dfs(const vector<vector<int>>& g, int start) {\n    int n=g.size();\n    vector<bool> vis(n, false);\n    stack<int> st;\n    st.push(start);\n    while (!st.empty()) {\n        int node=st.top();\n        st.pop();\n        if (vis[node])continue;\n        vis[node]=true;\n        cout<<node<<\" \";\n        for (int nb:g[node]) if (!vis[nb]) st.push(nb);\n    }\n}\nint main() {\n    vector<vector<int>> g= { {\n        1, 2\n    }, {0, 3, 4}, {0, 5}, {1}, {1}, {2}};\n    dfs(g, 0);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class SegmentTree {\n  constructor(nums) {\n    this.n = nums.length;\n    this.tree = new Array(2 * this.n).fill(0);\n    for (let i = 0; i < this.n; i++) this.tree[this.n + i] = nums[i];\n    for (let i = this.n - 1; i > 0; i--) this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n  }\n  update(index, value) {\n    let i = index + this.n;\n    this.tree[i] = value;\n    while (i > 1) {\n      i >>= 1;\n      this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n    }\n  }\n  query(left, right) {\n    let sum = 0;\n    let l = left + this.n, r = right + this.n + 1;\n    while (l < r) {\n      if (l & 1) sum += this.tree[l++];\n      if (r & 1) sum += this.tree[--r];\n      l >>= 1;\n      r >>= 1;\n    }\n    return sum;\n  }\n}\n\nconst st = new SegmentTree([1, 3, 5, 7, 9, 11]);\nconsole.log(st.query(1, 3)); // 3+5+7 = 15\nst.update(1, 10);\nconsole.log(st.query(1, 3)); // 10+5+7 = 22",
+    "code": "class SegmentTree {\n  constructor(nums) {\n    this.n = nums.length;\n    this.tree = new Array(2 * this.n).fill(0);\n    for (let i = 0; i < this.n; i++) this.tree[this.n + i] = nums[i];\n    for (let i = this.n - 1; i > 0; i--) this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n  }\n  update(index, value) {\n    let i = index + this.n;\n    this.tree[i] = value;\n    while (i > 1) {\n      i >>= 1;\n      this.tree[i] = this.tree[2 * i] + this.tree[2 * i + 1];\n    }\n  }\n  query(left, right) {\n    let sum = 0;\n    let l = left + this.n, r = right + this.n + 1;\n    while (l < r) {\n      if (l & 1) sum += this.tree[l++];\n      if (r & 1) sum += this.tree[--r];\n      l >>= 1;\n      r >>= 1;\n    }\n    return sum;\n  }\n}\n\nconst st = new SegmentTree([1, 3, 5, 7, 9, 11]);\nconsole.log(st.query(1, 3));\n// 3+5+7 = 15\nst.update(1, 10);\nconsole.log(st.query(1, 3));\n// 10+5+7 = 22\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nint tree[100];\nvoid build(int arr[],int n,int nd,int s,int e){if(s==e){tree[nd]=arr[s];return;}int m=(s+e)/2;build(arr,n,2*nd+1,s,m);build(arr,n,2*nd+2,m+1,e);tree[nd]=tree[2*nd+1]+tree[2*nd+2];}\nint query(int nd,int s,int e,int l,int r){if(r<s||e<l)return 0;if(l<=s&&e<=r)return tree[nd];int m=(s+e)/2;return query(2*nd+1,s,m,l,r)+query(2*nd+2,m+1,e,l,r);}",
+    "code": "#include <stdio.h>\nint tree[100];\nvoid build(int arr[], int n, int nd, int s, int e) {\n    if (s==e) {\n        tree[nd]=arr[s];\n        return;\n    }\n    int m=(s+e)/2;\n    build(arr, n, 2*nd+1, s, m);\n    build(arr, n, 2*nd+2, m+1, e);\n    tree[nd]=tree[2*nd+1]+tree[2*nd+2];\n}\nint query(int nd, int s, int e, int l, int r) {\n    if (r<s||e<l)return 0;\n    if (l<=s&&e<=r)return tree[nd];\n    int m=(s+e)/2;\n    return query(2*nd+1, s, m, l, r)+query(2*nd+2, m+1, e, l, r);\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <vector>\nusing namespace std;\nstruct SegTree{vector<int>t;int n;\nSegTree(vector<int>&a):n(a.size()),t(4*a.size()){build(a,0,0,n-1);}\nvoid build(vector<int>&a,int nd,int s,int e){if(s==e){t[nd]=a[s];return;}int m=(s+e)/2;build(a,2*nd+1,s,m);build(a,2*nd+2,m+1,e);t[nd]=t[2*nd+1]+t[2*nd+2];}\nint q(int nd,int s,int e,int l,int r){if(r<s||e<l)return 0;if(l<=s&&e<=r)return t[nd];int m=(s+e)/2;return q(2*nd+1,s,m,l,r)+q(2*nd+2,m+1,e,l,r);}};",
+    "code": "#include <vector>\nusing namespace std;\nstruct SegTree {\n    vector<int>t;\n    int n;\n    SegTree(vector<int>&a):n(a.size()), t(4*a.size()) {\n        build(a, 0, 0, n-1);\n    }\n    void build(vector<int>&a, int nd, int s, int e) {\n        if (s==e) {\n            t[nd]=a[s];\n            return;\n        }\n        int m=(s+e)/2;\n        build(a, 2*nd+1, s, m);\n        build(a, 2*nd+2, m+1, e);\n        t[nd]=t[2*nd+1]+t[2*nd+2];\n    }\n    int q(int nd, int s, int e, int l, int r) {\n        if (r<s||e<l)return 0;\n        if (l<=s&&e<=r)return t[nd];\n        int m=(s+e)/2;\n        return q(2*nd+1, s, m, l, r)+q(2*nd+2, m+1, e, l, r);\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

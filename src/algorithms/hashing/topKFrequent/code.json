@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function topKFrequent(nums, k) {\n  const freq = new Map();\n  for (const x of nums) freq.set(x, (freq.get(x) || 0) + 1);\n  return [...freq.entries()]\n    .sort((a, b) => b[1] - a[1])\n    .slice(0, k)\n    .map(e => e[0]);\n}\n\nconsole.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));",
+    "code": "function topKFrequent(nums, k) {\n  const freq = new Map();\n  for (const x of nums) freq.set(x, (freq.get(x) || 0) + 1);\n  return [...freq.entries()] .sort((a, b) => b[1] - a[1]) .slice(0, k) .map(e => e[0]);\n}\n\nconsole.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid topK(int a[],int n,int k){int freq[1000]={0};for(int i=0;i<n;i++)freq[a[i]]++;\n// Extract top k by frequency\nint res[k],ri=0;for(int f=n;f>=1&&ri<k;f--)for(int i=0;i<1000&&ri<k;i++)if(freq[i]==f){res[ri++]=i;}}",
+    "code": "#include <stdio.h>\nvoid topK(int a[], int n, int k) {\n    int freq[1000]= {0};\n    for (int i=0; i<n; i++)freq[a[i]]++;\n    // Extract top k by frequency\n    int res[k], ri=0;\n    for (int f=n; f>=1&&ri<k; f--)for (int i=0; i<1000&&ri<k; i++)if (freq[i]==f) {\n        res[ri++]=i;\n    }\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <unordered_map>\n#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> topKFrequent(vector<int>&nums,int k){unordered_map<int,int>f;for(int x:nums)f[x]++;\nauto cmp=[&](int a,int b){return f[a]>f[b];};priority_queue<int,vector<int>,decltype(cmp)>h(cmp);\nfor(auto&[v,_]:f){h.push(v);if((int)h.size()>k)h.pop();}\nvector<int>r;while(!h.empty()){r.push_back(h.top());h.pop();}return r;}",
+    "code": "#include <unordered_map>\n#include <queue>\n#include <vector>\nusing namespace std;\nvector<int> topKFrequent(vector<int>&nums, int k) {\n    unordered_map<int, int>f;\n    for (int x:nums)f[x]++;\n    auto cmp=[&](int a, int b) {\n        return f[a]>f[b];\n    };\n    priority_queue<int, vector<int>, decltype(cmp)>h(cmp);\n    for (auto&[v, _]:f) {\n        h.push(v);\n        if ((int)h.size()>k)h.pop();\n    }\n    vector<int>r;\n    while (!h.empty()) {\n        r.push_back(h.top());\n        h.pop();\n    }\n    return r;\n}\n",
     "lineKeys": {}
   },
   "python": {

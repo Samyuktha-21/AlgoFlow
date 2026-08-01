@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "class HashMap {\n  constructor(size = 16) {\n    this.buckets = Array.from({ length: size }, () => []);\n    this.size = size;\n  }\n  _hash(key) {\n    let h = 0;\n    for (const c of String(key)) h = (h * 31 + c.charCodeAt(0)) % this.size;\n    return h;\n  }\n  set(key, value) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    if (pair) pair[1] = value;\n    else bucket.push([key, value]);\n  }\n  get(key) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    return pair ? pair[1] : undefined;\n  }\n}\n\nconst m = new HashMap();\nm.set('apple', 3); m.set('banana', 5);\nconsole.log(m.get('apple'), m.get('banana'), m.get('cherry'));",
+    "code": "class HashMap {\n  constructor(size = 16) {\n    this.buckets = Array.from({ length: size }, () => []);\n    this.size = size;\n  }\n  _hash(key) {\n    let h = 0;\n    for (const c of String(key)) h = (h * 31 + c.charCodeAt(0)) % this.size;\n    return h;\n  }\n  set(key, value) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    if (pair) pair[1] = value;\n    else bucket.push([key, value]);\n  }\n  get(key) {\n    const bucket = this.buckets[this._hash(key)];\n    const pair = bucket.find(p => p[0] === key);\n    return pair ? pair[1] : undefined;\n  }\n}\n\nconst m = new HashMap();\nm.set('apple', 3);\nm.set('banana', 5);\nconsole.log(m.get('apple'), m.get('banana'), m.get('cherry'));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#define SIZE 11\ntypedef struct Node{int key,val;struct Node* next;}Node;\nNode* table[SIZE]={0};\nint hash(int k){return k%SIZE;}\nvoid put(int k,int v){int i=hash(k);for(Node* n=table[i];n;n=n->next)if(n->key==k){n->val=v;return;}\nNode* n=(Node*)malloc(sizeof(Node));n->key=k;n->val=v;n->next=table[i];table[i]=n;}\nint get(int k){for(Node* n=table[hash(k)];n;n=n->next)if(n->key==k)return n->val;return -1;}",
+    "code": "#include <stdio.h>\n#define SIZE 11\ntypedef struct Node {\n    int key, val;\n    struct Node* next;\n}\nNode;\nNode* table[SIZE]= {0};\nint hash(int k) {\n    return k%SIZE;\n}\nvoid put(int k, int v) {\n    int i=hash(k);\n    for (Node* n=table[i]; n; n=n->next)if (n->key==k) {\n        n->val=v;\n        return;\n    }\n    Node* n=(Node*)malloc(sizeof(Node));\n    n->key=k;\n    n->val=v;\n    n->next=table[i];\n    table[i]=n;\n}\nint get(int k) {\n    for (Node* n=table[hash(k)]; n; n=n->next)if (n->key==k)return n->val;\n    return -1;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <list>\n#include <vector>\nusing namespace std;\nclass HashTable{int sz;vector<list<pair<int,int>>>t;int h(int k){return abs(k)%sz;}\npublic:HashTable(int s=11):sz(s),t(s){}\nvoid put(int k,int v){auto&b=t[h(k)];for(auto&p:b)if(p.first==k){p.second=v;return;}b.push_back({k,v});}\nint get(int k){for(auto&p:t[h(k)])if(p.first==k)return p.second;return -1;}};",
+    "code": "#include <iostream>\n#include <list>\n#include <vector>\nusing namespace std;\nclass HashTable {\n    int sz;\n    vector<list<pair<int, int>>>t;\n    int h(int k) {\n        return abs(k)%sz;\n    }\n    public:HashTable(int s=11):sz(s), t(s) {\n    }\n    void put(int k, int v) {\n        auto&b=t[h(k)];\n        for (auto&p:b)if (p.first==k) {\n            p.second=v;\n            return;\n        }\n        b.push_back({k, v});\n    }\n    int get(int k) {\n        for (auto&p:t[h(k)])if (p.first==k)return p.second;\n        return -1;\n    }\n};\n",
     "lineKeys": {}
   },
   "python": {

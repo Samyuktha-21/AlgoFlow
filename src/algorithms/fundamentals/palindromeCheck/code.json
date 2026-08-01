@@ -11,12 +11,12 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\nint isPalin(char*s){int l=0,r=strlen(s)-1;while(l<r){if(s[l]!=s[r])return 0;l++;r--;}return 1;}\nint main(){printf(\"%d %d\\n\",isPalin(\"racecar\"),isPalin(\"hello\"));return 0;}",
+    "code": "#include <stdio.h>\n#include <string.h>\nint isPalin(char*s) {\n    int l=0, r=strlen(s)-1;\n    while (l<r) {\n        if (s[l]!=s[r])return 0;\n        l++;\n        r--;\n    }\n    return 1;\n}\nint main() {\n    printf(\"%d %d\\n\", isPalin(\"racecar\"), isPalin(\"hello\"));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nbool isPalindrome(string s){int l=0,r=s.size()-1;while(l<r){if(s[l]!=s[r])return false;l++;r--;}return true;}",
+    "code": "#include <string>\n#include <algorithm>\nusing namespace std;\nbool isPalindrome(string s) {\n    int l=0, r=s.size()-1;\n    while (l<r) {\n        if (s[l]!=s[r])return false;\n        l++;\n        r--;\n    }\n    return true;\n}\n",
     "lineKeys": {}
   },
   "python": {
