@@ -135,7 +135,6 @@ async function referencedLines(dir) {
         const maxLine = json[lang].code.split('\n').length
 
         const javaLines = Object.keys(map).map(Number).sort((a, b) => a - b)
-        let prevTarget = 0
         const usedTargets = new Set()
 
         const clean = {}
@@ -149,10 +148,11 @@ async function referencedLines(dir) {
           if (typeof tg !== 'number' || tg < 1 || tg > maxLine) {
             problems.push(`${tag} ${lang}: java ${ja} -> ${tg} out of range (1..${maxLine})`); ok = false; continue
           }
-          if (tg <= prevTarget) { problems.push(`${tag} ${lang}: java ${ja} -> ${tg} breaks increasing order (prev ${prevTarget})`); ok = false }
+          // NB: no monotonicity check. C/C++ must define a helper BEFORE its
+          // caller where Java declares it after, so a faithful map legitimately
+          // runs backwards (e.g. mergeSort's `merge` sits above `sort`).
           if (usedTargets.has(tg)) { problems.push(`${tag} ${lang}: target line ${tg} claimed twice`); ok = false }
           usedTargets.add(tg)
-          prevTarget = tg
           clean[String(ja)] = tg
         }
         for (const r of refs) {

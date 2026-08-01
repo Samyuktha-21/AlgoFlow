@@ -23,5 +23,32 @@
     "language": "python",
     "code": "import math\n\ndef jump_search(a, target):\n    n = len(a)\n    step = int(math.sqrt(n))\n    prev = 0\n    while prev < n and a[min(prev + step, n) - 1] < target:\n        prev += step\n    for i in range(prev, min(prev + step, n)):\n        if a[i] == target:\n            return i\n    return -1\n\nprint(jump_search([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55], 55))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "5": 5,
+      "7": 7,
+      "8": 8,
+      "9": 9
+    },
+    "cpp": {
+      "2": 5,
+      "5": 7,
+      "7": 9,
+      "8": 10,
+      "9": 11
+    },
+    "python": {
+      "2": 3,
+      "5": 7,
+      "7": 8
+    },
+    "javascript": {
+      "2": 1,
+      "5": 5,
+      "7": 7,
+      "9": 8
+    }
   }
 }

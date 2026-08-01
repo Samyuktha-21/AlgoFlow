@@ -23,5 +23,39 @@
     "language": "python",
     "code": "def shell_sort(a):\n    n = len(a)\n    gap = n // 2\n    while gap > 0:\n        for i in range(gap, n):\n            temp = a[i]\n            j = i\n            while j >= gap and a[j - gap] > temp:\n                a[j] = a[j - gap]\n                j -= gap\n            a[j] = temp\n        gap //= 2\n    return a\n\nprint(shell_sort([12, 34, 54, 2, 3]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "3": 3,
+      "5": 4,
+      "7": 6,
+      "9": 8,
+      "11": 10
+    },
+    "cpp": {
+      "2": 5,
+      "3": 6,
+      "5": 8,
+      "7": 10,
+      "9": 12,
+      "11": 14
+    },
+    "python": {
+      "2": 1,
+      "3": 2,
+      "5": 5,
+      "7": 8,
+      "9": 10,
+      "11": 11
+    },
+    "javascript": {
+      "2": 1,
+      "3": 2,
+      "5": 4,
+      "7": 7,
+      "9": 9,
+      "11": 11
+    }
   }
 }

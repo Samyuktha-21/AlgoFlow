@@ -11,17 +11,53 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\nvoid selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) if (arr[j] < arr[minIdx]) minIdx = j;\n        int temp = arr[minIdx];\n        arr[minIdx] = arr[i];\n        arr[i] = temp;\n    }\n}\nint main() {\n    int arr[] = {64, 25, 12, 22, 11};\n    selectionSort(arr, 5);\n    for (int i = 0; i < 5; i++) printf(\"%d \", arr[i]);\n    return 0;\n}\n",
+    "code": "#include <stdio.h>\n\nvoid selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        int temp = arr[minIdx];\n        arr[minIdx] = arr[i];\n        arr[i] = temp;\n    }\n}\n\nint main() {\n    int arr[] = {64, 25, 12, 22, 11};\n    selectionSort(arr, 5);\n    for (int i = 0; i < 5; i++) printf(\"%d \", arr[i]);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nvoid selectionSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) if (arr[j] < arr[minIdx]) minIdx = j;\n        swap(arr[i], arr[minIdx]);\n    }\n}\nint main() {\n    vector<int> arr = {64, 25, 12, 22, 11};\n    selectionSort(arr);\n    for (int v : arr) cout << v << \" \";\n    return 0;\n}\n",
+    "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nvoid selectionSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        int temp = arr[minIdx];\n        arr[minIdx] = arr[i];\n        arr[i] = temp;\n    }\n}\n\nint main() {\n    vector<int> arr = {64, 25, 12, 22, 11};\n    selectionSort(arr);\n    for (int v : arr) cout << v << \" \";\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "def selection_sort(a):\n    n = len(a)\n    for i in range(n - 1):\n        min_idx = i\n        for j in range(i + 1, n):\n            if a[j] < a[min_idx]:\n                min_idx = j\n        a[i], a[min_idx] = a[min_idx], a[i]\n    return a\n\nprint(selection_sort([64, 25, 12, 22, 11]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "7": 7,
+      "10": 10,
+      "12": 12,
+      "13": 13
+    },
+    "cpp": {
+      "3": 6,
+      "4": 7,
+      "6": 9,
+      "7": 10,
+      "10": 13,
+      "12": 15,
+      "13": 16
+    },
+    "python": {
+      "3": 2,
+      "4": 3,
+      "6": 5,
+      "7": 6,
+      "10": 8
+    },
+    "javascript": {
+      "3": 2,
+      "4": 3,
+      "6": 5,
+      "7": 6,
+      "10": 8,
+      "12": 9,
+      "13": 10
+    }
   }
 }

@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function countingSort(a) {\n  if (a.length === 0) return a;\n  const max = Math.max(...a);\n  const count = new Array(max + 1).fill(0);\n  for (const x of a) count[x]++;\n  const result = [];\n  for (let v = 0; v <= max; v++) {\n    while (count[v]-- > 0) result.push(v);\n  }\n  return result;\n}\n\nconsole.log(countingSort([4, 2, 2, 8, 3, 3, 1]));",
+    "code": "function countingSort(a) {\n  const n = a.length;\n  const max = Math.max(...a);\n  const count = new Array(max + 1).fill(0);\n  for (const v of a) count[v]++;\n  for (let i = 1; i <= max; i++) count[i] += count[i - 1];\n  const output = new Array(n);\n  for (let i = n - 1; i >= 0; i--) output[--count[a[i]]] = a[i];\n  return output;\n}\n\nconsole.log(countingSort([4, 2, 2, 8, 3, 3, 1]));\n",
     "lineKeys": {}
   },
   "java": {
@@ -16,12 +16,46 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvoid countingSort(vector<int>& arr) {\n    int n = arr.size(), mx = *max_element(arr.begin(), arr.end());\n    vector<int> cnt(mx + 1, 0), out(n);\n    for (int v : arr) cnt[v]++;\n    for (int i = 1; i <= mx; i++) cnt[i] += cnt[i - 1];\n    for (int i = n - 1; i >= 0; i--) out[--cnt[arr[i]]] = arr[i];\n    arr = out;\n}\n\nint main() {\n    vector<int> a = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a);\n    for (int v : a) cout << v << \" \";\n    return 0;\n}",
+    "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nvoid countingSort(vector<int>& arr) {\n    int n = arr.size(), mx = *max_element(arr.begin(), arr.end());\n    vector<int> cnt(mx + 1, 0);\n    for (int v : arr) cnt[v]++;\n    for (int i = 1; i <= mx; i++) cnt[i] += cnt[i - 1];\n    vector<int> out(n);\n    for (int i = n - 1; i >= 0; i--) out[--cnt[arr[i]]] = arr[i];\n    arr = out;\n}\n\nint main() {\n    vector<int> a = {4, 2, 2, 8, 3, 3, 1};\n    countingSort(a);\n    for (int v : a) cout << v << \" \";\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
-    "code": "def counting_sort(a):\n    if not a:\n        return a\n    lo, hi = min(a), max(a)\n    count = [0] * (hi - lo + 1)\n    for x in a:\n        count[x - lo] += 1\n    result = []\n    for i, c in enumerate(count):\n        result.extend([i + lo] * c)\n    return result\n\nprint(counting_sort([4, 2, 2, 8, 3, 3, 1]))",
+    "code": "def counting_sort(a):\n    n = len(a)\n    max_val = max(a)\n    count = [0] * (max_val + 1)\n    for v in a:\n        count[v] += 1\n    for i in range(1, max_val + 1):\n        count[i] += count[i - 1]\n    output = [0] * n\n    for i in range(n - 1, -1, -1):\n        count[a[i]] -= 1\n        output[count[a[i]]] = a[i]\n    return output\n\n\nprint(counting_sort([4, 2, 2, 8, 3, 3, 1]))\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "4": 4,
+      "5": 6,
+      "7": 9,
+      "8": 10,
+      "10": 12
+    },
+    "cpp": {
+      "2": 6,
+      "4": 7,
+      "5": 8,
+      "7": 10,
+      "8": 11,
+      "10": 13
+    },
+    "python": {
+      "2": 1,
+      "4": 2,
+      "5": 4,
+      "7": 7,
+      "8": 9,
+      "10": 13
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "5": 4,
+      "7": 6,
+      "8": 7,
+      "10": 9
+    }
   }
 }

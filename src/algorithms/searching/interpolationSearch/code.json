@@ -23,5 +23,31 @@
     "language": "python",
     "code": "def interpolation_search(a, target):\n    low, high = 0, len(a) - 1\n    while low <= high and a[low] <= target <= a[high]:\n        if a[low] == a[high]:\n            return low if a[low] == target else -1\n        # estimate position from value distribution\n        pos = low + (target - a[low]) * (high - low) // (a[high] - a[low])\n        if a[pos] == target:\n            return pos\n        elif a[pos] < target:\n            low = pos + 1\n        else:\n            high = pos - 1\n    return -1\n\nprint(interpolation_search([10, 20, 30, 40, 50, 60, 70], 50))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "6": 6,
+      "7": 7,
+      "8": 8
+    },
+    "cpp": {
+      "2": 4,
+      "6": 8,
+      "7": 9,
+      "8": 10
+    },
+    "python": {
+      "2": 1,
+      "6": 7,
+      "7": 8,
+      "8": 10
+    },
+    "javascript": {
+      "2": 1,
+      "6": 5,
+      "7": 6,
+      "8": 7
+    }
   }
 }

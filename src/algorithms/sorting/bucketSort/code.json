@@ -23,5 +23,35 @@
     "language": "python",
     "code": "def bucket_sort(a):\n    if not a:\n        return a\n    n = len(a)\n    lo, hi = min(a), max(a)\n    buckets = [[] for _ in range(n)]\n    for x in a:\n        idx = int((x - lo) / (hi - lo + 1) * n)\n        buckets[idx].append(x)\n    result = []\n    for bucket in buckets:\n        result.extend(sorted(bucket))\n    return result\n\nprint(bucket_sort([0.42, 0.32, 0.23, 0.52, 0.25, 0.47]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 14,
+      "5": 15,
+      "7": 18,
+      "9": 23,
+      "10": 24
+    },
+    "cpp": {
+      "2": 6,
+      "5": 8,
+      "7": 9,
+      "9": 11,
+      "10": 12
+    },
+    "python": {
+      "2": 1,
+      "5": 6,
+      "7": 7,
+      "9": 10,
+      "10": 11
+    },
+    "javascript": {
+      "2": 1,
+      "5": 5,
+      "7": 6,
+      "9": 7,
+      "10": 8
+    }
   }
 }
