@@ -23,5 +23,26 @@
     "language": "python",
     "code": "class SegmentTree:\n    \"\"\"Range-sum queries with point updates, both O(log n).\"\"\"\n    def __init__(self, a):\n        self.n = len(a)\n        self.tree = [0] * (2 * self.n)\n        for i, x in enumerate(a):\n            self.tree[self.n + i] = x\n        for i in range(self.n - 1, 0, -1):\n            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]\n\n    def update(self, i, val):\n        i += self.n\n        self.tree[i] = val\n        while i > 1:\n            i //= 2\n            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]\n\n    def query(self, l, r):  # sum of a[l..r] inclusive\n        l += self.n; r += self.n + 1\n        total = 0\n        while l < r:\n            if l % 2: total += self.tree[l]; l += 1\n            if r % 2: r -= 1; total += self.tree[r]\n            l //= 2; r //= 2\n        return total\n\nst = SegmentTree([1, 3, 5, 7, 9, 11])\nprint(st.query(1, 3))\nst.update(1, 10)\nprint(st.query(1, 3))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "7": 3
+    },
+    "cpp": {
+      "2": 4,
+      "4": 6,
+      "7": 7
+    },
+    "python": {
+      "2": 5,
+      "4": 3,
+      "7": 8
+    },
+    "javascript": {
+      "2": 4,
+      "4": 2,
+      "7": 6
+    }
   }
 }

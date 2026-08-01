@@ -23,5 +23,38 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef lowest_common_ancestor(root, p, q):\n    if not root or root.val == p or root.val == q:\n        return root\n    left = lowest_common_ancestor(root.left, p, q)\n    right = lowest_common_ancestor(root.right, p, q)\n    if left and right:\n        return root\n    return left or right\n\nroot = Node(3)\nroot.left, root.right = Node(5), Node(1)\nroot.left.left, root.left.right = Node(6), Node(2)\nprint(lowest_common_ancestor(root, 6, 2).val)\nprint(lowest_common_ancestor(root, 5, 1).val)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "3": 7,
+      "4": 8,
+      "6": 9,
+      "7": 10,
+      "8": 11
+    },
+    "cpp": {
+      "2": 6,
+      "3": 7,
+      "4": 8,
+      "6": 9,
+      "7": 10,
+      "8": 11
+    },
+    "python": {
+      "2": 5,
+      "3": 6,
+      "4": 8,
+      "6": 10,
+      "7": 12
+    },
+    "javascript": {
+      "2": 9,
+      "3": 10,
+      "4": 11,
+      "6": 13,
+      "7": 14,
+      "8": 15
+    }
   }
 }

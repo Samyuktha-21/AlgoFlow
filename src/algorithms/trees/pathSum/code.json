@@ -23,5 +23,30 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef has_path_sum(root, target):\n    if not root:\n        return False\n    if not root.left and not root.right:\n        return target == root.val\n    remaining = target - root.val\n    return has_path_sum(root.left, remaining) or has_path_sum(root.right, remaining)\n\nroot = Node(5)\nroot.left, root.right = Node(4), Node(8)\nroot.left.left = Node(11)\nroot.left.left.left, root.left.left.right = Node(7), Node(2)\nprint(has_path_sum(root, 22))\nprint(has_path_sum(root, 100))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "4": 8,
+      "6": 9,
+      "7": 10
+    },
+    "cpp": {
+      "2": 5,
+      "4": 7,
+      "6": 8,
+      "7": 9
+    },
+    "python": {
+      "2": 5,
+      "4": 8,
+      "6": 11
+    },
+    "javascript": {
+      "2": 9,
+      "4": 11,
+      "6": 12,
+      "7": 13
+    }
   }
 }

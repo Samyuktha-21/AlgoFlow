@@ -23,5 +23,31 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef is_balanced(root):\n    def check(node):\n        if not node:\n            return 0\n        left = check(node.left)\n        if left == -1:\n            return -1\n        right = check(node.right)\n        if right == -1 or abs(left - right) > 1:\n            return -1\n        return 1 + max(left, right)\n    return check(root) != -1\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.left.left = Node(4)\nprint(is_balanced(root))\nroot.left.left.left = Node(5)\nprint(is_balanced(root))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 16,
+      "4": 18,
+      "9": 11,
+      "10": 12
+    },
+    "cpp": {
+      "2": 17,
+      "4": 19,
+      "9": 12,
+      "10": 13
+    },
+    "python": {
+      "2": 5,
+      "4": 16,
+      "9": 12,
+      "10": 13
+    },
+    "javascript": {
+      "2": 9,
+      "4": 19,
+      "9": 14,
+      "10": 15
+    }
   }
 }

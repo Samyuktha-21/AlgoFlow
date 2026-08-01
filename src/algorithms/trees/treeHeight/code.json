@@ -23,5 +23,28 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef height(root):\n    if not root:\n        return 0\n    return 1 + max(height(root.left), height(root.right))\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.left.left = Node(4)\nroot.left.left.left = Node(5)\nprint(height(root))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 6,
+      "3": 7,
+      "4": 8,
+      "6": 9
+    },
+    "cpp": {
+      "2": 9,
+      "3": 10,
+      "4": 11
+    },
+    "python": {
+      "2": 5,
+      "3": 6,
+      "4": 8
+    },
+    "javascript": {
+      "2": 9,
+      "3": 10,
+      "4": 11
+    }
   }
 }

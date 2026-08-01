@@ -192,8 +192,10 @@ function format(src, lang) {
       braces.pop()
       const emptyBody = out.length && out[out.length - 1].trimEnd().endsWith('{') && !line.trim()
       if (emptyBody) {
-        // `{}` — don't spread an empty body over two lines.
-        out[out.length - 1] = out[out.length - 1].trimEnd() + '}'
+        // `{}` — don't spread an empty body over two lines. Pull the line back
+        // out of the buffer so a following `;` (as in `array<T*, 26> ch {};`)
+        // still lands on it instead of on a line of its own.
+        line = out.pop().trimEnd() + '}'
         depth = Math.max(0, depth - 1)
         i++
         continue

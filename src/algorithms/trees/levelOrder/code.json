@@ -23,5 +23,34 @@
     "language": "python",
     "code": "from collections import deque\n\nclass Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef level_order(root):\n    if not root:\n        return []\n    levels = []\n    queue = deque([root])\n    while queue:\n        level = []\n        for _ in range(len(queue)):\n            node = queue.popleft()\n            level.append(node.val)\n            if node.left: queue.append(node.left)\n            if node.right: queue.append(node.right)\n        levels.append(level)\n    return levels\n\nroot = Node(3)\nroot.left, root.right = Node(9), Node(20)\nroot.right.left, root.right.right = Node(15), Node(7)\nprint(level_order(root))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "3": 8,
+      "6": 10,
+      "8": 13
+    },
+    "cpp": {
+      "2": 4,
+      "3": 9,
+      "6": 11,
+      "8": 13
+    },
+    "python": {
+      "2": 3,
+      "3": 7,
+      "6": 11,
+      "8": 12,
+      "11": 14
+    },
+    "javascript": {
+      "2": 1,
+      "3": 9,
+      "6": 12,
+      "8": 13,
+      "9": 15,
+      "11": 16
+    }
   }
 }

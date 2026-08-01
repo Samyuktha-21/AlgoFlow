@@ -16,12 +16,38 @@
   },
   "cpp": {
     "language": "cpp",
-    "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie {\n    array<Trie*, 26>ch {}\n    ;\n    bool end=false;\n};\nvoid insert(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])n->ch[c-'a']=new Trie();\n        n=n->ch[c-'a'];\n    }\n    n->end=true;\n}\nbool search(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])return false;\n        n=n->ch[c-'a'];\n    }\n    return n->end;\n}\n",
+    "code": "#include <array>\n#include <string>\nusing namespace std;\nstruct Trie {\n    array<Trie*, 26>ch {};\n    bool end=false;\n};\nvoid insert(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])n->ch[c-'a']=new Trie();\n        n=n->ch[c-'a'];\n    }\n    n->end=true;\n}\nbool search(Trie*r, const string&w) {\n    Trie*n=r;\n    for (char c:w) {\n        if (!n->ch[c-'a'])return false;\n        n=n->ch[c-'a'];\n    }\n    return n->end;\n}\n",
     "lineKeys": {}
   },
   "python": {
     "language": "python",
     "code": "class Trie:\n    def __init__(self):\n        self.root = {}\n\n    def insert(self, word):\n        node = self.root\n        for ch in word:\n            node = node.setdefault(ch, {})\n        node['$'] = True  # end-of-word marker\n\n    def search(self, word):\n        node = self._walk(word)\n        return node is not None and '$' in node\n\n    def starts_with(self, prefix):\n        return self._walk(prefix) is not None\n\n    def _walk(self, s):\n        node = self.root\n        for ch in s:\n            if ch not in node:\n                return None\n            node = node[ch]\n        return node\n\nt = Trie()\nt.insert(\"apple\")\nprint(t.search(\"apple\"))\nprint(t.search(\"app\"))\nprint(t.starts_with(\"app\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 4,
+      "4": 8,
+      "5": 9,
+      "7": 12
+    },
+    "cpp": {
+      "2": 4,
+      "4": 8,
+      "5": 9,
+      "7": 11
+    },
+    "python": {
+      "2": 3,
+      "4": 5,
+      "5": 6,
+      "7": 8
+    },
+    "javascript": {
+      "2": 1,
+      "4": 12,
+      "5": 13,
+      "7": 15
+    }
   }
 }

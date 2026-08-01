@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n// Serialize to preorder string, deserialize recursively",
+    "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\ntypedef struct Node {\n    int v;\n    struct Node *l, *r;\n} Node;\n\nvoid serialize(Node* n, char* out) {\n    if (!n) {\n        strcat(out, \"N,\");\n        return;\n    }\n    char buf[16];\n    sprintf(buf, \"%d,\", n->v);\n    strcat(out, buf);\n    serialize(n->l, out);\n    serialize(n->r, out);\n}\n\nNode* build(char** cursor) {\n    char* token = strsep(cursor, \",\");\n    if (!token || token[0] == 'N') return NULL;\n    Node* n = malloc(sizeof(Node));\n    n->v = atoi(token);\n    n->l = build(cursor);\n    n->r = build(cursor);\n    return n;\n}\n\nNode* deserialize(char* data) {\n    char* cursor = data;\n    return build(&cursor);\n}\n\nint main() {\n    Node a = {1, NULL, NULL}, b = {2, NULL, NULL}, c = {3, NULL, NULL};\n    a.l = &b;\n    a.r = &c;\n    char out[256] = \"\";\n    serialize(&a, out);\n    printf(\"%s\\n\", out);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,30 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef serialize(root):\n    parts = []\n    def dfs(node):\n        if not node:\n            parts.append(\"#\")\n            return\n        parts.append(str(node.val))\n        dfs(node.left)\n        dfs(node.right)\n    dfs(root)\n    return \",\".join(parts)\n\ndef deserialize(data):\n    tokens = iter(data.split(\",\"))\n    def build():\n        val = next(tokens)\n        if val == \"#\":\n            return None\n        node = Node(int(val))\n        node.left = build()\n        node.right = build()\n        return node\n    return build()\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.right.left, root.right.right = Node(4), Node(5)\ns = serialize(root)\nprint(s)\nprint(serialize(deserialize(s)) == s)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 10,
+      "3": 12,
+      "4": 16,
+      "6": 32
+    },
+    "cpp": {
+      "2": 9,
+      "3": 10,
+      "4": 11
+    },
+    "python": {
+      "2": 5,
+      "3": 9,
+      "4": 11,
+      "6": 17
+    },
+    "javascript": {
+      "2": 9,
+      "3": 13,
+      "4": 16,
+      "6": 24
+    }
   }
 }

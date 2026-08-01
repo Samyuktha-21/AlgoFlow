@@ -23,5 +23,27 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n\ndef inorder(node, out):\n    if node:\n        inorder(node.left, out)\n        out.append(node.val)\n        inorder(node.right, out)\n\ndef preorder(node, out):\n    if node:\n        out.append(node.val)\n        preorder(node.left, out)\n        preorder(node.right, out)\n\ndef postorder(node, out):\n    if node:\n        postorder(node.left, out)\n        postorder(node.right, out)\n        out.append(node.val)\n\nroot = Node(1)\nroot.left, root.right = Node(2), Node(3)\nroot.left.left, root.left.right = Node(4), Node(5)\nfor name, fn in [(\"inorder\", inorder), (\"preorder\", preorder), (\"postorder\", postorder)]:\n    out = []\n    fn(root, out)\n    print(name, out)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "4": 13,
+      "6": 15
+    },
+    "cpp": {
+      "2": 3,
+      "4": 8,
+      "6": 10
+    },
+    "python": {
+      "2": 1,
+      "4": 5,
+      "6": 7
+    },
+    "javascript": {
+      "2": 1,
+      "4": 17,
+      "6": 19
+    }
   }
 }
