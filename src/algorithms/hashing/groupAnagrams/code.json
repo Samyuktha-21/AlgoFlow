@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function groupAnagrams(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const key = [...s].sort().join('');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  } return [...map.values()];\n}\n\nconsole.log(JSON.stringify(groupAnagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat'])));\n",
+    "code": "function groupAnagrams(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const key = [...s].sort().join('');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  }\n  return [...map.values()];\n}\n\nconsole.log(JSON.stringify(groupAnagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat'])));\n",
     "lineKeys": {}
   },
   "java": {
@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\nint cmp(const void*a, const void*b) {\n    return *(char*)a-*(char*)b;\n}\n// Group by sorted key — omitted for brevity in C\n",
+    "code": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\n#define MAX 64\n\nint cmp(const void* a, const void* b) {\n    return *(char*)a - *(char*)b;\n}\n\nvoid groupAnagrams(char* strs[], int n) {\n    char keys[MAX][32];\n    int groupOf[MAX], groups = 0;\n    for (int i = 0; i < n; i++) {\n        char key[32];\n        strcpy(key, strs[i]);\n        qsort(key, strlen(key), sizeof(char), cmp);\n        int g = -1;\n        for (int j = 0; j < groups; j++)\n            if (strcmp(keys[j], key) == 0) { g = j; break; }\n        if (g == -1) { g = groups; strcpy(keys[groups++], key); }\n        groupOf[i] = g;\n    }\n    for (int g = 0; g < groups; g++) {\n        printf(\"[\");\n        for (int i = 0; i < n; i++) if (groupOf[i] == g) printf(\"%s \", strs[i]);\n        printf(\"]\\n\");\n    }\n}\n\nint main() {\n    char* strs[] = {\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"};\n    groupAnagrams(strs, 6);\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,31 @@
     "language": "python",
     "code": "def group_anagrams(strs):\n    groups = {}\n    for s in strs:\n        key = ''.join(sorted(s))\n        groups.setdefault(key, []).append(s)\n    return list(groups.values())\n\nprint(group_anagrams([\"eat\", \"tea\", \"tan\", \"ate\", \"nat\", \"bat\"]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 11,
+      "4": 13,
+      "5": 14,
+      "7": 17
+    },
+    "cpp": {
+      "2": 6,
+      "4": 7,
+      "5": 8,
+      "7": 10
+    },
+    "python": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "7": 4
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "7": 4
+    }
   }
 }

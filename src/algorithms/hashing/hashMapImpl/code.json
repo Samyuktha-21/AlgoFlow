@@ -23,5 +23,35 @@
     "language": "python",
     "code": "class HashMap:\n    def __init__(self, capacity=16):\n        self.buckets = [[] for _ in range(capacity)]\n        self.capacity = capacity\n\n    def _index(self, key):\n        return hash(key) % self.capacity\n\n    def put(self, key, value):\n        bucket = self.buckets[self._index(key)]\n        for i, (k, _) in enumerate(bucket):\n            if k == key:\n                bucket[i] = (key, value)\n                return\n        bucket.append((key, value))\n\n    def get(self, key):\n        for k, v in self.buckets[self._index(key)]:\n            if k == key:\n                return v\n        return None\n\n    def remove(self, key):\n        bucket = self.buckets[self._index(key)]\n        for i, (k, _) in enumerate(bucket):\n            if k == key:\n                bucket.pop(i)\n                return True\n        return False\n\nm = HashMap()\nm.put(\"apple\", 3)\nm.put(\"banana\", 7)\nprint(m.get(\"apple\"))\nm.remove(\"apple\")\nprint(m.get(\"apple\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 3,
+      "4": 7,
+      "6": 8,
+      "7": 11,
+      "9": 13
+    },
+    "cpp": {
+      "2": 5,
+      "4": 7,
+      "6": 8,
+      "7": 12,
+      "9": 14
+    },
+    "python": {
+      "2": 1,
+      "4": 3,
+      "6": 6,
+      "7": 9,
+      "9": 11
+    },
+    "javascript": {
+      "2": 1,
+      "4": 3,
+      "6": 6,
+      "7": 11,
+      "9": 13
+    }
   }
 }

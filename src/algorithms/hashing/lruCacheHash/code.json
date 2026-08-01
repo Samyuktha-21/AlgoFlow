@@ -11,7 +11,7 @@
   },
   "c": {
     "language": "c",
-    "code": "/* LRU Cache: HashMap + Doubly Linked List = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int key, val;\n    struct Node *prev, *next;\n} Node;\n/* Hash table maps key -> Node pointer; DLL tracks recency */\n",
+    "code": "/* LRU Cache: hash table + doubly linked list = O(1) get and put */\n#include <stdio.h>\n#include <stdlib.h>\n\n#define CAP 3\n#define HSIZE 1024\n\ntypedef struct Node {\n    int key, val;\n    struct Node *prev, *next;\n} Node;\n\nNode* table[HSIZE];\nNode head, tail;\nint count = 0;\n\nvoid initCache(void) {\n    head.next = &tail;\n    tail.prev = &head;\n}\n\nvoid addFront(Node* n) {\n    n->next = head.next;\n    n->prev = &head;\n    head.next->prev = n;\n    head.next = n;\n}\n\nvoid unlink(Node* n) {\n    n->prev->next = n->next;\n    n->next->prev = n->prev;\n}\n\nint get(int key) {\n    Node* n = table[key % HSIZE];\n    if (!n) return -1;\n    unlink(n);\n    addFront(n);\n    return n->val;\n}\n\nvoid put(int key, int val) {\n    Node* n = table[key % HSIZE];\n    if (n) {\n        n->val = val;\n        unlink(n);\n        addFront(n);\n        return;\n    }\n    if (count == CAP) {\n        Node* lru = tail.prev;\n        unlink(lru);\n        table[lru->key % HSIZE] = NULL;\n        free(lru);\n        count--;\n    }\n    n = (Node*)malloc(sizeof(Node));\n    n->key = key;\n    n->val = val;\n    addFront(n);\n    table[key % HSIZE] = n;\n    count++;\n}\n\nint main() {\n    initCache();\n    put(1, 1);\n    put(2, 2);\n    printf(\"%d\\n\", get(1));\n    put(3, 3);\n    put(4, 4);\n    printf(\"%d\\n\", get(2));\n    return 0;\n}\n",
     "lineKeys": {}
   },
   "cpp": {
@@ -23,5 +23,35 @@
     "language": "python",
     "code": "from collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key, value):\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)\n\nlru = LRUCache(2)\nlru.put(1, 1)\nlru.put(2, 2)\nprint(lru.get(1))\nlru.put(3, 3)   # evicts key 2\nprint(lru.get(2))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 13,
+      "5": 14,
+      "6": 17,
+      "9": 34,
+      "10": 36
+    },
+    "cpp": {
+      "2": 3,
+      "5": 5,
+      "6": 8,
+      "9": 9,
+      "10": 10
+    },
+    "python": {
+      "2": 3,
+      "5": 6,
+      "6": 4,
+      "9": 8,
+      "10": 9
+    },
+    "javascript": {
+      "2": 10,
+      "5": 14,
+      "6": 11,
+      "9": 29,
+      "10": 30
+    }
   }
 }

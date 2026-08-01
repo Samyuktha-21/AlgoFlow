@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need), i];\n    seen.set(nums[i], i);\n  } return [];\n}\n\nconsole.log(twoSum([2, 7, 11, 15], 9));\n",
+    "code": "function twoSum(nums, target) {\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i];\n    if (seen.has(need)) return [seen.get(need), i];\n    seen.set(nums[i], i);\n  }\n  return [];\n}\n\nconsole.log(twoSum([2, 7, 11, 15], 9));\n",
     "lineKeys": {}
   },
   "java": {
@@ -23,5 +23,31 @@
     "language": "python",
     "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return [-1, -1]\n\nprint(two_sum([3, 2, 4], 6))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 4,
+      "4": 3,
+      "5": 5,
+      "6": 6
+    },
+    "cpp": {
+      "2": 4,
+      "4": 5,
+      "5": 6,
+      "6": 7
+    },
+    "python": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "6": 4
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "5": 3,
+      "6": 4
+    }
   }
 }

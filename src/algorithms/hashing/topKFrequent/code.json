@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function topKFrequent(nums, k) {\n  const freq = new Map();\n  for (const x of nums) freq.set(x, (freq.get(x) || 0) + 1);\n  return [...freq.entries()] .sort((a, b) => b[1] - a[1]) .slice(0, k) .map(e => e[0]);\n}\n\nconsole.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));\n",
+    "code": "function topKFrequent(nums, k) {\n  const freq = new Map();\n  for (const x of nums) freq.set(x, (freq.get(x) || 0) + 1);\n  return [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, k).map(e => e[0]);\n}\n\nconsole.log(topKFrequent([1, 1, 1, 2, 2, 3], 2));\n",
     "lineKeys": {}
   },
   "java": {
@@ -23,5 +23,27 @@
     "language": "python",
     "code": "import heapq\n\ndef top_k_frequent(nums, k):\n    count = {}\n    for x in nums:\n        count[x] = count.get(x, 0) + 1\n    return heapq.nlargest(k, count, key=count.get)\n\nprint(top_k_frequent([1, 1, 1, 2, 2, 3], 2))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "c": {
+      "2": 2,
+      "4": 3,
+      "6": 7
+    },
+    "cpp": {
+      "2": 5,
+      "4": 6,
+      "6": 11
+    },
+    "python": {
+      "2": 3,
+      "4": 4,
+      "6": 7
+    },
+    "javascript": {
+      "2": 1,
+      "4": 2,
+      "6": 4
+    }
   }
 }

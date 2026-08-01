@@ -27,6 +27,11 @@ const INDENT = { c: '    ', cpp: '    ', javascript: '  ' }
 
 /* Words that continue the previous statement, so `}` must not flush the line. */
 const CONTINUES = /^(else|while|catch|finally)\b/
+/* Words that start a statement, so they must begin a new line rather than be
+   mistaken for the declarator in `typedef struct {...} Name;`. */
+const STATEMENT_KEYWORDS = new Set([
+  'return', 'break', 'continue', 'goto', 'throw', 'delete', 'yield', 'await',
+])
 
 function stripWs(s) { return s.replace(/\s+/g, '') }
 
@@ -136,7 +141,9 @@ function format(src, lang) {
       } else if (line.trim().endsWith(':') && paren === 0) {
         // a label / access specifier / Python-style clause ends its own line
         flush()
-      } else {
+      } else if (!/^[.,;)\]]/.test(src.slice(j, j + 1))) {
+        // A wrapped method chain (`]\n  .sort(...)`) must not gain a space
+        // before the dot, nor before a closing/─separating token.
         push(' ')
       }
       i++
@@ -200,7 +207,10 @@ function format(src, lang) {
       while (j < n && /\s/.test(src[j])) j++
       const rest = src.slice(j, j + 40)
       if (CONTINUES.test(rest) || /^[;,)\].]/.test(rest)) { i++; continue }
-      if (/^[A-Za-z_]\w*\s*(\[[^\]]*\]\s*)?[;,]/.test(rest)) { line += ' '; i++; continue }
+      // `typedef struct {...} Name;` — the declarator belongs on the `}` line.
+      // Statement keywords must NOT be pulled up: `} return [];` is wrong.
+      const decl = rest.match(/^([A-Za-z_]\w*)\s*(\[[^\]]*\]\s*)?[;,]/)
+      if (decl && !STATEMENT_KEYWORDS.has(decl[1])) { line += ' '; i++; continue }
       flush()
       i++
       continue
@@ -218,7 +228,11 @@ function format(src, lang) {
   }
   flush()
 
-  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n'
+  return out.join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    // A method chain wrapped in the source leaves `] .sort(` — close it up.
+    .replace(/([)\]])[ \t]+\./g, '$1.')
+    .trim() + '\n'
 }
 
 /* --------------------------------------------------------------------- */

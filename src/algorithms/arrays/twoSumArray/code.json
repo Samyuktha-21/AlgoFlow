@@ -1,7 +1,7 @@
 {
   "javascript": {
     "language": "javascript",
-    "code": "function twoSumSorted(a, target) {\n  let lo = 0, hi = a.length - 1;\n  while (lo < hi) {\n    const sum = a[lo] + a[hi];\n    if (sum === target) return [lo, hi];\n    if (sum < target) lo++;\n    else hi--;\n  } return [];\n}\n\nconsole.log(twoSumSorted([1, 3, 4, 5, 7, 11], 9));\n",
+    "code": "function twoSumSorted(a, target) {\n  let lo = 0, hi = a.length - 1;\n  while (lo < hi) {\n    const sum = a[lo] + a[hi];\n    if (sum === target) return [lo, hi];\n    if (sum < target) lo++;\n    else hi--;\n  }\n  return [];\n}\n\nconsole.log(twoSumSorted([1, 3, 4, 5, 7, 11], 9));\n",
     "lineKeys": {}
   },
   "java": {
