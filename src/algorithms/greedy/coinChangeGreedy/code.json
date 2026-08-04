@@ -23,5 +23,13 @@
     "language": "python",
     "code": "def coin_change_greedy(coins, amount):\n    coins.sort(reverse=True)\n    result = []\n    for coin in coins:\n        while amount >= coin:\n            amount -= coin\n            result.append(coin)\n    return result if amount == 0 else None\n\nprint(coin_change_greedy([1, 2, 5, 10, 20, 50, 100], 93))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 1,
+      "5": 5,
+      "6": 6,
+      "8": 8
+    }
   }
 }

@@ -23,5 +23,14 @@
     "language": "python",
     "code": "from collections import deque\n\ndef topological_sort(n, graph):\n    indegree = [0] * n\n    for u in graph:\n        for v in graph[u]:\n            indegree[v] += 1\n    queue = deque(u for u in range(n) if indegree[u] == 0)\n    order = []\n    while queue:\n        u = queue.popleft()\n        order.append(u)\n        for v in graph.get(u, []):\n            indegree[v] -= 1\n            if indegree[v] == 0:\n                queue.append(v)\n    return order if len(order) == n else None  # None = cycle\n\ngraph = {5: [2, 0], 4: [0, 1], 2: [3], 3: [1]}\nprint(topological_sort(6, graph))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "6": 7,
+      "8": 8,
+      "12": 12,
+      "13": 14,
+      "16": 17
+    }
   }
 }

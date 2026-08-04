@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def matrix_chain(dims):\n    n = len(dims) - 1\n    dp = [[0] * n for _ in range(n)]\n    for length in range(2, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            dp[i][j] = float('inf')\n            for k in range(i, j):\n                cost = dp[i][k] + dp[k+1][j] + dims[i] * dims[k+1] * dims[j+1]\n                dp[i][j] = min(dp[i][j], cost)\n    return dp[0][n-1]\n\nprint(matrix_chain([1, 2, 3, 4]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 1,
+      "4": 3,
+      "9": 9,
+      "10": 10,
+      "13": 11
+    }
   }
 }

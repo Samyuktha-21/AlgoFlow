@@ -8,14 +8,16 @@
          // the Java block (e.g. C++ was recursive where Java is iterative, so
          // no step could ever highlight an equivalent line)
          snippets: { cpp: `#include <iostream>\n...` },
-         // required: java line -> that language's equivalent line
-         lineMap: { c: { 2: 2, 4: 4, 5: 5 }, cpp: {...}, python: {...}, javascript: {...} },
+         // required: java line -> python's equivalent line
+         lineMap: { python: { 2: 2, 4: 4, 5: 5 } },
        },
      }
 
-   Java is canonical (identity, never stored). Every map is validated against
-   the real code and the real generateSteps output before anything is written,
-   so a clean run means each highlight is a line a human judged equivalent.
+   Java is canonical (identity, never stored) and Python is the one mapped
+   language, so those two highlight and the rest deliberately do not. Every map
+   is validated against the real code and the real generateSteps output before
+   anything is written, so a clean run means each highlight is a line a human
+   judged equivalent.
 
    Checks (any failure blocks that algorithm's write):
      1. every mapped Java line is actually referenced by a step
@@ -33,7 +35,14 @@ const fs = require('fs')
 const path = require('path')
 const { pathToFileURL } = require('url')
 
-const TARGET_LANGS = ['c', 'cpp', 'python', 'javascript']
+/* Snippet rewrites still apply to every language — several C/C++ blocks shipped
+   as stubs or as a different algorithm entirely, and those fixes stand on their
+   own merit. Line MAPS are Python-only: Java is canonical (identity, never
+   stored), so Java + Python are the two languages that highlight. Maps authored
+   for the dropped languages are ignored rather than deleted, so the history in
+   scripts/data/*.cjs stays readable. */
+const SNIPPET_LANGS = ['java', 'c', 'cpp', 'python', 'javascript']
+const MAP_LANGS = ['python']
 const ROOT = 'src/algorithms'
 const DATA = 'scripts/data'
 
@@ -96,6 +105,7 @@ async function referencedLines(dir) {
     : []
 
   const problems = []
+  const unexercised = []
   let wrote = 0, algos = 0, entries = 0, rewrites = 0, omissions = 0
   const perCat = []
 
@@ -117,7 +127,7 @@ async function referencedLines(dir) {
 
       // --- snippet rewrites first: the line map is authored against these
       for (const lang of Object.keys(spec.snippets || {})) {
-        if (!TARGET_LANGS.includes(lang)) { problems.push(`${tag}: refusing to rewrite '${lang}' (java is canonical)`); ok = false; continue }
+        if (!SNIPPET_LANGS.includes(lang)) { problems.push(`${tag}: refusing to rewrite '${lang}' (java is canonical)`); ok = false; continue }
         if (!json[lang]) { problems.push(`${tag} ${lang}: no such block in code.json`); ok = false; continue }
         const code = spec.snippets[lang]
         if (typeof code !== 'string' || !code.trim()) { problems.push(`${tag} ${lang}: empty snippet`); ok = false; continue }
@@ -126,9 +136,19 @@ async function referencedLines(dir) {
       }
 
       const refs = await referencedLines(dir)
+
+      /* Rewriting the JAVA block renumbers every codeLine in steps.js, so a
+         java rewrite is only safe when the steps were re-authored against it.
+         Catch the obvious failure — a step pointing past the end of the file —
+         rather than silently shipping highlights that land nowhere. */
+      const javaMax = (json.java?.code || '').split('\n').length
+      for (const r of refs) {
+        if (r > javaMax) { problems.push(`${tag}: steps reference java line ${r} but java is only ${javaMax} lines`); ok = false }
+      }
+
       const lineMap = {}
 
-      for (const lang of TARGET_LANGS) {
+      for (const lang of MAP_LANGS) {
         const map = spec.lineMap?.[lang]
         if (!map) continue
         if (!json[lang]?.code) { problems.push(`${tag} ${lang}: no source but map authored`); ok = false; continue }
@@ -140,7 +160,12 @@ async function referencedLines(dir) {
         const clean = {}
         for (const ja of javaLines) {
           const tg = map[String(ja)]
-          if (!refs.has(ja)) { problems.push(`${tag} ${lang}: java line ${ja} is never referenced by a step`); ok = false }
+          /* Not an error: `refs` comes from ONE run on the default input, but
+             users supply their own. avlTree only rotates on some inputs and
+             anagramCheck exits early unless the two strings are the same
+             length, so a complete map legitimately covers lines this run never
+             reached. Reported so a genuine typo still stands out. */
+          if (!refs.has(ja)) unexercised.push(`${tag} ${lang}: java ${ja}`)
           // `null` = deliberately unmapped: this language has no equivalent line
           // (e.g. Java's closing `}` has none in Python). The resolver shows no
           // highlight for a missing entry, which beats showing a wrong one.
@@ -164,7 +189,10 @@ async function referencedLines(dir) {
       }
 
       if (!ok) continue
+      // Assign, never merge: a stale c/cpp/javascript map already in code.json
+      // must not survive a re-apply now that those languages are out of scope.
       if (Object.keys(lineMap).length) json.lineMap = lineMap
+      else delete json.lineMap
       if (APPLY) fs.writeFileSync(p, JSON.stringify(json, null, 2) + '\n')
       wrote++
       catAlgos++
@@ -184,6 +212,10 @@ async function referencedLines(dir) {
 
   console.log(perCat.join('\n'))
   console.log(`\n${algos} algorithms, ${entries} mappings, ${rewrites} snippet rewrites, ${omissions} deliberate omissions.`)
+  if (unexercised.length) {
+    console.log(`\n${unexercised.length} mapped line(s) the DEFAULT input never reaches (fine for input-dependent branches — check for typos):`)
+    console.log(unexercised.join('\n'))
+  }
   if (problems.length) {
     console.log(`\n${problems.length} PROBLEM(S) — those algorithms were NOT written:`)
     console.log(problems.join('\n'))

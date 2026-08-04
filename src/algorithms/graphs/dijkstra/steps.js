@@ -16,15 +16,15 @@ export function generateSteps(inputNodes=null,inputEdges=null,startNode=0){
   while(pq.length>0){
     pq.sort((a,b)=>a[0]-b[0])
     const [du,u]=pq.shift()
-    if(visited.has(u)){makeStep(u,[...pq.map(x=>x[1])],'Node '+u+' already fully processed — skip',6);continue}
+    if(visited.has(u)){makeStep(u,[...pq.map(x=>x[1])],'Node '+u+' already fully processed — skip',14);continue}
     visited.add(u)
-    makeStep(u,[...pq.map(x=>x[1])],'Visit node '+u+' with dist='+du,7)
+    makeStep(u,[...pq.map(x=>x[1])],'Visit node '+u+' with dist='+du,15)
     for(const {to:v,w} of adj[u]||[]){
       const nd=du+w
-      makeStep(u,[...pq.map(x=>x[1])],'Check: can we reach node '+v+' faster via '+u+'? Current best: '+dist[v]+'. New path via '+u+': '+du+'+'+w+'='+nd+(nd<dist[v]?' ✅ '+nd+'<'+dist[v]+' — update!':' ✗ no improvement'),10)
-      if(nd<dist[v]){dist[v]=nd;pq.push([nd,v]);makeStep(u,[...pq.map(x=>x[1])],'Update dist['+v+']='+nd,11)}
+      makeStep(u,[...pq.map(x=>x[1])],'Check: can we reach node '+v+' faster via '+u+'? Current best: '+dist[v]+'. New path via '+u+': '+du+'+'+w+'='+nd+(nd<dist[v]?' ✅ '+nd+'<'+dist[v]+' — update!':' ✗ no improvement'),17)
+      if(nd<dist[v]){dist[v]=nd;pq.push([nd,v]);makeStep(u,[...pq.map(x=>x[1])],'Update dist['+v+']='+nd,18)}
     }
   }
-  makeStep(null,[],'Dijkstra complete. Shortest distances: '+nodes.map(n=>n.id+'→'+dist[n.id]).join(', '),13)
+  makeStep(null,[],'Dijkstra complete. Shortest distances: '+nodes.map(n=>n.id+'→'+dist[n.id]).join(', '),23)
   return steps
 }

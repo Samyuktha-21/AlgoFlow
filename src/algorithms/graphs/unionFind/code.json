@@ -23,5 +23,13 @@
     "language": "python",
     "code": "class UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n\n    def find(self, x):\n        while self.parent[x] != x:\n            self.parent[x] = self.parent[self.parent[x]]  # path compression\n            x = self.parent[x]\n        return x\n\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra == rb:\n            return False\n        if self.rank[ra] < self.rank[rb]:\n            ra, rb = rb, ra\n        self.parent[rb] = ra\n        if self.rank[ra] == self.rank[rb]:\n            self.rank[ra] += 1\n        return True\n\nuf = UnionFind(5)\nuf.union(0, 1)\nuf.union(2, 3)\nprint(uf.find(1) == uf.find(0))\nprint(uf.find(1) == uf.find(3))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "5": 3,
+      "12": 13,
+      "16": 18,
+      "17": 21
+    }
   }
 }

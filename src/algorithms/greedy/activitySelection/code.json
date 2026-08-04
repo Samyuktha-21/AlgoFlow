@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def activity_selection(activities):\n    activities.sort(key=lambda a: a[1])  # sort by finish time\n    chosen = [activities[0]]\n    last_finish = activities[0][1]\n    for start, finish in activities[1:]:\n        if start >= last_finish:\n            chosen.append((start, finish))\n            last_finish = finish\n    return chosen\n\nacts = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11)]\nprint(activity_selection(acts))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "7": 2,
+      "10": 5,
+      "11": 6,
+      "12": 7,
+      "16": 9
+    }
   }
 }

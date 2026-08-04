@@ -23,5 +23,15 @@
     "language": "python",
     "code": "def is_anagram(s, t):\n    if len(s) != len(t):\n        return False\n    count = {}\n    for ch in s:\n        count[ch] = count.get(ch, 0) + 1\n    for ch in t:\n        if count.get(ch, 0) == 0:\n            return False\n        count[ch] -= 1\n    return True\n\nprint(is_anagram(\"listen\", \"silent\"))\nprint(is_anagram(\"hello\", \"world\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 1,
+      "3": 2,
+      "5": 6,
+      "6": 10,
+      "7": 8,
+      "8": 11
+    }
   }
 }

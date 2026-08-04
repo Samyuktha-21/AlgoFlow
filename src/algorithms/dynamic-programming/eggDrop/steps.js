@@ -14,10 +14,10 @@ export function generateSteps(inputArray) {
     for(let j=1;j<=k;j++){
       dp[m][j]=dp[m-1][j-1]+dp[m-1][j]+1
       computed[m][j]=true
-      addStep(m,j,'dp['+m+']['+j+'] = dp['+(m-1)+']['+(j-1)+']+dp['+(m-1)+']['+j+']+1 = '+(dp[m-1][j-1])+'+'+(dp[m-1][j])+'+1='+dp[m][j],5)
+      addStep(m,j,'dp['+m+']['+j+'] = dp['+(m-1)+']['+(j-1)+']+dp['+(m-1)+']['+j+']+1 = '+(dp[m-1][j-1])+'+'+(dp[m-1][j])+'+1='+dp[m][j],9)
     }
     addStep(m,k,'With '+m+' moves and '+k+' eggs: can test dp['+m+']['+k+']='+dp[m][k]+' floors',6)
-    if(dp[m][k]>=n){addStep(m,k,'dp['+m+']['+k+']='+dp[m][k]+' >= '+n+' → answer is '+m+' moves!',7);break}
+    if(dp[m][k]>=n){addStep(m,k,'dp['+m+']['+k+']='+dp[m][k]+' >= '+n+' → answer is '+m+' moves!',11);break}
   }
   return steps
 }

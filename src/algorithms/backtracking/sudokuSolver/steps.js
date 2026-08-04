@@ -24,7 +24,7 @@ export function generateSteps() {
         for(let d=1;d<=9;d++){
           if(isValid(r,c,d)){
             board[r][c]=d; filled.push({r,c})
-            addStep(r,c,false,'Place '+d+' at ('+r+','+c+')',6)
+            addStep(r,c,false,'Place '+d+' at ('+r+','+c+')',7)
             if(steps.length>limit) return true
             if(solve()) return true
             board[r][c]=0; filled.pop()
@@ -34,7 +34,7 @@ export function generateSteps() {
         return false
       }
     }
-    addStep(-1,-1,false,'Sudoku SOLVED!',11)
+    addStep(-1,-1,false,'Sudoku SOLVED!',15)
     return true
   }
   solve()

@@ -23,5 +23,16 @@
     "language": "python",
     "code": "def solve_n_queens(n):\n    solutions, cols, diag1, diag2 = [], set(), set(), set()\n    board = []\n    def backtrack(row):\n        if row == n:\n            solutions.append(board[:])\n            return\n        for col in range(n):\n            if col in cols or row+col in diag1 or row-col in diag2:\n                continue\n            cols.add(col); diag1.add(row+col); diag2.add(row-col)\n            board.append(col)\n            backtrack(row + 1)\n            board.pop()\n            cols.remove(col); diag1.remove(row+col); diag2.remove(row-col)\n    backtrack(0)\n    return solutions\n\nsols = solve_n_queens(4)\nprint(len(sols), \"solutions:\", sols)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "4": 1,
+      "7": 17,
+      "10": 6,
+      "11": 8,
+      "12": 9,
+      "13": 12,
+      "15": 14
+    }
   }
 }

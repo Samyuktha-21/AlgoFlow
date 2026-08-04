@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def bellman_ford(n, edges, src):\n    dist = [float('inf')] * n\n    dist[src] = 0\n    for _ in range(n - 1):\n        for u, v, w in edges:\n            if dist[u] + w < dist[v]:\n                dist[v] = dist[u] + w\n    for u, v, w in edges:\n        if dist[u] + w < dist[v]:\n            return None  # negative cycle\n    return dist\n\nedges = [(0, 1, 4), (0, 2, 5), (1, 2, -3), (2, 3, 4)]\nprint(bellman_ford(4, edges, 0))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 1,
+      "7": 4,
+      "10": 6,
+      "11": 7,
+      "17": 11
+    }
   }
 }

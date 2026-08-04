@@ -23,5 +23,18 @@
     "language": "python",
     "code": "def build_lps(pat):\n    lps, length = [0] * len(pat), 0\n    i = 1\n    while i < len(pat):\n        if pat[i] == pat[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        elif length:\n            length = lps[length - 1]\n        else:\n            lps[i] = 0\n            i += 1\n    return lps\n\ndef kmp_search(text, pat):\n    lps, hits = build_lps(pat), []\n    i = j = 0\n    while i < len(text):\n        if text[i] == pat[j]:\n            i += 1; j += 1\n            if j == len(pat):\n                hits.append(i - j)\n                j = lps[j - 1]\n        elif j:\n            j = lps[j - 1]\n        else:\n            i += 1\n    return hits\n\nprint(kmp_search(\"ababcababcabc\", \"abc\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 1,
+      "7": 7,
+      "8": 10,
+      "9": 12,
+      "11": 14,
+      "18": 20,
+      "19": 23,
+      "21": 26,
+      "23": 29
+    }
   }
 }

@@ -6,7 +6,7 @@ export function generateSteps() {
   const cols=Array.from({length:W+1},(_,i)=>i)
   const steps=[]
   const addStep=(r,c,desc,line)=>steps.push({dp2d:dp.map(row=>[...row]),rows,cols:cols.slice(0,W+1),cell:{row:r,col:c},computed2d:computed2d.map(row=>[...row]),description:desc,codeLine:line,extra:{MaxValue:dp[r]?.[W]||0}})
-  addStep(0,0,'Initialize dp[0][w]=0 for all w (no items = 0 value)',2)
+  addStep(0,0,'Initialize dp[0][w]=0 for all w (no items = 0 value)',3)
   for(let w=0;w<=W;w++){dp[0][w]=0;computed2d[0][w]=true}
   for(let i=1;i<=n;i++){
     const wi=weights[i-1], vi=values[i-1]
@@ -17,6 +17,6 @@ export function generateSteps() {
       computed2d[i][w]=true
     }
   }
-  addStep(n,W,'Max value: dp['+n+']['+W+']='+dp[n][W],10)
+  addStep(n,W,'Max value: dp['+n+']['+W+']='+dp[n][W],11)
   return steps
 }

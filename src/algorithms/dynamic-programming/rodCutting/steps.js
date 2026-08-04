@@ -10,7 +10,7 @@ export function generateSteps(inputArray) {
     addStep(i,'Computing dp['+i+']: try all cuts 1..'+i,4)
     for(let j=1;j<=i;j++){
       const cand=price[j-1]+dp[i-j]
-      addStep(i,'Cut at '+j+': price['+j+']='+price[j-1]+'+dp['+(i-j)+']='+dp[i-j]+'='+cand+' vs dp['+i+']='+dp[i],5)
+      addStep(i,'Cut at '+j+': price['+j+']='+price[j-1]+'+dp['+(i-j)+']='+dp[i-j]+'='+cand+' vs dp['+i+']='+dp[i],6)
       if(cand>dp[i]) dp[i]=cand
     }
     computed[i]=true

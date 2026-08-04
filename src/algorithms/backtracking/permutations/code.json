@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def permute(nums):\n    result = []\n    def backtrack(path, remaining):\n        if not remaining:\n            result.append(path[:])\n            return\n        for i in range(len(remaining)):\n            path.append(remaining[i])\n            backtrack(path, remaining[:i] + remaining[i+1:])\n            path.pop()\n    backtrack([], nums)\n    return result\n\nprint(permute([1, 2, 3]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "4": 1,
+      "6": 12,
+      "9": 5,
+      "12": 8,
+      "14": 10
+    }
   }
 }

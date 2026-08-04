@@ -7,9 +7,9 @@ export function generateSteps(inputArray) {
   addStep(-1,-1,'Coin Change (Greedy): make '+amount+'¢ using ['+coins.join(',')+']',2)
   for(let i=0;i<coins.length;i++){
     const cnt=Math.floor(rem/coins[i])
-    addStep(i,cnt,'Coin '+coins[i]+'¢: '+rem+'÷'+coins[i]+'='+cnt+' coins',4)
-    if(cnt>0){used.push({coin:coins[i],count:cnt});sorted.push(i);rem-=cnt*coins[i];addStep(i,cnt,'Use '+cnt+'×'+coins[i]+'¢ = '+(cnt*coins[i])+'¢. Remaining='+rem,5)}
+    addStep(i,cnt,'Coin '+coins[i]+'¢: '+rem+'÷'+coins[i]+'='+cnt+' coins',5)
+    if(cnt>0){used.push({coin:coins[i],count:cnt});sorted.push(i);rem-=cnt*coins[i];addStep(i,cnt,'Use '+cnt+'×'+coins[i]+'¢ = '+(cnt*coins[i])+'¢. Remaining='+rem,6)}
   }
-  addStep(-1,-1,'Total coins: '+used.map(u=>u.count+'×'+u.coin+'¢').join(' + '),6)
+  addStep(-1,-1,'Total coins: '+used.map(u=>u.count+'×'+u.coin+'¢').join(' + '),8)
   return steps
 }

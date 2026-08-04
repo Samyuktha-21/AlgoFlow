@@ -182,7 +182,7 @@ int main() {
     lineMap: {
       c:          { 2: 2, 5: 8, 7: 10, 8: 11 },
       cpp:        { 2: 4, 5: 10, 7: 12, 8: 13 },
-      python:     { 2: 1, 5: 3, 7: 6, 8: 7 },
+      python:     { 2: 1, 5: 3, 6: 5, 7: 6, 8: 7 },
       javascript: { 2: 1, 5: 3, 7: 5, 8: 6 },
     },
   },
@@ -192,7 +192,7 @@ int main() {
     lineMap: {
       c:          { 2: 3, 10: 10 },
       cpp:        { 2: 4, 10: 11 },
-      python:     { 2: 1, 10: 15 },
+      python:     { 2: 1, 7: 10, 10: 15 },
       javascript: { 2: 1, 10: 9 },
     },
   },
@@ -235,6 +235,23 @@ console.log(twoSum([1, 2, 4, 6, 8, 9, 14, 15], 13));`,
       cpp:        { 2: 1, 4: 5, 5: 6, 7: 8, 8: 9 },
       python:     { 2: 1, 4: 2, 5: 3, 7: 5, 8: 7 },
       javascript: { 2: 1, 4: 2, 5: 3, 7: 5, 8: 6 },
+    },
+  },
+
+  /* java: 3 = the two pointers, 5 = the character comparison (a mismatch
+     returns straight from this line), 8 = every pair matched. */
+  palindromeCheck: {
+    lineMap: {
+      python: { 3: 2, 5: 4, 8: 8 },
+    },
+  },
+
+  /* java: 3 = the two pointers, 5 = the swap, 11 = print the reversed value.
+     Java reverses the caller's char[] in place and has nothing to return, so
+     the result surfaces in main; Python returns a rebuilt string instead. */
+  reverseString: {
+    lineMap: {
+      python: { 3: 3, 5: 5, 11: 10 },
     },
   },
 }

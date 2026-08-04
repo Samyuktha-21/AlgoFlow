@@ -20,11 +20,33 @@ module.exports = {
      5 = recurse right, 6 = combine.
      C++/Python/JS compute both sides inside the `max(...)` call, so the two
      recursive descents share a line; only the left one claims it. */
+  /* The Python here answered a different question: Java's base case returns
+     -1 so height counts EDGES, Python returned 0 so it counted NODES — the
+     same tree gave 2 in Java and 3 in Python, and the step descriptions
+     (written against Java) contradicted the Python listing. Base case fixed
+     to -1 so both compute the same value. */
   treeHeight: {
+    snippets: {
+      python: `class Node:
+    def __init__(self, val):
+        self.val, self.left, self.right = val, None, None
+
+
+def height(root):
+    if not root:
+        return -1  # -1 so height counts edges, not nodes
+    return 1 + max(height(root.left), height(root.right))
+
+
+root = Node(1)
+root.left, root.right = Node(2), Node(3)
+root.left.left = Node(4)
+print(height(root))`,
+    },
     lineMap: {
       c:          { 2: 6, 3: 7, 4: 8, 5: null, 6: 9 },
       cpp:        { 2: 9, 3: 10, 4: 11, 5: null, 6: null },
-      python:     { 2: 5, 3: 6, 4: 8, 5: null, 6: null },
+      python:     { 2: 6, 3: 8, 4: 9, 5: null, 6: null },
       javascript: { 2: 9, 3: 10, 4: 11, 5: null, 6: null },
     },
   },
@@ -194,6 +216,74 @@ int main() {
       cpp:        { 2: 4, 4: 8, 5: 9, 7: 11 },
       python:     { 2: 3, 4: 5, 5: 6, 7: 8 },
       javascript: { 2: 1, 4: 12, 5: 13, 7: 15 },
+    },
+  },
+
+  /* The shipped Java packed all of insert() plus both rotations onto three
+     lines, so every one of the 15 visualization steps would have highlighted
+     the same line. Re-expanded here (whitespace only — identical program) and
+     steps.js was re-authored against these numbers.
+
+     java: 8 = height(), 10 = balance(), 14/23 = the pointer swing inside each
+     rotation, 30 = insert(), 31 = the empty-slot base case, 32/33 = descend,
+     34 = duplicate key, 36 = compute the balance factor, 37/38/39/43 = the
+     LL/RR/LR/RL cases, 47 = return the (possibly new) subtree root. */
+  avlTree: {
+    snippets: {
+      java: `public class AVLTree {
+    class Node {
+        int val, height;
+        Node left, right;
+        Node(int v) { val = v; height = 1; }
+    }
+
+    int height(Node n) { return n == null ? 0 : n.height; }
+
+    int balance(Node n) { return n == null ? 0 : height(n.left) - height(n.right); }
+
+    Node rotateRight(Node y) {
+        Node x = y.left, T2 = x.right;
+        x.right = y;
+        y.left = T2;
+        y.height = 1 + Math.max(height(y.left), height(y.right));
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+        return x;
+    }
+
+    Node rotateLeft(Node x) {
+        Node y = x.right, T2 = y.left;
+        y.left = x;
+        x.right = T2;
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+        y.height = 1 + Math.max(height(y.left), height(y.right));
+        return y;
+    }
+
+    Node insert(Node node, int key) {
+        if (node == null) return new Node(key);
+        if (key < node.val) node.left = insert(node.left, key);
+        else if (key > node.val) node.right = insert(node.right, key);
+        else return node;
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        int bf = balance(node);
+        if (bf > 1 && key < node.left.val) return rotateRight(node);
+        if (bf < -1 && key > node.right.val) return rotateLeft(node);
+        if (bf > 1 && key > node.left.val) {
+            node.left = rotateLeft(node.left);
+            return rotateRight(node);
+        }
+        if (bf < -1 && key < node.right.val) {
+            node.right = rotateRight(node.right);
+            return rotateLeft(node);
+        }
+        return node;
+    }
+}`,
+    },
+    lineMap: {
+      // Python's insert has no explicit duplicate branch — its `else` covers
+      // both `>` and `==`, so java 34 has no equivalent line.
+      python: { 8: 6, 10: 9, 14: 17, 23: 23, 30: 27, 31: 29, 32: 31, 33: 33, 34: null, 36: 35, 37: 36, 38: 38, 39: 40, 43: 43, 47: 46 },
     },
   },
 }

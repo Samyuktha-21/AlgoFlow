@@ -10,22 +10,22 @@ export function generateSteps(inputArray) {
   }
   let found=0
   function solve(row){
-    if(row===n){found++;addStep(-1,-1,false,'Solution '+found+' found!',9);return}
+    if(row===n){found++;addStep(-1,-1,false,'Solution '+found+' found!',10);return}
     for(let col=0;col<n&&found<3;col++){
-      addStep(row,col,false,'Try Queen at row '+row+', col '+col,10)
+      addStep(row,col,false,'Try Queen at row '+row+', col '+col,11)
       if(isSafe(row,col)){
         queens[row]=col
-        addStep(row,col,false,'Safe! Place queen at ('+row+','+col+')',12)
+        addStep(row,col,false,'Safe! Place queen at ('+row+','+col+')',13)
         solve(row+1)
         queens[row]=-1
-        if(found<3) addStep(row,col,true,'Backtrack: remove queen from ('+row+','+col+')',13)
+        if(found<3) addStep(row,col,true,'Backtrack: remove queen from ('+row+','+col+')',15)
       } else {
-        addStep(row,col,true,'Conflict! Cannot place at ('+row+','+col+')',11)
+        addStep(row,col,true,'Conflict! Cannot place at ('+row+','+col+')',12)
       }
     }
   }
-  addStep(0,0,false,'N-Queens (N='+n+'): place '+n+' non-attacking queens',2)
+  addStep(0,0,false,'N-Queens (N='+n+'): place '+n+' non-attacking queens',4)
   solve(0)
-  if(found===0) addStep(-1,-1,false,'No solution exists for N='+n,14)
+  if(found===0) addStep(-1,-1,false,'No solution exists for N='+n,7)
   return steps
 }

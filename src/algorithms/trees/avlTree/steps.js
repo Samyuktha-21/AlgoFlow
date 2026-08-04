@@ -37,13 +37,15 @@ export function generateSteps(inputArray) {
   let idCounter = 0;
   let root = null;
 
-  const snap = (desc, highlightIds = [], rotationType = null) => {
+  /* codeLine numbers refer to the Java block in code.json (the canonical
+     source every language's lineMap is keyed against). */
+  const snap = (desc, highlightIds = [], rotationType = null, codeLine = null) => {
     const nodes = treeToNodes(root);
     steps.push({ nodes, visited: highlightIds, current: highlightIds[0] ?? null, description: desc,
-      extra: { rotationType, nodeCount: nodes.length } });
+      extra: { rotationType, nodeCount: nodes.length }, codeLine });
   };
 
-  snap(`AVL Tree: inserting values ${values.join(', ')}. Each node shows its Balance Factor (left height − right height).`);
+  snap(`AVL Tree: inserting values ${values.join(', ')}. Each node shows its Balance Factor (left height − right height).`, [], null, 10);
 
   function newNode(val) {
     return { id: idCounter++, value: val, left: null, right: null };
@@ -52,56 +54,56 @@ export function generateSteps(inputArray) {
   function rotateRight(y) {
     const x = y.left, T2 = x.right;
     x.right = y; y.left = T2;
-    snap(`Right Rotation: "${y.value}" moves DOWN, "${x.value}" moves UP. This fixes left-heavy imbalance (BF > 1).`, [x.id, y.id], 'RIGHT');
+    snap(`Right Rotation: "${y.value}" moves DOWN, "${x.value}" moves UP. This fixes left-heavy imbalance (BF > 1).`, [x.id, y.id], 'RIGHT', 14);
     return x;
   }
 
   function rotateLeft(x) {
     const y = x.right, T2 = y.left;
     y.left = x; x.right = T2;
-    snap(`Left Rotation: "${x.value}" moves DOWN, "${y.value}" moves UP. This fixes right-heavy imbalance (BF < -1).`, [x.id, y.id], 'LEFT');
+    snap(`Left Rotation: "${x.value}" moves DOWN, "${y.value}" moves UP. This fixes right-heavy imbalance (BF < -1).`, [x.id, y.id], 'LEFT', 23);
     return y;
   }
 
   function insert(node, val) {
     if (!node) {
       const n = newNode(val);
-      snap(`Inserted ${val} as new leaf node.`, [n.id]);
+      snap(`Inserted ${val} as new leaf node.`, [n.id], null, 31);
       return n;
     }
     if (val < node.value) {
-      snap(`${val} < ${node.value}: go LEFT`, [node.id]);
+      snap(`${val} < ${node.value}: go LEFT`, [node.id], null, 32);
       node.left = insert(node.left, val);
     } else if (val > node.value) {
-      snap(`${val} > ${node.value}: go RIGHT`, [node.id]);
+      snap(`${val} > ${node.value}: go RIGHT`, [node.id], null, 33);
       node.right = insert(node.right, val);
     } else {
-      snap(`${val} already exists — no duplicate`, [node.id]);
+      snap(`${val} already exists — no duplicate`, [node.id], null, 34);
       return node;
     }
 
     const bf = getBF(node);
-    snap(`Check balance at ${node.value}: BF = ${bf}. ${Math.abs(bf) <= 1 ? 'Balanced ✓' : 'IMBALANCED! Need rotation.'}`, [node.id]);
+    snap(`Check balance at ${node.value}: BF = ${bf}. ${Math.abs(bf) <= 1 ? 'Balanced ✓' : 'IMBALANCED! Need rotation.'}`, [node.id], null, 36);
 
     // LL Case
     if (bf > 1 && val < node.left.value) {
-      snap(`LL Case at ${node.value} (BF=${bf}, inserted ${val} in LEFT-LEFT). Performing Right Rotation.`, [node.id, node.left.id], 'LL');
+      snap(`LL Case at ${node.value} (BF=${bf}, inserted ${val} in LEFT-LEFT). Performing Right Rotation.`, [node.id, node.left.id], 'LL', 37);
       return rotateRight(node);
     }
     // RR Case
     if (bf < -1 && val > node.right.value) {
-      snap(`RR Case at ${node.value} (BF=${bf}, inserted ${val} in RIGHT-RIGHT). Performing Left Rotation.`, [node.id, node.right.id], 'RR');
+      snap(`RR Case at ${node.value} (BF=${bf}, inserted ${val} in RIGHT-RIGHT). Performing Left Rotation.`, [node.id, node.right.id], 'RR', 38);
       return rotateLeft(node);
     }
     // LR Case
     if (bf > 1 && val > node.left.value) {
-      snap(`LR Case at ${node.value} (BF=${bf}, inserted ${val} in LEFT-RIGHT). Left rotate child first, then Right rotate.`, [node.id, node.left.id], 'LR');
+      snap(`LR Case at ${node.value} (BF=${bf}, inserted ${val} in LEFT-RIGHT). Left rotate child first, then Right rotate.`, [node.id, node.left.id], 'LR', 39);
       node.left = rotateLeft(node.left);
       return rotateRight(node);
     }
     // RL Case
     if (bf < -1 && val < node.right.value) {
-      snap(`RL Case at ${node.value} (BF=${bf}, inserted ${val} in RIGHT-LEFT). Right rotate child first, then Left rotate.`, [node.id, node.right.id], 'RL');
+      snap(`RL Case at ${node.value} (BF=${bf}, inserted ${val} in RIGHT-LEFT). Right rotate child first, then Left rotate.`, [node.id, node.right.id], 'RL', 43);
       node.right = rotateRight(node.right);
       return rotateLeft(node);
     }
@@ -110,12 +112,12 @@ export function generateSteps(inputArray) {
   }
 
   for (const val of values) {
-    snap(`Inserting ${val} into AVL Tree...`);
+    snap(`Inserting ${val} into AVL Tree...`, [], null, 30);
     root = insert(root, val);
     const nodes = treeToNodes(root);
-    snap(`After inserting ${val}: tree has ${nodes.length} nodes, all balanced (|BF| ≤ 1).`, []);
+    snap(`After inserting ${val}: tree has ${nodes.length} nodes, all balanced (|BF| ≤ 1).`, [], null, 47);
   }
 
-  snap(`AVL Tree complete! All ${values.length} values inserted. Height = ${calcHeight(root)}. Search is O(log n) guaranteed.`);
+  snap(`AVL Tree complete! All ${values.length} values inserted. Height = ${calcHeight(root)}. Search is O(log n) guaranteed.`, [], null, 8);
   return steps;
 }

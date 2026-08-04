@@ -23,5 +23,13 @@
     "language": "python",
     "code": "def solve_sudoku(board):\n    def valid(r, c, ch):\n        box = 3 * (r // 3), 3 * (c // 3)\n        for i in range(9):\n            if board[r][i] == ch or board[i][c] == ch:\n                return False\n            if board[box[0] + i // 3][box[1] + i % 3] == ch:\n                return False\n        return True\n\n    def backtrack():\n        for r in range(9):\n            for c in range(9):\n                if board[r][c] == 0:\n                    for ch in range(1, 10):\n                        if valid(r, c, ch):\n                            board[r][c] = ch\n                            if backtrack():\n                                return True\n                            board[r][c] = 0\n                    return False\n        return True\n\n    backtrack()\n    return board\n\ngrid = [[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],\n        [8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],\n        [0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]]\nfor row in solve_sudoku(grid):\n    print(row)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 11,
+      "7": 17,
+      "9": 20,
+      "15": 22
+    }
   }
 }

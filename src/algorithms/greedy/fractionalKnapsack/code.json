@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def fractional_knapsack(items, capacity):\n    items.sort(key=lambda it: it[1] / it[0], reverse=True)  # by value/weight\n    total = 0.0\n    for weight, value in items:\n        if capacity >= weight:\n            capacity -= weight\n            total += value\n        else:\n            total += value * capacity / weight\n            break\n    return total\n\nitems = [(10, 60), (20, 100), (30, 120)]  # (weight, value)\nprint(fractional_knapsack(items, 50))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "7": 2,
+      "9": 4,
+      "10": 5,
+      "11": 9,
+      "13": 11
+    }
   }
 }

@@ -37,7 +37,9 @@ console.log(twoSum([2, 7, 11, 15], 9));`,
     lineMap: {
       c:          { 2: 2, 5: 4, 7: 5, 9: null, 11: null },
       cpp:        { 2: 5, 5: 7, 7: 8, 9: null, 11: null },
-      python:     { 2: 1, 5: 3, 7: 4, 9: null, 11: null },
+      // Python's `cur = max(x, cur + x)` fuses the test with both branches,
+      // so java 6's standalone comparison has no line of its own.
+      python:     { 2: 1, 5: 3, 6: null, 7: 4, 9: null, 11: null },
       javascript: { 2: 1, 5: 3, 7: 4, 9: null, 11: null },
     },
   },
@@ -92,7 +94,9 @@ console.log(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3).join(' '));`,
       // C and Python take/derive the length without a dedicated line.
       c:          { 2: 2, 4: null, 6: 3, 7: 4, 9: 6, 10: 7 },
       cpp:        { 2: 4, 4: 5, 6: 7, 7: 8, 9: 10, 10: 11 },
-      python:     { 2: 3, 4: null, 6: 4, 7: 5, 9: 6, 10: 8 },
+      // java 5 allocates a result array; Python's line 4 creates BOTH the
+      // deque and the output list and is already claimed by java 6.
+      python:     { 2: 3, 4: null, 5: null, 6: 4, 7: 5, 9: 6, 10: 8 },
       javascript: { 2: 1, 4: 2, 6: 4, 7: 5, 9: 7, 10: 8 },
     },
   },
@@ -106,6 +110,47 @@ console.log(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3).join(' '));`,
       cpp:        { 2: 4, 5: 7, 6: 8, 8: 9, 10: 10, 12: null },
       python:     { 2: 1, 5: 4, 6: 5, 8: 7, 10: 9, 12: 11 },
       javascript: { 2: 1, 5: 4, 6: 5, 8: 8, 10: 10, 12: 12 },
+    },
+  },
+
+  /* java: 2 = isAnagram(), 3 = the length guard, 5 = tally s, 6 = untally t,
+     7 = the leftover check, 8 = success.
+     Python counts into a dict and detects the mismatch DURING the second pass
+     rather than sweeping a 26-slot array afterwards, so java 7's sweep maps to
+     that inline guard. Lines past 3 only run when both strings are the same
+     length — the default demo input is not, so one run never reaches them. */
+  anagramCheck: {
+    lineMap: {
+      python: { 2: 1, 3: 2, 5: 6, 6: 10, 7: 8, 8: 11 },
+    },
+  },
+
+  /* java: 2 = the entry point, 7 = the character comparison (also the only
+     line a mismatch executes, since Java leaves dp at its default 0),
+     8 = extend the run, 12 = return the answer. */
+  longestCommonSubstring: {
+    lineMap: {
+      python: { 2: 1, 7: 7, 8: 8, 12: 11 },
+    },
+  },
+
+  /* java: 4 = sort by start, 6 = seed `current`, 8 = the overlap test,
+     9 = extend the end, 11 = flush a finished interval, 16 = return.
+     Python keeps no separate `current` variable — it mutates merged[-1] in
+     place — so java 6 lands on the loop line that binds each interval. */
+  mergeIntervals: {
+    lineMap: {
+      python: { 4: 2, 6: 4, 8: 5, 9: 6, 11: 8, 16: 9 },
+    },
+  },
+
+  /* java: 4 = the stack, 6 = push an opener, 8 = the empty-stack guard,
+     9 = pop the top, 10 = the mismatch test, 15 = the final emptiness check.
+     Python folds guard + pop + compare into one `elif`, so the pop wins that
+     line and the standalone guard (java 8) has no separate equivalent. */
+  validParentheses: {
+    lineMap: {
+      python: { 4: 3, 6: 6, 8: null, 9: 7, 10: 8, 15: 9 },
     },
   },
 }

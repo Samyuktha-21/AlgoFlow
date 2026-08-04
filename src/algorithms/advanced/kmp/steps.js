@@ -7,21 +7,21 @@ export function generateSteps() {
   addStep(0,0,'Build','KMP: build failure function (LPS) for pattern "'+pattern+'"',2)
   let len=0, fi=1
   while(fi<m){
-    if(pattern[fi]===pattern[len]){lps[fi++]=++len;addStep(0,0,'Build','lps['+( fi-1)+']='+lps[fi-1]+': prefix match length='+len,4)}
-    else if(len>0){len=lps[len-1];addStep(0,0,'Build','Mismatch: use lps['+(len)+']='+lps[len],5)}
-    else{lps[fi++]=0;addStep(0,0,'Build','No match: lps['+(fi-1)+']=0',6)}
+    if(pattern[fi]===pattern[len]){lps[fi++]=++len;addStep(0,0,'Build','lps['+( fi-1)+']='+lps[fi-1]+': prefix match length='+len,7)}
+    else if(len>0){len=lps[len-1];addStep(0,0,'Build','Mismatch: use lps['+(len)+']='+lps[len],8)}
+    else{lps[fi++]=0;addStep(0,0,'Build','No match: lps['+(fi-1)+']=0',9)}
   }
-  addStep(0,0,'Search','LPS built: ['+lps.join(',')+']  Now search text for "'+pattern+'"',8)
+  addStep(0,0,'Search','LPS built: ['+lps.join(',')+']  Now search text for "'+pattern+'"',11)
   let i=0, j=0
   while(i<n){
-    addStep(i,j,'Search','text['+i+']="'+text[i]+'" vs pattern['+j+']="'+pattern[j]+'"',10)
-    if(text[i]===pattern[j]){i++;j++;addStep(i,j,'Search','Match! i='+i+', j='+j,11)}
-    if(j===m){found.push(i-j);addStep(i,0,'Search','Pattern found at index '+(i-j)+'!',12);j=lps[j-1]}
+    addStep(i,j,'Search','text['+i+']="'+text[i]+'" vs pattern['+j+']="'+pattern[j]+'"',18)
+    if(text[i]===pattern[j]){i++;j++;addStep(i,j,'Search','Match! i='+i+', j='+j,18)}
+    if(j===m){found.push(i-j);addStep(i,0,'Search','Pattern found at index '+(i-j)+'!',19);j=lps[j-1]}
     else if(i<n&&text[i]!==pattern[j]){
-      if(j>0){addStep(i,j,'Search','Mismatch: skip to lps['+(j-1)+']='+lps[j-1],14);j=lps[j-1]}
-      else{addStep(i,0,'Search','j=0 mismatch: advance i',15);i++}
+      if(j>0){addStep(i,j,'Search','Mismatch: skip to lps['+(j-1)+']='+lps[j-1],21);j=lps[j-1]}
+      else{addStep(i,0,'Search','j=0 mismatch: advance i',21);i++}
     }
   }
-  addStep(n,0,'Done','KMP complete. Pattern found at indices: ['+found.join(',')+']',16)
+  addStep(n,0,'Done','KMP complete. Pattern found at indices: ['+found.join(',')+']',23)
   return steps
 }

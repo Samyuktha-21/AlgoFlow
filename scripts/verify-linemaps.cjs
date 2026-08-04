@@ -16,7 +16,8 @@ const fs = require('fs')
 const path = require('path')
 
 const ROOT = 'src/algorithms'
-const LANGS = ['c', 'cpp', 'python', 'javascript']
+/* Python is the only mapped language; Java is canonical and maps to itself. */
+const LANGS = ['python']
 
 /* Crude "do these two lines do the same kind of thing?" signal. Purely an
    attention-focusing heuristic for --suspect; never used to change data. */

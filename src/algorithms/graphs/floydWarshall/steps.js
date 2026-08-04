@@ -9,22 +9,22 @@ export function generateSteps(){
   const positions=computeLayout(NODES,EDGES)
   const steps=[]
   const addStep=(i,j,k,desc,line)=>steps.push({dp2d:dist.map(r=>[...r].map(v=>v>=999?'∞':v)),rows:['0','1','2','3'],cols:['0','1','2','3'],cell:{row:i,col:j},computed2d:computed.map(r=>[...r]),description:desc,codeLine:line,extra:{k:k>=0?'via '+k:'init'},nodes:NODES.map(n=>({...n,...positions[n.id]})),edges:EDGES,visited:[],current:-1,queue:[]})
-  addStep(0,0,-1,'Initialize dist matrix. 0 on diagonal, ∞ for no edge, edge weight otherwise.',2)
+  addStep(0,0,-1,'Initialize dist matrix. 0 on diagonal, ∞ for no edge, edge weight otherwise.',3)
   for(let i=0;i<V;i++) for(let j=0;j<V;j++) computed[0][0]=true
   for(let k=0;k<V;k++){
-    addStep(0,0,k,'Intermediate vertex k='+k+': check if going through '+k+' improves any path',3)
+    addStep(0,0,k,'Intermediate vertex k='+k+': check if going through '+k+' improves any path',4)
     for(let i=0;i<V;i++){
       for(let j=0;j<V;j++){
         if(dist[i][k]+dist[k][j]<dist[i][j]){
           const old=dist[i][j]>=999?'∞':dist[i][j]
-          addStep(i,j,k,'dist['+i+']['+j+']='+old+' > dist['+i+']['+k+']+dist['+k+']['+j+']='+(dist[i][k]+dist[k][j])+' → update',5)
+          addStep(i,j,k,'dist['+i+']['+j+']='+old+' > dist['+i+']['+k+']+dist['+k+']['+j+']='+(dist[i][k]+dist[k][j])+' → update',8)
           dist[i][j]=dist[i][k]+dist[k][j]
           computed[i][j]=true
-          addStep(i,j,k,'Updated dist['+i+']['+j+']='+dist[i][j],5)
+          addStep(i,j,k,'Updated dist['+i+']['+j+']='+dist[i][j],8)
         }
       }
     }
   }
-  addStep(0,0,-1,'All-pairs shortest paths computed!',7)
+  addStep(0,0,-1,'All-pairs shortest paths computed!',9)
   return steps
 }

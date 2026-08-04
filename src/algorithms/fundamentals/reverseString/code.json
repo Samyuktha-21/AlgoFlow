@@ -23,5 +23,12 @@
     "language": "python",
     "code": "def reverse_string(s):\n    chars = list(s)\n    left, right = 0, len(chars) - 1\n    while left < right:\n        chars[left], chars[right] = chars[right], chars[left]\n        left += 1\n        right -= 1\n    return ''.join(chars)\n\nprint(reverse_string(\"hello\"))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 3,
+      "5": 5,
+      "11": 10
+    }
   }
 }

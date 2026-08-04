@@ -23,5 +23,14 @@
     "language": "python",
     "code": "def rat_in_maze(maze):\n    n = len(maze)\n    path, visited = [], set()\n    def backtrack(r, c):\n        if r == n - 1 and c == n - 1:\n            path.append((r, c))\n            return True\n        if 0 <= r < n and 0 <= c < n and maze[r][c] == 1 and (r, c) not in visited:\n            visited.add((r, c))\n            path.append((r, c))\n            for dr, dc in [(1, 0), (0, 1), (-1, 0), (0, -1)]:\n                if backtrack(r + dr, c + dc):\n                    return True\n            path.pop()\n        return False\n    return path if backtrack(0, 0) else None\n\nmaze = [[1, 0, 0, 0],\n        [1, 1, 0, 1],\n        [0, 1, 0, 0],\n        [1, 1, 1, 1]]\nprint(rat_in_maze(maze))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 1,
+      "7": 16,
+      "10": 6,
+      "17": 12,
+      "19": 14
+    }
   }
 }

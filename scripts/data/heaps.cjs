@@ -59,7 +59,7 @@ console.log(h.heap.join(' '));`,
     lineMap: {
       c:          { 2: 2, 7: 21, 9: 14, 14: 5 },
       cpp:        { 2: 19, 7: 20, 9: 14, 14: 7 },
-      python:     { 2: 3, 7: 5, 9: 7, 14: 13 },
+      python:     { 2: 3, 7: 5, 9: 7, 12: 11, 13: 12, 14: 13 },
       javascript: { 2: 3, 7: 5, 9: 7, 14: 13 },
     },
   },
@@ -186,7 +186,9 @@ int main() {
     lineMap: {
       c:          { 2: 34, 4: 3, 8: 38, 9: 39 },
       cpp:        { 2: 4, 4: 5, 8: 9, 9: 10 },
-      python:     { 2: 3, 4: 5, 8: 8, 9: 9 },
+      // Python's heapreplace does java's offer AND poll in one call, which
+      // java 8 already maps to; java 7's size guard is Python's value test.
+      python:     { 2: 3, 4: 5, 6: null, 7: 7, 8: 8, 9: 9 },
       javascript: { 2: 1, 4: 2, 8: 34, 9: 35 },
     },
   },

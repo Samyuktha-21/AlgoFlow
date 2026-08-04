@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useParams, Link, useSearchParams } from 'react-router-dom'
-import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check, Bookmark, BookmarkCheck, Code2 } from 'lucide-react'
+import { ChevronRight, Target, BarChart2, Globe, CheckCircle, Share2, Check, Bookmark, BookmarkCheck, Code2, Info } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useVisualization } from '../context/VisualizationContext'
 import { useBeginner } from '../context/BeginnerContext'
@@ -26,7 +26,7 @@ import ApplicationsPanel from '../components/InfoPanels/ApplicationsPanel'
 import Seo from '../components/Seo'
 import { getWhyText, deriveResult } from '../utils/stepExplain'
 import { getDefaultInput } from '../game/defaultInput'
-import { resolveHighlightLine } from '../utils/highlightLine'
+import { resolveHighlightLine, highlightLangs } from '../utils/highlightLine'
 
 const metaModules  = import.meta.glob('../algorithms/**/*.json')
 const stepsModules = import.meta.glob('../algorithms/**/*.js')
@@ -376,6 +376,17 @@ export default function Algorithm() {
   /* codeLine is authored against the Java block; translate it to the active
      language via code.json's lineMap (Java = identity; unmapped = no highlight). */
   const highlightedLine = resolveHighlightLine(currentStep?.codeLine, activeLang, codeData?.lineMap)
+
+  /* Which languages follow along with the playback for THIS algorithm. Read
+     from the data so the answer stays honest per algorithm rather than being
+     a blanket claim. A few algorithms emit no codeLine at all, in which case
+     not even Java highlights and the list comes back empty. */
+  const stepsHaveCodeLine = steps.some(s => typeof s?.codeLine === 'number')
+  const litLangs          = highlightLangs(codeData?.lineMap, stepsHaveCodeLine)
+  const litLabel          = litLangs.map(l => LANG_LABELS[l] || l).join(' and ')
+  const highlightNote     = litLangs.length
+    ? `Line highlighting follows the animation in ${litLabel}. Other languages show the same algorithm without a synced highlight.`
+    : 'This algorithm has no per-step line highlighting yet.'
 
   const handleVisualize = useCallback((inputStr, targetStr) => {
     if (!stepsModule?.generateSteps) return { error: 'Algorithm not yet implemented' }
@@ -733,7 +744,23 @@ export default function Algorithm() {
                     </button>
                   )
                 })}
-                <span style={{ marginLeft:'auto', fontSize:10, color:'rgba(255,255,255,0.2)', paddingRight:8, userSelect:'none' }}>
+                {/* Which languages actually follow the animation. Shown as a
+                    quiet marker rather than a warning — the other languages
+                    are still correct code, they just have no synced line. */}
+                <span
+                  title={highlightNote}
+                  tabIndex={0}
+                  aria-label={highlightNote}
+                  style={{
+                    marginLeft:'auto', display:'inline-flex', alignItems:'center', gap:4,
+                    fontSize:10, paddingRight:8, cursor:'help', userSelect:'none',
+                    color: litLangs.includes(activeLang) ? `rgba(${themeAccRgb},0.75)` : 'rgba(255,255,255,0.3)',
+                  }}
+                >
+                  <Info size={12} />
+                  {litLangs.length ? litLabel : 'no highlight'}
+                </span>
+                <span style={{ fontSize:10, color:'rgba(255,255,255,0.2)', paddingRight:8, userSelect:'none' }}>
                   ←→ drag to resize
                 </span>
               </div>

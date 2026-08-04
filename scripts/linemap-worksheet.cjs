@@ -15,7 +15,9 @@ const fs = require('fs')
 const path = require('path')
 const { pathToFileURL } = require('url')
 
-const TARGET_LANGS = ['c', 'cpp', 'python', 'javascript']
+/* Python is the only language that needs a hand-authored map (Java is
+   canonical and highlights via identity), so the worksheet prints only it. */
+const TARGET_LANGS = ['python']
 const ROOT = 'src/algorithms'
 
 let appMods = null

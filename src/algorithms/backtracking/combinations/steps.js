@@ -8,16 +8,16 @@ export function generateSteps(inputArray) {
   }
   let limit=60
   function bt(start){
-    if(current.length===k){results.push([...current]);addStep(start,false,'Combination: ['+current.join(',')+'] ('+results.length+' found)',5);return}
+    if(current.length===k){results.push([...current]);addStep(start,false,'Combination: ['+current.join(',')+'] ('+results.length+' found)',9);return}
     if(steps.length>limit) return
     for(let i=start;i<=n-(k-current.length)+1;i++){
-      current.push(i); addStep(i,false,'Choose '+i+'. Current: ['+current.join(',')+']',8)
+      current.push(i); addStep(i,false,'Choose '+i+'. Current: ['+current.join(',')+']',11)
       bt(i+1)
-      current.pop(); addStep(i,true,'Skip/backtrack '+i,9)
+      current.pop(); addStep(i,true,'Skip/backtrack '+i,13)
     }
   }
-  addStep(1,false,'C('+n+','+k+'): combinations of '+k+' from [1..'+n+']',2)
+  addStep(1,false,'C('+n+','+k+'): combinations of '+k+' from [1..'+n+']',3)
   bt(1)
-  addStep(1,false,'All '+results.length+' combinations found',11)
+  addStep(1,false,'All '+results.length+' combinations found',6)
   return steps
 }

@@ -23,5 +23,15 @@
     "language": "python",
     "code": "import heapq\n\ndef dijkstra(graph, src):\n    dist = {node: float('inf') for node in graph}\n    dist[src] = 0\n    pq = [(0, src)]\n    while pq:\n        d, u = heapq.heappop(pq)\n        if d > dist[u]:\n            continue\n        for v, w in graph[u]:\n            if d + w < dist[v]:\n                dist[v] = d + w\n                heapq.heappush(pq, (dist[v], v))\n    return dist\n\ngraph = {0: [(1, 4), (2, 1)], 1: [(3, 1)], 2: [(1, 2), (3, 5)], 3: []}\nprint(dijkstra(graph, 0))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 3,
+      "14": 9,
+      "15": 8,
+      "17": 12,
+      "18": 13,
+      "23": 15
+    }
   }
 }

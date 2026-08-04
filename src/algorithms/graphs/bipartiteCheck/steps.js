@@ -8,18 +8,18 @@ export function generateSteps(){
   const positions=computeLayout(nodes,edges)
   const color={}, steps=[], visited=[]
   const addStep=(cur,q,desc,line)=>steps.push({nodes:nodes.map(n=>({...n,...positions[n.id]})),edges:[...edges],visited:[...visited],current:cur,queue:[...q],description:desc,codeLine:line,extra:{bipartite:true}})
-  addStep(-1,[],'2-color graph: adjacent nodes must have different colors (0=blue, 1=red)',2)
+  addStep(-1,[],'2-color graph: adjacent nodes must have different colors (0=blue, 1=red)',3)
   color[0]=0; const queue=[0]
-  addStep(0,[...queue],'Color node 0 = blue (group 0)',3)
+  addStep(0,[...queue],'Color node 0 = blue (group 0)',7)
   while(queue.length>0){
     const u=queue.shift()
     visited.push(u)
-    addStep(u,[...queue],'Process node '+u+' (color '+color[u]+')',5)
+    addStep(u,[...queue],'Process node '+u+' (color '+color[u]+')',11)
     for(const v of adj[u]){
-      if(color[v]===undefined){color[v]=1-color[u];queue.push(v);addStep(v,[...queue],'Color node '+v+' = '+(color[v]===0?'blue':'red')+' (opposite of '+u+')',7)}
-      else if(color[v]===color[u]){addStep(u,[...queue],'CONFLICT! Nodes '+u+' and '+v+' are adjacent with same color → NOT BIPARTITE',9);return steps}
+      if(color[v]===undefined){color[v]=1-color[u];queue.push(v);addStep(v,[...queue],'Color node '+v+' = '+(color[v]===0?'blue':'red')+' (opposite of '+u+')',13)}
+      else if(color[v]===color[u]){addStep(u,[...queue],'CONFLICT! Nodes '+u+' and '+v+' are adjacent with same color → NOT BIPARTITE',14);return steps}
     }
   }
-  addStep(-1,[],'Graph IS bipartite! Blue set: ['+nodes.filter(n=>color[n.id]===0).map(n=>n.id).join(',')+'], Red set: ['+nodes.filter(n=>color[n.id]===1).map(n=>n.id).join(',')+']',11)
+  addStep(-1,[],'Graph IS bipartite! Blue set: ['+nodes.filter(n=>color[n.id]===0).map(n=>n.id).join(',')+'], Red set: ['+nodes.filter(n=>color[n.id]===1).map(n=>n.id).join(',')+']',18)
   return steps
 }

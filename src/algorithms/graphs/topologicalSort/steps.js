@@ -11,19 +11,19 @@ export function generateSteps(inputNodes=null,inputEdges=null){
   edges.forEach(e=>{adj[e.from].push(e.to);inDeg[e.to]++})
   const steps=[], queue=[], visited=[], result=[]
   const addStep=(cur,q,desc,line)=>steps.push({nodes:nodes.map(n=>({...n,...positions[n.id]})),edges:[...edges],visited:[...visited],current:cur,queue:[...q],description:desc,codeLine:line})
-  addStep(null,[],'Compute in-degrees: '+nodes.map(n=>n.id+'='+inDeg[n.id]).join(', '),2)
+  addStep(null,[],'Compute in-degrees: '+nodes.map(n=>n.id+'='+inDeg[n.id]).join(', '),6)
   nodes.forEach(n=>{if(inDeg[n.id]===0){queue.push(n.id)}})
-  addStep(null,[...queue],'Enqueue zero in-degree nodes: ['+queue.join(',')+']',5)
+  addStep(null,[...queue],'Enqueue zero in-degree nodes: ['+queue.join(',')+']',8)
   while(queue.length>0){
     const u=queue.shift()
     visited.push(u); result.push(u)
-    addStep(u,[...queue],'Process '+u+'. Order so far: ['+result.join(',')+']',8)
+    addStep(u,[...queue],'Process '+u+'. Order so far: ['+result.join(',')+']',12)
     for(const v of adj[u]){
       inDeg[v]--
-      addStep(u,[...queue],'Decrease in-degree['+v+']='+inDeg[v],10)
-      if(inDeg[v]===0){queue.push(v);addStep(u,[...queue],'in-degree['+v+']=0 → enqueue',11)}
+      addStep(u,[...queue],'Decrease in-degree['+v+']='+inDeg[v],13)
+      if(inDeg[v]===0){queue.push(v);addStep(u,[...queue],'in-degree['+v+']=0 → enqueue',13)}
     }
   }
-  addStep(null,[],'Topological order: '+result.join(' → '),13)
+  addStep(null,[],'Topological order: '+result.join(' → '),16)
   return steps
 }

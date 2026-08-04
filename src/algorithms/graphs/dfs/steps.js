@@ -25,37 +25,37 @@ export function generateSteps(inputNodes=null, inputEdges=null, startNode=0) {
   })
 
   addStep([], null, [],
-    'DFS uses a Stack (LIFO). We go as deep as possible before backtracking.', 2)
+    'DFS uses a Stack (LIFO). We go as deep as possible before backtracking.', 3)
 
   stack.push(startNode)
   addStep([], null, [...stack],
-    `Push start node ${startNode} onto the stack. Stack: [${stack.join(', ')}]`, 3)
+    `Push start node ${startNode} onto the stack. Stack: [${stack.join(', ')}]`, 7)
 
   while (stack.length > 0) {
     const node = stack.pop()
     if (visited.has(node)) {
       addStep([...visited], node, [...stack],
-        `Pop node ${node} from stack — already visited, skip it.`, 5)
+        `Pop node ${node} from stack — already visited, skip it.`, 10)
       continue
     }
     visited.add(node)
     addStep([...visited], node, [...stack],
-      `Pop and visit node ${node}. Stack: [${stack.join(', ')}]`, 6)
+      `Pop and visit node ${node}. Stack: [${stack.join(', ')}]`, 9)
 
     const nbrs = (adj[node] || []).slice().reverse() // push high→low so low explored first
     for (const nb of nbrs) {
       if (!visited.has(nb)) {
         stack.push(nb)
         addStep([...visited], node, [...stack],
-          `Push unvisited neighbor ${nb} onto stack. Stack: [${stack.join(', ')}]`, 9)
+          `Push unvisited neighbor ${nb} onto stack. Stack: [${stack.join(', ')}]`, 14)
       } else {
         addStep([...visited], node, [...stack],
-          `Neighbor ${nb} already visited — skip`, 9)
+          `Neighbor ${nb} already visited — skip`, 14)
       }
     }
   }
 
   addStep([...visited], null, [],
-    `DFS complete! Traversal order: ${[...visited].join(' → ')}`, 11)
+    `DFS complete! Traversal order: ${[...visited].join(' → ')}`, 16)
   return steps
 }

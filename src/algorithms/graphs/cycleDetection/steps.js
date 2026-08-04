@@ -12,22 +12,24 @@ export function generateSteps(){
   let cycleFound=false
   function dfs(v){
     visited.add(v); recStack.add(v)
-    addStep(v,'Visit node '+v+'. RecStack: ['+[...recStack].join(',')+']',5)
+    addStep(v,'Visit node '+v+'. RecStack: ['+[...recStack].join(',')+']',10)
     for(const u of adj[v]){
       if(!visited.has(u)){
-        addStep(u,'Explore unvisited neighbor '+u,8)
+        addStep(u,'Explore unvisited neighbor '+u,12)
         if(dfs(u)){cycleFound=true;return true}
       } else if(recStack.has(u)){
         steps.push({...steps[steps.length-1],extra:{cycleFound:true}})
-        addStep(v,'CYCLE DETECTED: edge '+v+'→'+u+' is a back edge! Node '+u+' in recursion stack',9)
+        addStep(v,'CYCLE DETECTED: edge '+v+'→'+u+' is a back edge! Node '+u+' in recursion stack',13)
         cycleFound=true; return true
-      } else addStep(v,'Node '+u+' visited but not in stack — not a cycle',10)
+      } else addStep(v,'Node '+u+' visited but not in stack — not a cycle',11)
     }
     recStack.delete(v)
-    addStep(v,'Backtrack from '+v+'. RecStack: ['+[...recStack].join(',')+']',12)
+    addStep(v,'Backtrack from '+v+'. RecStack: ['+[...recStack].join(',')+']',15)
     return false
   }
   for(const n of nodes) if(!visited.has(n.id)) dfs(n.id)
-  addStep(-1,cycleFound?'CYCLE EXISTS in this graph!':'No cycle detected',14)
+  // A cycle short-circuits out of hasCycle (java 6); a clean run falls through
+  // to the final `return false` (java 7).
+  addStep(-1,cycleFound?'CYCLE EXISTS in this graph!':'No cycle detected',cycleFound?6:7)
   return steps
 }

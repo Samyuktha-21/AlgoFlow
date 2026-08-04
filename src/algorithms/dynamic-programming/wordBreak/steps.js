@@ -6,21 +6,23 @@ export function generateSteps(inputStr) {
   const n=s.length, dp=new Array(n+1).fill(false), computed=new Array(n+1).fill(false)
   dp[0]=true; computed[0]=true
   const steps=[]
-  const mk=(cur,desc)=>({dp:[...dp],current:cur,computed:[...computed],description:desc,extra:{s,dict}})
-  steps.push(mk(0,`Word Break: can "${s}" be split using ${JSON.stringify(dict)}? dp[i]=true if s[0..i-1] is segmentable.`))
+  const mk=(cur,desc,codeLine)=>({dp:[...dp],current:cur,computed:[...computed],description:desc,extra:{s,dict},codeLine})
+  steps.push(mk(0,`Word Break: can "${s}" be split using ${JSON.stringify(dict)}? dp[i]=true if s[0..i-1] is segmentable.`,7))
   for(let i=1;i<=n;i++){
     for(let j=0;j<i;j++){
       const word=s.substring(j,i),inDict=dict.includes(word)
       if(dp[j]&&inDict){
         dp[i]=true;computed[i]=true
-        steps.push(mk(i,`dp[${j}]=true AND "${word}" in dict → dp[${i}]=true ✓`))
+        steps.push(mk(i,`dp[${j}]=true AND "${word}" in dict → dp[${i}]=true ✓`,10))
         break
       } else {
-        steps.push(mk(i,!dp[j]?`dp[${j}]=false, skip`:`"${word}" not in dict, try next`))
+        steps.push(mk(i,!dp[j]?`dp[${j}]=false, skip`:`"${word}" not in dict, try next`,10))
       }
     }
-    if(!computed[i]){computed[i]=true;steps.push(mk(i,`No valid split for "${s.substring(0,i)}" → dp[${i}]=false`))}
+    // Java leaves dp[i] at its default false — no statement runs, so the outer
+    // loop line (java 8) is the honest anchor for "this index found nothing".
+    if(!computed[i]){computed[i]=true;steps.push(mk(i,`No valid split for "${s.substring(0,i)}" → dp[${i}]=false`,8))}
   }
-  steps.push(mk(n,dp[n]?`"${s}" CAN be segmented ✓`:`"${s}" CANNOT be segmented ✗`))
+  steps.push(mk(n,dp[n]?`"${s}" CAN be segmented ✓`:`"${s}" CANNOT be segmented ✗`,11))
   return steps
 }

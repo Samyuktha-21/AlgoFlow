@@ -23,6 +23,10 @@ function check(p) {
   for (const [lang, m] of Object.entries(j.lineMap)) {
     assert.ok(j[lang]?.code, `${p}: lineMap has '${lang}' but no ${lang} code`)
     assert.notStrictEqual(lang, 'java', `${p}: java is the canonical source and must not be mapped`)
+    // Java (identity) + Python are the two languages that highlight. C, C++ and
+    // JavaScript deliberately carry no map — their snippets diverge from Java
+    // too often to keep an honest line-for-line correspondence across all 124.
+    assert.strictEqual(lang, 'python', `${p}: '${lang}' is out of scope — only python is mapped`)
     const lines = j[lang].code.split('\n').length
     // No two Java lines may land on the same target line — one of them would
     // then highlight a line that does not correspond to the step being played.
@@ -39,5 +43,7 @@ function check(p) {
 }
 
 walk(ROOT)
-assert.ok(mapped >= 4, `expected at least the 4 core lineMaps, found ${mapped}`)
+/* 108 of 124: the 16 that still ship the placeholder step generator have no
+   real operations to point at and are deliberately unmapped. */
+assert.ok(mapped >= 108, `expected at least 108 lineMaps, found ${mapped}`)
 console.log(`OK test-linemaps (${mapped}/${checked} code.json carry a lineMap)`)

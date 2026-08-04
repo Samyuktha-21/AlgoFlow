@@ -214,11 +214,16 @@ console.log(s.getMin());`,
      The Java block is a usage demo whose referenced lines include comments, so
      each language maps to the same four moments: the queue's storage, the
      insert, the extract-min, and the drain. */
+  /* Re-anchored: the steps used to point at java 7 (a `// Output:` comment)
+     and java 8 (a blank line), so playback highlighted nothing meaningful.
+     java: 4 = create the queue, 5 = the offers, 6 = the drain loop (both the
+     poll and the "queue is empty now" step land here — Java does the poll and
+     the print on that one line). */
   priorityQueue: {
     lineMap: {
       c:          { 2: 2, 4: 3, 7: 16, 8: 38 },
       cpp:        { 2: 5, 4: 6, 7: 12, 8: 11 },
-      python:     { 2: 3, 4: 5, 7: 8, 8: 7 },
+      python:     { 4: 3, 5: 5, 6: 8 },
       javascript: { 2: 1, 4: 3, 7: 15, 8: 38 },
     },
   },

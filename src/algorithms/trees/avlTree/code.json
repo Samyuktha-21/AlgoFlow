@@ -6,7 +6,7 @@
   },
   "java": {
     "language": "java",
-    "code": "public class AVLTree {\n    class Node { int val, height; Node left, right;\n        Node(int v){val=v;height=1;} }\n    int height(Node n){return n==null?0:n.height;}\n    int balance(Node n){return n==null?0:height(n.left)-height(n.right);}\n    Node rotateRight(Node y){Node x=y.left,T2=x.right;x.right=y;y.left=T2;y.height=1+Math.max(height(y.left),height(y.right));x.height=1+Math.max(height(x.left),height(x.right));return x;}\n    Node rotateLeft(Node x){Node y=x.right,T2=y.left;y.left=x;x.right=T2;x.height=1+Math.max(height(x.left),height(x.right));y.height=1+Math.max(height(y.left),height(y.right));return y;}\n    Node insert(Node node,int key){if(node==null)return new Node(key);if(key<node.val)node.left=insert(node.left,key);else if(key>node.val)node.right=insert(node.right,key);else return node;node.height=1+Math.max(height(node.left),height(node.right));int bf=balance(node);if(bf>1&&key<node.left.val)return rotateRight(node);if(bf<-1&&key>node.right.val)return rotateLeft(node);if(bf>1&&key>node.left.val){node.left=rotateLeft(node.left);return rotateRight(node);}if(bf<-1&&key<node.right.val){node.right=rotateRight(node.right);return rotateLeft(node);}return node;}\n}",
+    "code": "public class AVLTree {\n    class Node {\n        int val, height;\n        Node left, right;\n        Node(int v) { val = v; height = 1; }\n    }\n\n    int height(Node n) { return n == null ? 0 : n.height; }\n\n    int balance(Node n) { return n == null ? 0 : height(n.left) - height(n.right); }\n\n    Node rotateRight(Node y) {\n        Node x = y.left, T2 = x.right;\n        x.right = y;\n        y.left = T2;\n        y.height = 1 + Math.max(height(y.left), height(y.right));\n        x.height = 1 + Math.max(height(x.left), height(x.right));\n        return x;\n    }\n\n    Node rotateLeft(Node x) {\n        Node y = x.right, T2 = y.left;\n        y.left = x;\n        x.right = T2;\n        x.height = 1 + Math.max(height(x.left), height(x.right));\n        y.height = 1 + Math.max(height(y.left), height(y.right));\n        return y;\n    }\n\n    Node insert(Node node, int key) {\n        if (node == null) return new Node(key);\n        if (key < node.val) node.left = insert(node.left, key);\n        else if (key > node.val) node.right = insert(node.right, key);\n        else return node;\n        node.height = 1 + Math.max(height(node.left), height(node.right));\n        int bf = balance(node);\n        if (bf > 1 && key < node.left.val) return rotateRight(node);\n        if (bf < -1 && key > node.right.val) return rotateLeft(node);\n        if (bf > 1 && key > node.left.val) {\n            node.left = rotateLeft(node.left);\n            return rotateRight(node);\n        }\n        if (bf < -1 && key < node.right.val) {\n            node.right = rotateRight(node.right);\n            return rotateLeft(node);\n        }\n        return node;\n    }\n}\n",
     "lineKeys": {}
   },
   "c": {
@@ -23,5 +23,23 @@
     "language": "python",
     "code": "class Node:\n    def __init__(self, val):\n        self.val, self.left, self.right = val, None, None\n        self.height = 1\n\ndef height(n):\n    return n.height if n else 0\n\ndef balance(n):\n    return height(n.left) - height(n.right) if n else 0\n\ndef update(n):\n    n.height = 1 + max(height(n.left), height(n.right))\n\ndef rotate_right(y):\n    x = y.left\n    y.left, x.right = x.right, y\n    update(y); update(x)\n    return x\n\ndef rotate_left(x):\n    y = x.right\n    x.right, y.left = y.left, x\n    update(x); update(y)\n    return y\n\ndef insert(node, val):\n    if not node:\n        return Node(val)\n    if val < node.val:\n        node.left = insert(node.left, val)\n    else:\n        node.right = insert(node.right, val)\n    update(node)\n    b = balance(node)\n    if b > 1 and val < node.left.val:\n        return rotate_right(node)\n    if b < -1 and val > node.right.val:\n        return rotate_left(node)\n    if b > 1:\n        node.left = rotate_left(node.left)\n        return rotate_right(node)\n    if b < -1:\n        node.right = rotate_right(node.right)\n        return rotate_left(node)\n    return node\n\nroot = None\nfor v in [10, 20, 30, 40, 50, 25]:\n    root = insert(root, v)\nprint(\"root after balancing:\", root.val)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "8": 6,
+      "10": 9,
+      "14": 17,
+      "23": 23,
+      "30": 27,
+      "31": 29,
+      "32": 31,
+      "33": 33,
+      "36": 35,
+      "37": 36,
+      "38": 38,
+      "39": 40,
+      "43": 43,
+      "47": 46
+    }
   }
 }

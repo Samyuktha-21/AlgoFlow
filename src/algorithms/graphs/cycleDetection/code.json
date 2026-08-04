@@ -23,5 +23,16 @@
     "language": "python",
     "code": "def has_cycle(graph, n):\n    WHITE, GRAY, BLACK = 0, 1, 2\n    state = [WHITE] * n\n    def dfs(u):\n        state[u] = GRAY\n        for v in graph.get(u, []):\n            if state[v] == GRAY:\n                return True\n            if state[v] == WHITE and dfs(v):\n                return True\n        state[u] = BLACK\n        return False\n    return any(state[u] == WHITE and dfs(u) for u in range(n))\n\nprint(has_cycle({0: [1], 1: [2], 2: [0]}, 3))\nprint(has_cycle({0: [1], 1: [2], 2: []}, 3))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "2": 1,
+      "6": 13,
+      "10": 5,
+      "11": 6,
+      "12": 9,
+      "13": 7,
+      "15": 11
+    }
   }
 }
