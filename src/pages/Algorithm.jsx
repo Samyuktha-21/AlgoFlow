@@ -244,14 +244,24 @@ export default function Algorithm() {
     recordAlgorithmView(categoryId, algorithmId)
   }, [categoryId, algorithmId])
 
-  const [metadata, setMetadata]       = useState(null)
-  const [codeData, setCodeData]       = useState(null)
-  const [stepsModule, setStepsModule] = useState(null)
-  const [isLoading, setIsLoading]     = useState(true)
-  const [notImplemented, setNotImplemented] = useState(false)
+  /* One bundle per algorithm, tagged with the route it was loaded for, so
+     "which algorithm is on screen" and "are we still loading" are derived from
+     the route rather than reset by the loader effect. */
+  const loadKey  = `${categoryId}/${algorithmId}`
+  const metaPath = `../algorithms/${categoryId}/${algorithmId}/metadata.json`
+  const missing  = !metaModules[metaPath]
+  const [bundle, setBundle] = useState({ key: null, metadata: null, codeData: null, stepsModule: null, failed: false })
+  const ready          = bundle.key === loadKey
+  const metadata       = ready ? bundle.metadata    : null
+  const codeData       = ready ? bundle.codeData    : null
+  const stepsModule    = ready ? bundle.stepsModule : null
+  const notImplemented = missing || (ready && bundle.failed)
+  const isLoading      = !missing && !ready
+
   const [activeTab, setActiveTab]     = useState('aim')
   const [language, setLanguage]       = useState(() => VALID_LANGS.includes(sharedLang) ? sharedLang : 'java')
-  const [autoRunDone, setAutoRunDone] = useState(false)
+  /* Latch, not render state: whether this route already kicked off its demo run. */
+  const autoRunKey = useRef(null)
 
   /* ── Split-screen state ── */
   const [leftWidth, setLeftWidth] = useState(() => {
@@ -335,19 +345,11 @@ export default function Algorithm() {
 
   /* Load algorithm files */
   useEffect(() => {
+    if (missing) return
     let cancelled = false
-    setIsLoading(true); setMetadata(null); setCodeData(null)
-    setStepsModule(null); setSteps([]); setNotImplemented(false)
-    setAutoRunDone(false)
 
-    const metaPath  = `../algorithms/${categoryId}/${algorithmId}/metadata.json`
     const codePath  = `../algorithms/${categoryId}/${algorithmId}/code.json`
     const stepsPath = `../algorithms/${categoryId}/${algorithmId}/steps.js`
-
-    if (!metaModules[metaPath]) {
-      if (!cancelled) { setNotImplemented(true); setIsLoading(false) }
-      return () => { cancelled = true }
-    }
 
     Promise.all([
       metaModules[metaPath](),
@@ -355,17 +357,25 @@ export default function Algorithm() {
       stepsModules[stepsPath] ? stepsModules[stepsPath]() : Promise.resolve(null),
     ]).then(([meta, code, steps]) => {
       if (cancelled) return
-      setMetadata(meta?.default || meta)
-      setCodeData(code?.default || code)
-      setStepsModule(steps)
-      setIsLoading(false)
+      /* Drop the previous algorithm's frames as the new bundle lands, so the
+         old animation can never play under the new title. */
+      setSteps([])
+      setBundle({
+        key: loadKey,
+        metadata: meta?.default || meta,
+        codeData: code?.default || code,
+        stepsModule: steps,
+        failed: false,
+      })
     }).catch((err) => {
       console.error('Algorithm load error:', err)
-      if (!cancelled) { setNotImplemented(true); setIsLoading(false) }
+      if (cancelled) return
+      setSteps([])
+      setBundle({ key: loadKey, metadata: null, codeData: null, stepsModule: null, failed: true })
     })
 
     return () => { cancelled = true }
-  }, [categoryId, algorithmId])
+  }, [categoryId, algorithmId, loadKey, metaPath, missing, setSteps])
 
   /* Languages this algorithm actually ships, in canonical order; the effective
      language falls back to the first available if the selected one is absent. */
@@ -429,8 +439,9 @@ export default function Algorithm() {
   }, [stepsModule, metadata, setSteps])
 
   useEffect(() => {
-    if (!metadata || !stepsModule?.generateSteps || autoRunDone || isLoading) return
-    setAutoRunDone(true)
+    if (!metadata || !stepsModule?.generateSteps || isLoading) return
+    if (autoRunKey.current === loadKey) return
+    autoRunKey.current = loadKey
     const def = getDefaultInput(metadata.type, metadata.inputType)
     /* Seed from a shared link if present, otherwise use the default input */
     const initInput  = sharedInput  ?? def.input
@@ -446,7 +457,7 @@ export default function Algorithm() {
       setSpeed('0.5x')
       setTimeout(() => play(), 600)
     }
-  }, [metadata, stepsModule, autoRunDone, isLoading, handleVisualize, play, setSpeed,
+  }, [metadata, stepsModule, isLoading, loadKey, handleVisualize, play, setSpeed,
       goTo, prefersReducedMotion, sharedInput, sharedTarget, sharedStep])
 
   const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType) : null
@@ -799,6 +810,7 @@ export default function Algorithm() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
             <div className="lg:col-span-3">
               <InputPanel
+                key={`${categoryId}/${algorithmId}/${shownInput ?? ''}/${shownTarget ?? ''}`}
                 algorithmType={metadata.type}
                 inputType={metadata.inputType}
                 onVisualize={handleVisualize}

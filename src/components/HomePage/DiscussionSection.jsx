@@ -176,26 +176,29 @@ function TopicSelect({ value, onChange, isDark }) {
 
 function PostCard({ post, currentUser, signInWithGoogle }) {
   const [repliesOpen, setRepliesOpen]     = useState(false)
-  const [replies, setReplies]             = useState([])
-  const [repliesLoading, setRepliesLoading] = useState(false)
+  /* Tagging the snapshot with the post it came from lets "still loading" be
+     derived, so the listener effect never has to set state up front. */
+  const canLoadReplies = Boolean(repliesOpen && db && firebaseEnabled)
+  const [replySnap, setReplySnap]         = useState({ postId: null, replies: [] })
+  const replies        = replySnap.postId === post.id ? replySnap.replies : []
+  const repliesLoading = canLoadReplies && replySnap.postId !== post.id
   const [replyText, setReplyText]         = useState('')
   const [postingReply, setPostingReply]   = useState(false)
   const [deleted, setDeleted]             = useState(false)
 
   /* Lazy-load replies with real-time listener */
   useEffect(() => {
-    if (!repliesOpen || !db || !firebaseEnabled) return
-    setRepliesLoading(true)
+    if (!canLoadReplies) return
     const q = query(
       collection(db, 'discussions', post.id, 'replies'),
       orderBy('timestamp', 'asc')
     )
     const unsub = onSnapshot(q,
-      snap => { setReplies(snap.docs.map(d => ({ id: d.id, ...d.data() }))); setRepliesLoading(false) },
-      () => setRepliesLoading(false)
+      snap => setReplySnap({ postId: post.id, replies: snap.docs.map(d => ({ id: d.id, ...d.data() })) }),
+      () => setReplySnap({ postId: post.id, replies: [] })
     )
     return () => unsub()
-  }, [repliesOpen, post.id])
+  }, [canLoadReplies, post.id])
 
   if (deleted) return null
 
@@ -408,11 +411,19 @@ export default function DiscussionSection() {
   const { user, signInWithGoogle } = useAuth()
   const { isDark } = useTheme()
 
-  const [posts, setPosts]               = useState([])
-  const [loading, setLoading]           = useState(true)
+  /* Same derivation as the replies listener: the feed records the page size it
+     was filled from, so "still waiting on the first page" is a comparison
+     rather than a flag the effect has to clear. */
+  const canLoadFeed = Boolean(firebaseEnabled && db)
+  const [feed, setFeed]                 = useState({ forLimit: null, posts: [], hasMore: false })
   const [activeTopic, setActiveTopic]   = useState('All')
   const [loadLimit, setLoadLimit]       = useState(20)
-  const [hasMore, setHasMore]           = useState(false)
+
+  /* Only the first page shows a spinner — "Load more" keeps the posts already
+     on screen while the larger page streams in, as it did before. */
+  const posts   = feed.posts
+  const hasMore = feed.hasMore
+  const loading = canLoadFeed && feed.forLimit === null
 
   const [composerText, setComposerText] = useState('')
   const [composerTopic, setComposerTopic] = useState('General')
@@ -425,19 +436,21 @@ export default function DiscussionSection() {
 
   /* ── Real-time posts listener ── */
   useEffect(() => {
-    if (!firebaseEnabled || !db) { setLoading(false); return }
+    if (!canLoadFeed) return
     const q = query(collection(db, 'discussions'), orderBy('timestamp', 'desc'), limit(loadLimit))
     const unsub = onSnapshot(q,
-      snap => {
-        const loaded = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-        setPosts(loaded)
-        setHasMore(snap.docs.length === loadLimit)
-        setLoading(false)
-      },
-      err => { console.error('Discussion load error:', err); setLoading(false) }
+      snap => setFeed({
+        forLimit: loadLimit,
+        posts: snap.docs.map(d => ({ id: d.id, ...d.data() })),
+        hasMore: snap.docs.length === loadLimit,
+      }),
+      err => {
+        console.error('Discussion load error:', err)
+        setFeed({ forLimit: loadLimit, posts: [], hasMore: false })
+      }
     )
     return () => unsub()
-  }, [loadLimit])
+  }, [loadLimit, canLoadFeed])
 
   /* ── Post submission ── */
   const handlePost = async () => {

@@ -1,14 +1,46 @@
-/* Conceptual mini-animations — shows what each algorithm category DOES */
+/* Conceptual mini-animations — shows what each algorithm category DOES.
+   Every fixture below is static, so it lives at module scope: that keeps the
+   effect dependency lists honest (nothing is recreated per render). */
 import { useState, useEffect } from 'react'
+
+const COMPASS_VALS   = [3, 7, 1, 9, 4, 6]
+const WATER_INITIAL  = [5, 2, 8, 1, 6, 3]
+const LIGHT_ARR      = [7, 2, 9, 1, 4, 6]
+const LIGHT_TARGET   = 4
+const PUZZLE_ARR     = [3, 1, 4, 1, 5, 9, 2, 6]
+const PUZZLE_W       = 3
+const CHAIN_NODES    = [1, 2, 3, 4]
+const STACK_COLORS   = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#22c55e']
+const TREE_BFS_ORDER = [0, 1, 2, 3, 4]
+const TREE_NODES     = [{ cx: 50, cy: 10 }, { cx: 22, cy: 32 }, { cx: 78, cy: 32 }, { cx: 9, cy: 56 }, { cx: 36, cy: 56 }]
+const HEAP_POSITIONS = [{ x: 50, y: 10, top: true }, { x: 25, y: 32 }, { x: 75, y: 32 }, { x: 12, y: 55 }, { x: 38, y: 55 }, { x: 63, y: 55 }]
+const GRAPH_NODES    = [{ x: 50, y: 28 }, { x: 16, y: 52 }, { x: 84, y: 52 }, { x: 32, y: 76 }, { x: 68, y: 76 }]
+const GRAPH_EDGES    = [[0, 1], [0, 2], [1, 3], [2, 4], [1, 2]]
+const GRAPH_BFS_ORDER = [0, 1, 2, 3, 4]
+const GREEDY_CHOICES = [{ v: 3, label: '$3' }, { v: 8, label: '$8' }, { v: 5, label: '$5' }]
+const DP_SIZE        = 4
+const DP_TOTAL       = DP_SIZE * DP_SIZE
+const MAZE_POSITIONS = {
+  0: { x: 50, y: 10 }, 1: { x: 25, y: 32 }, 2: { x: 75, y: 32 },
+  3: { x: 12, y: 56 }, 4: { x: 38, y: 56 }, 5: { x: 62, y: 56 }, 6: { x: 88, y: 56 },
+}
+const MAZE_EDGES = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
+const MAZE_STEPS = [
+  [0],[0,1],[0,1,3],[0,1],[0,1,4],[0,1],[0],
+  [0,2],[0,2,5],[0,2],[0,2,6],[0,2],[0],
+]
+const TSP_CITIES = [{ x: 50, y: 14 }, { x: 84, y: 44 }, { x: 64, y: 79 }, { x: 16, y: 60 }]
+const TSP_ROUTES = [[0,1,2,3],[0,1,3,2],[0,2,1,3],[0,3,1,2],[0,2,3,1]]
+const TSP_COSTS  = [100, 85, 92, 78, 95]
 
 /* ── 1. FUNDAMENTALS (compass) — pointer sliding over array ── */
 export function CompassAnimation() {
   const [pos, setPos] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setPos(p => (p + 1) % 6), 550)
+    const t = setInterval(() => setPos(p => (p + 1) % COMPASS_VALS.length), 550)
     return () => clearInterval(t)
   }, [])
-  const vals = [3, 7, 1, 9, 4, 6]
+  const vals = COMPASS_VALS
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg flex items-end justify-center pb-4"
       style={{ background: 'linear-gradient(180deg,#0c1445,#1e3a5f)' }}>
@@ -34,12 +66,11 @@ export function CompassAnimation() {
 
 /* ── 2. SORTING (water) — bars bubble-sorting ── */
 export function WaterAnimation() {
-  const initial = [5, 2, 8, 1, 6, 3]
-  const [arr, setArr] = useState(initial)
+  const [arr, setArr] = useState(WATER_INITIAL)
   const [hi, setHi] = useState([])
 
   useEffect(() => {
-    const a = [...initial]
+    const a = [...WATER_INITIAL]
     const steps = []
     for (let x = 0; x < a.length - 1; x++) {
       for (let y = 0; y < a.length - x - 1; y++) {
@@ -79,11 +110,11 @@ export function WaterAnimation() {
 
 /* ── 3. SEARCHING (light) — spotlight scanning array ── */
 export function LightAnimation() {
-  const arr = [7, 2, 9, 1, 4, 6]
-  const target = 4
+  const arr = LIGHT_ARR
+  const target = LIGHT_TARGET
   const [pos, setPos] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setPos(p => (p + 1) % arr.length), 550)
+    const t = setInterval(() => setPos(p => (p + 1) % LIGHT_ARR.length), 550)
     return () => clearInterval(t)
   }, [])
   const found = arr[pos] === target
@@ -122,11 +153,11 @@ export function LightAnimation() {
 
 /* ── 4. ARRAY & STRING (puzzle) — sliding window ── */
 export function PuzzleAnimation() {
-  const arr = [3, 1, 4, 1, 5, 9, 2, 6]
-  const W = 3
+  const arr = PUZZLE_ARR
+  const W = PUZZLE_W
   const [start, setStart] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setStart(s => (s + 1) % (arr.length - W + 1)), 650)
+    const t = setInterval(() => setStart(s => (s + 1) % (PUZZLE_ARR.length - PUZZLE_W + 1)), 650)
     return () => clearInterval(t)
   }, [])
   return (
@@ -157,10 +188,10 @@ export function PuzzleAnimation() {
 
 /* ── 5. LINKED LIST (chain) — nodes traversing ── */
 export function ChainAnimation() {
-  const nodes = [1, 2, 3, 4]
+  const nodes = CHAIN_NODES
   const [active, setActive] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setActive(a => (a + 1) % nodes.length), 580)
+    const t = setInterval(() => setActive(a => (a + 1) % CHAIN_NODES.length), 580)
     return () => clearInterval(t)
   }, [])
   return (
@@ -205,7 +236,7 @@ export function BooksAnimation() {
     }, 1400)
     return () => { clearInterval(t); clearInterval(t2) }
   }, [])
-  const COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#22c55e']
+  const COLORS = STACK_COLORS
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg flex items-end justify-center pb-5"
       style={{ background: 'linear-gradient(180deg,#1e3a5f,#1b4881)' }}>
@@ -267,17 +298,15 @@ export function CabinetAnimation() {
 /* ── 8. TREES (forest) — BFS traversal on tree ── */
 export function ForestAnimation() {
   const [visited, setVisited] = useState([])
-  const bfsOrder = [0, 1, 2, 3, 4]
   useEffect(() => {
     let i = 0
-    setVisited([])
     const t = setInterval(() => {
-      if (i < bfsOrder.length) { setVisited(v => [...v, bfsOrder[i]]); i++ }
+      if (i < TREE_BFS_ORDER.length) { setVisited(v => [...v, TREE_BFS_ORDER[i]]); i++ }
       else { i = 0; setVisited([]) }
     }, 550)
     return () => clearInterval(t)
   }, [])
-  const nodes = [{ cx: 50, cy: 10 }, { cx: 22, cy: 32 }, { cx: 78, cy: 32 }, { cx: 9, cy: 56 }, { cx: 36, cy: 56 }]
+  const nodes = TREE_NODES
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg"
       style={{ background: 'linear-gradient(180deg,#166534,#14532d)' }}>
@@ -319,7 +348,7 @@ export function MountainAnimation() {
     }, 1300)
     return () => clearInterval(t)
   }, [])
-  const positions = [{ x: 50, y: 10, top: true }, { x: 25, y: 32 }, { x: 75, y: 32 }, { x: 12, y: 55 }, { x: 38, y: 55 }, { x: 63, y: 55 }]
+  const positions = HEAP_POSITIONS
   return (
     <div className="relative w-full h-full overflow-hidden rounded-lg"
       style={{ background: 'linear-gradient(180deg,#1c0a00,#2d1000)' }}>
@@ -346,17 +375,16 @@ export function MountainAnimation() {
 
 /* ── 10. GRAPHS (network) — BFS on graph nodes ── */
 export function NetworkAnimation() {
-  const nodes = [{ x: 50, y: 28 }, { x: 16, y: 52 }, { x: 84, y: 52 }, { x: 32, y: 76 }, { x: 68, y: 76 }]
-  const edgeList = [[0, 1], [0, 2], [1, 3], [2, 4], [1, 2]]
-  const bfsOrder = [0, 1, 2, 3, 4]
+  const nodes = GRAPH_NODES
+  const edgeList = GRAPH_EDGES
   const [visited, setVisited] = useState([])
   const [activeEdges, setActiveEdges] = useState([])
   useEffect(() => {
-    let i = 0; setVisited([]); setActiveEdges([])
+    let i = 0
     const t = setInterval(() => {
-      if (i < bfsOrder.length) {
-        const n = bfsOrder[i]
-        setVisited(v => { const nv = [...v, n]; setActiveEdges(edgeList.filter(([a, b]) => nv.includes(a) && nv.includes(b))); return nv })
+      if (i < GRAPH_BFS_ORDER.length) {
+        const n = GRAPH_BFS_ORDER[i]
+        setVisited(v => { const nv = [...v, n]; setActiveEdges(GRAPH_EDGES.filter(([a, b]) => nv.includes(a) && nv.includes(b))); return nv })
         i++
       } else { i = 0; setVisited([]); setActiveEdges([]) }
     }, 620)
@@ -391,7 +419,7 @@ export function NetworkAnimation() {
 
 /* ── 11. GREEDY (target) — pick locally best at each step ── */
 export function TargetAnimation() {
-  const choices = [{ v: 3, label: '$3' }, { v: 8, label: '$8' }, { v: 5, label: '$5' }]
+  const choices = GREEDY_CHOICES
   const [chosen, setChosen] = useState(null)
   useEffect(() => {
     const t = setInterval(() => {
@@ -423,11 +451,11 @@ export function TargetAnimation() {
 
 /* ── 12. DYNAMIC PROGRAMMING (blocks) — DP table filling ── */
 export function BlocksAnimation() {
-  const SIZE = 4
-  const TOTAL = SIZE * SIZE
+  const SIZE = DP_SIZE
+  const TOTAL = DP_TOTAL
   const [filled, setFilled] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setFilled(f => f >= TOTAL ? 0 : f + 1), 180)
+    const t = setInterval(() => setFilled(f => f >= DP_TOTAL ? 0 : f + 1), 180)
     return () => clearInterval(t)
   }, [])
   return (
@@ -453,18 +481,12 @@ export function BlocksAnimation() {
 
 /* ── 13. BACKTRACKING (maze) — explore + backtrack ── */
 export function MazeAnimation() {
-  const positions = {
-    0: { x: 50, y: 10 }, 1: { x: 25, y: 32 }, 2: { x: 75, y: 32 },
-    3: { x: 12, y: 56 }, 4: { x: 38, y: 56 }, 5: { x: 62, y: 56 }, 6: { x: 88, y: 56 },
-  }
-  const edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
-  const steps = [
-    [0],[0,1],[0,1,3],[0,1],[0,1,4],[0,1],[0],
-    [0,2],[0,2,5],[0,2],[0,2,6],[0,2],[0],
-  ]
+  const positions = MAZE_POSITIONS
+  const edges = MAZE_EDGES
+  const steps = MAZE_STEPS
   const [idx, setIdx] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % steps.length), 520)
+    const t = setInterval(() => setIdx(i => (i + 1) % MAZE_STEPS.length), 520)
     return () => clearInterval(t)
   }, [])
   const path = steps[idx]
@@ -492,12 +514,12 @@ export function MazeAnimation() {
 
 /* ── 14. ADVANCED (circuit) — TSP route optimizing ── */
 export function CircuitAnimation() {
-  const cities = [{ x: 50, y: 14 }, { x: 84, y: 44 }, { x: 64, y: 79 }, { x: 16, y: 60 }]
-  const routes = [[0,1,2,3],[0,1,3,2],[0,2,1,3],[0,3,1,2],[0,2,3,1]]
-  const costs = [100, 85, 92, 78, 95]
+  const cities = TSP_CITIES
+  const routes = TSP_ROUTES
+  const costs = TSP_COSTS
   const [ri, setRi] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setRi(i => (i + 1) % routes.length), 900)
+    const t = setInterval(() => setRi(i => (i + 1) % TSP_ROUTES.length), 900)
     return () => clearInterval(t)
   }, [])
   const route = routes[ri]
@@ -531,22 +553,4 @@ export function CircuitAnimation() {
       </svg>
     </div>
   )
-}
-
-/* Map themeId → animation component */
-export const CARD_ANIMATIONS = {
-  compass:  CompassAnimation,
-  water:    WaterAnimation,
-  light:    LightAnimation,
-  puzzle:   PuzzleAnimation,
-  chain:    ChainAnimation,
-  books:    BooksAnimation,
-  cabinet:  CabinetAnimation,
-  forest:   ForestAnimation,
-  mountain: MountainAnimation,
-  network:  NetworkAnimation,
-  target:   TargetAnimation,
-  blocks:   BlocksAnimation,
-  maze:     MazeAnimation,
-  circuit:  CircuitAnimation,
 }

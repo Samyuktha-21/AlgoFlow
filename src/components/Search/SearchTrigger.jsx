@@ -1,10 +1,5 @@
 import { Search } from 'lucide-react'
-
-/* Global reference to the search opener — set by App.jsx */
-let _opener = null
-
-export function registerSearchOpener(fn) { _opener = fn }
-export function openSearch() { _opener?.() }
+import { openSearch } from './searchOpener'
 
 /* Hero variant — large, full-width */
 export function SearchTriggerHero() {

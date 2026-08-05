@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from './AuthContext'
 import { subscribeToProgress, setLearned, setBookmark, progressKey } from '../firebase/progress'
 import { recordDailyCompletion, recordQuizXp, recordSolved } from '../firebase/leaderboard'
 import { computeXp, levelForXp, utcDateStr } from '../utils/xp'
+import { ProgressContext } from './ProgressContext'
 
 /* Per-user progress + engagement. One users/{uid} subscription feeds learned/
    bookmarks (client-writable) and the server-authoritative XP state (solved/
@@ -10,20 +11,24 @@ import { computeXp, levelForXp, utcDateStr } from '../utils/xp'
    never writes XP fields (firestore.rules enforces this) — and the resulting
    server write flows back through this same subscription. Signed out (or
    Firebase disabled) → empty state and no-op actions; the UI gates on `user`. */
-const ProgressContext = createContext(null)
 const EMPTY = { learned: {}, bookmarks: {}, solved: {}, dailyCount: 0, currentStreak: 0, longestStreak: 0, lastDailyDate: '', quizXp: 0, quizXpDate: '', quizXpToday: 0 }
 
 export function ProgressProvider({ children }) {
   const { user } = useAuth()
-  const [data, setData] = useState(EMPTY)
-  const [loading, setLoading] = useState(false)
+  /* The snapshot carries the uid it belongs to, so switching accounts (or
+     signing out) falls back to EMPTY by derivation rather than by an extra
+     state write from inside the subscription effect. */
+  const [snapshot, setSnapshot] = useState({ uid: null, data: EMPTY })
 
   useEffect(() => {
-    if (!user) { setData(EMPTY); setLoading(false); return }
-    setLoading(true)
-    const unsub = subscribeToProgress(user.uid, (d) => { setData(d); setLoading(false) })
+    if (!user) return
+    const unsub = subscribeToProgress(user.uid, (d) => setSnapshot({ uid: user.uid, data: d }))
     return () => unsub()
   }, [user])
+
+  const fresh   = !!user && snapshot.uid === user.uid
+  const data    = fresh ? snapshot.data : EMPTY
+  const loading = !!user && !fresh
 
   const { learned, bookmarks, solved, dailyCount, currentStreak, longestStreak, lastDailyDate, quizXp } = data
   const solvedCount = Object.keys(solved).length
@@ -57,10 +62,4 @@ export function ProgressProvider({ children }) {
       {children}
     </ProgressContext.Provider>
   )
-}
-
-export const useProgress = () => {
-  const ctx = useContext(ProgressContext)
-  if (!ctx) throw new Error('useProgress must be used within ProgressProvider')
-  return ctx
 }

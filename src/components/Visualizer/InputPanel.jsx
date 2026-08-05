@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { randomArray, randomSortedArray } from '../../utils/helpers'
 
+/* The seed values are mount-time defaults, not a live binding: the caller
+   passes a key derived from them, so a new seed remounts this panel instead of
+   being pushed into state by an effect. */
 export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType }) {
   const { isDark } = useTheme()
   const [input, setInput] = useState(defaultValue || '')
   const [targetInput, setTargetInput] = useState(defaultTarget || '')
   const [error, setError] = useState('')
-
-  // Sync if defaultValue changes (algorithm navigation)
-  useEffect(() => {
-    if (defaultValue !== undefined) setInput(defaultValue)
-    if (defaultTarget !== undefined) setTargetInput(defaultTarget)
-  }, [defaultValue, defaultTarget])
 
   const isSearch       = algorithmType === 'searching'
   const isGraph        = algorithmType === 'graph'

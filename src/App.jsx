@@ -4,7 +4,7 @@ import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import GlobalSearch from './components/Search/GlobalSearch'
 import FeedbackPrompt from './components/FeedbackPrompt'
-import { registerSearchOpener } from './components/Search/SearchTrigger'
+import { registerSearchOpener } from './components/Search/searchOpener'
 import { useTheme } from './context/ThemeContext'
 import { recordVisit, recordLearningMinute } from './firebase/stats'
 
@@ -79,8 +79,9 @@ function App() {
       <ScrollToTop />
       <Header isHomepage={isHomepage} />
 
-      {/* Global search modal — mounted once at root */}
-      <GlobalSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      {/* Global search modal — mounted only while open so each open starts
+          from a clean query/selection instead of being reset by an effect */}
+      {searchOpen && <GlobalSearch onClose={() => setSearchOpen(false)} />}
 
       {/* Exit-intent review prompt — asks once, stores to Firestore */}
       <FeedbackPrompt />

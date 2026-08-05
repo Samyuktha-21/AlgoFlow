@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import { CARD_ANIMATIONS } from './CardAnimations'
+import { CARD_ANIMATIONS } from './cardAnimationMap'
 import registry from '../../data/algorithmRegistry.json'
 
 const DISPLAY = "'General Sans', 'Inter', sans-serif"

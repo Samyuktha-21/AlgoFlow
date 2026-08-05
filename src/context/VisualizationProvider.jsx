@@ -1,6 +1,5 @@
-import { createContext, useContext, useReducer, useRef, useEffect } from 'react'
-
-const VisualizationContext = createContext(null)
+import { useReducer, useRef, useEffect, useMemo } from 'react'
+import { VisualizationContext } from './VisualizationContext'
 
 const SPEEDS = { '0.25x': 3200, '0.5x': 1600, '1x': 800, '2x': 400, '4x': 200 }
 
@@ -71,26 +70,23 @@ export function VisualizationProvider({ children }) {
 
   const currentStep = state.steps[state.currentIndex] || null
 
+  /* Stable identities: consumers put these in effect dependency lists, and a
+     fresh closure per render would re-fire those effects on every playback
+     tick. dispatch is already stable, so an empty dep list is correct. */
+  const actions = useMemo(() => ({
+    setSteps: (steps) => dispatch({ type: 'SET_STEPS', payload: steps }),
+    play:     () => dispatch({ type: 'PLAY' }),
+    pause:    () => dispatch({ type: 'PAUSE' }),
+    next:     () => dispatch({ type: 'NEXT' }),
+    prev:     () => dispatch({ type: 'PREV' }),
+    reset:    () => dispatch({ type: 'RESET' }),
+    goTo:     (i) => dispatch({ type: 'GOTO', payload: i }),
+    setSpeed: (s) => dispatch({ type: 'SET_SPEED', payload: s }),
+  }), [])
+
   return (
-    <VisualizationContext.Provider value={{
-      ...state,
-      currentStep,
-      setSteps: (steps) => dispatch({ type: 'SET_STEPS', payload: steps }),
-      play:     () => dispatch({ type: 'PLAY' }),
-      pause:    () => dispatch({ type: 'PAUSE' }),
-      next:     () => dispatch({ type: 'NEXT' }),
-      prev:     () => dispatch({ type: 'PREV' }),
-      reset:    () => dispatch({ type: 'RESET' }),
-      goTo:     (i) => dispatch({ type: 'GOTO', payload: i }),
-      setSpeed: (s) => dispatch({ type: 'SET_SPEED', payload: s }),
-    }}>
+    <VisualizationContext.Provider value={{ ...state, currentStep, ...actions }}>
       {children}
     </VisualizationContext.Provider>
   )
-}
-
-export const useVisualization = () => {
-  const ctx = useContext(VisualizationContext)
-  if (!ctx) throw new Error('useVisualization must be used within VisualizationProvider')
-  return ctx
 }

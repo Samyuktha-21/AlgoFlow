@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-
-const ThemeContext = createContext(null)
+import { useEffect, useState, useCallback } from 'react'
+import { ThemeContext } from './ThemeContext'
 
 const STORAGE_KEY = 'algoflow-theme'
 
@@ -37,10 +36,4 @@ export function ThemeProvider({ children }) {
       {children}
     </ThemeContext.Provider>
   )
-}
-
-export const useTheme = () => {
-  const ctx = useContext(ThemeContext)
-  if (!ctx) throw new Error('useTheme must be used within ThemeProvider')
-  return ctx
 }

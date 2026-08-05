@@ -10,9 +10,13 @@ const POPULAR_IDS = [
 ]
 const POPULAR = POPULAR_IDS.map(id => searchIndex.find(a => a.id === id)).filter(Boolean)
 
-export default function GlobalSearch({ isOpen, onClose }) {
-  const [query, setQuery]       = useState('')
-  const [selected, setSelected] = useState(0)
+/* Mounted only while open (see App.jsx), so "reset on open" is just mount
+   state and needs no effect. */
+export default function GlobalSearch({ onClose }) {
+  const [query, setQuery] = useState('')
+  /* The highlighted row is stored with the query it belongs to, so typing
+     re-homes the selection to the top by derivation rather than a setState. */
+  const [pick, setPick] = useState({ query: '', index: 0 })
   const inputRef = useRef(null)
   const navigate = useNavigate()
 
@@ -26,25 +30,22 @@ export default function GlobalSearch({ isOpen, onClose }) {
     return fuse.search(query).slice(0, 10).map(r => r.item)
   }, [query, fuse])
 
-  /* Open/close side effects */
-  useEffect(() => {
-    if (isOpen) {
-      setQuery(''); setSelected(0)
-      setTimeout(() => inputRef.current?.focus(), 60)
-    }
-  }, [isOpen])
+  const selected = pick.query === query ? pick.index : 0
+  const setSelected = next =>
+    setPick(p => ({ query, index: typeof next === 'function' ? next(p.query === query ? p.index : 0) : next }))
 
-  useEffect(() => { setSelected(0) }, [query])
-
-  /* Ctrl+K shortcut */
+  /* Focus the field once the modal is on screen */
   useEffect(() => {
-    const onKey = e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); onClose?.() /* triggers open from App */ }
-      if (e.key === 'Escape' && isOpen) { onClose?.() }
-    }
+    const t = setTimeout(() => inputRef.current?.focus(), 60)
+    return () => clearTimeout(t)
+  }, [])
+
+  /* Escape closes. Ctrl+K is owned by App so the two don't fight over it. */
+  useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') onClose?.() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isOpen, onClose])
+  }, [onClose])
 
   const goTo = item => {
     navigate(item.path)
@@ -57,8 +58,6 @@ export default function GlobalSearch({ isOpen, onClose }) {
     if (e.key === 'ArrowUp')   { e.preventDefault(); setSelected(s => Math.max(s - 1, 0)) }
     if (e.key === 'Enter' && results[selected]) goTo(results[selected])
   }
-
-  if (!isOpen) return null
 
   return (
     <>

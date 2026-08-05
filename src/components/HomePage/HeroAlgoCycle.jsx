@@ -200,32 +200,40 @@ const PHASES = [
 
 export default function HeroAlgoCycle() {
   const reduce = useReducedMotion()
-  const [phase, setPhase] = useState(0)
-  const [step, setStep] = useState(0)
-  const [visible, setVisible] = useState(true)
-  const frames = useMemo(() => PHASES[phase].build(), [phase])
+  /* phase/step/visible move together — advancing the phase also rewinds the
+     step and re-shows the stage, so one state object keeps those in sync
+     without the effect having to reset anything on entry. */
+  const [cycle, setCycle] = useState({ phase: 0, step: 0, visible: true })
+  const frames = useMemo(() => PHASES[cycle.phase].build(), [cycle.phase])
 
   useEffect(() => {
-    if (reduce) { setStep(frames.length - 1); return }
-    const ph = PHASES[phase]
+    if (reduce) return
+    const ph = PHASES[cycle.phase]
     let i = 0
     let timer
-    setStep(0); setVisible(true)
     const tick = () => {
       if (i < frames.length - 1) {
-        i += 1; setStep(i); timer = setTimeout(tick, ph.stepMs)
+        i += 1
+        setCycle(c => ({ ...c, step: i }))
+        timer = setTimeout(tick, ph.stepMs)
       } else {
         timer = setTimeout(() => {
-          setVisible(false)
-          timer = setTimeout(() => setPhase(p => (p + 1) % PHASES.length), 320)
+          setCycle(c => ({ ...c, visible: false }))
+          timer = setTimeout(
+            () => setCycle(c => ({ phase: (c.phase + 1) % PHASES.length, step: 0, visible: true })),
+            320,
+          )
         }, ph.hold)
       }
     }
     timer = setTimeout(tick, ph.stepMs)
     return () => clearTimeout(timer)
-  }, [phase, reduce, frames])
+  }, [cycle.phase, reduce, frames])
 
-  const ph = PHASES[phase]
+  const ph = PHASES[cycle.phase]
+  /* Reduced motion: hold the finished frame instead of animating toward it. */
+  const step = reduce ? frames.length - 1 : cycle.step
+  const visible = cycle.visible
   const f = frames[Math.min(step, frames.length - 1)]
 
   return (
@@ -264,9 +272,9 @@ export default function HeroAlgoCycle() {
             key={p.name}
             type="button"
             aria-label={`Show ${p.name}`}
-            onClick={() => setPhase(i)}
-            className={`hero-dot ${i === phase ? 'active' : ''}`}
-            style={{ width: i === phase ? 18 : 7, height: 7, borderRadius: 4 }}
+            onClick={() => setCycle({ phase: i, step: 0, visible: true })}
+            className={`hero-dot ${i === cycle.phase ? 'active' : ''}`}
+            style={{ width: i === cycle.phase ? 18 : 7, height: 7, borderRadius: 4 }}
           />
         ))}
       </div>

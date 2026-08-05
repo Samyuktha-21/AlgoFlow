@@ -34,8 +34,13 @@ function Avatar({ src, name, size = 36 }) {
 
 export default function AlgorithmComments({ algorithmId, isLight }) {
   const { user, signInWithGoogle } = useAuth()
-  const [comments, setComments] = useState([])
-  const [loading, setLoading]   = useState(firebaseEnabled)
+  /* The snapshot carries the algorithm it belongs to, so switching algorithms
+     (or having no backend at all) resolves to "empty, not loading" by
+     derivation instead of an extra setState inside the listener effect. */
+  const canLoad = Boolean(firebaseEnabled && db && algorithmId)
+  const [snapshot, setSnapshot] = useState({ id: null, comments: [] })
+  const comments = snapshot.id === algorithmId ? snapshot.comments : []
+  const loading  = canLoad && snapshot.id !== algorithmId
   const [text, setText]         = useState('')
   const [posting, setPosting]   = useState(false)
   const [error, setError]       = useState(null)
@@ -69,17 +74,21 @@ export default function AlgorithmComments({ algorithmId, isLight }) {
 
   /* Real-time listener */
   useEffect(() => {
-    if (!firebaseEnabled || !db || !algorithmId) { setLoading(false); return }
+    if (!canLoad) return
     const q = query(
       collection(db, 'algorithmComments', algorithmId, 'comments'),
       orderBy('createdAt', 'desc')
     )
     const unsub = onSnapshot(q,
-      snap => { setComments(snap.docs.map(d => ({ id: d.id, ...d.data() }))); setLoading(false) },
-      err  => { console.error('Comments error:', err); setError('Could not load comments.'); setLoading(false) }
+      snap => setSnapshot({ id: algorithmId, comments: snap.docs.map(d => ({ id: d.id, ...d.data() })) }),
+      err  => {
+        console.error('Comments error:', err)
+        setError('Could not load comments.')
+        setSnapshot({ id: algorithmId, comments: [] })
+      }
     )
     return () => unsub()
-  }, [algorithmId])
+  }, [algorithmId, canLoad])
 
   const post = async () => {
     if (!text.trim() || !user || posting || !db) return

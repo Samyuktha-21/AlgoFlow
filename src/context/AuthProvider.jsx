@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   signInWithPopup, signInWithRedirect, getRedirectResult,
   signOut, onAuthStateChanged,
@@ -8,20 +8,18 @@ import {
 } from 'firebase/firestore'
 import { auth, db, googleProvider, firebaseEnabled } from '../firebase/config'
 import { recordLogin, recordNewLearner } from '../firebase/stats'
-
-const AuthContext = createContext({
-  user: null, loading: false, authError: null, signingIn: false,
-  signInWithGoogle: () => {}, logout: () => {},
-})
+import { AuthContext } from './AuthContext'
 
 export function AuthProvider({ children }) {
   const [user, setUser]           = useState(null)
-  const [loading, setLoading]     = useState(firebaseEnabled)
+  /* Only start in the loading state when there is an auth listener to wait
+     for — otherwise loading is already settled and nothing has to clear it. */
+  const [loading, setLoading]     = useState(Boolean(firebaseEnabled && auth))
   const [authError, setAuthError] = useState(null)
   const [signingIn, setSigningIn] = useState(false)
 
   useEffect(() => {
-    if (!firebaseEnabled || !auth) { setLoading(false); return }
+    if (!firebaseEnabled || !auth) return
 
     // Handle redirect result for mobile sign-in (runs on page load after redirect)
     getRedirectResult(auth)
@@ -155,10 +153,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export const useAuth = () => {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
-  return ctx
 }

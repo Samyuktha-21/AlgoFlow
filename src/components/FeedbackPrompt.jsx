@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db, firebaseEnabled } from '../firebase/config'
 
@@ -49,12 +49,20 @@ export default function FeedbackPrompt() {
   const [comment, setComment] = useState('')
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
-  const mountedAt = useRef(Date.now())
+  /* Stamped on mount rather than during render — reading the clock while
+     rendering is not a pure operation. */
+  const mountedAt = useRef(0)
   const triggeredRef = useRef(false)
+
+  const dismiss = useCallback(() => {
+    storageSet(SNOOZE_KEY, String(Date.now()))
+    setOpen(false)
+  }, [])
 
   /* Exit intent: cursor leaves through the top of the viewport (heading for
      the close button / tab bar). Asks once, after ≥30s on the site. */
   useEffect(() => {
+    mountedAt.current = Date.now()
     if (!firebaseEnabled || !shouldAsk()) return
     const onMouseOut = e => {
       if (triggeredRef.current) return
@@ -73,12 +81,7 @@ export default function FeedbackPrompt() {
     const onKey = e => { if (e.key === 'Escape') dismiss() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const dismiss = () => {
-    storageSet(SNOOZE_KEY, String(Date.now()))
-    setOpen(false)
-  }
+  }, [open, dismiss])
 
   const submit = async () => {
     if (!rating || sending) return

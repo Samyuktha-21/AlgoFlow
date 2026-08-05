@@ -73,10 +73,11 @@ const NODE_COLORS = {
 export default function TreeVisualizer({ step }) {
   const { isDark } = useTheme()
 
+  const stepNodes = step?.nodes
   const { positions, W, H } = useMemo(() => {
-    if (!step?.nodes) return { positions: {}, W: 520, H: 200 }
-    return buildLayout(step.nodes)
-  }, [step?.nodes])
+    if (!stepNodes) return { positions: {}, W: 520, H: 200 }
+    return buildLayout(stepNodes)
+  }, [stepNodes])
 
   if (!step) {
     return (

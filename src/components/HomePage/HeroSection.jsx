@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Search, ChevronDown } from 'lucide-react'
 import HeroAlgoCycle from './HeroAlgoCycle'
 import LiveStats from './LiveStats'
-import { openSearch } from '../Search/SearchTrigger'
+import { openSearch } from '../Search/searchOpener'
 
 const DISPLAY = "'General Sans', 'Inter', sans-serif"
 const MONO = "'IBM Plex Mono', monospace"

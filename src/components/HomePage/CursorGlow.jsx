@@ -8,18 +8,23 @@ import { useEffect, useRef, useState } from 'react'
  */
 const SIZE = 280
 
+/* Only on devices with a real mouse, and only if motion is allowed. Read once
+   at mount rather than flipped from inside the effect — the answer can't
+   change without a remount and deciding it up front avoids a second render. */
+function glowAllowed() {
+  const fine   = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  return Boolean(fine && !reduce)
+}
+
 export default function CursorGlow() {
   const ref = useRef(null)
   const frame = useRef(0)
   const target = useRef({ x: -9999, y: -9999 })
-  const [enabled, setEnabled] = useState(false)
+  const [enabled] = useState(glowAllowed)
 
   useEffect(() => {
-    // Only on devices with a real mouse, and only if motion is allowed
-    const fine = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    if (!fine || reduce) return
-    setEnabled(true)
+    if (!enabled) return
 
     const onMove = e => {
       target.current = { x: e.clientX, y: e.clientY }
@@ -41,7 +46,7 @@ export default function CursorGlow() {
       window.removeEventListener('mousemove', onMove)
       if (frame.current) cancelAnimationFrame(frame.current)
     }
-  }, [])
+  }, [enabled])
 
   if (!enabled) return null
 

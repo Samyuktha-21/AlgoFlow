@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-
-export const BeginnerContext = createContext({ beginner: true, setBeginner: () => {} })
+import { useState, useEffect } from 'react'
+import { BeginnerContext, useBeginner } from './BeginnerContext'
 
 export function BeginnerProvider({ children }) {
   // Default: beginner = true. Persist in localStorage.
@@ -20,10 +19,6 @@ export function BeginnerProvider({ children }) {
       {children}
     </BeginnerContext.Provider>
   )
-}
-
-export function useBeginner() {
-  return useContext(BeginnerContext)
 }
 
 /* Compact toggle for Header navbar — single source of truth */
