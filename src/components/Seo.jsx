@@ -14,8 +14,11 @@ import { useLocation } from 'react-router-dom'
 
 const SITE_NAME = 'AlgoFlow'
 const SITE_URL  = 'https://algoflow-theta.vercel.app'
-const DEFAULT_DESC = 'Learn algorithms by watching them run — interactive, step-by-step visualizations with code in Java, C, C++ and Python.'
-const DEFAULT_OG = `${SITE_URL}/og-default.svg`
+const DEFAULT_DESC = 'Learn algorithms by watching them run — interactive, step-by-step visualizations with code in Java, C, C++, Python and JavaScript.'
+/* PNG, not the SVG source: Facebook, LinkedIn and Slack won't render an SVG
+   og:image. Regenerate with `node scripts/build-og-image.mjs` after editing
+   public/og-default.svg. */
+const DEFAULT_OG = `${SITE_URL}/og-default.png`
 
 export default function Seo({ title, description, image, type = 'website' }) {
   const { pathname } = useLocation()
