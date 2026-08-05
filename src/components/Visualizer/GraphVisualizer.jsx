@@ -71,10 +71,15 @@ function StarNode({ node, state }) {
   )
 }
 
-function ConstellationEdge({ from, to, isTraversed }) {
+function ConstellationEdge({ from, to, isTraversed, directed }) {
   const color = isTraversed ? '#38BDF8' : 'rgba(96,165,250,.2)'
   const w = isTraversed ? 1.8 : 0.8
   const len = Math.sqrt((to.x-from.x)**2+(to.y-from.y)**2)
+  /* Stop the arrowhead at the rim of the target node rather than its centre */
+  const ux = len ? (to.x - from.x) / len : 0
+  const uy = len ? (to.y - from.y) / len : 0
+  const tipX = to.x - ux * (R + 3)
+  const tipY = to.y - uy * (R + 3)
 
   return (
     <g>
@@ -98,6 +103,13 @@ function ConstellationEdge({ from, to, isTraversed }) {
           offsetPath: `path("M ${from.x} ${from.y} L ${to.x} ${to.y}")`,
           animation: 'energy-travel 1.5s ease-in-out infinite',
         }} />
+      )}
+
+      {/* Arrowhead — only for graphs whose edges are genuinely one-way */}
+      {directed && (
+        <polygon
+          points={`${tipX},${tipY} ${tipX - ux * 11 - uy * 5},${tipY - uy * 11 + ux * 5} ${tipX - ux * 11 + uy * 5},${tipY - uy * 11 - ux * 5}`}
+          fill={color} />
       )}
 
       {/* Edge weight if present */}
@@ -128,7 +140,17 @@ export default function GraphVisualizer({ step, themeId }) {
     )
   }
 
-  const { nodes, edges, visited = [], current, queue = [], description, distances, isDFS = false } = step
+  const {
+    nodes, edges, visited = [], current, queue = [], description, distances,
+    isDFS = false,
+    /* Optional. treeEdges names the edges the algorithm has actually chosen
+       (an MST, a tour, a shortest path) as "from-to" keys; without it an edge
+       lights up whenever both its endpoints happen to be visited, which would
+       overstate what a tree-building algorithm has selected. */
+    treeEdges = null, treeEdgeLabel = 'Selected edges', directed = false,
+  } = step
+  const treeSet = treeEdges ? new Set(treeEdges) : null
+  const edgeKey = (a, b) => (directed ? `${a}-${b}` : (a < b ? `${a}-${b}` : `${b}-${a}`))
 
   const getState = (id) => {
     if (current === id)       return 'current'
@@ -165,9 +187,11 @@ export default function GraphVisualizer({ step, themeId }) {
             const fn = nodes.find(n => n.id === edge.from)
             const tn = nodes.find(n => n.id === edge.to)
             if (!fn || !tn) return null
-            const trav = visited.includes(edge.from) && visited.includes(edge.to)
+            const trav = treeSet
+              ? treeSet.has(edgeKey(edge.from, edge.to))
+              : visited.includes(edge.from) && visited.includes(edge.to)
             return <ConstellationEdge key={i} from={{ ...fn, weight: edge.weight }}
-              to={tn} isTraversed={trav} isActive={current === edge.from || current === edge.to} />
+              to={tn} isTraversed={trav} directed={directed} />
           })}
 
           {/* Nodes */}
@@ -217,6 +241,18 @@ export default function GraphVisualizer({ step, themeId }) {
             ))
         }
       </div>
+
+      {/* Chosen-edge trail — MST / tour / path, when the algorithm reports one */}
+      {treeSet && treeSet.size > 0 && (
+        <div className="mt-2 flex items-center gap-2 justify-center flex-wrap">
+          <span style={{ color: isSpace ? 'rgba(96,165,250,.6)' : '#6b7280', fontSize: 11, fontWeight: 600 }}>
+            🔗 {treeEdgeLabel}:
+          </span>
+          <span style={{ color: '#38bdf8', fontSize: 11, fontFamily: 'monospace' }}>
+            {[...treeSet].join(', ')}
+          </span>
+        </div>
+      )}
 
       {/* Visited trail */}
       {visited.length > 0 && (
