@@ -41,5 +41,10 @@
   },
   "id": "power",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "numberPair",
+  "inputSpec": [
+    { "label": "base", "min": 1, "max": 20, "default": 2 },
+    { "label": "exponent", "min": 0, "max": 20, "default": 10 }
+  ]
 }

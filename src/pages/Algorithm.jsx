@@ -7,7 +7,7 @@ import { useBeginner } from '../context/BeginnerContext'
 import { useAuth } from '../context/AuthContext'
 import { useProgress } from '../context/ProgressContext'
 import categories from '../data/categories.json'
-import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/validators'
+import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput } from '../utils/validators'
 import { getCategoryTheme } from '../themes/themeConfig'
 import { recordAlgoView, recordVizRun } from '../firebase/stats'
 import { recordAlgorithmView } from '../firebase/algoStats'
@@ -429,6 +429,10 @@ export default function Algorithm() {
       const raw = (inputStr || '').trim()
       if (!raw) return { error: 'Enter a string, e.g. racecar' }
       setSteps(stepsModule.generateSteps(raw))
+    } else if (inputType === 'singleNumber' || inputType === 'numberPair') {
+      const p = parseNumberInput(inputStr, metadata?.inputSpec)
+      if (p.error) return { error: p.error }
+      setSteps(stepsModule.generateSteps(p.array))
     } else {
       const p = parseArrayInput(inputStr)
       if (p.error) return { error: p.error }
@@ -442,7 +446,7 @@ export default function Algorithm() {
     if (!metadata || !stepsModule?.generateSteps || isLoading) return
     if (autoRunKey.current === loadKey) return
     autoRunKey.current = loadKey
-    const def = getDefaultInput(metadata.type, metadata.inputType)
+    const def = getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec)
     /* Seed from a shared link if present, otherwise use the default input */
     const initInput  = sharedInput  ?? def.input
     const initTarget = sharedTarget ?? (def.target || '')
@@ -460,7 +464,7 @@ export default function Algorithm() {
   }, [metadata, stepsModule, isLoading, loadKey, handleVisualize, play, setSpeed,
       goTo, prefersReducedMotion, sharedInput, sharedTarget, sharedStep])
 
-  const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType) : null
+  const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec) : null
   const shownInput   = sharedInput  ?? defaultInput?.input
   const shownTarget  = sharedTarget ?? defaultInput?.target
 
@@ -813,6 +817,7 @@ export default function Algorithm() {
                 key={`${categoryId}/${algorithmId}/${shownInput ?? ''}/${shownTarget ?? ''}`}
                 algorithmType={metadata.type}
                 inputType={metadata.inputType}
+                inputSpec={metadata.inputSpec}
                 onVisualize={handleVisualize}
                 defaultValue={shownInput}
                 defaultTarget={shownTarget}

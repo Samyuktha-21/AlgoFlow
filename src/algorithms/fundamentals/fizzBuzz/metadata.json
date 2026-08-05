@@ -40,5 +40,9 @@
   },
   "id": "fizzBuzz",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "n", "min": 5, "max": 20, "default": 15 }
+  ]
 }

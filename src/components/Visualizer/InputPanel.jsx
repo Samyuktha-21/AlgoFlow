@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { randomArray, randomSortedArray } from '../../utils/helpers'
+import { normalizeNumberSpec, describeNumberSpec } from '../../utils/validators'
 
 /* The seed values are mount-time defaults, not a live binding: the caller
    passes a key derived from them, so a new seed remounts this panel instead of
    being pushed into state by an effect. */
-export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType }) {
+export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType, inputSpec }) {
   const { isDark } = useTheme()
   const [input, setInput] = useState(defaultValue || '')
   const [targetInput, setTargetInput] = useState(defaultTarget || '')
@@ -16,6 +17,10 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
   const isGraph        = algorithmType === 'graph'
   const isStringPair   = inputType === 'stringPair'
   const isSingleString = inputType === 'singleString'
+  /* Scalar algorithms (factorial, gcd, n-queens …) take one or two bounded
+     numbers, so they get their own placeholder, hint and Random range. */
+  const isNumber       = inputType === 'singleNumber' || inputType === 'numberPair'
+  const numFields      = isNumber ? normalizeNumberSpec(inputSpec) : null
 
   const handleRandom = () => {
     setError('')
@@ -25,6 +30,8 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       setTargetInput(String(arr[Math.floor(arr.length * 0.6)]))
     } else if (isGraph) {
       setInput('0-1, 0-2, 1-3, 1-4, 2-5, 2-6')
+    } else if (isNumber) {
+      setInput(numFields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '))
     } else {
       setInput(randomArray(8, 15).join(', '))
     }
@@ -62,7 +69,9 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
                   ? 'Two strings: ABCBDAB,BDCAB'
                   : isSingleString
                     ? 'String: racecar'
-                    : 'Array: 5, 3, 7, 1, 9 ...')}
+                    : isNumber
+                      ? describeNumberSpec(numFields)
+                      : 'Array: 5, 3, 7, 1, 9 ...')}
             className={`w-full px-3 py-2 rounded-lg border text-sm transition-colors ${
               error
                 ? 'border-red-400 focus:outline-none focus:ring-1 focus:ring-red-400'
@@ -127,7 +136,13 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
           ? <>Each number is a <b>node</b>. "0-1" means node 0 connects to node 1. Try: <code className="opacity-75">0-1, 0-2, 1-3, 1-4, 2-5</code></>
           : isSearch
             ? 'Enter a sorted array and a target value to search for'
-            : 'Enter 2–50 comma-separated integers, or click Random'}
+            : isNumber
+              ? <>This algorithm takes {numFields.length === 1 ? 'a single number' : `${numFields.length} numbers`}: <b>{describeNumberSpec(numFields)}</b></>
+              : isStringPair
+                ? 'Enter two strings separated by a comma'
+                : isSingleString
+                  ? 'Enter a single string'
+                  : 'Enter 2–50 comma-separated integers, or click Random'}
       </p>
     </div>
   )

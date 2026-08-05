@@ -43,5 +43,9 @@
       "Binet's formula — O(1) but floating-point precision issues",
       "Naive recursion — O(2^n), never use for n>30"
     ]
-  }
+  },
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "n", "min": 2, "max": 20, "default": 8 }
+  ]
 }

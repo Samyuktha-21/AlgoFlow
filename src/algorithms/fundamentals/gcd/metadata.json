@@ -40,5 +40,10 @@
   },
   "id": "gcd",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "numberPair",
+  "inputSpec": [
+    { "label": "a", "min": 1, "max": 10000, "default": 48 },
+    { "label": "b", "min": 1, "max": 10000, "default": 18 }
+  ]
 }

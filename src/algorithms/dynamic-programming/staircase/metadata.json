@@ -40,5 +40,9 @@
   },
   "id": "staircase",
   "category": "dynamic-programming",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "n steps", "min": 2, "max": 12, "default": 8 }
+  ]
 }

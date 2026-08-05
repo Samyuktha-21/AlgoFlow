@@ -10,6 +10,47 @@ export function parseArrayInput(input) {
   return { array: nums }
 }
 
+/* Scalar-input algorithms (factorial, gcd, n-queens …) take one or two plain
+   numbers rather than a list, so the "at least 2 elements" array rule rejects
+   perfectly valid input. Their metadata carries an `inputSpec`: one entry per
+   field, each { label, min, max, default }. Bounds mirror what the step
+   generator can actually render, so out-of-range input gets an error instead
+   of being silently clamped. */
+const FALLBACK_SPEC = [{ label: 'n', min: 1, max: 100 }]
+
+export function normalizeNumberSpec(spec) {
+  return Array.isArray(spec) && spec.length ? spec : FALLBACK_SPEC
+}
+
+export function describeNumberSpec(spec) {
+  return normalizeNumberSpec(spec).map(f => `${f.label} (${f.min}–${f.max})`).join(', ')
+}
+
+export function parseNumberInput(input, spec) {
+  const fields = normalizeNumberSpec(spec)
+  const shape = describeNumberSpec(fields)
+  if (!input || !input.trim()) return { error: `Input cannot be empty — enter ${shape}` }
+
+  const parts = input.split(',').map(s => s.trim()).filter(s => s !== '')
+  if (parts.length !== fields.length) {
+    return {
+      error: fields.length === 1
+        ? `Enter a single integer: ${shape}`
+        : `Enter ${fields.length} comma-separated integers: ${shape}`,
+    }
+  }
+
+  const nums = []
+  for (let i = 0; i < fields.length; i++) {
+    const f = fields[i]
+    const v = Number(parts[i])
+    if (isNaN(v) || !Number.isInteger(v)) return { error: `${f.label} must be an integer` }
+    if (v < f.min || v > f.max) return { error: `${f.label} must be between ${f.min} and ${f.max}` }
+    nums.push(v)
+  }
+  return { array: nums }
+}
+
 export function parseSearchInput(arrayInput, targetInput) {
   const arrayResult = parseArrayInput(arrayInput)
   if (arrayResult.error) return arrayResult

@@ -20,7 +20,7 @@ function runStepsLocal(e) {
   if (!gen) return null
   const t = e.type
   const it = e.metadata?.inputType
-  const def = getDefaultInput(t, it)
+  const def = getDefaultInput(t, it, e.metadata?.inputSpec)
   try {
     if (t === 'searching') return gen(parseArr(def.input), parseInt(def.target, 10))
     if (t === 'graph') {

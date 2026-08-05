@@ -2,9 +2,15 @@
    Algorithm page (auto-run) and the Test Yourself game. Returns
    { input: string, target: string }. */
 
-export function getDefaultInput(type, inputType) {
+export function getDefaultInput(type, inputType, inputSpec) {
   if (inputType === 'stringPair')   return { input: 'ABCBDAB,BDCAB', target: '' }
   if (inputType === 'singleString') return { input: 'racecar', target: '' }
+  /* Scalar algorithms carry their own seed in metadata.inputSpec — a shared
+     per-type default would be out of range for most of them. */
+  if (inputType === 'singleNumber' || inputType === 'numberPair') {
+    const fields = Array.isArray(inputSpec) && inputSpec.length ? inputSpec : [{ min: 1, default: 8 }]
+    return { input: fields.map(f => f.default ?? f.min ?? 1).join(', '), target: '' }
+  }
   switch (type) {
     case 'sorting':     return { input: '64, 34, 25, 12, 22, 11, 90', target: '' }
     case 'searching':   return { input: '2, 5, 8, 12, 16, 23, 38, 56, 72, 91', target: '23' }

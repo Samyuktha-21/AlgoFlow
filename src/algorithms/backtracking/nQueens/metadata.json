@@ -45,5 +45,9 @@
       "Arc consistency — constraint propagation for CSPs",
       "Genetic algorithms — for very large N where exact solution impractical"
     ]
-  }
+  },
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "board size N", "min": 4, "max": 8, "default": 5 }
+  ]
 }

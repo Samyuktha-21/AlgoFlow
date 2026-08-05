@@ -40,5 +40,9 @@
   },
   "id": "rodCutting",
   "category": "dynamic-programming",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "rod length", "min": 2, "max": 8, "default": 6 }
+  ]
 }

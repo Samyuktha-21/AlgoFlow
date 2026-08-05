@@ -1,4 +1,4 @@
-import { parseArrayInput, parseSearchInput, parseGraphInput } from '../utils/validators'
+import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput } from '../utils/validators'
 import { getDefaultInput } from './defaultInput'
 
 /* Runs a loaded pool entry's steps generator with its default input,
@@ -9,7 +9,8 @@ export function runSteps(entry) {
   if (!gen) return null
   const type = entry.type
   const inputType = entry.metadata?.inputType
-  const def = getDefaultInput(type, inputType)
+  const inputSpec = entry.metadata?.inputSpec
+  const def = getDefaultInput(type, inputType, inputSpec)
   try {
     if (type === 'searching') {
       const p = parseSearchInput(def.input, def.target)
@@ -28,6 +29,11 @@ export function runSteps(entry) {
     }
     if (inputType === 'singleString') {
       return gen((def.input || '').trim())
+    }
+    if (inputType === 'singleNumber' || inputType === 'numberPair') {
+      const p = parseNumberInput(def.input, inputSpec)
+      if (p.error) return null
+      return gen(p.array)
     }
     const p = parseArrayInput(def.input)
     if (p.error) return null

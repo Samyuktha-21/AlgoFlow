@@ -39,5 +39,10 @@
   },
   "id": "eggDrop",
   "category": "dynamic-programming",
-  "implemented": true
+  "implemented": true,
+  "inputType": "numberPair",
+  "inputSpec": [
+    { "label": "eggs", "min": 1, "max": 4, "default": 2 },
+    { "label": "floors", "min": 2, "max": 30, "default": 14 }
+  ]
 }

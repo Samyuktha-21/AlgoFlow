@@ -40,5 +40,9 @@
   },
   "id": "factorial",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "n", "min": 1, "max": 10, "default": 8 }
+  ]
 }

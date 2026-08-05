@@ -42,5 +42,9 @@
   },
   "id": "primeCheck",
   "category": "fundamentals",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleNumber",
+  "inputSpec": [
+    { "label": "n", "min": 2, "max": 1000, "default": 37 }
+  ]
 }
