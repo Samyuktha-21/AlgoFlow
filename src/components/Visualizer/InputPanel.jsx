@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
-import { randomArray, randomSortedArray } from '../../utils/helpers'
+import { randomArray, randomSortedArray, randomGraphInput } from '../../utils/helpers'
 import { normalizeNumberSpec, describeNumberSpec } from '../../utils/validators'
 
 /* The seed values are mount-time defaults, not a live binding: the caller
@@ -21,6 +21,10 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
      numbers, so they get their own placeholder, hint and Random range. */
   const isNumber       = inputType === 'singleNumber' || inputType === 'numberPair'
   const numFields      = isNumber ? normalizeNumberSpec(inputSpec) : null
+  /* Weighted algorithms (Prim, Johnson's, TSP …) seed the box with ":w"
+     suffixes; A* seeds it blank because its demo is an obstacle grid. */
+  const isWeightedGraph   = isGraph && (defaultValue || '').includes(':')
+  const isBlankGraphSeed  = isGraph && defaultValue === ''
 
   const handleRandom = () => {
     setError('')
@@ -29,7 +33,10 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       setInput(arr.join(', '))
       setTargetInput(String(arr[Math.floor(arr.length * 0.6)]))
     } else if (isGraph) {
-      setInput('0-1, 0-2, 1-3, 1-4, 2-5, 2-6')
+      /* A blank seed means the algorithm builds its own board (A*'s grid);
+         randomising it would silently take that demo away. */
+      if (isBlankGraphSeed) setInput('')
+      else setInput(randomGraphInput({ weighted: isWeightedGraph }))
     } else if (isNumber) {
       setInput(numFields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '))
     } else {
@@ -62,7 +69,7 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
             onChange={e => { setInput(e.target.value); setError('') }}
             onKeyDown={handleKeyDown}
             placeholder={placeholder || (isGraph
-              ? 'Edges: 0-1, 0-2, 1-3 ...'
+              ? (isWeightedGraph ? 'Edges: 0-1:4, 0-2:1, 1-3:5 ...' : 'Edges: 0-1, 0-2, 1-3 ...')
               : isSearch
                 ? 'Sorted array: 2, 5, 8, 12 ...'
                 : isStringPair
@@ -133,7 +140,11 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
 
       <p className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
         {isGraph
-          ? <>Each number is a <b>node</b>. "0-1" means node 0 connects to node 1. Try: <code className="opacity-75">0-1, 0-2, 1-3, 1-4, 2-5</code></>
+          ? isBlankGraphSeed
+            ? <>Leave this empty to use the built-in board, or enter your own edges: <code className="opacity-75">0-1, 0-2, 1-3</code></>
+            : isWeightedGraph
+              ? <>Each number is a <b>node</b> and "0-1:4" is an edge of weight 4. Try: <code className="opacity-75">0-1:4, 0-2:1, 1-2:2, 1-3:5</code></>
+              : <>Each number is a <b>node</b>. "0-1" means node 0 connects to node 1. Try: <code className="opacity-75">0-1, 0-2, 1-3, 1-4, 2-5</code></>
           : isSearch
             ? 'Enter a sorted array and a target value to search for'
             : isNumber

@@ -134,7 +134,8 @@ export default function GraphVisualizer({ step, themeId }) {
           Click <b>Visualize</b> to start traversal
         </p>
         <p style={{ color: isSpace ? 'rgba(96,165,250,.35)' : '#6b7280', fontSize: 12, maxWidth: 300, textAlign: 'center', lineHeight: 1.6 }}>
-          Enter edges like <code style={{ opacity: 0.8 }}>0-1, 0-2, 1-3</code> — each number is a node, each pair is a connection
+          Enter edges like <code style={{ opacity: 0.8 }}>0-1, 0-2, 1-3</code> — each number is a node, each pair is a connection.
+          Add <code style={{ opacity: 0.8 }}>:4</code> for a weight
         </p>
       </div>
     )

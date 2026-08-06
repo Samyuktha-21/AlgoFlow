@@ -20,12 +20,20 @@ function runStepsLocal(e) {
   if (!gen) return null
   const t = e.type
   const it = e.metadata?.inputType
-  const def = getDefaultInput(t, it, e.metadata?.inputSpec)
+  const def = getDefaultInput(t, it, e.metadata?.inputSpec, e.metadata?.defaultInput)
   try {
     if (t === 'searching') return gen(parseArr(def.input), parseInt(def.target, 10))
     if (t === 'graph') {
-      const edges = def.input.split(',').map(p => p.trim().split('-').map(Number))
-      const nodes = [...new Set(edges.flat())]
+      /* Mirrors parseGraphInput, including the optional ":weight" suffix.
+         A blank default means the algorithm supplies its own board. */
+      if (!def.input.trim()) return gen(null, null, 0)
+      const edges = def.input.split(',').map(p => {
+        const [ends, w] = p.trim().split(':')
+        const [from, to] = ends.split('-').map(Number)
+        return w === undefined ? { from, to } : { from, to, weight: Number(w) }
+      })
+      const nodes = [...new Set(edges.flatMap(x => [x.from, x.to]))]
+        .sort((a, b) => a - b).map(id => ({ id, label: String(id) }))
       return gen(nodes, edges, 0)
     }
     if (it === 'stringPair') {

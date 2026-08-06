@@ -2,7 +2,15 @@
    Algorithm page (auto-run) and the Test Yourself game. Returns
    { input: string, target: string }. */
 
-export function getDefaultInput(type, inputType, inputSpec) {
+export function getDefaultInput(type, inputType, inputSpec, presetInput) {
+  /* An algorithm may ship its own seed in metadata.defaultInput. Prim, SCC,
+     TSP and Johnson's all need something the shared per-type default cannot
+     express — weights, direction, or a graph that is not a tree — and a
+     visualization is worthless if it opens on input the algorithm cannot
+     say anything interesting about. An empty string is a deliberate choice
+     too: A*'s demo is an obstacle grid, which no edge list can describe, so
+     it opens with a blank box and falls through to its built-in board. */
+  if (typeof presetInput === 'string') return { input: presetInput, target: '' }
   if (inputType === 'stringPair')   return { input: 'ABCBDAB,BDCAB', target: '' }
   if (inputType === 'singleString') return { input: 'racecar', target: '' }
   /* Scalar algorithms carry their own seed in metadata.inputSpec — a shared

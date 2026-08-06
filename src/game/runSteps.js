@@ -10,7 +10,7 @@ export function runSteps(entry) {
   const type = entry.type
   const inputType = entry.metadata?.inputType
   const inputSpec = entry.metadata?.inputSpec
-  const def = getDefaultInput(type, inputType, inputSpec)
+  const def = getDefaultInput(type, inputType, inputSpec, entry.metadata?.defaultInput)
   try {
     if (type === 'searching') {
       const p = parseSearchInput(def.input, def.target)
@@ -18,6 +18,9 @@ export function runSteps(entry) {
       return gen(p.array, p.target)
     }
     if (type === 'graph') {
+      /* A blank default is deliberate — the algorithm ships its own board
+         (A*'s obstacle grid), so hand it nothing and let it build one. */
+      if (!def.input.trim()) return gen(null, null, 0)
       const p = parseGraphInput(def.input)
       if (p.error) return null
       return gen(p.nodes, p.edges, 0)

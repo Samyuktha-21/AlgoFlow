@@ -59,12 +59,13 @@ async function argsFor(meta) {
   const { getDefaultInput, parseArrayInput, parseSearchInput, parseGraphInput } = await loadApp()
   const type = meta?.type || 'sorting'
   const inputType = meta?.inputType
-  const def = getDefaultInput(type, inputType)
+  const def = getDefaultInput(type, inputType, meta?.inputSpec, meta?.defaultInput)
   if (type === 'searching') {
     const p = parseSearchInput(def.input, def.target)
     return p.error ? null : [p.array, p.target]
   }
   if (type === 'graph') {
+    if (!def.input.trim()) return [null, null, 0]
     const p = parseGraphInput(def.input)
     return p.error ? [null, null, 0] : [p.nodes, p.edges, 0]
   }

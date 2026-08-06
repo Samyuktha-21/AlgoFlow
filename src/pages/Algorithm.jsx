@@ -446,7 +446,7 @@ export default function Algorithm() {
     if (!metadata || !stepsModule?.generateSteps || isLoading) return
     if (autoRunKey.current === loadKey) return
     autoRunKey.current = loadKey
-    const def = getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec)
+    const def = getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec, metadata.defaultInput)
     /* Seed from a shared link if present, otherwise use the default input */
     const initInput  = sharedInput  ?? def.input
     const initTarget = sharedTarget ?? (def.target || '')
@@ -464,7 +464,7 @@ export default function Algorithm() {
   }, [metadata, stepsModule, isLoading, loadKey, handleVisualize, play, setSpeed,
       goTo, prefersReducedMotion, sharedInput, sharedTarget, sharedStep])
 
-  const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec) : null
+  const defaultInput = metadata ? getDefaultInput(metadata.type, metadata.inputType, metadata.inputSpec, metadata.defaultInput) : null
   const shownInput   = sharedInput  ?? defaultInput?.input
   const shownTarget  = sharedTarget ?? defaultInput?.target
 

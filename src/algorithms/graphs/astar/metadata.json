@@ -48,5 +48,6 @@
   "beginnerAnalogy": "Like a GPS that not only knows the distance driven so far, but also makes a smart guess about how far the destination still is — so it focuses on roads leading toward the destination instead of exploring in all directions.",
   "beginnerWhat": "A smarter version of Dijkstra's that uses a 'hint' about how close the goal is to explore fewer dead ends.",
   "beginnerWhy": "The heuristic hint dramatically reduces the number of nodes explored compared to Dijkstra's.",
-  "beginnerWhen": "When you need fastest path between two specific points and have a distance estimate (GPS, grid navigation, games)."
+  "beginnerWhen": "When you need fastest path between two specific points and have a distance estimate (GPS, grid navigation, games).",
+  "defaultInput": ""
 }

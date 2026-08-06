@@ -32,5 +32,14 @@
     "language": "python",
     "code": "def tsp(dist):\n    n = len(dist)\n    memo = {}\n    def solve(mask, pos):\n        if mask == (1 << n) - 1:\n            return dist[pos][0]\n        if (mask, pos) in memo:\n            return memo[(mask, pos)]\n        best = float('inf')\n        for nxt in range(n):\n            if not mask & (1 << nxt):\n                best = min(best, dist[pos][nxt] + solve(mask | (1 << nxt), nxt))\n        memo[(mask, pos)] = best\n        return best\n    return solve(1, 0)\n\ndist = [[0, 10, 15, 20], [10, 0, 35, 25], [15, 35, 0, 30], [20, 25, 30, 0]]\nprint(tsp(dist))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "22": 15,
+      "32": 12,
+      "33": 13,
+      "44": 6,
+      "61": 18
+    }
   }
 }

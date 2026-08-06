@@ -146,7 +146,7 @@ export function generateSteps(inputNodes = null, inputEdges = null) {
       lastCity = u
       addStep(FULL, u, `All cities covered ending at ${u} costs ${dp[FULL][u]}; returning ${u}→0 adds ${dist[u][0]} for a full tour of ${cost} — the best so far.`, 45)
     } else {
-      addStep(FULL, u, `Ending at ${u} gives a tour of ${cost}, worse than the ${minCost} already found.`, 44)
+      addStep(FULL, u, `Ending at ${u} gives a tour of ${cost}, no better than the ${minCost} already found.`, 44)
     }
   }
 

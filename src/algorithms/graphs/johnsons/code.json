@@ -6,7 +6,7 @@
   },
   "java": {
     "language": "java",
-    "code": "import java.util.*;\npublic class Johnson {\n    // Johnson's: reweight using Bellman-Ford, then run Dijkstra from each vertex\n    // Time: O(V^2 log V + VE) — better than Floyd-Warshall O(V^3) for sparse graphs\n    static final int INF = Integer.MAX_VALUE/2;\n    int n; int[][] dist;\n    int[] bellmanFord(int[][] g) {\n        int[] h = new int[n+1];\n        Arrays.fill(h, INF); h[n] = 0;\n        for(int i=0;i<n;i++) for(int u=0;u<=n;u++) for(int v=0;v<n;v++)\n            if(g[u][v]!=INF&&h[u]!=INF) h[v]=Math.min(h[v],h[u]+g[u][v]);\n        return h;\n    }\n    int[] dijkstra(int[][] g, int src, int[] h) {\n        int[] d = new int[n]; Arrays.fill(d,INF); d[src]=0;\n        PriorityQueue<int[]> pq=new PriorityQueue<>(Comparator.comparingInt(a->a[0]));\n        pq.offer(new int[]{0,src});\n        while(!pq.isEmpty()){int[]cur=pq.poll();int u=cur[1];if(cur[0]>d[u])continue;\n            for(int v=0;v<n;v++) if(g[u][v]!=INF&&d[u]+g[u][v]<d[v]){d[v]=d[u]+g[u][v];pq.offer(new int[]{d[v],v});}}\n        return d;\n    }\n}",
+    "code": "import java.util.*;\npublic class Johnson {\n    static final int INF = Integer.MAX_VALUE / 2;\n\n    // Reweight with Bellman-Ford, then run Dijkstra from every vertex.\n    // O(V*E + V*E log V) — beats Floyd-Warshall's O(V^3) on sparse graphs.\n    public int[][] johnson(int n, int[][] edges) {\n        // 1. Virtual source n, reaching every vertex with a 0-weight edge.\n        List<int[]> all = new ArrayList<>(Arrays.asList(edges));\n        for (int v = 0; v < n; v++) all.add(new int[]{n, v, 0});\n        int[] h = new int[n + 1];\n        Arrays.fill(h, INF); h[n] = 0;\n        for (int pass = 0; pass < n; pass++)\n            for (int[] e : all)\n                if (h[e[0]] < INF && h[e[0]] + e[2] < h[e[1]]) h[e[1]] = h[e[0]] + e[2];\n        for (int[] e : all)\n            if (h[e[0]] < INF && h[e[0]] + e[2] < h[e[1]]) throw new IllegalStateException(\"negative cycle\");\n\n        // 2. Reweight: w' = w + h[u] - h[v] is never negative.\n        List<List<int[]>> adj = new ArrayList<>();\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int[] e : edges) adj.get(e[0]).add(new int[]{e[1], e[2] + h[e[0]] - h[e[1]]});\n\n        // 3. Dijkstra from each vertex — legal now that no weight is negative.\n        int[][] dist = new int[n][n];\n        for (int src = 0; src < n; src++) {\n            int[] d = new int[n];\n            Arrays.fill(d, INF); d[src] = 0;\n            PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n            pq.offer(new int[]{0, src});\n            while (!pq.isEmpty()) {\n                int[] cur = pq.poll();\n                int u = cur[1];\n                if (cur[0] > d[u]) continue;\n                for (int[] nb : adj.get(u))\n                    if (d[u] + nb[1] < d[nb[0]]) {\n                        d[nb[0]] = d[u] + nb[1];\n                        pq.offer(new int[]{d[nb[0]], nb[0]});\n                    }\n            }\n            // 4. Undo the shift: real = d + h[v] - h[src].\n            for (int v = 0; v < n; v++)\n                dist[src][v] = d[v] >= INF ? INF : d[v] + h[v] - h[src];\n        }\n        return dist;\n    }\n}\n",
     "lineKeys": {}
   },
   "c": {
@@ -23,5 +23,19 @@
     "language": "python",
     "code": "import heapq\n\ndef johnsons(n, edges):\n    # add virtual source, run Bellman-Ford for potentials\n    h = [0] * (n + 1)\n    all_edges = edges + [(n, v, 0) for v in range(n)]\n    for _ in range(n):\n        for u, v, w in all_edges:\n            if h[u] + w < h[v]:\n                h[v] = h[u] + w\n    graph = {u: [] for u in range(n)}\n    for u, v, w in edges:\n        graph[u].append((v, w + h[u] - h[v]))  # reweight: non-negative\n    result = []\n    for src in range(n):\n        dist = [float('inf')] * n\n        dist[src] = 0\n        pq = [(0, src)]\n        while pq:\n            d, u = heapq.heappop(pq)\n            if d > dist[u]:\n                continue\n            for v, w in graph[u]:\n                if d + w < dist[v]:\n                    dist[v] = d + w\n                    heapq.heappush(pq, (dist[v], v))\n        result.append([d + h[v] - h[src] if d < float('inf') else None\n                       for v, d in enumerate(dist)])\n    return result\n\nedges = [(0, 1, -2), (1, 2, 3), (2, 0, 6), (0, 2, 4)]\nfor row in johnsons(3, edges):\n    print(row)",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "10": 6,
+      "13": 7,
+      "15": 10,
+      "22": 13,
+      "28": 17,
+      "32": 20,
+      "36": 24,
+      "37": 25,
+      "43": 27,
+      "45": 29
+    }
   }
 }

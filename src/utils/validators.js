@@ -66,11 +66,26 @@ export function parseGraphInput(edgesInput) {
   const edges = []
   const nodeSet = new Set()
   for (const pair of pairs) {
-    const parts = pair.split('-')
-    if (parts.length !== 2) return { error: `Invalid edge format "${pair}" — use "0-1" format` }
+    /* "0-1" is an edge; "0-1:4" is the same edge weighted 4. The weight is
+       split off first so a negative one ("0-4:-4") cannot be mistaken for the
+       dash separating the two node ids. */
+    const [endpoints, ...weightParts] = pair.split(':')
+    if (weightParts.length > 1) return { error: `Invalid edge format "${pair}" — use "0-1" or "0-1:4"` }
+    const parts = endpoints.split('-')
+    if (parts.length !== 2) return { error: `Invalid edge format "${pair}" — use "0-1" or "0-1:4"` }
     const [a, b] = parts.map(Number)
-    if (isNaN(a) || isNaN(b)) return { error: `Invalid node IDs in "${pair}"` }
-    edges.push({ from: a, to: b })
+    if (isNaN(a) || isNaN(b) || !Number.isInteger(a) || !Number.isInteger(b)) {
+      return { error: `Invalid node IDs in "${pair}"` }
+    }
+    const edge = { from: a, to: b }
+    if (weightParts.length === 1) {
+      const w = Number(weightParts[0].trim())
+      if (weightParts[0].trim() === '' || isNaN(w) || !Number.isInteger(w)) {
+        return { error: `Invalid weight in "${pair}" — use an integer, e.g. "0-1:4"` }
+      }
+      edge.weight = w
+    }
+    edges.push(edge)
     nodeSet.add(a)
     nodeSet.add(b)
   }
