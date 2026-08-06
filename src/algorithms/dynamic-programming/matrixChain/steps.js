@@ -1,5 +1,10 @@
 export function generateSteps(inputArray) {
-  const dims=inputArray&&inputArray.length>=3?[...inputArray]:[10,30,5,60]
+  const all=inputArray&&inputArray.length>=3?[...inputArray]:[10,30,5,60]
+  /* The recurrence is cubic and every step snapshots the whole n×n table, so
+     the full 50 dimensions the validator allows costs hundreds of millions of
+     cells — the tab dies before it renders. The grid stops being readable
+     well before that, so visualize the first 9 dimensions. */
+  const dims=all.slice(0,9)
   const n=dims.length-1
   const dp=Array.from({length:n},()=>new Array(n).fill(0))
   const computed=Array.from({length:n},()=>new Array(n).fill(false))
@@ -7,7 +12,7 @@ export function generateSteps(inputArray) {
   const cols=Array.from({length:n},(_,i)=>'A'+(i+1))
   const steps=[]
   const addStep=(r,c,desc,line)=>steps.push({dp2d:dp.map(row=>[...row]),rows,cols,cell:{row:r,col:c},computed2d:computed.map(row=>[...row]),description:desc,codeLine:line,extra:{minCost:dp[0]?.[n-1]||0}})
-  addStep(0,0,'Matrix Chain: minimize multiplications for chain A1×A2×...×An',2)
+  addStep(0,0,'Matrix Chain: minimize multiplications for chain A1×A2×...×An'+(all.length>dims.length?' (showing the first '+dims.length+' of '+all.length+' dimensions)':''),2)
   for(let i=0;i<n;i++){dp[i][i]=0;computed[i][i]=true}
   addStep(0,0,'Diagonal (single matrix): dp[i][i]=0',4)
   for(let len=2;len<=n;len++){

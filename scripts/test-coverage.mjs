@@ -34,7 +34,7 @@ function runStepsLocal(e) {
       })
       const nodes = [...new Set(edges.flatMap(x => [x.from, x.to]))]
         .sort((a, b) => a - b).map(id => ({ id, label: String(id) }))
-      return gen(nodes, edges, 0)
+      return gen(nodes, edges, nodes[0]?.id ?? 0)
     }
     if (it === 'stringPair') {
       const parts = def.input.split(',')

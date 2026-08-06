@@ -67,7 +67,7 @@ async function argsFor(meta) {
   if (type === 'graph') {
     if (!def.input.trim()) return [null, null, 0]
     const p = parseGraphInput(def.input)
-    return p.error ? [null, null, 0] : [p.nodes, p.edges, 0]
+    return p.error ? [null, null, 0] : [p.nodes, p.edges, p.nodes[0]?.id ?? 0]
   }
   if (inputType === 'stringPair') {
     const [a, ...rest] = def.input.split(',')

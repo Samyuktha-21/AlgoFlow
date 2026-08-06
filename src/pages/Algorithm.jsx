@@ -412,7 +412,10 @@ export default function Algorithm() {
       if (inputStr?.trim()) {
         const p = parseGraphInput(inputStr)
         if (p.error) return { error: p.error }
-        setSteps(stepsModule.generateSteps(p.nodes, p.edges, 0))
+        /* Start from the graph's first node, not a hardcoded 0 — "5-9, 9-12"
+           is a perfectly legal edge list with no node 0 in it, and a
+           traversal seeded at a node that does not exist crashes. */
+        setSteps(stepsModule.generateSteps(p.nodes, p.edges, p.nodes[0]?.id ?? 0))
       } else {
         setSteps(stepsModule.generateSteps(null, null, 0))
       }

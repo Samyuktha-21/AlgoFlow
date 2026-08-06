@@ -11,7 +11,10 @@ export function generateSteps(inputArray, target = null) {
     steps.push({ array:[...arr], low:prev, high:curr, mid:curr, found:-1, eliminated:[...eliminated], target:searchTarget, description:`arr[${curr}]=${arr[curr]} < ${searchTarget} — jump! prev=${curr}`, codeLine:5 })
     for(let i=prev;i<curr;i++) eliminated.push(i)
     prev = curr
-    curr = Math.min(curr + step, n - 1)
+    /* Must be allowed to run past the last index: clamping to n-1 here means
+       a target larger than every element never fails the loop condition, and
+       the generator spins forever building steps. */
+    curr = curr + step
   }
   steps.push({ array:[...arr], low:prev, high:Math.min(curr,n-1), mid:-1, found:-1, eliminated:[...eliminated], target:searchTarget, description:`Target in block [${prev}..${Math.min(curr,n-1)}] — linear search`, codeLine:7 })
   const blockEnd = Math.min(curr, n - 1)

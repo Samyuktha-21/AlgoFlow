@@ -23,7 +23,7 @@ export function runSteps(entry) {
       if (!def.input.trim()) return gen(null, null, 0)
       const p = parseGraphInput(def.input)
       if (p.error) return null
-      return gen(p.nodes, p.edges, 0)
+      return gen(p.nodes, p.edges, p.nodes[0]?.id ?? 0)
     }
     if (inputType === 'stringPair') {
       const parts = (def.input || '').split(',')

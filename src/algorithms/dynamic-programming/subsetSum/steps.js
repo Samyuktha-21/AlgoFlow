@@ -1,6 +1,11 @@
 export function generateSteps(inputArray) {
-  const arr=inputArray&&inputArray.length>=3?[...inputArray]:[3,4,5,2,1]
-  const target=Math.min(9,arr.reduce((a,b)=>a+b,0))
+  const raw=inputArray&&inputArray.length>=3?[...inputArray]:[3,4,5,2,1]
+  /* Columns are running sums, so a negative item indexes off the left edge
+     of the table and a negative total asks for an array of negative length.
+     Magnitudes keep every number the user typed on screen and the table
+     well-formed; the row labels below show the value actually summed. */
+  const arr=raw.map(v=>Math.abs(v))
+  const target=Math.max(1,Math.min(9,arr.reduce((a,b)=>a+b,0)))
   const n=arr.length
   const dp=Array.from({length:n+1},()=>new Array(target+1).fill(false))
   const computed=Array.from({length:n+1},()=>new Array(target+1).fill(false))

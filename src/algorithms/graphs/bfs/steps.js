@@ -124,7 +124,7 @@ export function generateSteps(inputNodes = null, inputEdges = null, startNode = 
     addStep([...visited], node, [...queue],
       `Dequeue node ${node}. Process it. Queue: [${queue.join(', ')}]`, 13)
 
-    const neighbors = adj[node]
+    const neighbors = adj[node] || []
     if (neighbors.length === 0) {
       addStep([...visited], node, [...queue],
         `Node ${node} has no unvisited neighbors.`, 16)
