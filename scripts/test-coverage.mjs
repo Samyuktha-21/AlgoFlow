@@ -10,41 +10,9 @@ import { generateComplexity } from '../src/game/challenges/complexity.js'
 import { generateNextOp } from '../src/game/challenges/nextOp.js'
 import { generateFinalOutput } from '../src/game/challenges/finalOutput.js'
 import { generateNameAlgorithm } from '../src/game/challenges/nameAlgorithm.js'
-import { getDefaultInput } from '../src/game/defaultInput.js'
-
-/* Inline mirror of src/game/runSteps.js dispatch, but without the validators
-   import (extensionless, Vite-only) so this harness runs under plain node. */
-const parseArr = (s) => (s || '').split(',').map(x => parseInt(x.trim(), 10)).filter(n => !Number.isNaN(n))
-function runStepsLocal(e) {
-  const gen = e.generateSteps
-  if (!gen) return null
-  const t = e.type
-  const it = e.metadata?.inputType
-  const def = getDefaultInput(t, it, e.metadata?.inputSpec, e.metadata?.defaultInput)
-  try {
-    if (t === 'searching') return gen(parseArr(def.input), parseInt(def.target, 10))
-    if (t === 'graph') {
-      /* Mirrors parseGraphInput, including the optional ":weight" suffix.
-         A blank default means the algorithm supplies its own board. */
-      if (!def.input.trim()) return gen(null, null, 0)
-      const edges = def.input.split(',').map(p => {
-        const [ends, w] = p.trim().split(':')
-        const [from, to] = ends.split('-').map(Number)
-        return w === undefined ? { from, to } : { from, to, weight: Number(w) }
-      })
-      const nodes = [...new Set(edges.flatMap(x => [x.from, x.to]))]
-        .sort((a, b) => a - b).map(id => ({ id, label: String(id) }))
-      return gen(nodes, edges, nodes[0]?.id ?? 0)
-    }
-    if (it === 'stringPair') {
-      const parts = def.input.split(',')
-      return gen(parts[0].trim().toUpperCase(), parts.slice(1).join(',').trim().toUpperCase())
-    }
-    if (it === 'singleString') return gen(def.input.trim())
-    if (it === 'numberGrid') return gen(def.input.split('/').map(r => r.trim().split(',').map(Number)))
-    return gen(parseArr(def.input))
-  } catch { return null }
-}
+/* The real dispatcher, not a copy of it. This file used to inline its own
+   mirror of runSteps because that module was Vite-only; the copy drifted. */
+import { runSteps } from '../src/game/runSteps.js'
 
 const ROOT = 'src/algorithms'
 const entries = []
@@ -81,7 +49,7 @@ for (const e of entries) {
   if (cx) stats.complexity++
   if (e.hasSteps) {
     stats.withSteps++
-    const steps = runStepsLocal(e)
+    const steps = runSteps(e)
     if (steps && steps.length) {
       stats.stepsRan++
       const no = generateNextOp(e, steps); assert.ok(wellFormed(no), `malformed nextOp for ${e.algorithmId}`); if (no) stats.nextOp++

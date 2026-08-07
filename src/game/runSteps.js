@@ -1,9 +1,15 @@
-import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput, parseGridInput } from '../utils/validators'
-import { getDefaultInput } from './defaultInput'
+import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput, parseGridInput } from '../utils/validators.js'
+import { getDefaultInput } from './defaultInput.js'
 
 /* Runs a loaded pool entry's steps generator with its default input,
    dispatching by algorithm type exactly like the Algorithm page's
-   handleVisualize. Returns a steps array, or null if it can't run. */
+   handleVisualize. Returns a steps array, or null if it can't run.
+
+   The imports above carry explicit .js extensions so this module loads under
+   plain node as well as Vite. It used to be Vite-only, which meant no test
+   harness could reach it — scripts/test-coverage.mjs kept its own copy of this
+   dispatch instead, and that copy silently fell behind (it was still missing
+   numberGrid long after the app had it). One dispatcher, one place. */
 export function runSteps(entry) {
   const gen = entry.generateSteps
   if (!gen) return null
