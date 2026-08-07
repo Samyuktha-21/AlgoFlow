@@ -45,5 +45,7 @@
       "Node marking — modify nodes, destructive",
       "Brent's algorithm — variant with slightly better constants"
     ]
-  }
+  },
+  "defaultInput": "1, 2, 3, 4, 5, 6, 2",
+  "inputHint": "The LAST number is the index the tail links back to; use 99 for no cycle."
 }

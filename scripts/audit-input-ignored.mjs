@@ -6,11 +6,23 @@
    error, no crash and no empty canvas, so nothing else in the repo notices.
    From the user's side it looks like the Visualize button is broken.
 
-   The test is behavioural, not static: run each generator on two different
-   legal inputs and compare the steps. Function.length cannot be used for this
-   — it stops counting at the first default parameter, so the very common
+   The test is behavioural: run the generator on several different legal inputs
+   and compare the steps. Function.length cannot be used for this — it stops
+   counting at the first default parameter, so the very common
    `generateSteps(nodes = null, edges = null)` reports zero parameters while
    using both.
+
+   ── Why several probes and not two ──
+   With a single pair, one unlucky collision is indistinguishable from a real
+   finding, and the probe values become something to hand-tune. Three separate
+   false positives came from exactly that: plain-letter probes against the
+   bracket matchers (which strip non-brackets), a 3x3 grid against a solver
+   that only accepts 9x9, and [3,7] vs [42,88] against dutchFlag, which maps
+   values `% 3` so both collapse to [0,1].
+
+   So a finding now requires ALL probes to agree with each other. Any one of
+   them distinguishing the algorithm clears it, which makes a collision
+   harmless instead of misleading — the probe values stop being load-bearing.
 
    Usage: node scripts/audit-input-ignored.mjs [--quiet] */
 import fs from 'node:fs'
@@ -20,49 +32,65 @@ import { pathToFileURL } from 'node:url'
 const ROOT = 'src/algorithms'
 const QUIET = process.argv.includes('--quiet')
 
-/* Two inputs that differ in length, values and structure, so a generator that
-   reads any part of its input has to produce different steps. */
-function inputsFor(meta) {
+/* Probes vary in length, sign, spread, parity and residue mod 2/3/5, so no
+   single transformation an algorithm might apply can flatten all of them. */
+const ARRAY_PROBES = [
+  [5, 3, 8, 1, 9, 2, 7],
+  [42, 17, 99, 4, 63, 28, 11, 77],
+  [1, 1, 2, 3, 5, 8, 13],
+  [-4, 12, -7, 30, 6],
+  [100, 25, 64, 81, 49, 36],
+]
+/* Both at the shortest length parseArrayInput accepts. A generator with a
+   `length >= 5` guard swaps every one of these for its own fallback, so they
+   come out identical — which is how kLargestElements quietly showed the wrong
+   array for any input under five values. */
+const SHORT_PROBES = [[1, 5], [2, 7], [9, 4], [-3, 6]]
+
+const STRING_PROBES = ['ban(an)a', 'zz{x}y', 'mississippi', '[a,b],c']
+const PAIR_PROBES = [['ABCABC', 'ABC'], ['ZZXYZ', 'XY'], ['MISSISSIPPI', 'ISSI'], ['A/B,AB']]
+
+function probesFor(meta) {
   const t = meta.type, it = meta.inputType
-  if (t === 'graph') return ['0-1:1, 1-2:2, 2-3:3', '0-1:5, 0-2:9, 1-2:1, 1-3:4, 2-3:7, 0-3:2']
-  if (it === 'stringPair') return [['ABCABC', 'ABC'], ['ZZXYZ', 'XY']]
-  /* Brackets are in here on purpose: the bracket-matching algorithms discard
-     every non-bracket character, so a probe of plain letters collapses to
-     their fallback and they look like they ignore their input. */
-  if (it === 'singleString') return [['ban(an)a'], ['zz{x}y']]
+  if (t === 'graph') {
+    return [
+      '0-1:1, 1-2:2, 2-3:3',
+      '0-1:5, 0-2:9, 1-2:1, 1-3:4, 2-3:7, 0-3:2',
+      '0-1:2, 1-2:2, 2-0:2, 2-3:9',
+      '3-4:6, 4-5:1, 5-3:8',
+    ]
+  }
+  if (it === 'stringPair') return PAIR_PROBES.map(p => (Array.isArray(p) ? p : [p]))
+  if (it === 'singleString') return STRING_PROBES.map(s => [s])
   if (it === 'numberGrid') {
     /* Grid algorithms reject a grid of the wrong shape — a Sudoku solver only
        accepts 9x9 — so a fixed probe would make them all look like they
-       ignore their input. Derive both probes from the seed's own shape: the
-       seed itself, and the seed with some cells cleared. */
+       ignore their input. Every probe is derived from the seed's own shape. */
     const seed = meta.defaultInput || '1,0,0 / 1,1,0 / 0,1,1'
     const grid = seed.split('/').map(r => r.trim().split(',').map(Number))
-    let k = 0
-    const cleared = grid.map(r => r.map(v => (v !== 0 && k++ % 3 === 0 ? 0 : v)))
-    return [seed, cleared.map(r => r.join(',')).join(' / ')]
+    const variant = (fn) => grid.map((r, i) => r.map((v, j) => fn(v, i, j))).map(r => r.join(',')).join(' / ')
+    return [
+      seed,
+      variant((v, i, j) => (v !== 0 && (i + j) % 3 === 0 ? 0 : v)),
+      variant((v, i, j) => (v !== 0 && (i * 2 + j) % 4 === 0 ? 0 : v)),
+      variant((v, i, j) => (v !== 0 && (i + j * 3) % 5 === 0 ? 0 : v)),
+    ]
   }
   if (it === 'singleNumber' || it === 'numberPair') {
     const f = Array.isArray(meta.inputSpec) && meta.inputSpec.length ? meta.inputSpec : [{ min: 1, max: 9 }]
-    return [[f.map(x => x.min)], [f.map(x => Math.min(x.max, x.min + 3))]]
+    const at = frac => f.map(x => x.min + Math.floor((x.max - x.min) * frac))
+    return [at(0), at(0.25), at(0.5), at(0.75)].map(a => [a])
   }
-  if (t === 'searching') return [[[1, 2, 3, 4, 5, 6, 7], 3], [[10, 20, 30, 40, 50, 60], 50]]
-  return [[[5, 3, 8, 1, 9, 2, 7]], [[42, 17, 99, 4, 63, 28, 11, 77]]]
+  if (t === 'searching') return ARRAY_PROBES.map(a => [[...a].sort((x, y) => x - y), a[0]])
+  return ARRAY_PROBES.map(a => [a])
 }
 
-/* A second pair, both at the shortest length parseArrayInput accepts. A
-   generator with a `length >= 5` guard swaps BOTH of these for its own
-   fallback, so they come out identical — which is how `kLargestElements`
-   quietly showed the wrong array for any input under five values. Anything
-   the validator lets through has to be used, not silently replaced. */
-function shortInputsFor(meta) {
+function shortProbesFor(meta) {
   const t = meta.type, it = meta.inputType
   if (t === 'graph' || it === 'stringPair' || it === 'singleString'
       || it === 'numberGrid' || it === 'singleNumber' || it === 'numberPair') return null
-  /* Chosen to differ under a modulus too: dutchFlag maps values with %3, and
-     [3,7] vs [42,88] both collapse to [0,1] there — a probe collision, not a
-     fallback. */
-  if (t === 'searching') return [[[1, 5], 5], [[2, 7], 7]]
-  return [[[1, 5]], [[2, 7]]]
+  if (t === 'searching') return SHORT_PROBES.map(a => [[...a].sort((x, y) => x - y), a[0]])
+  return SHORT_PROBES.map(a => [a])
 }
 
 function callWith(meta, gen, input) {
@@ -80,6 +108,19 @@ function callWith(meta, gen, input) {
     return gen(nodes, edges, nodes[0].id)
   }
   return gen(...input)
+}
+
+/* True when every probe produced the same steps — i.e. nothing about the
+   input reached the output. */
+function allAgree(meta, gen, probes) {
+  const seen = []
+  for (const p of probes) {
+    let out
+    try { out = JSON.stringify(callWith(meta, gen, p)) } catch { return null }
+    if (out === undefined) return null
+    seen.push(out)
+  }
+  return seen.every(s => s === seen[0])
 }
 
 const ignored = []
@@ -102,20 +143,15 @@ for (const c of fs.readdirSync(ROOT)) {
 
     const label = `${c}/${a}`.padEnd(38) + `type=${meta.type}${meta.inputType ? `, inputType=${meta.inputType}` : ''}`
 
-    const [A, B] = inputsFor(meta)
-    let sa, sb
-    /* A generator that throws on one of these is audit-inputs.mjs's problem,
-       not this script's. */
-    try { sa = JSON.stringify(callWith(meta, gen, A)) } catch { continue }
-    try { sb = JSON.stringify(callWith(meta, gen, B)) } catch { continue }
-    if (sa === sb) { ignored.push(label); continue }
+    /* A generator that throws on a probe is audit-inputs.mjs's problem. */
+    const same = allAgree(meta, gen, probesFor(meta))
+    if (same === null) continue
+    if (same) { ignored.push(label); continue }
 
-    const short = shortInputsFor(meta)
+    const short = shortProbesFor(meta)
     if (short) {
-      let sc, sd
-      try { sc = JSON.stringify(callWith(meta, gen, short[0])) } catch { continue }
-      try { sd = JSON.stringify(callWith(meta, gen, short[1])) } catch { continue }
-      if (sc === sd) fellBack.push(label)
+      const shortSame = allAgree(meta, gen, short)
+      if (shortSame) fellBack.push(label)
     }
   }
 }
@@ -123,7 +159,7 @@ for (const c of fs.readdirSync(ROOT)) {
 console.log(`${total} algorithms checked — ${total - ignored.length} read their input, ${ignored.length} ignore it.`)
 console.log(`${fellBack.length} silently fall back on legal-but-short input.\n`)
 if (ignored.length && !QUIET) {
-  console.log('IGNORES ITS INPUT — identical steps for two different legal inputs, so the')
+  console.log('IGNORES ITS INPUT — every probe produced identical steps, so the')
   console.log('Visualize button appears to do nothing with what the user typed:\n')
   console.log(ignored.map(l => '  ' + l).join('\n'))
   console.log()

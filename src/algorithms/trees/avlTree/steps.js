@@ -51,17 +51,25 @@ export function generateSteps(inputArray) {
     return { id: idCounter++, value: val, left: null, right: null };
   }
 
+  /* A rotation rewires a subtree whose parent still points at the OLD root,
+     so for the moment between the rewire and the caller's reassignment the
+     tree reachable from `root` is missing nodes. Snapping there drew a broken
+     tree and highlighted a node that was not in it. The description is queued
+     instead and flushed once the insert has finished and the tree is whole. */
+  const pending = [];
+  const queue = (desc, ids, kind, codeLine) => pending.push({ desc, ids, kind, codeLine });
+
   function rotateRight(y) {
     const x = y.left, T2 = x.right;
     x.right = y; y.left = T2;
-    snap(`Right Rotation: "${y.value}" moves DOWN, "${x.value}" moves UP. This fixes left-heavy imbalance (BF > 1).`, [x.id, y.id], 'RIGHT', 14);
+    queue(`Right Rotation: "${y.value}" moves DOWN, "${x.value}" moves UP. This fixes left-heavy imbalance (BF > 1).`, [x.id, y.id], 'RIGHT', 14);
     return x;
   }
 
   function rotateLeft(x) {
     const y = x.right, T2 = y.left;
     y.left = x; x.right = T2;
-    snap(`Left Rotation: "${x.value}" moves DOWN, "${y.value}" moves UP. This fixes right-heavy imbalance (BF < -1).`, [x.id, y.id], 'LEFT', 23);
+    queue(`Left Rotation: "${x.value}" moves DOWN, "${y.value}" moves UP. This fixes right-heavy imbalance (BF < -1).`, [x.id, y.id], 'LEFT', 23);
     return y;
   }
 
@@ -123,6 +131,9 @@ export function generateSteps(inputArray) {
     root = insert(root, val);
     /* The very first value has no parent to announce it. */
     if (!hadRoot) snap(`Inserted ${val} as the root.`, [root.id], null, 31);
+    /* The tree is whole again, so the rotations can be shown against it. */
+    for (const p of pending) snap(p.desc, p.ids, p.kind, p.codeLine);
+    pending.length = 0;
     const nodes = treeToNodes(root);
     snap(`After inserting ${val}: tree has ${nodes.length} nodes, all balanced (|BF| ≤ 1).`, [], null, 47);
   }

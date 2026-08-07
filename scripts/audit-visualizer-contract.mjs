@@ -12,7 +12,7 @@
    off what each component actually destructures and indexes.
 
    Usage: node scripts/audit-visualizer-contract.mjs */
-import { loadAlgorithms, runDefault } from './lib/run-algorithms.mjs'
+import { loadAlgorithms, runDefault, argsFor } from './lib/run-algorithms.mjs'
 
 /* Mirror of VISUALIZER_MAP. A type missing here falls through to Array, which
    is itself worth reporting. */
@@ -138,9 +138,21 @@ const CHECKS = {
   },
 }
 
+/* The default input is one shape out of many, and an index bug usually only
+   shows on some data — quickSort only marked an out-of-range cell when the
+   pivot landed at an end. So every algorithm that takes a plain array is also
+   rendered against these. */
+const EXTRA_INPUTS = [
+  '3, 7', '7, 7, 7, 7', '5, 3, 5, 1, 3, 7', '1, 2, 3, 4, 5, 6, 7',
+  '9, 8, 7, 6, 5, 4, 3', '-5, 3, -1, 8, -9, 2', '0, 0, 5, 0, 3',
+  '64, 34, 25, 12, 22, 11, 90',
+]
+const PLAIN_ARRAY = new Set([undefined, null])
+
 const all = await loadAlgorithms()
 const findings = []
 let checked = 0
+let renders = 0
 
 for (const e of all) {
   if (!e.gen) { findings.push(`${e.id}: no generateSteps`); continue }
@@ -155,15 +167,30 @@ for (const e of all) {
   const check = CHECKS[viz]
   if (!check) continue
   const seen = new Set()
-  r.steps.forEach((s, i) => {
-    for (const complaint of check(s)) {
-      /* One complaint per kind per algorithm — a bad index usually repeats in
-         every step and would otherwise bury everything else. */
-      if (seen.has(complaint)) continue
-      seen.add(complaint)
-      findings.push(`${e.id} [${viz}Visualizer] step ${i}: ${complaint}`)
+
+  /* One complaint per kind per algorithm — a bad index usually repeats in
+     every step and would otherwise bury everything else. */
+  const inspect = (steps, where) => {
+    renders++
+    steps.forEach((s, i) => {
+      for (const complaint of check(s)) {
+        if (seen.has(complaint)) continue
+        seen.add(complaint)
+        findings.push(`${e.id} [${viz}Visualizer] ${where} step ${i}: ${complaint}`)
+      }
+    })
+  }
+  inspect(r.steps, 'default')
+
+  if (e.meta.type !== 'graph' && PLAIN_ARRAY.has(e.meta.inputType)) {
+    for (const v of EXTRA_INPUTS) {
+      const a = argsFor(e.meta, v, e.meta.type === 'searching' ? '7' : '')
+      if (a.error) continue
+      let steps
+      try { steps = e.gen(...a.args) } catch { continue }
+      if (Array.isArray(steps) && steps.length) inspect(steps, `input "${v}"`)
     }
-  })
+  }
 }
 
 console.log(`${checked} algorithms rendered against their visualizer's contract.\n`)
