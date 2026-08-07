@@ -10,5 +10,6 @@ export function generateSteps(inputArray) {
     else if(v%5===0){sorted.push(i);addStep(i,'B',v+' ÷ 5 = 0 → Buzz',7)}
     else addStep(i,String(v),v+' → print '+v,9)
   }
+  steps[steps.length-1].result = `FizzBuzz to ${n}`
   return steps
 }

@@ -48,6 +48,7 @@ async function argsFor(meta) {
     return [a.trim().toUpperCase(), rest.join(',').trim().toUpperCase()]
   }
   if (inputType === 'singleString') return [def.input.trim()]
+  if (inputType === 'numberGrid') return [def.input.split('/').map(r => r.trim().split(',').map(Number))]
   const p = parseArrayInput(def.input)
   return p.error ? null : [p.array]
 }

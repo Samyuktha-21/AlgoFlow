@@ -19,5 +19,6 @@ export function generateSteps(inputArray) {
     }
   }
   addStep(-1,'K='+k+' largest elements: ['+[...heap].sort((a,b)=>b-a).join(',')+']',9)
+  steps[steps.length-1].result = `${k} largest: ${[...heap].sort((a,b)=>b-a).join(', ')}`
   return steps
 }

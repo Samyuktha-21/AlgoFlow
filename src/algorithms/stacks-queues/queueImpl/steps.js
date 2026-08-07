@@ -5,5 +5,6 @@ export function generateSteps(inputArray) {
   addStep(-1,'init','Queue (FIFO): enqueue adds to rear, dequeue removes from front',2)
   for(let i=0;i<vals.length;i++){queue.push(vals[i]);addStep(i,'enqueue','enqueue('+vals[i]+'). Queue: ['+queue.join(',')+']',4)}
   while(queue.length>0){const v=queue.shift();dequeued.push(v);addStep(-1,'dequeue','dequeue()='+v+'. Queue: ['+queue.join(',')+']',7)}
+  steps[steps.length-1].result = `Dequeued in order: ${dequeued.join(' → ')}`
   return steps
 }

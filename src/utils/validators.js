@@ -60,6 +60,31 @@ export function parseSearchInput(arrayInput, targetInput) {
   return { array: sorted, target }
 }
 
+/* Grid-shaped input: rows separated by "/", cells by commas. Serves the maze
+   and Sudoku boards, and doubles as "k lists" for merge-k-sorted-lists, where
+   each row is one list. Rows are allowed to differ in length there, so the
+   ragged check is opt-in. */
+export function parseGridInput(input, { maxRows = 12, maxCols = 12, ragged = false } = {}) {
+  if (!input || !input.trim()) return { error: 'Input cannot be empty' }
+  const rows = input.split(/[/;\n]/).map(r => r.trim()).filter(r => r !== '')
+  if (!rows.length) return { error: 'Enter at least one row, e.g. "1,0,0 / 1,1,0"' }
+  if (rows.length > maxRows) return { error: `Maximum ${maxRows} rows allowed` }
+
+  const grid = []
+  for (const row of rows) {
+    const parts = row.split(',').map(s => s.trim())
+    if (parts.some(p => p === '')) return { error: `Invalid row "${row}" — use comma-separated integers` }
+    const nums = parts.map(Number)
+    if (nums.some(n => isNaN(n) || !Number.isInteger(n))) return { error: `Row "${row}" must contain only integers` }
+    if (nums.length > maxCols) return { error: `Maximum ${maxCols} values per row` }
+    grid.push(nums)
+  }
+  if (!ragged && grid.some(r => r.length !== grid[0].length)) {
+    return { error: 'Every row must have the same number of values' }
+  }
+  return { grid }
+}
+
 export function parseGraphInput(edgesInput) {
   if (!edgesInput || !edgesInput.trim()) return { error: 'Input cannot be empty' }
   const pairs = edgesInput.split(',').map(s => s.trim())

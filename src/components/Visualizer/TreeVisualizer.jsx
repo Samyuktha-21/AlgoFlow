@@ -20,18 +20,28 @@ function buildLayout(nodes) {
     }
   }
 
+  /* A node's children come from left/right when it is a binary node, and from
+     the parent links otherwise — a trie node has as many children as it has
+     distinct next characters, and the old two-slot version simply dropped the
+     third onward, leaving those nodes unpositioned and therefore undrawn. */
+  const childrenOf = (node) => {
+    if (node.left != null || node.right != null) return [node.left, node.right]
+    return childMap[node.id] || []
+  }
+
   const positions = {}
   let counter = 0
-  // DFS in-order traversal for x-position
+  // DFS in-order traversal for x-position: half the children left of the
+  // node, the rest right of it. For a binary node that is exactly the
+  // left / node / right ordering it has always produced.
   const inorder = (id) => {
     const node = nodes.find(n => n.id === id)
     if (!node) return
-    const children = childMap[id] || []
-    if (node.left !== undefined && node.left !== null) inorder(node.left)
-    else if (children[0] !== undefined) inorder(children[0])
+    const kids = childrenOf(node)
+    const mid = Math.max(1, Math.ceil(kids.length / 2))
+    for (const k of kids.slice(0, mid)) if (k != null) inorder(k)
     positions[id] = { col: counter++ }
-    if (node.right !== undefined && node.right !== null) inorder(node.right)
-    else if (children[1] !== undefined) inorder(children[1])
+    for (const k of kids.slice(mid)) if (k != null) inorder(k)
   }
   inorder(root.id)
 
@@ -109,8 +119,15 @@ export default function TreeVisualizer({ step }) {
   // Build edge list
   const edges = []
   for (const n of nodes) {
-    if (n.left  != null && positions[n.left])  edges.push({ from: n.id, to: n.left })
-    if (n.right != null && positions[n.right]) edges.push({ from: n.id, to: n.right })
+    if (n.left != null || n.right != null) {
+      if (n.left  != null && positions[n.left])  edges.push({ from: n.id, to: n.left })
+      if (n.right != null && positions[n.right]) edges.push({ from: n.id, to: n.right })
+    } else {
+      /* Parent-linked children (tries) had no edges drawn at all. */
+      for (const c of nodes) {
+        if (c.parent === n.id && positions[c.id]) edges.push({ from: n.id, to: c.id })
+      }
+    }
   }
 
   return (

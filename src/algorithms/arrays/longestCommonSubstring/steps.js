@@ -24,5 +24,6 @@ export function generateSteps(s1Input, s2Input) {
     }
   }
   steps.push(mk(m,n,`Result: "${s1.substring(endAt-maxLen,endAt)}" (length ${maxLen})`,12))
+  steps[steps.length-1].result = `"${s1.substring(endAt-maxLen,endAt)}" (length ${maxLen})`
   return steps
 }

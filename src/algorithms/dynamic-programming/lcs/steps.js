@@ -40,5 +40,6 @@ export function generateSteps(s1Input, s2Input) {
   }
 
   addStep(m, n, `LCS length = dp[${m}][${n}] = ${dp[m][n]}. The longest common subsequence has ${dp[m][n]} characters.`, 8)
+  steps[steps.length-1].result = `LCS length = ${dp[m][n]}`
   return steps
 }

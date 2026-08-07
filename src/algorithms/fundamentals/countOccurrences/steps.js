@@ -8,5 +8,6 @@ export function generateSteps(inputArray) {
     addStep(i,'arr['+i+']='+arr[i]+' → freq['+arr[i]+']='+freq[arr[i]],4)
   }
   addStep(-1,'Frequency: '+Object.entries(freq).map(([k,v])=>k+'→'+v).join(', '),5)
+  steps[steps.length-1].result = `${Object.entries(freq).map(([k,v])=>k+'→'+v).join(', ')}`
   return steps
 }

@@ -8,5 +8,6 @@ export function generateSteps(inputArray) {
   for(let i=0;i<vals.length;i++){heap.push(vals[i]);heapifyUp();addStep(i,'push('+vals[i]+'). Min='+heap[0],5)}
   while(heap.length>0){const m=heap[0];const last=heap.pop();if(heap.length>0){heap[0]=last;heapifyDown()}addStep(-1,'poll()='+m+'. New min='+(heap.length>0?heap[0]:'empty'),6)}
   addStep(-1,'Priority queue emptied (elements processed by priority)',6)
+  steps[steps.length-1].result = `Polled in priority order from [${vals.join(', ')}]`
   return steps
 }

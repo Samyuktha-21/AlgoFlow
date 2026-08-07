@@ -13,5 +13,6 @@ export function generateSteps(inputArray) {
     const v=buf[fr];fr=(fr+1)%cap;sz--;
     addStep('deq',v,'dequeue()='+v+'. front→'+fr+', size='+sz,9)
   }
+  steps[steps.length-1].result = `Queue emptied, capacity ${cap}`
   return steps
 }

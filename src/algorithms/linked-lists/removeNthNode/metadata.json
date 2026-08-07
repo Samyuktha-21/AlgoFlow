@@ -39,5 +39,6 @@
   },
   "id": "removeNthNode",
   "category": "linked-lists",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "1, 2, 3, 4, 5, 2"
 }

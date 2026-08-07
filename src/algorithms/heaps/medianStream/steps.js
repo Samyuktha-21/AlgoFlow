@@ -12,5 +12,6 @@ export function generateSteps(inputArray) {
     const med=maxH.length>minH.length?maxH[0]:(maxH[0]+minH[0])/2
     addStep(i,'Median='+med+'. maxH=['+maxH.join(',')+'], minH=['+minH.join(',')+']',7)
   }
+  steps[steps.length-1].result = `Final median = ${maxH.length>minH.length?maxH[0]:(maxH[0]+minH[0])/2}`
   return steps
 }

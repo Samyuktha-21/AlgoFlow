@@ -44,5 +44,7 @@
       "Jaro-Winkler — better for name matching",
       "LCS — related: editDist = m+n - 2*LCS"
     ]
-  }
+  },
+  "inputType": "stringPair",
+  "defaultInput": "HORSE,ROS"
 }

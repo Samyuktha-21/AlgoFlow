@@ -1,12 +1,40 @@
-const NODES=[{id:1,value:1,left:2,right:3,parent:-1},{id:2,value:2,left:null,right:null,parent:1},{id:3,value:3,left:null,right:null,parent:1}]
-export function generateSteps() {
-  const nodes=[...NODES], steps=[], visited=[], order=[]
-  const addStep=(cur,desc,line)=>steps.push({nodes:[...nodes],visited:[...visited],current:cur,highlighted:cur>=0?[cur]:[],traversalOrder:[...order],description:desc,codeLine:line})
-  addStep(-1,'Serialize: preorder traversal to string "1,2,N,N,3,N,N"',2)
-  function ser(id){if(id===null){addStep(-1,'null → serialize as "N"',3);return}
-    const n=nodes.find(nd=>nd.id===id);visited.push(id);order.push(n.value)
-    addStep(id,'Serialize node '+n.value,4);ser(n.left);ser(n.right)}
-  ser(1)
-  addStep(-1,'Serialized: "'+order.join(',')+'". Deserialize reverses this preorder string.',6)
+import { buildBST } from '../../../utils/buildTree.js'
+
+/* Serialising a tree to a string and back. A pre-order walk alone is not
+   enough to rebuild the shape — "1,2,3" describes several different trees.
+   The null markers are what make it unambiguous: writing "N" for every missing
+   child records exactly where each subtree ended. */
+export function generateSteps(inputArray) {
+  const { nodes, rootId, byId } = buildBST(inputArray)
+  const steps = [], visited = [], order = []
+  const parts = []
+  const addStep = (cur, description, codeLine) => steps.push({
+    nodes: [...nodes], visited: [...visited], current: cur,
+    highlighted: cur >= 0 ? [cur] : [], traversalOrder: [...order],
+    description, codeLine, extra: { encoded: parts.join(',') },
+  })
+
+  addStep(-1, 'Serialize with a pre-order walk, writing "N" for every empty child.', 2)
+
+  function ser(id) {
+    if (id === null || id === undefined) {
+      parts.push('N')
+      addStep(-1, 'Empty child → write "N". These markers are what make the string decodable.', 3)
+      return
+    }
+    const n = byId.get(id)
+    if (!n) return
+    visited.push(id)
+    order.push(n.value)
+    parts.push(String(n.value))
+    addStep(id, `Write ${n.value}.`, 4)
+    ser(n.left)
+    ser(n.right)
+  }
+  ser(rootId)
+
+  const encoded = parts.join(',')
+  addStep(-1, `Serialized to "${encoded}". Reading it back in the same pre-order, taking "N" as an empty child, rebuilds this exact tree.`, 6)
+  steps[steps.length - 1].result = encoded
   return steps
 }

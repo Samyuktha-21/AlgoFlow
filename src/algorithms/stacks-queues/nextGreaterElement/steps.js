@@ -15,5 +15,6 @@ export function generateSteps(inputArray) {
     addStep(i,'Push index '+i+' onto stack',9)
   }
   addStep(-1,'Remaining in stack have no NGE → -1. Result: ['+result.join(',')+']',11)
+  steps[steps.length-1].result = `NGE: ${result.join(', ')}`
   return steps
 }

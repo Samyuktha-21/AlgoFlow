@@ -41,5 +41,6 @@
   },
   "id": "lruCache",
   "category": "linked-lists",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "3, 1, 2, 3, 1, 4, 2"
 }

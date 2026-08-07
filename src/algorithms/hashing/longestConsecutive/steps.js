@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     }
   }
   addStep(-1,[],'Longest consecutive sequence: '+bestStart+' to '+(bestStart+best-1)+', length='+best,8)
+  steps[steps.length-1].result = `Longest run ${bestStart}..${bestStart+best-1} (length ${best})`
   return steps
 }

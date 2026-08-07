@@ -41,5 +41,7 @@
   },
   "id": "ratInMaze",
   "category": "backtracking",
-  "implemented": true
+  "implemented": true,
+  "inputType": "numberGrid",
+  "defaultInput": "1,0,0,0 / 1,1,0,1 / 0,1,0,0 / 0,1,1,1"
 }

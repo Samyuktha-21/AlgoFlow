@@ -41,5 +41,7 @@
   },
   "id": "validParentheses",
   "category": "arrays",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString",
+  "defaultInput": "({[]})"
 }

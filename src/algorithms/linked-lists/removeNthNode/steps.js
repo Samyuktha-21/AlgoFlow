@@ -1,18 +1,68 @@
-const NODES = [{id:0,value:1,next:1},{id:1,value:2,next:2},{id:2,value:3,next:3},{id:3,value:4,next:4},{id:4,value:5,next:null}]
-export function generateSteps() {
-  const nodes=JSON.parse(JSON.stringify(NODES)), n=2
-  const map={}; nodes.forEach(nd=>{map[nd.id]=nd})
-  const steps=[], removed=[]
-  let fast=0, slow=0
-  const addStep=(desc,line)=>steps.push({nodes:nodes.map(nd=>({...nd})),pointers:[{nodeId:slow,label:'slow'},{nodeId:fast,label:'fast'}],reversed:[],highlighted:[slow,fast],description:desc,codeLine:line,extra:{n}})
-  addStep('Remove '+n+'th from end. Advance fast by n='+n+' steps',2)
-  for(let i=0;i<n;i++){fast=map[fast].next;addStep('Fast advanced to '+( fast!==null?map[fast].value:'null'),3)}
-  addStep('Now move both until fast reaches end',5)
-  while(map[fast].next!==null){slow=map[slow].next;fast=map[fast].next;addStep('slow='+map[slow].value+', fast='+map[fast].value,6)}
-  const target=map[slow].next
-  addStep('Remove node '+map[target].value+' ('+n+'th from end)',8)
-  removed.push(target)
-  map[slow].next=map[target].next
-  addStep('Done! Node '+map[target].value+' removed. List: ['+nodes.filter(nd=>!removed.includes(nd.id)).map(nd=>nd.value).join(',')+']',9)
+import { buildList, listValues } from '../../../utils/buildList.js'
+
+/* Remove the nth node from the end in one pass. "From the end" normally means
+   measuring the list first; the trick is to start one pointer n nodes ahead,
+   so when it reaches the last node the other sits exactly on the node *before*
+   the one to delete — which is the one you need, because a singly linked list
+   can only unlink forwards.
+
+   n is the LAST number in the input; the list is built from the ones before. */
+export function generateSteps(inputArray) {
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
+    ? inputArray.map(v => Math.trunc(v))
+    : [1, 2, 3, 4, 5, 2]
+  const { nodes, byId, headId, values } = buildList(nums.slice(0, -1))
+  /* n has to land inside the list or there is nothing to remove. */
+  const n = Math.min(Math.max(1, Math.abs(nums[nums.length - 1])), values.length)
+
+  const steps = []
+  let fast = headId, slow = headId
+
+  const addStep = (description, codeLine) => steps.push({
+    nodes: nodes.map(nd => ({ ...nd })),
+    pointers: [
+      { nodeId: slow, label: 'slow', color: '#4ade80' },
+      { nodeId: fast, label: 'fast', color: '#f97316' },
+    ],
+    reversed: [],
+    highlighted: [slow, fast].filter(x => x !== null),
+    description,
+    codeLine,
+    extra: { n },
+  })
+
+  const ord = n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : `${n}th`
+  addStep(`Remove the ${ord} node from the end (n is the last number in the input). First push fast ${n} ahead.`, 2)
+
+  for (let i = 0; i < n; i++) {
+    fast = byId.get(fast).next
+    addStep(`Fast is now at ${fast !== null ? byId.get(fast).value : 'the end'}.`, 3)
+    if (fast === null) break
+  }
+
+  if (fast === null) {
+    /* Fast ran off the end, so the node n-from-the-end is the head itself. */
+    const head = byId.get(headId)
+    addStep(`Fast ran off the end, so the ${ord} from the end is the head — remove ${head.value}.`, 8)
+    const rest = listValues(byId, head.next)
+    addStep(`Removed ${head.value}. List: [${rest.join(', ')}]`, 9)
+    steps[steps.length - 1].result = rest.join(' → ') || '(empty)'
+    return steps
+  }
+
+  addStep('Now move both together — the gap between them stays exactly n.', 5)
+  while (byId.get(fast).next !== null) {
+    slow = byId.get(slow).next
+    fast = byId.get(fast).next
+    addStep(`slow at ${byId.get(slow).value}, fast at ${byId.get(fast).value}.`, 6)
+  }
+
+  const target = byId.get(slow).next
+  const removedValue = byId.get(target).value
+  addStep(`Fast is on the last node, so slow sits just before the target — remove ${removedValue}.`, 8)
+  byId.get(slow).next = byId.get(target).next
+  const rest = listValues(byId, headId)
+  addStep(`Removed ${removedValue}. List: [${rest.join(', ')}]`, 9)
+  steps[steps.length - 1].result = rest.join(' → ')
   return steps
 }

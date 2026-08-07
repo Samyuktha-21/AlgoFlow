@@ -41,5 +41,6 @@
   },
   "id": "fractionalKnapsack",
   "category": "greedy",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "50, 10, 60, 20, 100, 30, 120"
 }

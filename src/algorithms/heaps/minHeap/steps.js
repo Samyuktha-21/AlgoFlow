@@ -19,5 +19,6 @@ export function generateSteps(inputArray) {
     addStep([],[],'Min-heap after inserting '+val+': root='+heap[0],9)
   }
   addStep([],[],'Min-Heap built! Minimum = '+heap[0],10)
+  steps[steps.length-1].result = `Min = ${heap[0]}`
   return steps
 }

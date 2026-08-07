@@ -44,5 +44,6 @@
       "Greedy won't work here — counterexamples exist",
       "Branch and Bound — for larger instances with pruning"
     ]
-  }
+  },
+  "defaultInput": "50, 10, 60, 20, 100, 30, 120"
 }

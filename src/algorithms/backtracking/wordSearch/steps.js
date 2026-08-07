@@ -1,6 +1,25 @@
-export function generateSteps() {
-  const grid=[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]
-  const word='ABCCED'
+/* Word search: does the word appear as a path of adjacent cells? Each cell is
+   usable once per path, which is why the cell is blanked before recursing and
+   restored afterwards — without that restore a later path could not reuse it,
+   and words that genuinely exist would be reported missing.
+
+   Input: "ROWS,WORD" — grid rows separated by "/", then the word. */
+const DEFAULT_GRID=[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]
+
+function toGrid(v) {
+  const raw = Array.isArray(v) ? v.join('') : v
+  const text = typeof raw === 'string' ? raw.trim().toUpperCase() : ''
+  const rows = text.split(/[/;]/).map(r => r.replace(/[^A-Z]/g, '')).filter(Boolean)
+  if (!rows.length) return DEFAULT_GRID.map(r => [...r])
+  /* Rows are padded to equal width so the board stays rectangular. */
+  const w = Math.min(Math.max(...rows.map(r => r.length)), 8)
+  return rows.slice(0, 8).map(r => Array.from({ length: w }, (_, i) => r[i] || '.'))
+}
+
+export function generateSteps(gridInput, wordInput) {
+  const grid=toGrid(gridInput)
+  const rawWord = Array.isArray(wordInput) ? wordInput.join('') : wordInput
+  const word=(typeof rawWord==='string' ? rawWord.trim().toUpperCase().replace(/[^A-Z]/g,'') : '') || 'ABCCED'
   const R=grid.length, C=grid[0].length
   const board=grid.map(r=>[...r])
   const steps=[], found=[]
@@ -24,6 +43,7 @@ export function generateSteps() {
   addStep(0,0,false,0,'Word Search for "'+word+'" in grid',3)
   let foundWord=false
   outer: for(let r=0;r<R;r++) for(let c=0;c<C;c++) if(grid[r][c]===word[0]&&!foundWord) {foundWord=dfs(r,c,0);if(foundWord) break outer}
-  if(!foundWord) addStep(-1,-1,false,0,'"'+word+'" not found in grid',8)
+  if(!foundWord) addStep(-1,-1,false,0,'"'+word+'" is not in the grid.',8)
+  steps[steps.length-1].result = foundWord ? '"'+word+'" found' : '"'+word+'" not found'
   return steps
 }

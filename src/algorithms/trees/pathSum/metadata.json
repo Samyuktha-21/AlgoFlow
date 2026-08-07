@@ -39,5 +39,6 @@
   },
   "id": "pathSum",
   "category": "trees",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "4, 2, 6, 1, 3, 5, 7"
 }

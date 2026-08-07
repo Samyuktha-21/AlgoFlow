@@ -16,5 +16,6 @@ export function generateSteps(inputArray) {
     if(curr>=0) addStep([...nodes],[{nodeId:curr,label:'curr'},{nodeId:prev,label:'prev'}],[...reversed],'Advance: prev='+prev+', curr='+curr,7)
   }
   addStep([...nodes],[{nodeId:prev,label:'head'}],[...reversed],'Reversed! New head = node '+prev,9)
+  steps[steps.length-1].result = `Reversed: ${[...vals].reverse().join(' → ')}`
   return steps
 }

@@ -39,5 +39,7 @@
   },
   "id": "groupAnagrams",
   "category": "hashing",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString",
+  "defaultInput": "eat, tea, tan, ate, nat, bat"
 }

@@ -37,5 +37,6 @@
   },
   "id": "intersectionPoint",
   "category": "linked-lists",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "1, 2, 3, 4, 5, 6, 7"
 }

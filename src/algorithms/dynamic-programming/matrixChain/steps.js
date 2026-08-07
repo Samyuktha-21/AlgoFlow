@@ -29,5 +29,6 @@ export function generateSteps(inputArray) {
     }
   }
   addStep(0,n-1,'Min multiplications = '+dp[0][n-1],13)
+  steps[steps.length-1].result = `Min multiplications = ${dp[0][n-1]}`
   return steps
 }

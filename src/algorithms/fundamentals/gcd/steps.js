@@ -10,5 +10,6 @@ export function generateSteps(inputArray) {
     addStep([a,b],'New: a='+a+', b='+b,4)
   }
   addStep([a,0],'b=0, GCD='+a,5)
+  steps[steps.length-1].result = `GCD = ${a}`
   return steps
 }

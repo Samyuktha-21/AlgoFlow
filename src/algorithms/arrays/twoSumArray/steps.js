@@ -6,10 +6,11 @@ export function generateSteps(inputArray) {
   for(let i=0;i<arr.length;i++){
     const comp=target-arr[i]
     addStep(i,null,'i='+i+': arr[i]='+arr[i]+', complement='+comp,4)
-    if(map[comp]!==undefined){addStep(i,[map[comp],i],'Found! indices ['+map[comp]+','+i+'] sum to '+target,5);return steps}
+    if(map[comp]!==undefined){addStep(i,[map[comp],i],'Found! indices ['+map[comp]+','+i+'] sum to '+target,5);steps[steps.length-1].result='Indices ['+map[comp]+', '+i+']';return steps}
     map[arr[i]]=i
     addStep(i,null,'Store {'+arr[i]+':'+i+'}',6)
   }
   addStep(-1,null,'No pair found',7)
+  steps[steps.length-1].result = 'No pair sums to '+target
   return steps
 }

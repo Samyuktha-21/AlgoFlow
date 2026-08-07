@@ -24,5 +24,6 @@ export function generateSteps(inputArray) {
     }
   }
   addStep(n,target,'Result: dp['+n+']['+target+']='+dp[n][target]+' → subset summing to '+target+' '+(dp[n][target]?'EXISTS':'does NOT exist'),11)
+  steps[steps.length-1].result = `Subset summing to ${target} ${dp[n][target]?'exists':'does not exist'}`
   return steps
 }

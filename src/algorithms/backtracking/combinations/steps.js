@@ -19,5 +19,6 @@ export function generateSteps(inputArray) {
   addStep(1,false,'C('+n+','+k+'): combinations of '+k+' from [1..'+n+']',3)
   bt(1)
   addStep(1,false,'All '+results.length+' combinations found',6)
+  steps[steps.length-1].result = `${results.length} combinations`
   return steps
 }

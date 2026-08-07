@@ -22,5 +22,6 @@ export function generateSteps(inputArray) {
     heapify(copy,n,i)
   }
   addStep([],[],  'Max-Heap built! Root (max) = '+arr[0],14)
+  steps[steps.length-1].result = `Max = ${arr[0]}`
   return steps
 }

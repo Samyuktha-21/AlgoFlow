@@ -27,5 +27,6 @@ export function generateSteps(inputArray) {
   addStep(0,0,false,'N-Queens (N='+n+'): place '+n+' non-attacking queens',4)
   solve(0)
   if(found===0) addStep(-1,-1,false,'No solution exists for N='+n,7)
+  steps[steps.length-1].result = `${found} solution(s)`
   return steps
 }

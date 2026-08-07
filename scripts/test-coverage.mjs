@@ -41,6 +41,7 @@ function runStepsLocal(e) {
       return gen(parts[0].trim().toUpperCase(), parts.slice(1).join(',').trim().toUpperCase())
     }
     if (it === 'singleString') return gen(def.input.trim())
+    if (it === 'numberGrid') return gen(def.input.split('/').map(r => r.trim().split(',').map(Number)))
     return gen(parseArr(def.input))
   } catch { return null }
 }

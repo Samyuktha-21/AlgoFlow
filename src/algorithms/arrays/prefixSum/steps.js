@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     addStep(i,'prefix['+i+'] = '+prefix[i],5)
   }
   addStep(-1,'Done! Range sum[l..r] = prefix[r] - prefix[l-1]. Example: [1..3]='+(prefix[3]-prefix[0]),6)
+  steps[steps.length-1].result = `Prefix sums: ${prefix.join(', ')}`
   return steps
 }

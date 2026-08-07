@@ -3,6 +3,7 @@ export function generateSteps(inputArray) {
   const n=inputArray&&inputArray[1]>=2?Math.min(inputArray[1],30):14
   const dp=Array.from({length:n+1},()=>new Array(k+1).fill(0))
   const computed=Array.from({length:n+1},()=>new Array(k+1).fill(false))
+  let answer=0
   const rows=Array.from({length:n+1},(_,i)=>'m='+i)
   const cols=Array.from({length:k+1},(_,i)=>i+'egg'+(i===1?'':'s'))
   const steps=[]
@@ -17,7 +18,8 @@ export function generateSteps(inputArray) {
       addStep(m,j,'dp['+m+']['+j+'] = dp['+(m-1)+']['+(j-1)+']+dp['+(m-1)+']['+j+']+1 = '+(dp[m-1][j-1])+'+'+(dp[m-1][j])+'+1='+dp[m][j],9)
     }
     addStep(m,k,'With '+m+' moves and '+k+' eggs: can test dp['+m+']['+k+']='+dp[m][k]+' floors',6)
-    if(dp[m][k]>=n){addStep(m,k,'dp['+m+']['+k+']='+dp[m][k]+' >= '+n+' → answer is '+m+' moves!',11);break}
+    if(dp[m][k]>=n){addStep(m,k,'dp['+m+']['+k+']='+dp[m][k]+' >= '+n+' → answer is '+m+' moves!',11);answer=m;break}
   }
+  steps[steps.length-1].result = answer>0 ? `${answer} moves for ${k} eggs, ${n} floors` : `More than ${n} moves needed`
   return steps
 }

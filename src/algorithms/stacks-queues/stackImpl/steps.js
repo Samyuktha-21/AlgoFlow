@@ -6,5 +6,6 @@ export function generateSteps(inputArray) {
   for(let i=0;i<vals.length;i++){stack.push(vals[i]);addStep(i,'push','push('+vals[i]+'). Stack top='+vals[i],4)}
   while(stack.length>0){const v=stack.pop();addStep(-1,'pop','pop()='+v+'. Stack size='+stack.length,7)}
   addStep(-1,'done','Stack is empty',9)
+  steps[steps.length-1].result = `Popped in order: ${[...vals].reverse().join(' → ')}`
   return steps
 }

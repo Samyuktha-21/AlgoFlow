@@ -41,5 +41,7 @@
   },
   "id": "wordSearch",
   "category": "backtracking",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair",
+  "defaultInput": "ABCE/SFCS/ADEE,ABCCED"
 }

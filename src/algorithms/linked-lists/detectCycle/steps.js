@@ -14,11 +14,12 @@ export function generateSteps(inputArray) {
   for(let step=0;step<n*2+2;step++){
     const nf=nodes[fast]?.next>=0?nodes[fast].next:-1
     const nf2=nf>=0&&nodes[nf]?.next>=0?nodes[nf].next:-1
-    if(nf<0||nf2<0){addStep('fast reached null — NO CYCLE',4);return steps}
+    if(nf<0||nf2<0){addStep('fast reached null — NO CYCLE',4);steps[steps.length-1].result='No cycle';return steps}
     slow=nodes[slow].next; fast=nodes[nf].next
     addStep('slow→'+slow+', fast→'+fast,4)
     if(slow===fast){found=true;addStep('slow==fast at node '+slow+' — CYCLE DETECTED!',6);break}
   }
   if(!found) addStep('No cycle found',7)
+  steps[steps.length-1].result = 'Cycle detected'
   return steps
 }

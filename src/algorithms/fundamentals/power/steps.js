@@ -12,5 +12,6 @@ export function generateSteps(inputArray) {
     addStep('Square x='+x.toFixed(2)+', halve n='+exp,7)
   }
   addStep(base+'^'+n+' = '+result.toFixed(0),8)
+  steps[steps.length-1].result = `${base}^${n} = ${result.toFixed(0)}`
   return steps
 }

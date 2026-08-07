@@ -15,5 +15,6 @@ export function generateSteps(inputArray) {
     addStep(i,'dp['+i+'] = '+dp[i]+' ways to reach stair '+i,6)
   }
   addStep(-1,'Ways to climb '+n+' stairs = '+dp[n],7)
+  steps[steps.length-1].result = `${dp[n]} ways`
   return steps
 }

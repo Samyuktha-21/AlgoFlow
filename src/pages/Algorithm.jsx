@@ -7,7 +7,7 @@ import { useBeginner } from '../context/BeginnerContext'
 import { useAuth } from '../context/AuthContext'
 import { useProgress } from '../context/ProgressContext'
 import categories from '../data/categories.json'
-import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput } from '../utils/validators'
+import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput, parseGridInput } from '../utils/validators'
 import { getCategoryTheme } from '../themes/themeConfig'
 import { recordAlgoView, recordVizRun } from '../firebase/stats'
 import { recordAlgorithmView } from '../firebase/algoStats'
@@ -432,6 +432,12 @@ export default function Algorithm() {
       const raw = (inputStr || '').trim()
       if (!raw) return { error: 'Enter a string, e.g. racecar' }
       setSteps(stepsModule.generateSteps(raw))
+    } else if (inputType === 'numberGrid') {
+      /* Ragged rows are legal for the "k lists" algorithms, where each row is
+         a list rather than a board row. */
+      const p = parseGridInput(inputStr, { ragged: metadata?.raggedGrid === true })
+      if (p.error) return { error: p.error }
+      setSteps(stepsModule.generateSteps(p.grid))
     } else if (inputType === 'singleNumber' || inputType === 'numberPair') {
       const p = parseNumberInput(inputStr, metadata?.inputSpec)
       if (p.error) return { error: p.error }

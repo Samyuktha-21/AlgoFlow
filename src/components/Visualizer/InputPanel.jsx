@@ -20,6 +20,8 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
   /* Scalar algorithms (factorial, gcd, n-queens …) take one or two bounded
      numbers, so they get their own placeholder, hint and Random range. */
   const isNumber       = inputType === 'singleNumber' || inputType === 'numberPair'
+  /* Grid-shaped input (mazes, Sudoku, k sorted lists): rows split on "/". */
+  const isGrid         = inputType === 'numberGrid'
   const numFields      = isNumber ? normalizeNumberSpec(inputSpec) : null
   /* Weighted algorithms (Prim, Johnson's, TSP …) seed the box with ":w"
      suffixes; A* seeds it blank because its demo is an obstacle grid. */
@@ -39,6 +41,10 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       else setInput(randomGraphInput({ weighted: isWeightedGraph }))
     } else if (isNumber) {
       setInput(numFields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '))
+    } else if (isGrid) {
+      /* Keep the seed's shape so a 9x9 board stays 9x9 when randomised. */
+      const widths = (defaultValue || '1,0 / 1,1').split('/').map(r => r.split(',').length)
+      setInput(widths.map(w => Array.from({ length: w }, () => Math.floor(Math.random() * 2)).join(',')).join(' / '))
     } else if (isStringPair) {
       /* Without this these fell through to randomArray below and dropped
          "5, 3, 9" into a field that wants text. */
@@ -74,7 +80,9 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
             value={input}
             onChange={e => { setInput(e.target.value); setError('') }}
             onKeyDown={handleKeyDown}
-            placeholder={placeholder || (isGraph
+            placeholder={placeholder || (isGrid
+              ? 'Rows: 1,0,0 / 1,1,0 / 0,1,1'
+              : isGraph
               ? (isWeightedGraph ? 'Edges: 0-1:4, 0-2:1, 1-3:5 ...' : 'Edges: 0-1, 0-2, 1-3 ...')
               : isSearch
                 ? 'Sorted array: 2, 5, 8, 12 ...'
@@ -145,7 +153,9 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       )}
 
       <p className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-        {isGraph
+        {isGrid
+          ? <>One row per line, cells separated by commas and rows by <code className="opacity-75">/</code>. Try: <code className="opacity-75">1,0,0 / 1,1,0 / 0,1,1</code></>
+          : isGraph
           ? isBlankGraphSeed
             ? <>Leave this empty to use the built-in board, or enter your own edges: <code className="opacity-75">0-1, 0-2, 1-3</code></>
             : isWeightedGraph

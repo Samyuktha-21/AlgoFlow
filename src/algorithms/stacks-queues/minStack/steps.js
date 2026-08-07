@@ -13,5 +13,6 @@ export function generateSteps(inputArray) {
     stack.pop(); minStack.pop()
     addStep('pop',stack[stack.length-1]||0,'pop(). New min='+(minStack.length>0?minStack[minStack.length-1]:'empty'),8)
   }
+  steps[steps.length-1].result = `${ops.length} ops, final min = ${minStack.length?minStack[minStack.length-1]:'empty'}`
   return steps
 }

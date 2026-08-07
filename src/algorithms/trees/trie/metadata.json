@@ -48,5 +48,7 @@
   "beginnerAnalogy": "Like a dictionary organised by letters: T-R-I-E takes you to the 'tri' shelf, then 'e' to find 'trie'. Words sharing the same prefix share the same shelf.",
   "beginnerWhat": "A tree where each level represents one letter of a word, sharing common prefixes among all stored words.",
   "beginnerWhy": "Finding all words starting with 'pre' takes O(m) time regardless of how many words are stored.",
-  "beginnerWhen": "When you need fast prefix search — autocomplete, spell checking, word games."
+  "beginnerWhen": "When you need fast prefix search — autocomplete, spell checking, word games.",
+  "inputType": "singleString",
+  "defaultInput": "apple, app, application, apt, bat"
 }

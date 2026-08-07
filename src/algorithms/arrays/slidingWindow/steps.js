@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     if(i>=k-1){result.push(arr[deque[0]]);addStep(i,'Window ['+Math.max(0,i-k+1)+'..'+i+'] max='+arr[deque[0]],9)}
   }
   addStep(-1,'Sliding window maxima: ['+result.join(',')+']',10)
+  steps[steps.length-1].result = `Window maxima: ${result.join(' → ')}`
   return steps
 }

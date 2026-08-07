@@ -37,5 +37,7 @@
   },
   "id": "validParenthesesStack",
   "category": "stacks-queues",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString",
+  "defaultInput": "{[()]}"
 }

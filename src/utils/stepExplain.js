@@ -49,11 +49,16 @@ export function getWhyText(step, algorithmType) {
 
 export function deriveResult(step) {
   if (!step) return null
+  /* An explicit `result` is the generator stating its own answer, so it wins
+     over anything inferred from the step's shape. Only a non-empty string or
+     a number counts: several generators use `result` as an array of indices
+     for the visualizer, which is not an answer at all. */
+  if (typeof step.result === 'string' && step.result.trim()) return step.result
+  if (typeof step.result === 'number') return String(step.result)
   if (step.found >= 0) return `Found at index ${step.found}`
   if (step.found === -2) return 'Not found in array'
   if (step.array && step.sorted?.length === step.array.length) return step.array.join(' → ')
   if (step.visited?.length > 0 && !step.current && !step.queue?.length) return `Visited: ${step.visited.join(' → ')}`
-  if (step.result !== undefined) return String(step.result)
   if (step.dp?.length && !step.current) return `dp result: ${step.dp[step.dp.length - 1]}`
   if (typeof step.description === 'string' &&
       (step.description.toLowerCase().includes('complete') || step.description.toLowerCase().includes('sorted')))

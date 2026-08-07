@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     addStep(i,'dp['+i+'] = '+dp[i],7)
   }
   addStep(-1,'fib('+n+') = '+dp[n],8)
+  steps[steps.length-1].result = `fib(${n}) = ${dp[n]}`
   return steps
 }

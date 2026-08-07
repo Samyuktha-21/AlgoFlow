@@ -41,5 +41,8 @@
       "Divide and conquer merge: O(N log K) same complexity, recursive",
       "Naive merge all then sort: O(N log N) — worse when K is small"
     ]
-  }
+  },
+  "inputType": "numberGrid",
+  "raggedGrid": true,
+  "defaultInput": "1,4,7 / 2,5,8 / 3,6,9"
 }

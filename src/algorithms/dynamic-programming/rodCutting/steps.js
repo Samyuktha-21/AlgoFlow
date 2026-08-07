@@ -17,5 +17,6 @@ export function generateSteps(inputArray) {
     addStep(i,'dp['+i+']='+dp[i],6)
   }
   addStep(n,'Max revenue for rod length '+n+' = '+dp[n],7)
+  steps[steps.length-1].result = `Max revenue = ${dp[n]}`
   return steps
 }

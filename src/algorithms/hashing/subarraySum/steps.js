@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     addStep(i,'Store prefixSum='+ps+'. map['+ps+']='+map[ps],6)
   }
   addStep(-1,'Total subarrays with sum='+k+': '+count,7)
+  steps[steps.length-1].result = `${count} subarrays sum to ${k}`
   return steps
 }

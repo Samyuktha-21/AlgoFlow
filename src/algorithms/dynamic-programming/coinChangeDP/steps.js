@@ -21,5 +21,6 @@ export function generateSteps(inputArray) {
     addStep(i,'dp['+i+']='+( dp[i]>=INF?'-1 (impossible)':dp[i]),9)
   }
   addStep(-1,'Min coins for '+amount+': '+(dp[amount]>=INF?'-1':dp[amount]),10)
+  steps[steps.length-1].result = `Min coins = ${dp[amount]>=INF?-1:dp[amount]}`
   return steps
 }

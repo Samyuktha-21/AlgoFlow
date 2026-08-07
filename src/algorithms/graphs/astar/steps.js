@@ -159,5 +159,8 @@ export function generateSteps(inputNodes = null, inputEdges = null, startNode = 
     addStep(null, 'The open set is empty and the goal was never reached — no path exists.', 30)
   }
 
+  steps[steps.length - 1].result = found
+    ? `Path cost ${gScore[goal]}, ${closed.size} nodes expanded`
+    : 'No path exists'
   return steps
 }

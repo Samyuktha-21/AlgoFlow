@@ -13,7 +13,7 @@ import { pathToFileURL } from 'node:url'
 import { getDefaultInput } from '../src/game/defaultInput.js'
 import {
   parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput,
-  normalizeNumberSpec,
+  parseGridInput, normalizeNumberSpec,
 } from '../src/utils/validators.js'
 import { randomArray, randomSortedArray, randomGraphInput, randomWord } from '../src/utils/helpers.js'
 
@@ -54,6 +54,11 @@ function visualize(meta, gen, inputStr, targetStr) {
     if (!raw) return { error: 'singleString: empty' }
     return { steps: gen(raw) }
   }
+  if (it === 'numberGrid') {
+    const p = parseGridInput(inputStr, { ragged: meta?.raggedGrid === true })
+    if (p.error) return { error: p.error }
+    return { steps: gen(p.grid) }
+  }
   if (it === 'singleNumber' || it === 'numberPair') {
     const p = parseNumberInput(inputStr, meta?.inputSpec)
     if (p.error) return { error: p.error }
@@ -80,6 +85,14 @@ function randomInputFor(meta, defaultValue) {
   if (it === 'singleNumber' || it === 'numberPair') {
     const fields = normalizeNumberSpec(meta?.inputSpec)
     return { input: fields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '), target: '' }
+  }
+  if (it === 'numberGrid') {
+    /* Random reuses the seed's shape so a 9x9 Sudoku stays 9x9. */
+    const seed = (defaultValue || '1,0 / 1,1').split('/').map(r => r.split(',').length)
+    return {
+      input: seed.map(w => Array.from({ length: w }, () => Math.floor(Math.random() * 2)).join(',')).join(' / '),
+      target: '',
+    }
   }
   if (it === 'stringPair') return { input: `${randomWord(6)},${randomWord(5)}`, target: '' }
   if (it === 'singleString') return { input: randomWord(7), target: '' }
@@ -118,6 +131,13 @@ function edgeCasesFor(meta) {
       push('min-max', `${fields[0].min}, ${fields[1].max}`)
       push('max-min', `${fields[0].max}, ${fields[1].min}`)
     }
+    return cases
+  }
+  if (it === 'numberGrid') {
+    const seed = (meta.defaultInput || '1,0 / 1,1').split('/').map(r => r.split(',').length)
+    push('all-zero', seed.map(w => new Array(w).fill(0).join(',')).join(' / '))
+    push('all-one', seed.map(w => new Array(w).fill(1).join(',')).join(' / '))
+    push('single-cell', '1')
     return cases
   }
   if (it === 'stringPair') {

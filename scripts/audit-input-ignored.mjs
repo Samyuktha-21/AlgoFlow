@@ -26,7 +26,21 @@ function inputsFor(meta) {
   const t = meta.type, it = meta.inputType
   if (t === 'graph') return ['0-1:1, 1-2:2, 2-3:3', '0-1:5, 0-2:9, 1-2:1, 1-3:4, 2-3:7, 0-3:2']
   if (it === 'stringPair') return [['ABCABC', 'ABC'], ['ZZXYZ', 'XY']]
-  if (it === 'singleString') return [['BANANA'], ['ZZZAB']]
+  /* Brackets are in here on purpose: the bracket-matching algorithms discard
+     every non-bracket character, so a probe of plain letters collapses to
+     their fallback and they look like they ignore their input. */
+  if (it === 'singleString') return [['ban(an)a'], ['zz{x}y']]
+  if (it === 'numberGrid') {
+    /* Grid algorithms reject a grid of the wrong shape — a Sudoku solver only
+       accepts 9x9 — so a fixed probe would make them all look like they
+       ignore their input. Derive both probes from the seed's own shape: the
+       seed itself, and the seed with some cells cleared. */
+    const seed = meta.defaultInput || '1,0,0 / 1,1,0 / 0,1,1'
+    const grid = seed.split('/').map(r => r.trim().split(',').map(Number))
+    let k = 0
+    const cleared = grid.map(r => r.map(v => (v !== 0 && k++ % 3 === 0 ? 0 : v)))
+    return [seed, cleared.map(r => r.join(',')).join(' / ')]
+  }
   if (it === 'singleNumber' || it === 'numberPair') {
     const f = Array.isArray(meta.inputSpec) && meta.inputSpec.length ? meta.inputSpec : [{ min: 1, max: 9 }]
     return [[f.map(x => x.min)], [f.map(x => Math.min(x.max, x.min + 3))]]
@@ -36,6 +50,9 @@ function inputsFor(meta) {
 }
 
 function callWith(meta, gen, input) {
+  if (meta.inputType === 'numberGrid') {
+    return gen(input.split('/').map(r => r.trim().split(',').map(Number)))
+  }
   if (meta.type === 'graph') {
     const edges = input.split(',').map(p => {
       const [ends, w] = p.trim().split(':')

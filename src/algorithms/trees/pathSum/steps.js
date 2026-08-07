@@ -1,23 +1,51 @@
-const NODES = [{id:4,value:4,left:2,right:6,parent:-1},{id:2,value:2,left:1,right:3,parent:4},{id:6,value:6,left:5,right:7,parent:4},{id:1,value:1,left:null,right:null,parent:2},{id:3,value:3,left:null,right:null,parent:2},{id:5,value:5,left:null,right:null,parent:6},{id:7,value:7,left:null,right:null,parent:6}]
-export function generateSteps() {
-  const target=10, nodes=[...NODES], steps=[], visited=[]
-  const map={}; nodes.forEach(n=>{map[n.id]=n})
-  const addStep=(cur,sum,desc,line)=>steps.push({nodes:[...nodes],visited:[...visited],current:cur,highlighted:cur>=0?[cur]:[],traversalOrder:[],description:desc,codeLine:line,extra:{target,remainingSum:sum}})
-  addStep(-1,target,'Path Sum: find root-to-leaf path summing to '+target,2)
-  function dfs(id,rem){
-    if(id===null) return false
-    const n=map[id]
+import { buildBST } from '../../../utils/buildTree.js'
+
+/* Does some root-to-leaf path add up to the target? Rather than summing each
+   path and comparing, this subtracts as it descends and asks a leaf whether
+   what is left equals its own value — same answer, but nothing has to be
+   carried back up the recursion.
+
+   The target is the LAST number in the input; the tree is built from the ones
+   before it. */
+export function generateSteps(inputArray) {
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
+    ? inputArray.map(v => Math.trunc(v))
+    : [4, 2, 6, 1, 3, 5, 7]
+  const target = nums[nums.length - 1]
+  const { nodes, rootId, byId } = buildBST(nums.slice(0, -1))
+
+  const steps = [], visited = []
+  const addStep = (cur, sum, description, codeLine) => steps.push({
+    nodes: [...nodes], visited: [...visited], current: cur,
+    highlighted: cur >= 0 ? [cur] : [], traversalOrder: [],
+    description, codeLine, extra: { target, remainingSum: sum },
+  })
+
+  addStep(-1, target, `Is there a root-to-leaf path summing to ${target}? (The target is the last number in the input; the tree is built from the rest.)`, 2)
+
+  function dfs(id, rem) {
+    if (id === null || id === undefined) return false
+    const n = byId.get(id)
+    if (!n) return false
     visited.push(id)
-    addStep(id,rem-n.value,'Visit '+n.value+'. Remaining='+rem+'-'+n.value+'='+(rem-n.value),4)
-    if(n.left===null&&n.right===null){
-      if(rem===n.value){addStep(id,0,'Leaf! Remaining='+n.value+'-'+n.value+'=0 → PATH FOUND!',5);return true}
-      addStep(id,rem-n.value,'Leaf but sum mismatch → backtrack',6); return false
+    addStep(id, rem - n.value, `At ${n.value}: ${rem} − ${n.value} = ${rem - n.value} still to find.`, 2)
+
+    if (n.left === null && n.right === null) {
+      if (rem === n.value) {
+        addStep(id, 0, `Leaf ${n.value} and exactly ${n.value} left to find — the path adds up.`, 4)
+        return true
+      }
+      addStep(id, rem - n.value, `Leaf ${n.value}, but ${rem - n.value} is left over — back up and try elsewhere.`, 4)
+      return false
     }
-    const found=dfs(n.left,rem-n.value)||dfs(n.right,rem-n.value)
-    if(!found) addStep(id,rem,'No path through '+n.value+', backtrack',7)
+
+    const found = dfs(n.left, rem - n.value) || dfs(n.right, rem - n.value)
+    if (!found) addStep(id, rem, `No path below ${n.value} works — backtrack.`, 5)
     return found
   }
-  const result=dfs(4,target)
-  addStep(-1,0,'Path sum '+target+(result?' EXISTS':' does NOT exist'),8)
+
+  const result = dfs(rootId, target)
+  addStep(-1, 0, `A path summing to ${target} ${result ? 'exists' : 'does not exist'}.`, 2)
+  steps[steps.length - 1].result = result ? `Path summing to ${target} exists` : `No path sums to ${target}`
   return steps
 }

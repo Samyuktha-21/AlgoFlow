@@ -109,7 +109,9 @@ print(height(root))`,
     lineMap: {
       c:          { 2: 6, 4: 8, 6: 9, 7: 10, 8: null },
       cpp:        { 2: 5, 4: 7, 6: 8, 7: 9, 8: null },
-      python:     { 2: 5, 4: 8, 6: 11, 7: null, 8: null },
+      /* java 5 and 6 are the two halves of one `return a || b`, so only the
+         first carries the row; python joins them on line 11. */
+      python:     { 2: 5, 4: 8, 5: 11, 6: null, 7: null, 8: null },
       javascript: { 2: 9, 4: 11, 6: 12, 7: 13, 8: null },
     },
   },

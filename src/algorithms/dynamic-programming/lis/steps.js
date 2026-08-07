@@ -20,5 +20,6 @@ export function generateSteps(inputArray) {
     addStep(i,'dp['+i+']='+dp[i]+'. Current LIS length: '+maxLen,12)
   }
   addStep(-1,'LIS length = '+maxLen,14)
+  steps[steps.length-1].result = `LIS length = ${maxLen}`
   return steps
 }

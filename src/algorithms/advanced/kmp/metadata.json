@@ -43,5 +43,7 @@
   },
   "id": "kmp",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair",
+  "defaultInput": "AABAACAADAABAABA,AABA"
 }

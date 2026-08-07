@@ -1,4 +1,4 @@
-import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput } from '../utils/validators'
+import { parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput, parseGridInput } from '../utils/validators'
 import { getDefaultInput } from './defaultInput'
 
 /* Runs a loaded pool entry's steps generator with its default input,
@@ -32,6 +32,11 @@ export function runSteps(entry) {
     }
     if (inputType === 'singleString') {
       return gen((def.input || '').trim())
+    }
+    if (inputType === 'numberGrid') {
+      const p = parseGridInput(def.input, { ragged: entry.metadata?.raggedGrid === true })
+      if (p.error) return null
+      return gen(p.grid)
     }
     if (inputType === 'singleNumber' || inputType === 'numberPair') {
       const p = parseNumberInput(def.input, inputSpec)

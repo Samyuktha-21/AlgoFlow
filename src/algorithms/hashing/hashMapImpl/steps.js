@@ -14,5 +14,6 @@ export function generateSteps(inputArray) {
     addStep(idx,key,'insert','Inserted key='+key+' into bucket '+idx,7)
   }
   addStep(-1,-1,'done','Hash table loaded. Lookup any key in O(1) average',9)
+  steps[steps.length-1].result = `${keys.length} keys in ${SIZE} buckets`
   return steps
 }

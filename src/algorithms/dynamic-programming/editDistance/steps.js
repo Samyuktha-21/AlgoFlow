@@ -1,5 +1,18 @@
-export function generateSteps() {
-  const s1='HORSE', s2='ROS'
+/* Levenshtein edit distance. Every cell answers one question: how many edits
+   turn the first i characters of one string into the first j of the other?
+   When the two characters match there is nothing to pay, so the answer is the
+   diagonal; otherwise it is one edit on top of the cheapest of delete (above),
+   insert (left) or replace (diagonal). */
+function toText(v, fallback) {
+  const raw = Array.isArray(v) ? v.join('') : v
+  const s = typeof raw === 'string' ? raw.trim().toUpperCase() : ''
+  /* The grid is (m+1)x(n+1) and every step snapshots it, so long strings turn
+     the trace into thousands of near-identical frames. */
+  return (s || fallback).slice(0, 10)
+}
+
+export function generateSteps(aInput, bInput) {
+  const s1=toText(aInput,'HORSE'), s2=toText(bInput,'ROS')
   const m=s1.length, n=s2.length
   const dp=Array.from({length:m+1},(_,i)=>{const r=new Array(n+1).fill(0);r[0]=i;return r})
   for(let j=0;j<=n;j++) dp[0][j]=j
@@ -18,5 +31,6 @@ export function generateSteps() {
     }
   }
   addStep(m,n,'Edit distance = '+dp[m][n]+' operations',9)
+  steps[steps.length-1].result = `Edit distance = ${dp[m][n]}`
   return steps
 }

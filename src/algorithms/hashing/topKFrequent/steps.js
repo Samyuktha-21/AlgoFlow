@@ -7,5 +7,6 @@ export function generateSteps(inputArray) {
   const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1])
   const topK=sorted.slice(0,k).map(([v])=>parseInt(v))
   addStep(-1,'Top '+k+' frequent: ['+topK.join(',')+'] with freqs ['+topK.map(v=>freq[v]).join(',')+']',6)
+  steps[steps.length-1].result = `Top ${k}: ${topK.join(', ')}`
   return steps
 }
