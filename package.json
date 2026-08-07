@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "stats": "node scripts/live-stats.mjs"
+    "stats": "node scripts/live-stats.mjs",
+    "audit": "node scripts/audit-inputs.mjs && node scripts/audit-input-ignored.mjs && node scripts/audit-input-contract.mjs && node scripts/audit-visualizer-contract.mjs && node scripts/audit-correctness.mjs && node scripts/test-coverage.mjs && node scripts/apply-code-data.cjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",

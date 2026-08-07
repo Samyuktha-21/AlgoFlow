@@ -10,6 +10,16 @@ export function generateSteps(inputArray, target = null) {
       if (arr[lo] === searchTarget) { steps.push({ array:[...arr], low:lo, high:hi, mid:lo, found:lo, eliminated:[...eliminated], target:searchTarget, description:`Single element — found ${searchTarget}`, codeLine:5 }); return steps }
       break
     }
+    if (arr[hi] === arr[lo]) {
+      /* Every value in the range is identical, so the interpolation formula
+         would divide by zero. The whole range is one value: either it is the
+         target or the target is not here. */
+      if (arr[lo] === searchTarget) {
+        steps.push({ array:[...arr], low:lo, high:hi, mid:lo, found:lo, eliminated:[...eliminated], target:searchTarget, description:`Every value from ${lo} to ${hi} is ${arr[lo]} — the formula would divide by zero, and the answer is index ${lo}.`, codeLine:6 })
+        return steps
+      }
+      break
+    }
     const probe = lo + Math.floor(((searchTarget - arr[lo]) * (hi - lo)) / (arr[hi] - arr[lo]))
     steps.push({ array:[...arr], low:lo, high:hi, mid:probe, found:-1, eliminated:[...eliminated], target:searchTarget, description:`Probe = ${lo} + (${searchTarget}-${arr[lo]})/(${arr[hi]}-${arr[lo]}) × ${hi-lo} = ${probe}  → arr[${probe}]=${arr[probe]}`, codeLine:6 })
     if (arr[probe] === searchTarget) { steps.push({ array:[...arr], low:lo, high:hi, mid:probe, found:probe, eliminated:[...eliminated], target:searchTarget, description:`Found ${searchTarget} at index ${probe}!`, codeLine:7 }); return steps }
