@@ -234,6 +234,39 @@ for (const e of all) {
     }
   }
 
+  /* String, number and grid inputs were the last shapes still only ever
+     rendered against their default. */
+  if (e.meta.inputType === 'singleString') {
+    for (const v of ['a', 'ab', 'aaaa', 'ban(an)a', 'mississippi', 'x,y,z']) {
+      const a = argsFor(e.meta, v, '')
+      if (a.error) continue
+      let steps
+      try { steps = e.gen(...a.args) } catch { continue }
+      if (Array.isArray(steps) && steps.length) inspect(steps, `string "${v}"`)
+    }
+  }
+  if (e.meta.inputType === 'stringPair') {
+    for (const [x, y] of [['A', 'B'], ['ABC', 'ABC'], ['AAAA', 'BBBB'], ['MISSISSIPPI', 'ISSI'], ['AB', 'ABCDEF']]) {
+      const a = argsFor(e.meta, `${x},${y}`, '')
+      if (a.error) continue
+      let steps
+      try { steps = e.gen(...a.args) } catch { continue }
+      if (Array.isArray(steps) && steps.length) inspect(steps, `pair "${x},${y}"`)
+    }
+  }
+  if (e.meta.inputType === 'singleNumber' || e.meta.inputType === 'numberPair') {
+    const fields = Array.isArray(e.meta.inputSpec) && e.meta.inputSpec.length
+      ? e.meta.inputSpec : [{ min: 1, max: 9 }]
+    for (const frac of [0, 0.25, 0.5, 0.75, 1]) {
+      const v = fields.map(x => x.min + Math.floor((x.max - x.min) * frac)).join(', ')
+      const a = argsFor(e.meta, v, '')
+      if (a.error) continue
+      let steps
+      try { steps = e.gen(...a.args) } catch { continue }
+      if (Array.isArray(steps) && steps.length) inspect(steps, `numbers "${v}"`)
+    }
+  }
+
   if (e.meta.type !== 'graph' && PLAIN_ARRAY.has(e.meta.inputType)) {
     for (const v of EXTRA_INPUTS) {
       const a = argsFor(e.meta, v, e.meta.type === 'searching' ? '7' : '')
