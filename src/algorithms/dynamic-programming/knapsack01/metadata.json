@@ -45,5 +45,6 @@
       "Branch and Bound — for larger instances with pruning"
     ]
   },
-  "defaultInput": "50, 10, 60, 20, 100, 30, 120"
+  "defaultInput": "50, 10, 60, 20, 100, 30, 120",
+  "inputHint": "The FIRST number is the capacity, then pairs of (weight, value)."
 }

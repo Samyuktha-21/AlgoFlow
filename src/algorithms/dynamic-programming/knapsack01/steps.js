@@ -12,7 +12,7 @@ const MAX_W = 50
 const MAX_ITEMS = 6
 
 export function generateSteps(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 3
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [50, 10, 60, 20, 100, 30, 120]
 
@@ -22,7 +22,6 @@ export function generateSteps(inputArray) {
     weights.push(Math.max(1, Math.abs(nums[i])))
     values.push(Math.abs(nums[i + 1]))
   }
-  if (!weights.length) { weights.push(10); values.push(60) }
   const n = weights.length
 
   const dp = Array.from({ length: n + 1 }, () => new Array(W + 1).fill(0))
@@ -41,6 +40,13 @@ export function generateSteps(inputArray) {
     codeLine,
     extra: { MaxValue: dp[n][W] },
   })
+
+  if (!n) {
+    /* Same reasoning as fractionalKnapsack: do not invent an item. */
+    addStep(0, 0, `Capacity ${W}, but no complete item was given: each item needs a weight AND a value, so the input must be capacity followed by pairs.`, 3)
+    steps[steps.length - 1].result = 'Max value = 0'
+    return steps
+  }
 
   addStep(0, 0, `Capacity ${W}, ${n} item${n === 1 ? '' : 's'}. With no items available the best value is 0 at every capacity.`, 3)
   for (let w = 0; w <= W; w++) { dp[0][w] = 0; computed2d[0][w] = true }

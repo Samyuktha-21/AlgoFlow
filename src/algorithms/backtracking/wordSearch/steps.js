@@ -25,7 +25,7 @@ export function generateSteps(gridInput, wordInput) {
   const steps=[], found=[]
   const addStep=(r,c,bt,idx,desc,line)=>{
     const b=grid.map(row=>row.map(ch=>ch.charCodeAt(0)-64))
-    steps.push({board:b,n:R,highlighted:{row:r<0?0:r,col:c<0?0:c},conflicts:found.map(([fr,fc])=>({row:fr,col:fc})),backtracking:bt,type:'nqueens',description:desc,codeLine:line,extra:{word,matched:word.slice(0,idx),remaining:word.slice(idx)}})
+    steps.push({board:b,n:R,highlighted:{row:Math.min(Math.max(r,0),R-1),col:Math.min(Math.max(c,0),C-1)},conflicts:found.map(([fr,fc])=>({row:fr,col:fc})),backtracking:bt,type:'nqueens',description:desc,codeLine:line,extra:{word,matched:word.slice(0,idx),remaining:word.slice(idx)}})
   }
   let limit=60
   function dfs(r,c,idx){
@@ -44,6 +44,6 @@ export function generateSteps(gridInput, wordInput) {
   let foundWord=false
   outer: for(let r=0;r<R;r++) for(let c=0;c<C;c++) if(grid[r][c]===word[0]&&!foundWord) {foundWord=dfs(r,c,0);if(foundWord) break outer}
   if(!foundWord) addStep(-1,-1,false,0,'"'+word+'" is not in the grid.',8)
-  steps[steps.length-1].result = foundWord ? '"'+word+'" found' : '"'+word+'" not found'
+  steps[steps.length-1].result = foundWord ? '"'+word+'" found — a path of '+word.length+' cells' : '"'+word+'" not found'
   return steps
 }

@@ -64,6 +64,14 @@ function candidateDistractors(first, last, correct) {
   return out
 }
 
+/* Last resort. A plain yes/no answer has exactly one meaningful opposite, and
+   the challenge needs two wrong options — without these, an algorithm would be
+   dropped for the shape of its answer rather than for anything to do with the
+   question being weak. */
+const FILLERS = [
+  'Not found in array', 'No solution exists', 'Undefined for this input',
+]
+
 export function generateFinalOutput(entry, steps, rng = Math.random) {
   if (!Array.isArray(steps) || steps.length < 2) return null
   const last = steps[steps.length - 1]
@@ -74,6 +82,10 @@ export function generateFinalOutput(entry, steps, rng = Math.random) {
   const distractors = candidateDistractors(first, last, correct)
     .filter(d => d && d !== correct)
   const uniq = [...new Set(distractors)].slice(0, 3)
+  for (const f of FILLERS) {
+    if (uniq.length >= 2) break
+    if (f !== correct && !uniq.includes(f)) uniq.push(f)
+  }
   if (uniq.length < 2) return null
 
   const original = Array.isArray(first?.array) ? first.array.join(' → ') : null

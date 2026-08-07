@@ -42,5 +42,6 @@
   },
   "id": "mergeIntervals",
   "category": "arrays",
-  "implemented": true
+  "implemented": true,
+  "inputHint": "Pairs of numbers, each pair one interval as (start, end)."
 }

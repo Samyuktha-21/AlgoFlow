@@ -827,6 +827,7 @@ export default function Algorithm() {
                 algorithmType={metadata.type}
                 inputType={metadata.inputType}
                 inputSpec={metadata.inputSpec}
+                inputHint={metadata.inputHint}
                 onVisualize={handleVisualize}
                 defaultValue={shownInput}
                 defaultTarget={shownTarget}

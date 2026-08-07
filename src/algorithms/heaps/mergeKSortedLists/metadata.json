@@ -44,5 +44,6 @@
   },
   "inputType": "numberGrid",
   "raggedGrid": true,
-  "defaultInput": "1,4,7 / 2,5,8 / 3,6,9"
+  "defaultInput": "1,4,7 / 2,5,8 / 3,6,9",
+  "inputHint": "One list per row, rows separated by \"/\". Each row is sorted first."
 }

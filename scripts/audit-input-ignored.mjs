@@ -49,6 +49,22 @@ function inputsFor(meta) {
   return [[[5, 3, 8, 1, 9, 2, 7]], [[42, 17, 99, 4, 63, 28, 11, 77]]]
 }
 
+/* A second pair, both at the shortest length parseArrayInput accepts. A
+   generator with a `length >= 5` guard swaps BOTH of these for its own
+   fallback, so they come out identical — which is how `kLargestElements`
+   quietly showed the wrong array for any input under five values. Anything
+   the validator lets through has to be used, not silently replaced. */
+function shortInputsFor(meta) {
+  const t = meta.type, it = meta.inputType
+  if (t === 'graph' || it === 'stringPair' || it === 'singleString'
+      || it === 'numberGrid' || it === 'singleNumber' || it === 'numberPair') return null
+  /* Chosen to differ under a modulus too: dutchFlag maps values with %3, and
+     [3,7] vs [42,88] both collapse to [0,1] there — a probe collision, not a
+     fallback. */
+  if (t === 'searching') return [[[1, 5], 5], [[2, 7], 7]]
+  return [[[1, 5]], [[2, 7]]]
+}
+
 function callWith(meta, gen, input) {
   if (meta.inputType === 'numberGrid') {
     return gen(input.split('/').map(r => r.trim().split(',').map(Number)))
@@ -67,6 +83,7 @@ function callWith(meta, gen, input) {
 }
 
 const ignored = []
+const fellBack = []
 let total = 0
 
 for (const c of fs.readdirSync(ROOT)) {
@@ -83,20 +100,37 @@ for (const c of fs.readdirSync(ROOT)) {
     const meta = JSON.parse(fs.readFileSync(path.join(adir, 'metadata.json'), 'utf8'))
     total++
 
+    const label = `${c}/${a}`.padEnd(38) + `type=${meta.type}${meta.inputType ? `, inputType=${meta.inputType}` : ''}`
+
     const [A, B] = inputsFor(meta)
     let sa, sb
     /* A generator that throws on one of these is audit-inputs.mjs's problem,
        not this script's. */
     try { sa = JSON.stringify(callWith(meta, gen, A)) } catch { continue }
     try { sb = JSON.stringify(callWith(meta, gen, B)) } catch { continue }
-    if (sa === sb) ignored.push(`${c}/${a}`.padEnd(38) + `type=${meta.type}${meta.inputType ? `, inputType=${meta.inputType}` : ''}`)
+    if (sa === sb) { ignored.push(label); continue }
+
+    const short = shortInputsFor(meta)
+    if (short) {
+      let sc, sd
+      try { sc = JSON.stringify(callWith(meta, gen, short[0])) } catch { continue }
+      try { sd = JSON.stringify(callWith(meta, gen, short[1])) } catch { continue }
+      if (sc === sd) fellBack.push(label)
+    }
   }
 }
 
-console.log(`${total} algorithms checked — ${total - ignored.length} read their input, ${ignored.length} ignore it.\n`)
+console.log(`${total} algorithms checked — ${total - ignored.length} read their input, ${ignored.length} ignore it.`)
+console.log(`${fellBack.length} silently fall back on legal-but-short input.\n`)
 if (ignored.length && !QUIET) {
-  console.log('These return identical steps for two different legal inputs, so the')
+  console.log('IGNORES ITS INPUT — identical steps for two different legal inputs, so the')
   console.log('Visualize button appears to do nothing with what the user typed:\n')
   console.log(ignored.map(l => '  ' + l).join('\n'))
+  console.log()
 }
-process.exitCode = ignored.length ? 1 : 0
+if (fellBack.length && !QUIET) {
+  console.log('SILENT FALLBACK — a guard rejects input the validator accepts, so a short')
+  console.log('array is swapped for a canned one with no indication:\n')
+  console.log(fellBack.map(l => '  ' + l).join('\n'))
+}
+process.exitCode = (ignored.length + fellBack.length) ? 1 : 0

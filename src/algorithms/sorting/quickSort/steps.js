@@ -3,7 +3,10 @@ export function generateSteps(inputArray) {
   const sorted = new Set()
   steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[], description:'Quick Sort — pick pivot, partition, recurse', codeLine:2 })
   function qs(a, low, high) {
-    if (low >= high) { sorted.add(low); return }
+    /* low > high is an EMPTY range (it happens when the pivot lands at an
+       end), and marking `low` there put an index one past the array into
+       `sorted`. Only a single-element range has a settled position. */
+    if (low >= high) { if (low === high) sorted.add(low); return }
     const pivotVal = a[high]
     steps.push({ array:[...arr], comparing:[], swapping:[], sorted:[...sorted], pivot:high, description:`Pivot = arr[${high}] = ${pivotVal}`, codeLine:3 })
     let i = low - 1

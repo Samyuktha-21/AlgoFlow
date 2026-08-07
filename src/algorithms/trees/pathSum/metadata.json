@@ -40,5 +40,6 @@
   "id": "pathSum",
   "category": "trees",
   "implemented": true,
-  "defaultInput": "4, 2, 6, 1, 3, 5, 7"
+  "defaultInput": "4, 2, 6, 1, 3, 5, 7",
+  "inputHint": "The LAST number is the target sum; the tree is built from the numbers before it."
 }

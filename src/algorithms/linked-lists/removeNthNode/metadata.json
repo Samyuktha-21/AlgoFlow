@@ -40,5 +40,6 @@
   "id": "removeNthNode",
   "category": "linked-lists",
   "implemented": true,
-  "defaultInput": "1, 2, 3, 4, 5, 2"
+  "defaultInput": "1, 2, 3, 4, 5, 2",
+  "inputHint": "The LAST number is n (which node from the end to remove); the list is the numbers before it."
 }

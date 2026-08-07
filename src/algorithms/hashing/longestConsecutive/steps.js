@@ -1,5 +1,5 @@
 export function generateSteps(inputArray) {
-  const arr=inputArray&&inputArray.length>=3?[...inputArray]:[100,4,200,1,3,2,5,6]
+  const arr=inputArray&&inputArray.length>=2?[...inputArray]:[100,4,200,1,3,2,5,6]
   const set=new Set(arr), steps=[]
   let best=0, bestStart=0
   const addStep=(cur,hl,desc,line)=>steps.push({array:[...arr],current:cur,highlight:[...hl],sorted:[],pointers:[],extra:{longest:best,set:set.size},description:desc,codeLine:line})

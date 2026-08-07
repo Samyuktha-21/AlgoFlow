@@ -41,5 +41,7 @@
   "id": "wordBreak",
   "category": "dynamic-programming",
   "implemented": true,
-  "inputType": "singleString"
+  "inputType": "singleString",
+  "defaultInput": "leetcode,leet,code",
+  "inputHint": "The first word is the string; the words after it are the dictionary."
 }

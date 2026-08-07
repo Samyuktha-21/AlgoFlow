@@ -9,7 +9,7 @@ import { buildList } from '../../../utils/buildList.js'
 
    The input is split into the two run-ups and a shared tail. */
 export function generateSteps(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 3
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [1, 2, 3, 4, 5, 6, 7]
 

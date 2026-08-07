@@ -55,6 +55,8 @@ export function generateSteps(inputGrid) {
   }
   solve()
   const remaining=board.flat().filter(v=>v===0).length
-  steps[steps.length-1].result = remaining===0 ? 'Solved' : remaining+' cells left when the trace stopped'
+  steps[steps.length-1].result = remaining===0
+    ? 'Solved — '+blanks+' cells filled'
+    : remaining+' cells left when the trace stopped'
   return steps
 }

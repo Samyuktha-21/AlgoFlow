@@ -24,6 +24,8 @@ export function generateSteps(inputStr) {
     if(!computed[i]){computed[i]=true;steps.push(mk(i,`No valid split for "${s.substring(0,i)}" → dp[${i}]=false`,8))}
   }
   steps.push(mk(n,dp[n]?`"${s}" CAN be segmented ✓`:`"${s}" CANNOT be segmented ✗`,11))
-  steps[steps.length-1].result = `"${s}" ${dp[n]?'can':'cannot'} be segmented`
+  /* How far the DP got is the interesting part when the answer is "no". */
+  const reachable = dp.filter(Boolean).length - 1
+  steps[steps.length-1].result = `"${s}" ${dp[n]?'can':'cannot'} be segmented (${reachable} of ${n} prefixes reachable)`
   return steps
 }

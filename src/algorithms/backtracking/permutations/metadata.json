@@ -42,5 +42,6 @@
   },
   "id": "permutations",
   "category": "backtracking",
-  "implemented": true
+  "implemented": true,
+  "inputHint": "The first five values are permuted — n! grows too fast to show more."
 }

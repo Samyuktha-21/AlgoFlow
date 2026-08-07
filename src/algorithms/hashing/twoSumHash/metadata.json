@@ -41,5 +41,7 @@
   },
   "id": "twoSumHash",
   "category": "hashing",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "2, 7, 11, 15, 4, 3, 9",
+  "inputHint": "The LAST number is the target; the array is everything before it."
 }

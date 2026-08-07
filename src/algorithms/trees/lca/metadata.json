@@ -41,5 +41,6 @@
   },
   "id": "lca",
   "category": "trees",
-  "implemented": true
+  "implemented": true,
+  "inputHint": "The tree is built from all the numbers; the LAST TWO are the pair whose ancestor is found."
 }

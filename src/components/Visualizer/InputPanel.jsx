@@ -7,7 +7,7 @@ import { normalizeNumberSpec, describeNumberSpec } from '../../utils/validators'
 /* The seed values are mount-time defaults, not a live binding: the caller
    passes a key derived from them, so a new seed remounts this panel instead of
    being pushed into state by an effect. */
-export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType, inputSpec }) {
+export default function InputPanel({ algorithmType, onVisualize, placeholder, defaultValue, defaultTarget, inputType, inputSpec, inputHint }) {
   const { isDark } = useTheme()
   const [input, setInput] = useState(defaultValue || '')
   const [targetInput, setTargetInput] = useState(defaultTarget || '')
@@ -153,7 +153,12 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       )}
 
       <p className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-        {isGrid
+        {/* Several algorithms read their input by a convention the generic
+            hint gets wrong — a trailing target, pairs, a leading capacity.
+            Those ship their own sentence in metadata.inputHint. */
+        inputHint
+          ? <>{inputHint}{defaultValue ? <> Try: <code className="opacity-75">{defaultValue}</code></> : null}</>
+          : isGrid
           ? <>One row per line, cells separated by commas and rows by <code className="opacity-75">/</code>. Try: <code className="opacity-75">1,0,0 / 1,1,0 / 0,1,1</code></>
           : isGraph
           ? isBlankGraphSeed

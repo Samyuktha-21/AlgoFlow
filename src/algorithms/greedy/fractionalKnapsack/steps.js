@@ -6,7 +6,7 @@
 
    Input: the FIRST number is the capacity, then pairs of (weight, value). */
 export function generateSteps(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 3
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [50, 10, 60, 20, 100, 30, 120]
 
@@ -17,7 +17,6 @@ export function generateSteps(inputArray) {
     const v = Math.abs(nums[i + 1])
     items.push({ w, v, r: v / w })
   }
-  if (!items.length) items.push({ w: 10, v: 60, r: 6 })
   items.sort((a, b) => b.r - a.r)
 
   const capacity = W
@@ -36,6 +35,14 @@ export function generateSteps(inputArray) {
     description,
     codeLine,
   })
+
+  if (!items.length) {
+    /* Inventing an item here would be the same silent substitution as a canned
+       demo — say what is missing instead. */
+    addStep(-1, [], `Capacity ${capacity}, but no complete item was given: each item needs a weight AND a value, so the input must be capacity followed by pairs.`, 7)
+    steps[steps.length - 1].result = 'Max value = 0.0 (no items)'
+    return steps
+  }
 
   addStep(-1, [], `Capacity ${capacity}. Items sorted by value/weight: ${items.map(it => `w${it.w}/v${it.v} (${it.r.toFixed(2)})`).join(', ')}. The cells show each item's value.`, 7)
 

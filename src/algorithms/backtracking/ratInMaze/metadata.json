@@ -43,5 +43,6 @@
   "category": "backtracking",
   "implemented": true,
   "inputType": "numberGrid",
-  "defaultInput": "1,0,0,0 / 1,1,0,1 / 0,1,0,0 / 0,1,1,1"
+  "defaultInput": "1,0,0,0 / 1,1,0,1 / 0,1,0,0 / 0,1,1,1",
+  "inputHint": "A grid of 1 (open) and 0 (blocked); rows separated by \"/\"."
 }

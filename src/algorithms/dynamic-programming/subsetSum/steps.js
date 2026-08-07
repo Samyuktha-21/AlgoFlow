@@ -1,5 +1,5 @@
 export function generateSteps(inputArray) {
-  const raw=inputArray&&inputArray.length>=3?[...inputArray]:[3,4,5,2,1]
+  const raw=inputArray&&inputArray.length>=2?[...inputArray]:[3,4,5,2,1]
   /* Columns are running sums, so a negative item indexes off the left edge
      of the table and a negative total asks for an array of negative length.
      Magnitudes keep every number the user typed on screen and the table

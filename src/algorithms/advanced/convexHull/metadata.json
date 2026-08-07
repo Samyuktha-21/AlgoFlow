@@ -36,5 +36,6 @@
   "id": "convexHull",
   "category": "advanced",
   "implemented": true,
-  "defaultInput": "0, 0, 4, 0, 4, 4, 0, 4, 2, 2"
+  "defaultInput": "0, 0, 4, 0, 4, 4, 0, 4, 2, 2",
+  "inputHint": "Pairs of numbers, each pair one point as (x, y)."
 }

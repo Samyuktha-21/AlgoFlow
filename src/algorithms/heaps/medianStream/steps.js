@@ -1,5 +1,5 @@
 export function generateSteps(inputArray) {
-  const nums=inputArray&&inputArray.length>=3?[...inputArray]:[5,15,1,3,2,8,7,9]
+  const nums=inputArray&&inputArray.length>=2?[...inputArray]:[5,15,1,3,2,8,7,9]
   const maxH=[], minH=[], steps=[]
   const addStep=(i,desc,line)=>steps.push({array:[...nums],current:i,stack:[...maxH.slice().sort((a,b)=>b-a)],stack2:[...minH.slice().sort((a,b)=>a-b)],stackLabel:'MaxHeap (lower)',stack2Label:'MinHeap (upper)',result:[],extra:{median:maxH.length>0?(maxH.length>minH.length?maxH[0]:( maxH[0]+minH[0])/2):'-'},description:desc,codeLine:line})
   addStep(-1,'Median Stream: two heaps keep lower/upper halves balanced',2)

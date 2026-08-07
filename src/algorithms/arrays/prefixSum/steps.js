@@ -1,5 +1,5 @@
 export function generateSteps(inputArray) {
-  const arr=inputArray&&inputArray.length>=3?[...inputArray]:[1,2,3,4,5,6]
+  const arr=inputArray&&inputArray.length>=2?[...inputArray]:[1,2,3,4,5,6]
   const n=arr.length
   const prefix=new Array(n).fill(null)
   const computed=new Array(n).fill(false)

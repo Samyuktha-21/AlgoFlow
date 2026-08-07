@@ -42,5 +42,7 @@
   "id": "anagramCheck",
   "category": "arrays",
   "implemented": true,
-  "inputType": "stringPair"
+  "inputType": "stringPair",
+  "defaultInput": "anagram,nagaram",
+  "inputHint": "Two words separated by a comma."
 }

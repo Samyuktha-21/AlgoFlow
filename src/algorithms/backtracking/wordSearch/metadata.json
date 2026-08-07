@@ -43,5 +43,6 @@
   "category": "backtracking",
   "implemented": true,
   "inputType": "stringPair",
-  "defaultInput": "ABCE/SFCS/ADEE,ABCCED"
+  "defaultInput": "ABCE/SFCS/ADEE,ABCCED",
+  "inputHint": "Grid rows separated by \"/\", then a comma and the word to find."
 }

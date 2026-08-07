@@ -67,16 +67,22 @@ export function generateSteps(inputArray) {
 
   function insert(node, val) {
     if (!node) {
-      const n = newNode(val);
-      snap(`Inserted ${val} as new leaf node.`, [n.id], null, 31);
-      return n;
+      /* No snapshot here. The node is created but not yet linked into the
+         tree, so treeToNodes(root) cannot see it — snapping now highlights a
+         node the visualizer does not draw. The caller snaps once it is
+         attached. */
+      return newNode(val);
     }
     if (val < node.value) {
       snap(`${val} < ${node.value}: go LEFT`, [node.id], null, 32);
+      const hadLeft = node.left;
       node.left = insert(node.left, val);
+      if (!hadLeft) snap(`Inserted ${val} as a new leaf below ${node.value}.`, [node.left.id], null, 31);
     } else if (val > node.value) {
       snap(`${val} > ${node.value}: go RIGHT`, [node.id], null, 33);
+      const hadRight = node.right;
       node.right = insert(node.right, val);
+      if (!hadRight) snap(`Inserted ${val} as a new leaf below ${node.value}.`, [node.right.id], null, 31);
     } else {
       snap(`${val} already exists — no duplicate`, [node.id], null, 34);
       return node;
@@ -113,7 +119,10 @@ export function generateSteps(inputArray) {
 
   for (const val of values) {
     snap(`Inserting ${val} into AVL Tree...`, [], null, 30);
+    const hadRoot = root;
     root = insert(root, val);
+    /* The very first value has no parent to announce it. */
+    if (!hadRoot) snap(`Inserted ${val} as the root.`, [root.id], null, 31);
     const nodes = treeToNodes(root);
     snap(`After inserting ${val}: tree has ${nodes.length} nodes, all balanced (|BF| ≤ 1).`, [], null, 47);
   }

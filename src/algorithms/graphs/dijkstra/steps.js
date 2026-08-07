@@ -10,6 +10,8 @@ export function generateSteps(inputNodes=null,inputEdges=null,startNode=0){
   edges.forEach(e=>{adj[e.from].push({to:e.to,w:e.weight||1});adj[e.to].push({to:e.from,w:e.weight||1})})
   const dist={}, visited=new Set(), steps=[]
   nodes.forEach(n=>{dist[n.id]=n.id===startNode?0:Infinity})
+  /* Same reasoning as bellmanFord: show the glyph, not the JS value. */
+  const show=v=>(v===Infinity?'∞':v)
   const makeStep=(cur,queue,desc,line)=>steps.push({nodes:nodes.map(n=>({...n,...positions[n.id]})),edges:[...edges],visited:[...visited],current:cur,queue:[...queue],distances:{...dist},description:desc,codeLine:line})
   const pq=[[0,startNode]]
   makeStep(null,[startNode],'Initialize: dist['+startNode+']=0, all others=∞',3)
@@ -21,7 +23,7 @@ export function generateSteps(inputNodes=null,inputEdges=null,startNode=0){
     makeStep(u,[...pq.map(x=>x[1])],'Visit node '+u+' with dist='+du,15)
     for(const {to:v,w} of adj[u]||[]){
       const nd=du+w
-      makeStep(u,[...pq.map(x=>x[1])],'Check: can we reach node '+v+' faster via '+u+'? Current best: '+dist[v]+'. New path via '+u+': '+du+'+'+w+'='+nd+(nd<dist[v]?' ✅ '+nd+'<'+dist[v]+' — update!':' ✗ no improvement'),17)
+      makeStep(u,[...pq.map(x=>x[1])],'Check: can we reach node '+v+' faster via '+u+'? Current best: '+show(dist[v])+'. New path via '+u+': '+du+'+'+w+'='+nd+(nd<dist[v]?' ✅ '+nd+'<'+show(dist[v])+' — update!':' ✗ no improvement'),17)
       if(nd<dist[v]){dist[v]=nd;pq.push([nd,v]);makeStep(u,[...pq.map(x=>x[1])],'Update dist['+v+']='+nd,18)}
     }
   }

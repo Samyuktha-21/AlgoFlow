@@ -41,5 +41,7 @@
   },
   "id": "kLargestElements",
   "category": "heaps",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "3, 1, 7, 9, 2, 5, 8, 4, 6, 3",
+  "inputHint": "The LAST number is k; the array is everything before it."
 }

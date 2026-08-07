@@ -15,7 +15,7 @@
    a grandchild below that. */
 
 export function generateSteps(inputArray) {
-  const vals = (Array.isArray(inputArray) && inputArray.length >= 3
+  const vals = (Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [1, 2, 3, 5, 6]).slice(0, 12)
 

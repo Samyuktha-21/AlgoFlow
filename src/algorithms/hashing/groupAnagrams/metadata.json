@@ -41,5 +41,6 @@
   "category": "hashing",
   "implemented": true,
   "inputType": "singleString",
-  "defaultInput": "eat, tea, tan, ate, nat, bat"
+  "defaultInput": "eat, tea, tan, ate, nat, bat",
+  "inputHint": "A list of words separated by commas."
 }

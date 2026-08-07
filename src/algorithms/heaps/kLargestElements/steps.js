@@ -1,6 +1,8 @@
 export function generateSteps(inputArray) {
-  const arr=inputArray&&inputArray.length>=4?[...inputArray]:[3,1,7,9,2,5,8,4,6]
-  const k=3, steps=[]
+  /* The LAST number is k; the array is everything before it. */
+  const nums=inputArray&&inputArray.length>=2?[...inputArray]:[3,1,7,9,2,5,8,4,6,3]
+  const arr=nums.slice(0,-1)
+  const k=Math.min(Math.max(1,Math.abs(nums[nums.length-1])),arr.length), steps=[]
   const heap=[]
   function heapifyUp(){let i=heap.length-1;while(i>0){const p=Math.floor((i-1)/2);if(heap[p]>heap[i]){[heap[i],heap[p]]=[heap[p],heap[i]];i=p}else break}}
   function heapifyDown(){let i=0;while(true){let s=i,l=2*i+1,r=2*i+2;if(l<heap.length&&heap[l]<heap[s])s=l;if(r<heap.length&&heap[r]<heap[s])s=r;if(s!==i){[heap[i],heap[s]]=[heap[s],heap[i]];i=s}else break}}

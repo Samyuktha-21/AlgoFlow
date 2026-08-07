@@ -39,5 +39,7 @@
   },
   "id": "subarraySum",
   "category": "hashing",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "1, 1, 1, 2, -1, 3, 2",
+  "inputHint": "The LAST number is the target sum k; the array is everything before it."
 }

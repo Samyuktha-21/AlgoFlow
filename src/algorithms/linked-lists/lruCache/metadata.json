@@ -42,5 +42,6 @@
   "id": "lruCache",
   "category": "linked-lists",
   "implemented": true,
-  "defaultInput": "3, 1, 2, 3, 1, 4, 2"
+  "defaultInput": "3, 1, 2, 3, 1, 4, 2",
+  "inputHint": "The FIRST number is the cache capacity; the rest are the keys accessed, in order."
 }

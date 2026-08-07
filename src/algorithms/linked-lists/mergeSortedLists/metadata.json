@@ -43,5 +43,6 @@
   "id": "mergeSortedLists",
   "category": "linked-lists",
   "implemented": true,
-  "defaultInput": "1, 3, 5, 2, 4, 6"
+  "defaultInput": "1, 3, 5, 2, 4, 6",
+  "inputHint": "The numbers are split in half to form two lists, and each half is sorted first."
 }

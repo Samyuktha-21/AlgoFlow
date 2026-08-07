@@ -38,5 +38,6 @@
       "Serializing tree-like linked list structures"
     ]
   },
-  "defaultInput": "1, 2, 3, 5, 6"
+  "defaultInput": "1, 2, 3, 5, 6",
+  "inputHint": "Roughly the first half is the main list; the rest hangs below it as child lists."
 }

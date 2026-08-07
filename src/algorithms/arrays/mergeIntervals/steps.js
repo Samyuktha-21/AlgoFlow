@@ -1,6 +1,15 @@
 export function generateSteps(inputArray) {
+  /* Pairs of numbers are (start, end). An odd trailing value has no partner
+     and is dropped — the old code silently discarded the WHOLE input in that
+     case and showed a canned demo instead. */
   let intervals=[[1,3],[2,6],[8,10],[15,18],[9,12]]
-  if(inputArray&&inputArray.length>=4&&inputArray.length%2===0){intervals=[];for(let i=0;i<inputArray.length;i+=2)intervals.push([inputArray[i],inputArray[i+1]])}
+  if(inputArray&&inputArray.length>=2){
+    intervals=[]
+    for(let i=0;i+1<inputArray.length;i+=2){
+      const s=inputArray[i], e=inputArray[i+1]
+      intervals.push([Math.min(s,e),Math.max(s,e)])
+    }
+  }
   intervals.sort((a,b)=>a[0]-b[0])
   const n=intervals.length, steps=[], sorted=[]
   const addStep=(cur,hl,desc,line)=>steps.push({array:intervals.map(iv=>iv[0]*100+iv[1]),current:cur,highlight:[...hl],sorted:[...sorted],pointers:[{index:cur,label:'cur'}],description:desc,codeLine:line,extra:{mergedCount:sorted.length}})

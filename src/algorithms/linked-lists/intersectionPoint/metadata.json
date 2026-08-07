@@ -38,5 +38,6 @@
   "id": "intersectionPoint",
   "category": "linked-lists",
   "implemented": true,
-  "defaultInput": "1, 2, 3, 4, 5, 6, 7"
+  "defaultInput": "1, 2, 3, 4, 5, 6, 7",
+  "inputHint": "The numbers are split into two run-ups and a shared tail, so the lists genuinely join."
 }

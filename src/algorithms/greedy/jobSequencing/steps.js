@@ -5,7 +5,7 @@
 
    Input: pairs of numbers, each pair a (deadline, profit). */
 export function generateSteps(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 4
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [2, 100, 1, 19, 2, 27, 1, 25, 3, 15]
 

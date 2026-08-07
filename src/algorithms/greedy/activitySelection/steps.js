@@ -5,7 +5,7 @@
 
    Input: pairs of numbers, each pair a (start, end). */
 export function generateSteps(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 4
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray.map(v => Math.trunc(v))
     : [1, 2, 3, 4, 0, 6, 5, 7, 8, 9, 5, 9]
 

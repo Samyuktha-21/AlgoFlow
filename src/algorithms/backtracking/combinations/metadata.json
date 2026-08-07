@@ -45,7 +45,18 @@
   "implemented": true,
   "inputType": "numberPair",
   "inputSpec": [
-    { "label": "n", "min": 3, "max": 6, "default": 4 },
-    { "label": "k", "min": 1, "max": 3, "default": 2 }
-  ]
+    {
+      "label": "n",
+      "min": 3,
+      "max": 6,
+      "default": 4
+    },
+    {
+      "label": "k",
+      "min": 1,
+      "max": 3,
+      "default": 2
+    }
+  ],
+  "inputHint": "The FIRST number is n (choose from 1..n), the SECOND is k."
 }

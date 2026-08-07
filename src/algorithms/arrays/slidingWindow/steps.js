@@ -1,5 +1,5 @@
 export function generateSteps(inputArray) {
-  const arr=inputArray&&inputArray.length>=4?[...inputArray]:[1,3,-1,-3,5,3,6,7]
+  const arr=inputArray&&inputArray.length>=2?[...inputArray]:[1,3,-1,-3,5,3,6,7]
   const k=3, n=arr.length
   const deque=[], result=[]
   const steps=[]

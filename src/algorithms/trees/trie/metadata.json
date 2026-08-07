@@ -50,5 +50,6 @@
   "beginnerWhy": "Finding all words starting with 'pre' takes O(m) time regardless of how many words are stored.",
   "beginnerWhen": "When you need fast prefix search — autocomplete, spell checking, word games.",
   "inputType": "singleString",
-  "defaultInput": "apple, app, application, apt, bat"
+  "defaultInput": "apple, app, application, apt, bat",
+  "inputHint": "A list of words separated by commas."
 }

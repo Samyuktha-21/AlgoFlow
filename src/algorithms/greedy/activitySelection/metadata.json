@@ -44,5 +44,6 @@
       "Sweep line algorithm — for detecting overlaps"
     ]
   },
-  "defaultInput": "1, 2, 3, 4, 0, 6, 5, 7, 8, 9, 5, 9"
+  "defaultInput": "1, 2, 3, 4, 0, 6, 5, 7, 8, 9, 5, 9",
+  "inputHint": "Pairs of numbers, each pair one activity as (start, end)."
 }

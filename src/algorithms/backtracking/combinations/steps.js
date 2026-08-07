@@ -4,7 +4,7 @@ export function generateSteps(inputArray) {
   const steps=[], results=[], current=[]
   function addStep(start,bt,desc,line){
     const board=Array.from({length:Math.max(k,2)},(_,r)=>Array.from({length:n},(_,c)=>r===0?c+1:current[c]!==undefined?current[c]:0))
-    steps.push({board,n,highlighted:{row:0,col:start-1},conflicts:[],backtracking:bt,type:'nqueens',description:desc,codeLine:line,extra:{current:current.join(','),results:results.length}})
+    steps.push({board,n,highlighted:{row:0,col:Math.min(Math.max(start-1,0),n-1)},conflicts:[],backtracking:bt,type:'nqueens',description:desc,codeLine:line,extra:{current:current.join(','),results:results.length}})
   }
   let limit=60
   function bt(start){

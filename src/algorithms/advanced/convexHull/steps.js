@@ -10,7 +10,7 @@
 /* The input arrives as a flat number list, so consecutive values pair up into
    (x, y). An odd trailing value has no partner and is dropped. */
 function toPoints(inputArray) {
-  const nums = Array.isArray(inputArray) && inputArray.length >= 6
+  const nums = Array.isArray(inputArray) && inputArray.length >= 2
     ? inputArray
     : [0, 0, 4, 0, 4, 4, 0, 4, 2, 2]
   const pts = []
