@@ -23,5 +23,19 @@
     "language": "python",
     "code": "def build_suffix_array(s):\n    return sorted(range(len(s)), key=lambda i: s[i:])\n\ndef build_suffix_array_fast(s):\n    n = len(s)\n    sa = list(range(n))\n    rank = [ord(c) for c in s]\n    k = 1\n    while k < n:\n        key = lambda i: (rank[i], rank[i + k] if i + k < n else -1)\n        sa.sort(key=key)\n        new_rank = [0] * n\n        for j in range(1, n):\n            new_rank[sa[j]] = new_rank[sa[j-1]] + (key(sa[j]) != key(sa[j-1]))\n        rank = new_rank\n        k *= 2\n    return sa\n\ns = \"banana\"\nsa = build_suffix_array_fast(s)\nprint(sa)\nfor i in sa:\n    print(i, s[i:])",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 5,
+      "5": 6,
+      "7": 7,
+      "8": 9,
+      "10": 11,
+      "15": 12,
+      "16": 13,
+      "19": 14,
+      "21": 15,
+      "23": 17
+    }
   }
 }

@@ -35,5 +35,6 @@
   },
   "id": "convexHull",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "0, 0, 4, 0, 4, 4, 0, 4, 2, 2"
 }

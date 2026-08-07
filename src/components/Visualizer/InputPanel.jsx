@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Shuffle, Play, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
-import { randomArray, randomSortedArray, randomGraphInput } from '../../utils/helpers'
+import { randomArray, randomSortedArray, randomGraphInput, randomWord } from '../../utils/helpers'
 import { normalizeNumberSpec, describeNumberSpec } from '../../utils/validators'
 
 /* The seed values are mount-time defaults, not a live binding: the caller
@@ -39,6 +39,12 @@ export default function InputPanel({ algorithmType, onVisualize, placeholder, de
       else setInput(randomGraphInput({ weighted: isWeightedGraph }))
     } else if (isNumber) {
       setInput(numFields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '))
+    } else if (isStringPair) {
+      /* Without this these fell through to randomArray below and dropped
+         "5, 3, 9" into a field that wants text. */
+      setInput(`${randomWord(6)},${randomWord(5)}`)
+    } else if (isSingleString) {
+      setInput(randomWord(7))
     } else {
       setInput(randomArray(8, 15).join(', '))
     }

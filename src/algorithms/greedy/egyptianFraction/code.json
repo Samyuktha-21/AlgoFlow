@@ -23,5 +23,13 @@
     "language": "python",
     "code": "import math\n\ndef egyptian_fraction(num, den):\n    parts = []\n    while num:\n        unit = math.ceil(den / num)\n        parts.append(unit)\n        num, den = num * unit - den, den * unit\n        g = math.gcd(num, den) or 1\n        num, den = num // g, den // g\n    return parts\n\nparts = egyptian_fraction(6, 14)\nprint(\" + \".join(f\"1/{u}\" for u in parts))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "3": 5,
+      "10": 6,
+      "11": 7,
+      "12": 8
+    }
   }
 }

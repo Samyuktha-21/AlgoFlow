@@ -38,5 +38,20 @@
   },
   "id": "egyptianFraction",
   "category": "greedy",
-  "implemented": true
+  "implemented": true,
+  "inputType": "numberPair",
+  "inputSpec": [
+    {
+      "label": "numerator",
+      "min": 1,
+      "max": 99,
+      "default": 6
+    },
+    {
+      "label": "denominator",
+      "min": 1,
+      "max": 99,
+      "default": 14
+    }
+  ]
 }

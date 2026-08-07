@@ -40,5 +40,7 @@
   },
   "id": "zAlgorithm",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString",
+  "defaultInput": "AABAACAABAA"
 }

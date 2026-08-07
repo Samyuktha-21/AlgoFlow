@@ -23,5 +23,16 @@
     "language": "python",
     "code": "import heapq\n\ndef optimal_file_merge(sizes):\n    heapq.heapify(sizes)\n    total = 0\n    while len(sizes) > 1:\n        a = heapq.heappop(sizes)\n        b = heapq.heappop(sizes)\n        total += a + b\n        heapq.heappush(sizes, a + b)\n    return total\n\nprint(optimal_file_merge([20, 30, 10, 5, 30]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "5": 4,
+      "6": 5,
+      "7": 6,
+      "8": 7,
+      "9": 9,
+      "10": 10,
+      "12": 11
+    }
   }
 }

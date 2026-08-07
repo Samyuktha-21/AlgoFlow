@@ -15,7 +15,7 @@ import {
   parseArrayInput, parseSearchInput, parseGraphInput, parseNumberInput,
   normalizeNumberSpec,
 } from '../src/utils/validators.js'
-import { randomArray, randomSortedArray, randomGraphInput } from '../src/utils/helpers.js'
+import { randomArray, randomSortedArray, randomGraphInput, randomWord } from '../src/utils/helpers.js'
 
 const RANDOM_DRAWS = 25
 const ROOT = 'src/algorithms'
@@ -81,7 +81,8 @@ function randomInputFor(meta, defaultValue) {
     const fields = normalizeNumberSpec(meta?.inputSpec)
     return { input: fields.map(f => f.min + Math.floor(Math.random() * (f.max - f.min + 1))).join(', '), target: '' }
   }
-  if (it === 'stringPair' || it === 'singleString') return null /* Random is not offered */
+  if (it === 'stringPair') return { input: `${randomWord(6)},${randomWord(5)}`, target: '' }
+  if (it === 'singleString') return { input: randomWord(7), target: '' }
   return { input: randomArray().join(', '), target: '' }
 }
 

@@ -90,6 +90,16 @@ export default function TreeVisualizer({ step }) {
   const { nodes = [], visited = [], current, highlighted = [], description, traversalOrder = [] } = step
 
   const getStyle = (id) => {
+    /* A red-black tree is its colours — if the fill showed traversal state
+       instead, the one thing the algorithm is about would be invisible. So a
+       node carrying `rb` paints by colour and shows its state in the ring. */
+    const node = nodes.find(n => n.id === id)
+    if (node?.rb) {
+      const isCurrent = current === id || highlighted.includes(id)
+      return node.rb === 'R'
+        ? { fill: '#DC2626', stroke: isCurrent ? '#FCD34D' : '#F87171', text: '#fff' }
+        : { fill: isDark ? '#111827' : '#1F2937', stroke: isCurrent ? '#FCD34D' : '#6B7280', text: '#fff' }
+    }
     if (current === id)           return NODE_COLORS.current
     if (visited.includes(id))     return NODE_COLORS.visited
     if (highlighted.includes(id)) return NODE_COLORS.highlighted

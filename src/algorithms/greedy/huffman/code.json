@@ -23,5 +23,19 @@
     "language": "python",
     "code": "import heapq\n\ndef huffman_codes(freq):\n    heap = [[f, i, ch, None, None] for i, (ch, f) in enumerate(freq.items())]\n    heapq.heapify(heap)\n    count = len(heap)\n    while len(heap) > 1:\n        lo = heapq.heappop(heap)\n        hi = heapq.heappop(heap)\n        heapq.heappush(heap, [lo[0] + hi[0], count, None, lo, hi])\n        count += 1\n    codes = {}\n    def walk(node, code):\n        if node[2] is not None:\n            codes[node[2]] = code or \"0\"\n            return\n        walk(node[3], code + \"0\")\n        walk(node[4], code + \"1\")\n    walk(heap[0], \"\")\n    return codes\n\nfreq = {'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}\nprint(huffman_codes(freq))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "11": 14,
+      "12": 15,
+      "13": 17,
+      "14": 18,
+      "17": 5,
+      "18": 4,
+      "19": 7,
+      "20": 8,
+      "21": 10,
+      "23": 19
+    }
   }
 }

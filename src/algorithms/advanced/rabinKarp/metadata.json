@@ -40,5 +40,7 @@
   },
   "id": "rabinKarp",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair",
+  "defaultInput": "GEEKSFORGEEKS,GEEK"
 }

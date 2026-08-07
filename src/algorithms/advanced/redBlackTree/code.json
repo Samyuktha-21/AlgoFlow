@@ -21,7 +21,23 @@
   },
   "python": {
     "language": "python",
-    "code": "RED, BLACK = 0, 1\n\nclass Node:\n    def __init__(self, val):\n        self.val, self.color = val, RED\n        self.left = self.right = self.parent = None\n\nclass RedBlackTree:\n    def __init__(self):\n        self.root = None\n\n    def rotate_left(self, x):\n        y = x.right\n        x.right = y.left\n        if y.left: y.left.parent = x\n        y.parent = x.parent\n        if not x.parent: self.root = y\n        elif x is x.parent.left: x.parent.left = y\n        else: x.parent.right = y\n        y.left = x\n        x.parent = y\n\n    def rotate_right(self, x):\n        y = x.left\n        x.left = y.right\n        if y.right: y.right.parent = x\n        y.parent = x.parent\n        if not x.parent: self.root = y\n        elif x is x.parent.right: x.parent.right = y\n        else: x.parent.left = y\n        y.right = x\n        x.parent = y\n\n    def insert(self, val):\n        node, parent = Node(val), None\n        cur = self.root\n        while cur:\n            parent = cur\n            cur = cur.left if val < cur.val else cur.right\n        node.parent = parent\n        if not parent: self.root = node\n        elif val < parent.val: parent.left = node\n        else: parent.right = node\n        self.fix_insert(node)\n\n    def fix_insert(self, z):\n        while z.parent and z.parent.color == RED:\n            gp = z.parent.parent\n            if z.parent is gp.left:\n                uncle = gp.right\n                if uncle and uncle.color == RED:\n                    z.parent.color = uncle.color = BLACK\n                    gp.color = RED\n                    z = gp\n                else:\n                    if z is z.parent.right:\n                        z = z.parent\n                        self.rotate_left(z)\n                    z.parent.color, gp.color = BLACK, RED\n                    self.rotate_right(gp)\n            else:\n                uncle = gp.left\n                if uncle and uncle.color == RED:\n                    z.parent.color = uncle.color = BLACK\n                    gp.color = RED\n                    z = gp\n                else:\n                    if z is z.parent.left:\n                        z = z.parent\n                        self.rotate_right(z)\n                    z.parent.color, gp.color = BLACK, RED\n                    self.rotate_left(gp)\n        self.root.color = BLACK\n\ndef inorder(n, out):\n    if n:\n        inorder(n.left, out)\n        out.append((n.val, 'R' if n.color == RED else 'B'))\n        inorder(n.right, out)\n\nt = RedBlackTree()\nfor v in [10, 20, 30, 15, 25]:\n    t.insert(v)\nout = []\ninorder(t.root, out)\nprint(out)",
+    "code": "RED, BLACK = True, False\n\n\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.color = RED\n        self.left = self.right = None\n\n\ndef is_red(n):\n    return n is not None and n.color == RED\n\n\ndef rotate_left(h):\n    x = h.right\n    h.right, x.left = x.left, h\n    x.color, h.color = h.color, RED\n    return x\n\n\ndef rotate_right(h):\n    x = h.left\n    h.left, x.right = x.right, h\n    x.color, h.color = h.color, RED\n    return x\n\n\ndef flip_colors(h):\n    h.color = not h.color\n    h.left.color = not h.left.color\n    h.right.color = not h.right.color\n\n\ndef _insert(h, key):\n    if h is None:\n        return Node(key)\n    if key < h.key:\n        h.left = _insert(h.left, key)\n    elif key > h.key:\n        h.right = _insert(h.right, key)\n    if is_red(h.right) and not is_red(h.left):\n        h = rotate_left(h)\n    if is_red(h.left) and is_red(h.left.left):\n        h = rotate_right(h)\n    if is_red(h.left) and is_red(h.right):\n        flip_colors(h)\n    return h\n\n\nclass RedBlackTree:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, key):\n        self.root = _insert(self.root, key)\n        self.root.color = BLACK\n\n\nt = RedBlackTree()\nfor v in [10, 20, 30, 15, 25]:\n    t.insert(v)\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "5": 12,
+      "6": 17,
+      "7": 24,
+      "8": 30,
+      "10": 37,
+      "11": 39,
+      "12": 41,
+      "13": 43,
+      "14": 45,
+      "15": 47,
+      "16": 48,
+      "18": 57
+    }
   }
 }

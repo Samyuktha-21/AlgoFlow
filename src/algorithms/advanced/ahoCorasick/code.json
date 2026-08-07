@@ -23,5 +23,24 @@
     "language": "python",
     "code": "from collections import deque\n\ndef build_automaton(patterns):\n    trie = [{'next': {}, 'fail': 0, 'out': []}]\n    for p in patterns:\n        node = 0\n        for ch in p:\n            if ch not in trie[node]['next']:\n                trie.append({'next': {}, 'fail': 0, 'out': []})\n                trie[node]['next'][ch] = len(trie) - 1\n            node = trie[node]['next'][ch]\n        trie[node]['out'].append(p)\n    q = deque(trie[0]['next'].values())\n    while q:\n        u = q.popleft()\n        for ch, v in trie[u]['next'].items():\n            f = trie[u]['fail']\n            while f and ch not in trie[f]['next']:\n                f = trie[f]['fail']\n            trie[v]['fail'] = trie[f]['next'].get(ch, 0) if trie[f]['next'].get(ch, 0) != v else 0\n            trie[v]['out'] += trie[trie[v]['fail']]['out']\n            q.append(v)\n    return trie\n\ndef search(text, patterns):\n    trie = build_automaton(patterns)\n    node, hits = 0, []\n    for i, ch in enumerate(text):\n        while node and ch not in trie[node]['next']:\n            node = trie[node]['fail']\n        node = trie[node]['next'].get(ch, 0)\n        for p in trie[node]['out']:\n            hits.append((i - len(p) + 1, p))\n    return hits\n\nprint(search(\"ushers\", [\"he\", \"she\", \"his\", \"hers\"]))",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "7": 6,
+      "8": 7,
+      "10": 9,
+      "11": 11,
+      "13": 12,
+      "17": 13,
+      "19": 15,
+      "22": 20,
+      "23": 18,
+      "28": 27,
+      "29": 28,
+      "30": 31,
+      "31": 32,
+      "32": 33,
+      "33": 34
+    }
   }
 }

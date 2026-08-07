@@ -27,6 +27,13 @@ export function randomGraphInput({ weighted = false, nodes = 0 } = {}) {
     .join(', ')
 }
 
+/* Random text for the string algorithms. The alphabet is deliberately small:
+   over 26 letters two random strings share almost nothing, and an LCS or
+   edit-distance trace with no matches in it teaches nothing. */
+export function randomWord(len = 6, alphabet = 'ABCD') {
+  return Array.from({ length: len }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join('')
+}
+
 export function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
 }

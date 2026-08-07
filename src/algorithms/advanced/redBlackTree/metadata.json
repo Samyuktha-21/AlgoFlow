@@ -1,6 +1,6 @@
 {
   "name": "Red-Black Tree",
-  "type": "array",
+  "type": "tree",
   "description": "Self-balancing BST maintaining O(log n) for all operations via color-based rules",
   "aim": "Efficiently solve red-black tree related problems.",
   "howItWorks": [
@@ -35,5 +35,6 @@
   },
   "id": "redBlackTree",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "10, 20, 30, 15, 25, 5, 35"
 }

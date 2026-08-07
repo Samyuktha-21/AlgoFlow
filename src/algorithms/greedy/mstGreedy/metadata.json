@@ -1,6 +1,6 @@
 {
-  "name": "MST Greedy (Prim-like)",
-  "type": "array",
+  "name": "MST Greedy (Kruskal)",
+  "type": "graph",
   "description": "Greedy selection of minimum edges for spanning tree",
   "aim": "Apply greedy strategy to solve MST Greedy (Prim-like) efficiently.",
   "howItWorks": [
@@ -38,5 +38,6 @@
   },
   "id": "mstGreedy",
   "category": "greedy",
-  "implemented": true
+  "implemented": true,
+  "defaultInput": "0-1:4, 0-2:1, 1-2:2, 1-3:5, 2-3:8, 3-4:3, 4-5:2, 3-5:7"
 }

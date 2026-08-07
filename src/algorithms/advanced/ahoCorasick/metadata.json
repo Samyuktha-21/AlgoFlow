@@ -35,5 +35,7 @@
   },
   "id": "ahoCorasick",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "inputType": "stringPair",
+  "defaultInput": "USHERS,HE,SHE,HIS,HERS"
 }

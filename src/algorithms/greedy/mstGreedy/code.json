@@ -21,7 +21,25 @@
   },
   "python": {
     "language": "python",
-    "code": "import heapq\n\ndef mst_greedy(graph, start=0):\n    visited = {start}\n    pq = [(w, start, v) for v, w in graph[start]]\n    heapq.heapify(pq)\n    mst, total = [], 0\n    while pq:\n        w, u, v = heapq.heappop(pq)\n        if v in visited:\n            continue\n        visited.add(v)  # greedy: always take cheapest crossing edge\n        mst.append((u, v, w))\n        total += w\n        for nv, nw in graph[v]:\n            if nv not in visited:\n                heapq.heappush(pq, (nw, v, nv))\n    return mst, total\n\ngraph = {0: [(1, 4), (2, 3)], 1: [(0, 4), (2, 1), (3, 2)],\n         2: [(0, 3), (1, 1), (3, 4)], 3: [(1, 2), (2, 4)]}\nmst, total = mst_greedy(graph)\nprint(mst, \"cost =\", total)",
+    "code": "def find(parent, x):\n    while parent[x] != x:\n        parent[x] = parent[parent[x]]\n        x = parent[x]\n    return x\n\n\ndef union(parent, rank, a, b):\n    a, b = find(parent, a), find(parent, b)\n    if a == b:\n        return False\n    if rank[a] < rank[b]:\n        a, b = b, a\n    parent[b] = a\n    if rank[a] == rank[b]:\n        rank[a] += 1\n    return True\n\n\ndef kruskal(n, edges):              # edges: (u, v, weight)\n    parent = list(range(n))\n    rank = [0] * n\n    edges.sort(key=lambda e: e[2])\n    total = count = 0\n    for u, v, w in edges:\n        if union(parent, rank, u, v):\n            total += w\n            count += 1\n            print(u, \"-\", v, \":\", w)\n            if count == n - 1:\n                break\n    return total\n\n\nprint(kruskal(6, [(0, 1, 4), (0, 2, 1), (1, 2, 2), (1, 3, 5),\n                  (2, 3, 8), (3, 4, 3), (4, 5, 2), (3, 5, 7)]))\n",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "6": 9,
+      "7": 10,
+      "8": 13,
+      "9": 14,
+      "10": 16,
+      "11": 17,
+      "14": 22,
+      "15": 21,
+      "16": 23,
+      "17": 24,
+      "18": 25,
+      "20": 27,
+      "22": 30,
+      "25": 32
+    }
   }
 }

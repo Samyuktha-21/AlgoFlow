@@ -23,5 +23,14 @@
     "language": "python",
     "code": "import cmath\n\ndef fft(a):\n    n = len(a)\n    if n == 1:\n        return a\n    even = fft(a[0::2])\n    odd  = fft(a[1::2])\n    result = [0] * n\n    for k in range(n // 2):\n        t = cmath.exp(-2j * cmath.pi * k / n) * odd[k]\n        result[k] = even[k] + t\n        result[k + n // 2] = even[k] - t\n    return result\n\nout = fft([1, 2, 3, 4])\nprint([f\"{c.real:.1f}{c.imag:+.1f}j\" for c in out])",
     "lineKeys": {}
+  },
+  "lineMap": {
+    "python": {
+      "8": 4,
+      "14": 7,
+      "16": 11,
+      "19": 10,
+      "21": 12
+    }
   }
 }

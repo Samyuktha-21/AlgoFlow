@@ -35,5 +35,7 @@
   },
   "id": "suffixArray",
   "category": "advanced",
-  "implemented": true
+  "implemented": true,
+  "inputType": "singleString",
+  "defaultInput": "BANANA"
 }
