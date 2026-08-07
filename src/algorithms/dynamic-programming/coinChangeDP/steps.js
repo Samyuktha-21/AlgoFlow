@@ -1,6 +1,12 @@
 export function generateSteps(inputArray) {
-  const coins = inputArray && inputArray.length > 1 ? inputArray.slice(0,-1) : [1,5,6,9]
-  const amount = inputArray && inputArray.length > 1 ? inputArray[inputArray.length-1] : 11
+  /* The LAST number is the amount and the rest are denominations. A coin of
+     zero or negative value has no meaning here (and would make dp[a-c] index
+     backwards), and a non-positive amount leaves no table at all — both used
+     to produce NaN on screen. */
+  const nums = inputArray && inputArray.length > 1 ? inputArray.map(v=>Math.trunc(v)) : [1,5,6,9,11]
+  const coins = [...new Set(nums.slice(0,-1).map(v=>Math.abs(v)).filter(v=>v>0))].sort((a,b)=>a-b)
+  const amount = Math.min(Math.max(1, Math.abs(nums[nums.length-1])), 60)
+  if (!coins.length) coins.push(1)
   const INF = amount + 1
   const dp = new Array(amount + 1).fill(INF)
   const computed = new Array(amount + 1).fill(false)

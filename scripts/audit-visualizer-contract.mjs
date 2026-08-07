@@ -24,10 +24,32 @@ const VIZ = {
 }
 
 const isInt = v => Number.isInteger(v)
+/* Values that are technically correct but read as a JavaScript artefact when
+   they land on screen. Infinity is real ("unreachable"), but the visualizers
+   show that as a glyph, so leaking the word means a formatter was missed. */
+const LEAKED = /undefined|NaN|\[object Object\]|Infinity/
 /* -1 is this codebase's "nothing selected" sentinel. It renders harmlessly —
    no cell has index -1, so the lookups simply miss — and it is used
    deliberately all over, so it is not an out-of-range error. */
 const NONE = -1
+
+/* Applies to every step whatever its visualizer: nothing the user reads
+   should contain a raw JS value. */
+function textChecks(s) {
+  const out = []
+  if (typeof s.description === 'string' && LEAKED.test(s.description)) {
+    out.push(`description shows "${s.description.match(LEAKED)[0]}"`)
+  }
+  if (s.extra && typeof s.extra === 'object') {
+    for (const [k, v] of Object.entries(s.extra)) {
+      if (LEAKED.test(String(v))) out.push(`extra.${k} shows "${String(v).match(LEAKED)[0]}"`)
+    }
+  }
+  if (typeof s.result === 'string' && LEAKED.test(s.result)) {
+    out.push(`result shows "${s.result.match(LEAKED)[0]}"`)
+  }
+  return out
+}
 
 /* Each checker returns a list of complaints for one step. */
 const CHECKS = {
@@ -149,6 +171,26 @@ const EXTRA_INPUTS = [
 ]
 const PLAIN_ARRAY = new Set([undefined, null])
 
+/* Graph algorithms were only ever rendered against their default, which is
+   how unionFind shipped printing "undefined" for every root: it keyed its
+   parent array by position while the ids were 5, 9, 12. Sparse ids, a
+   self-loop, a disconnected graph and a two-node graph are all legal input. */
+const GRAPH_INPUTS = [
+  '0-1:1, 1-2:2, 2-3:3', '0-1:4, 0-2:1, 1-2:2, 1-3:5, 2-3:8',
+  '0-1:2, 1-2:2, 2-0:2', '5-9:3, 9-12:4', '0-1:1, 2-3:1',
+  '0-1:1', '0-1:0, 1-2:0', '0-0:1, 0-1:2',
+]
+const parseGraph = (str) => {
+  const edges = str.split(',').map(p => {
+    const [e, w] = p.trim().split(':')
+    const [a, b] = e.split('-').map(Number)
+    return w === undefined ? { from: a, to: b } : { from: a, to: b, weight: Number(w) }
+  })
+  const nodes = [...new Set(edges.flatMap(x => [x.from, x.to]))]
+    .sort((a, b) => a - b).map(id => ({ id, label: String(id) }))
+  return { nodes, edges }
+}
+
 const all = await loadAlgorithms()
 const findings = []
 let checked = 0
@@ -173,7 +215,7 @@ for (const e of all) {
   const inspect = (steps, where) => {
     renders++
     steps.forEach((s, i) => {
-      for (const complaint of check(s)) {
+      for (const complaint of [...check(s), ...textChecks(s)]) {
         if (seen.has(complaint)) continue
         seen.add(complaint)
         findings.push(`${e.id} [${viz}Visualizer] ${where} step ${i}: ${complaint}`)
@@ -181,6 +223,16 @@ for (const e of all) {
     })
   }
   inspect(r.steps, 'default')
+
+  /* A blank default means the algorithm builds its own board (A*'s grid). */
+  if (e.meta.type === 'graph' && e.meta.defaultInput !== '') {
+    for (const gs of GRAPH_INPUTS) {
+      const { nodes, edges } = parseGraph(gs)
+      let steps
+      try { steps = e.gen(nodes, edges, nodes[0].id) } catch { continue }
+      if (Array.isArray(steps) && steps.length) inspect(steps, `graph "${gs}"`)
+    }
+  }
 
   if (e.meta.type !== 'graph' && PLAIN_ARRAY.has(e.meta.inputType)) {
     for (const v of EXTRA_INPUTS) {

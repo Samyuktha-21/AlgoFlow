@@ -44,5 +44,7 @@
       "BFS — equivalent for small amounts",
       "Recursion with memoization — top-down equivalent"
     ]
-  }
+  },
+  "defaultInput": "1, 5, 6, 9, 11",
+  "inputHint": "The LAST number is the amount; the numbers before it are the coin denominations."
 }

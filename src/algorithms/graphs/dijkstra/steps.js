@@ -27,6 +27,10 @@ export function generateSteps(inputNodes=null,inputEdges=null,startNode=0){
       if(nd<dist[v]){dist[v]=nd;pq.push([nd,v]);makeStep(u,[...pq.map(x=>x[1])],'Update dist['+v+']='+nd,18)}
     }
   }
-  makeStep(null,[],'Dijkstra complete. Shortest distances: '+nodes.map(n=>n.id+'→'+dist[n.id]).join(', '),23)
+  /* An unreachable node keeps Infinity — real, but it belongs on screen as the
+     glyph, and a disconnected graph makes that the common case. */
+  const unreached=nodes.filter(n=>dist[n.id]===Infinity).length
+  makeStep(null,[],'Dijkstra complete. Shortest distances: '+nodes.map(n=>n.id+'→'+show(dist[n.id])).join(', ')
+    +(unreached?` — ${unreached} node${unreached>1?'s are':' is'} unreachable from the start.`:''),23)
   return steps
 }
