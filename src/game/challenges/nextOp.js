@@ -1,6 +1,6 @@
 import { toOptions } from './index.js'
 import { describeStep } from '../describeStep.js'
-import { classifySteps } from '../classifyStep.js'
+import { classifySteps, isInformativeKind } from '../classifyStep.js'
 import { buildMutantOptions } from '../mutants/index.js'
 import { getWhyText } from '../../utils/stepExplain.js'
 
@@ -16,14 +16,18 @@ export function generateNextOp(entry, steps, rng = Math.random) {
      advances the narration without moving anything the visualizer can show
      ("Relax 0->2: 0+1=1 vs dist[2]=inf", which leaves every field untouched)
      makes a question the learner cannot reason about from the picture.
-     18.5% of the corpus is that kind of step; see scripts/test-classify-step. */
+     18.5% of the corpus is that kind of step; see scripts/test-classify-step.
+
+     `isInformativeKind` is the same predicate the weakness map filters on, so
+     the questions asked and the answers recorded agree by construction — a
+     question whose answer is 'inspect' would teach the learner nothing and
+     leave the weakness map with nothing to record either. */
   const candidates = []
   const informative = []
   for (let i = 0; i < steps.length - 1; i++) {
     if (!buildMutantOptions(steps, i, { kinds })) continue
     candidates.push(i)
-    const k = kinds[i + 1]
-    if (k !== 'no-op' && k !== 'unknown' && k !== 'init') informative.push(i)
+    if (isInformativeKind(kinds[i + 1])) informative.push(i)
   }
   const usable = informative.length ? informative : candidates
   if (usable.length === 0) return null

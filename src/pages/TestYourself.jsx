@@ -4,6 +4,7 @@ import GameSetup from '../components/game/GameSetup'
 import ScoreBar from '../components/game/ScoreBar'
 import ChallengeCard from '../components/game/ChallengeCard'
 import GameSummary from '../components/game/GameSummary'
+import WeaknessPanel from '../components/game/WeaknessPanel'
 import { buildPool, loadEntry, allNames } from '../game/pool'
 import { runSteps } from '../game/runSteps'
 import { createSession, scoreAnswer, recordType, applicableTypes, saveBest, loadBest } from '../game/session'
@@ -11,11 +12,17 @@ import { generateComplexity } from '../game/challenges/complexity'
 import { generateNextOp } from '../game/challenges/nextOp'
 import { generateFinalOutput } from '../game/challenges/finalOutput'
 import { generateNameAlgorithm } from '../game/challenges/nameAlgorithm'
+import { chooseByWeakness } from '../game/weakness'
 import { useProgress } from '../context/ProgressContext'
 
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)]
 
-async function makeChallenge(pool, names) {
+/* Build one challenge. `weakness` biases *which* challenge, never whether a
+   question is answerable: candidates are generated normally and the map only
+   chooses between them (src/game/weakness.js explains the weighting). Test
+   Yourself only — /daily is seeded so every visitor gets the same question. */
+async function makeChallenge(pool, names, weakness) {
+  const candidates = []
   for (let tries = 0; tries < 25; tries++) {
     const pm = rand(pool)
     const type = rand(applicableTypes(pm))
@@ -31,8 +38,14 @@ async function makeChallenge(pool, names) {
         else if (type === 'nameAlgorithm') ch = generateNameAlgorithm(entry, steps, names)
       }
     }
-    if (ch) return ch
+    if (ch) {
+      candidates.push(ch)
+      /* Three is enough for the bias to bite without making every question
+         cost three generator runs. */
+      if (candidates.length >= 3) break
+    }
   }
+  if (candidates.length) return chooseByWeakness(candidates, weakness)
   // guaranteed-buildable fallback: first entry whose complexity question builds
   for (const pm of pool) {
     const ch = generateComplexity(await loadEntry(pm))
@@ -54,13 +67,16 @@ export default function TestYourself() {
   const [isNewBest, setIsNewBest] = useState(false)
   const [lastConfig, setLastConfig] = useState(null)
   const [setupError, setSetupError] = useState('')
-  const { awardQuizXp } = useProgress()
+  const { awardQuizXp, weakness, recordWeakness } = useProgress()
 
+  /* `weakness` is a real dependency: the next question is chosen with it, so
+     an answer that shifts the map has to be visible to the next draw.
+     Re-creating loadNext is free — nothing downstream is memoized on it. */
   const loadNext = useCallback(async (p, nm) => {
     setLoading(true); setAnswered(false); setSelectedIndex(-1)
-    const ch = await makeChallenge(p, nm)
+    const ch = await makeChallenge(p, nm, weakness)
     setChallenge(ch); setLoading(false)
-  }, [])
+  }, [weakness])
 
   const start = useCallback(async (config) => {
     const p = buildPool(config.categoryIds)
@@ -79,6 +95,16 @@ export default function TestYourself() {
     setAnswered(true)
     const isCorrect = !!challenge.options[i]?.isCorrect
     if (isCorrect) awardQuizXp()
+    /* Only nextOp carries an opKind — it is the only challenge that asks about
+       a specific step. A complexity or name-the-algorithm miss says nothing
+       about which operation the learner misreads. */
+    if (challenge.opKind) {
+      recordWeakness({
+        opKind: challenge.opKind,
+        algorithmType: challenge.entry?.type,
+        wasCorrect: isCorrect,
+      })
+    }
     setSession(s => recordType(scoreAnswer(s, isCorrect), challenge.type, isCorrect))
   }
 
@@ -110,6 +136,9 @@ export default function TestYourself() {
         {phase === 'setup' && (
           <>
             <GameSetup onStart={start} />
+            <div style={{ maxWidth: 720, margin: '1.25rem auto 0' }}>
+              <WeaknessPanel weakness={weakness} />
+            </div>
             {setupError && (
               <p style={{ maxWidth: 720, margin: '0 auto', color: 'var(--chip-red-text)', fontSize: 14 }}>{setupError}</p>
             )}
@@ -136,12 +165,18 @@ export default function TestYourself() {
         )}
 
         {phase === 'summary' && session && (
-          <GameSummary
-            session={session}
-            isNewBest={isNewBest}
-            onPlayAgain={playAgain}
-            onChangeSettings={changeSettings}
-          />
+          <>
+            <GameSummary
+              session={session}
+              isNewBest={isNewBest}
+              onPlayAgain={playAgain}
+              onChangeSettings={changeSettings}
+            />
+            {/* compact: stays quiet until there is enough to say */}
+            <div style={{ marginTop: '1.25rem' }}>
+              <WeaknessPanel weakness={weakness} compact />
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -50,18 +50,26 @@ service cloud.firestore {
 
     // ── User profiles + progress ───────────────────────────────
     // Only the owner reads their own doc (holds email). The client may write
-    // ONLY profile + learned/bookmarks; every XP-bearing field (solved,
-    // solvedCount, dailyCount, streaks, quizXp*, xp, …) is writable solely by
-    // the Cloud Functions Admin SDK (which bypasses rules), so XP cannot be
-    // forged from the browser. Keep this whitelist in sync with the client
-    // writers (AuthContext profile write + ProgressContext learned/bookmarks).
+    // ONLY profile + learned/bookmarks/weakness; every XP-bearing field
+    // (solved, solvedCount, dailyCount, streaks, quizXp*, xp, …) is writable
+    // solely by the Cloud Functions Admin SDK (which bypasses rules), so XP
+    // cannot be forged from the browser. Keep this whitelist in sync with the
+    // client writers (AuthContext profile write + ProgressContext
+    // learned/bookmarks + the weakness map).
+    //
+    // `weakness` is client-writable on purpose. It is the step-granularity
+    // weakness map (src/game/weakness.js): NOT XP-bearing, never read by any
+    // leaderboard query, and the only person a forged weakness profile
+    // misleads is its owner. If weakness ever earns XP or feeds a public
+    // ranking, move it out of clientKeys() and behind a Cloud Function like
+    // the rest — this comment is the reminder.
     match /users/{userId} {
       function ownsDoc() { return request.auth != null && request.auth.uid == userId; }
       function clientKeys() {
         return [
           'uid', 'name', 'email', 'avatar', 'joinedAt', 'lastSeen',
           'postsCount', 'commentsCount', 'role',
-          'learned', 'bookmarks'
+          'learned', 'bookmarks', 'weakness'
         ];
       }
       allow read:   if ownsDoc();

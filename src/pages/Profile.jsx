@@ -8,6 +8,7 @@ import { useProgress } from '../context/ProgressContext'
 import { computeProgress, splitKey } from '../utils/progressStats'
 import { xpToNext } from '../utils/xp'
 import { evaluateBadges, earnedBadgeCount } from '../utils/badges'
+import WeaknessPanel from '../components/game/WeaknessPanel'
 
 /* Badge icon strings (from src/utils/badges.js) → lucide components, and the
    per-tier accent color. Kept at module scope so the pure util stays React-free. */
@@ -102,7 +103,7 @@ function ListCard({ title, empty, entries }) {
 
 export default function Profile() {
   const { user, signInWithGoogle } = useAuth()
-  const { learned, bookmarks, xp, level, currentStreak, longestStreak, solvedCount, dailyCount } = useProgress()
+  const { learned, bookmarks, xp, level, currentStreak, longestStreak, solvedCount, dailyCount, weakness } = useProgress()
 
   if (!user) {
     return (
@@ -151,6 +152,9 @@ export default function Profile() {
         </div>
 
         <ProgressBar pct={overall.pct} label="Overall" big />
+
+        <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--chrome-text)', margin: '28px 0 12px' }}>Weak spots</h2>
+        <WeaknessPanel weakness={weakness} limit={6} />
 
         <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--chrome-text)', margin: '28px 0 12px' }}>By topic</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
