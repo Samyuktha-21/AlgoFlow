@@ -220,11 +220,16 @@ console.log(s.getMin());`,
      poll and the "queue is empty now" step land here — Java does the poll and
      the print on that one line). */
   priorityQueue: {
+    /* java 7 is a `// Output:` comment and java 8 is a blank line — neither is
+       code, so a highlight landing there shows the learner nothing. They were
+       mapped to real target lines in c/cpp/javascript; dropped rather than
+       repointed, since the generator emits only lines 4-6 and never asks for
+       them. Found by scripts/audit-unreachable-lines.mjs. */
     lineMap: {
-      c:          { 2: 2, 4: 3, 7: 16, 8: 38 },
-      cpp:        { 2: 5, 4: 6, 7: 12, 8: 11 },
+      c:          { 2: 2, 4: 3 },
+      cpp:        { 2: 5, 4: 6 },
       python:     { 4: 3, 5: 5, 6: 8 },
-      javascript: { 2: 1, 4: 3, 7: 15, 8: 38 },
+      javascript: { 2: 1, 4: 3 },
     },
   },
 
