@@ -45,17 +45,13 @@ export function describeStep(step) {
   return null
 }
 
-export function buildNextOpOptions(steps, i) {
-  const correct = describeStep(steps[i + 1])
-  if (!correct) return null
-  const seen = new Set([correct])
-  const distractors = []
-  // distractors are other steps from the same run — same style as the answer
-  for (const s of steps) {
-    const label = describeStep(s)
-    if (label && !seen.has(label)) { seen.add(label); distractors.push(label) }
-    if (distractors.length >= 3) break
-  }
-  if (distractors.length < 2) return null
-  return { correct, distractors: distractors.slice(0, 3) }
-}
+/* `buildNextOpOptions` used to live here. It walked the run from index 0 and
+   took the first three distinct labels, which made every distractor a setup
+   step and made the whole slate independent of where the question froze — F2
+   in docs/NEXT_FEATURES.md. It is deleted rather than deprecated, so nothing
+   can pick it up again by accident. Its replacement is `buildMutantOptions`
+   in src/game/mutants/, which chooses each wrong answer to be the step a
+   named misconception would have predicted.
+
+   This module stays label-only on purpose: mutants/ imports it, so anything
+   here that imported mutants/ back would be a cycle. */

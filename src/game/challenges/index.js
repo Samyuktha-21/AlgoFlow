@@ -10,10 +10,17 @@ export function shuffle(arr, rng = Math.random) {
   return a
 }
 
+/* A distractor is either a plain label, or { label, misconception } — the
+   buggy-variant distractors in src/game/mutants carry the mistake each wrong
+   answer encodes, so the card can name it after a wrong pick. */
 export function toOptions(correct, distractors, rng) {
   const opts = [
     { label: correct, isCorrect: true },
-    ...distractors.map(d => ({ label: d, isCorrect: false })),
+    ...distractors.map(d => (
+      typeof d === 'string'
+        ? { label: d, isCorrect: false }
+        : { label: d.label, isCorrect: false, misconception: d.misconception }
+    )),
   ]
   return shuffle(opts, rng)
 }

@@ -90,6 +90,18 @@ export default function ChallengeCard({ challenge, answered, selectedIndex, onSe
           <div style={{ color: chosenCorrect ? 'var(--chip-green-text)' : 'var(--chip-red-text)', fontWeight: 700, marginBottom: 6 }}>
             {chosenCorrect ? '✓ Correct!' : '✗ Not quite'}
           </div>
+          {/* A wrong answer built by src/game/mutants carries the mistake it
+              encodes. Naming it turns "not quite" into "here is the specific
+              misconception you just picked". */}
+          {!chosenCorrect && options[selectedIndex]?.misconception && (
+            <p style={{
+              color: 'var(--chrome-text)', fontSize: 14, lineHeight: 1.6, margin: '0 0 10px',
+              padding: '10px 12px', borderRadius: 8,
+              background: 'rgba(239,68,68,0.10)', border: '1px solid rgba(239,68,68,0.35)',
+            }}>
+              {options[selectedIndex].misconception}
+            </p>
+          )}
           <p style={{ color: 'var(--chrome-text-muted)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>{explanation}</p>
           {onNext && (
             <button type="button" onClick={onNext}
