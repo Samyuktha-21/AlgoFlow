@@ -10,13 +10,21 @@ import { getDefaultInput } from './defaultInput.js'
    harness could reach it — scripts/test-coverage.mjs kept its own copy of this
    dispatch instead, and that copy silently fell behind (it was still missing
    numberGrid long after the app had it). One dispatcher, one place. */
-export function runSteps(entry) {
+export function runSteps(entry, inputOverride) {
   const gen = entry.generateSteps
   if (!gen) return null
   const type = entry.type
   const inputType = entry.metadata?.inputType
   const inputSpec = entry.metadata?.inputSpec
-  const def = getDefaultInput(type, inputType, inputSpec, entry.metadata?.defaultInput)
+  /* `inputOverride` is { input, target } — the same shape getDefaultInput
+     returns. Side-by-side comparison (src/game/compareRuns.js) needs to hand
+     two algorithms byte-identical input, which for most pairs the per-type
+     default already does; the override exists for the cases where the user
+     picks the input, and for algorithms carrying a metadata.defaultInput of
+     their own that would otherwise make the two runs incomparable. */
+  const def = inputOverride && typeof inputOverride.input === 'string'
+    ? { input: inputOverride.input, target: inputOverride.target ?? '' }
+    : getDefaultInput(type, inputType, inputSpec, entry.metadata?.defaultInput)
   try {
     if (type === 'searching') {
       const p = parseSearchInput(def.input, def.target)

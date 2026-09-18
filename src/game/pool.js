@@ -28,6 +28,13 @@ export function buildPool(selectedCategoryIds) {
         type: metadata.type,
         themeId: themeOf(categoryId),
         hasSteps: !!stepsLoaders[stepsPath(categoryId, algorithmId)],
+        /* Side-by-side comparison needs two algorithms to receive identical
+           input. getDefaultInput keys off type, so same-type entries match for
+           free — unless one ships its own seed, which overrides the shared
+           default and makes the pair incomparable. Surfaced as a flag here so
+           src/game/compareRuns.js can filter the pool without loading every
+           metadata.json a second time. */
+        presetInput: typeof metadata.defaultInput === 'string',
       })
     }
   }
