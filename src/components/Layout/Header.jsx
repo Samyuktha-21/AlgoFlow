@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame, Trophy } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame, Trophy, ScanSearch } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { useProgress } from '../../context/ProgressContext'
@@ -216,6 +216,12 @@ export default function Header({ isHomepage }) {
     </button>
   )
 
+  const visualizeBtn = (big) => (
+    <button type="button" className="nav-btn" onClick={() => navigate('/visualize-code')} style={navBtn(big)}>
+      <ScanSearch size={big ? 13 : 12} /> Visualize Code
+    </button>
+  )
+
   /* Homepage header — minimal overlay (always dark, over the dark hero) */
   if (isHomepage) {
     return (
@@ -230,6 +236,7 @@ export default function Header({ isHomepage }) {
             {dailyBtn(false)}
             {leaderboardBtn(false)}
             {practiceBtn(false)}
+            {visualizeBtn(false)}
             {playBtn(false)}
             {interviewBtn(false)}
             {discussionBtn(false)}
@@ -256,6 +263,7 @@ export default function Header({ isHomepage }) {
           {dailyBtn(true)}
           {leaderboardBtn(true)}
           {practiceBtn(true)}
+          {visualizeBtn(true)}
           {playBtn(true)}
           {interviewBtn(true)}
           {discussionBtn(true)}
