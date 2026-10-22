@@ -13,6 +13,8 @@ import collections
 MAX_STEPS = 1500
 MAX_ITEMS = 60          # elements kept per list / dict / set
 MAX_STR = 60
+MAX_FRAMES = 30         # frames recorded per step: Global + the 29 innermost
+RECURSION_LIMIT = 3000
 USER_FILE = "<your code>"
 
 
@@ -20,10 +22,17 @@ class _StepLimit(BaseException):
     pass
 
 
-def _run(code):
+def _run(code, emit=None):
+    """Returns the trace as JSON. When the step limit is hit the trace is also
+    handed to `emit` right away: a bare `except:` in the user's code can
+    swallow _StepLimit (and an exception inside a trace function switches
+    tracing off), so the program may keep running untraced — possibly forever.
+    Emitting first means the caller already has the trace and can kill it."""
     steps = []
     calls = []          # recursion tree: {id, parent, name, args, start, end, ret}
     call_stack = []     # ids into `calls` for the frames currently open
+    raising = {}        # id(frame) -> exception type name, while it propagates
+    limit_json = None   # trace frozen at the moment the step limit was hit
     out = io.StringIO()
     obj_ids = {}        # id(obj) -> small stable number
     keep_alive = []     # stop CPython reusing ids of freed objects mid-run
@@ -92,21 +101,37 @@ def _run(code):
         return result
 
     def snapshot(frame, event, line, extra=None):
+        nonlocal limit_json
         if len(steps) >= MAX_STEPS:
+            if limit_json is None:
+                limit_json = build(None, True)
+                if emit is not None:
+                    emit(limit_json)
             raise _StepLimit()
         heap = {}
-        frames = []
+        user_frames = []
         f = frame
         while f is not None:
             if f.f_code.co_filename == USER_FILE:
-                is_global = f.f_code.co_name == "<module>"
-                frames.append({
-                    "name": "Global" if is_global else f.f_code.co_name,
-                    "line": f.f_lineno,
-                    "vars": frame_vars(f, heap, is_global),
-                })
+                user_frames.append(f)
             f = f.f_back
-        frames.reverse()  # bottom (Global) first, top of stack last
+        user_frames.reverse()  # bottom (Global) first, top of stack last
+        # Deep recursion: every step would otherwise copy the whole stack
+        # (megabytes of trace), so the middle collapses into one marker frame.
+        skipped = max(0, len(user_frames) - MAX_FRAMES)
+        frames = []
+        for depth, f in enumerate(user_frames):
+            if 0 < depth <= skipped:
+                if depth == 1:
+                    frames.append({"name": "…", "skipped": skipped, "depth": 1, "line": None, "vars": {}})
+                continue
+            is_global = f.f_code.co_name == "<module>"
+            frames.append({
+                "name": "Global" if is_global else f.f_code.co_name,
+                "depth": depth,
+                "line": f.f_lineno,
+                "vars": frame_vars(f, heap, is_global),
+            })
         step = {
             "event": event,
             "line": line,
@@ -160,29 +185,57 @@ def _run(code):
                 snapshot(frame, "call", frame.f_lineno, {"msg": f"Call {name}({calls[cid]['args']})"})
             return tracer
         if event == "line":
+            raising.pop(id(frame), None)  # a line ran after the exception: it was caught here
             snapshot(frame, "line", frame.f_lineno)
         elif event == "return":
+            # an exception leaving the frame also fires "return", with arg None
+            exc = raising.pop(id(frame), None)
             if name == "<module>" and arg is None:
                 # final picture, after the last line has taken effect
                 snapshot(frame, "done", frame.f_lineno, {"msg": "Program finished"})
             if name != "<module>":
-                ret = encode(arg, {}) if arg is None or isinstance(arg, (bool, int, float, str)) else None
-                ret_text = repr(arg) if ret is not None else type(arg).__name__
-                snapshot(frame, "return", frame.f_lineno,
-                         {"msg": f"{name} returns {short(ret_text)}"})
+                if exc is not None:
+                    msg, ret_text = f"{name} raises {exc}", exc
+                else:
+                    ret = encode(arg, {}) if arg is None or isinstance(arg, (bool, int, float, str)) else None
+                    ret_text = repr(arg) if ret is not None else type(arg).__name__
+                    msg = f"{name} returns {short(ret_text)}"
+                snapshot(frame, "return", frame.f_lineno, {"msg": msg})
                 if call_stack:
                     cid = call_stack.pop()
                     calls[cid]["end"] = len(steps) - 1
                     calls[cid]["ret"] = short(ret_text)
+                    if exc is not None:
+                        calls[cid]["raised"] = True
         elif event == "exception":
-            pass
+            raising[id(frame)] = arg[0].__name__
         return tracer
+
+    def build(error, truncated):
+        if error:
+            # an uncaught error also fires the module "return" event — not a real finish
+            if steps and steps[-1]["event"] == "done":
+                steps.pop()
+            if steps:
+                steps[-1]["error"] = error["text"]
+            else:
+                steps.append({"event": "error", "line": error["line"], "frames": [], "heap": {},
+                              "out": len(out.getvalue()), "call": None, "error": error["text"]})
+        return json.dumps({
+            "ok": error is None,
+            "error": error["text"] if error else None,
+            "errorLine": error["line"] if error else None,
+            "truncated": truncated,
+            "maxSteps": MAX_STEPS,
+            "steps": steps,
+            "calls": calls,
+            "stdout": out.getvalue(),
+        })
 
     def no_input(*_a, **_k):
         raise RuntimeError("input() is not supported here: hard-code your test values instead")
 
     error = None
-    truncated = False
     try:
         compiled = compile(code, USER_FILE, "exec")
     except SyntaxError as e:
@@ -193,12 +246,12 @@ def _run(code):
     old_stdout = sys.stdout
     old_limit = sys.getrecursionlimit()
     sys.stdout = out
-    sys.setrecursionlimit(400)
+    sys.setrecursionlimit(RECURSION_LIMIT)
     try:
         sys.settrace(tracer)
         exec(compiled, user_globals)
     except _StepLimit:
-        truncated = True
+        pass
     except BaseException as e:  # noqa: BLE001 - surface any user error in the UI
         tb = e.__traceback__
         line = None
@@ -212,22 +265,6 @@ def _run(code):
         sys.stdout = old_stdout
         sys.setrecursionlimit(old_limit)
 
-    if error:
-        # an uncaught error also fires the module "return" event — not a real finish
-        if steps and steps[-1]["event"] == "done":
-            steps.pop()
-        if steps:
-            steps[-1]["error"] = error["text"]
-        else:
-            steps.append({"event": "error", "line": error["line"], "frames": [], "heap": {},
-                          "out": len(out.getvalue()), "call": None, "error": error["text"]})
-    return json.dumps({
-        "ok": error is None,
-        "error": error["text"] if error else None,
-        "errorLine": error["line"] if error else None,
-        "truncated": truncated,
-        "maxSteps": MAX_STEPS,
-        "steps": steps,
-        "calls": calls,
-        "stdout": out.getvalue(),
-    })
+    # once the limit was hit, the frozen trace is the answer — even if the
+    # program caught _StepLimit and later finished or failed untraced
+    return limit_json if limit_json is not None else build(error, False)

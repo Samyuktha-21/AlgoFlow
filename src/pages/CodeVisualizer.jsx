@@ -96,7 +96,7 @@ export default function CodeVisualizer() {
 
   const errorLine = runError?.line || (step?.error && trace?.errorLine) || null
   const stdout = trace ? trace.stdout.slice(0, step?.out ?? 0) : ''
-  const busy = status === 'running'
+  const busy = status === 'running' || status === 'installing'
   const loading = status === 'loading' && !loadError
 
   return (
@@ -154,7 +154,7 @@ export default function CodeVisualizer() {
               }}
             >
               {busy || loading ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-              {loading ? 'Loading Python engine…' : busy ? 'Running…' : 'Visualise'}
+              {loading ? 'Loading Python engine…' : status === 'installing' ? 'Installing packages…' : busy ? 'Running…' : 'Visualise'}
             </button>
 
             {loadError && (

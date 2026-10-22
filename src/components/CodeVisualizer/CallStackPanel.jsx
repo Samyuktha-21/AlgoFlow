@@ -10,8 +10,15 @@ export default function CallStackPanel({ step }) {
       <AnimatePresence initial={false}>
         {frames.map((fr, i) => {
           const isTop = i === 0
-          const depth = frames.length - 1 - i
+          const depth = fr.depth ?? frames.length - 1 - i
           const vars = Object.entries(fr.vars)
+          if (fr.skipped) {
+            return (
+              <motion.div key="skipped" layout style={{ fontSize: 12, color: '#94a3b8', fontStyle: 'italic', textAlign: 'center', padding: '2px 0' }}>
+                … {fr.skipped} more frame{fr.skipped === 1 ? '' : 's'} …
+              </motion.div>
+            )
+          }
           return (
             <motion.div
               key={`${depth}-${fr.name}`}

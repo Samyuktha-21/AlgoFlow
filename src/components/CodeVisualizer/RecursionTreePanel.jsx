@@ -53,18 +53,19 @@ export default function RecursionTreePanel({ calls, stepIndex, activeCall }) {
         )))}
         {nodes.map(n => {
           const active = chain.has(n.id)
-          const stroke = active ? '#38bdf8' : n.done ? '#22c55e' : '#334155'
-          const fill = active ? 'rgba(56,189,248,0.15)' : n.done ? 'rgba(34,197,94,0.12)' : '#1e293b'
+          const doneColor = n.raised ? '#f43f5e' : '#22c55e'
+          const stroke = active ? '#38bdf8' : n.done ? doneColor : '#334155'
+          const fill = active ? 'rgba(56,189,248,0.15)' : n.done ? (n.raised ? 'rgba(244,63,94,0.12)' : 'rgba(34,197,94,0.12)') : '#1e293b'
           const label = `${n.name}(${n.args})`
           return (
             <g key={n.id}>
-              <title>{label}{n.done ? ` → ${n.ret}` : ''}</title>
+              <title>{label}{n.done ? (n.raised ? ` raised ${n.ret}` : ` → ${n.ret}`) : ''}</title>
               <rect x={px(n)} y={py(n)} width={W} height={H} rx={8} fill={fill} stroke={stroke} strokeWidth={2} />
               <text x={px(n) + W / 2} y={py(n) + 14} textAnchor="middle" fill="#e2e8f0" fontSize={11} fontWeight={700} fontFamily="ui-monospace, monospace">
                 {label.length > 13 ? label.slice(0, 12) + '…' : label}
               </text>
-              <text x={px(n) + W / 2} y={py(n) + 28} textAnchor="middle" fill={n.done ? '#22c55e' : '#94a3b8'} fontSize={10} fontFamily="ui-monospace, monospace">
-                {n.done ? `→ ${String(n.ret).slice(0, 10)}` : active ? 'running' : ''}
+              <text x={px(n) + W / 2} y={py(n) + 28} textAnchor="middle" fill={n.done ? doneColor : '#94a3b8'} fontSize={10} fontFamily="ui-monospace, monospace">
+                {n.done ? `${n.raised ? '✗' : '→'} ${String(n.ret).slice(0, 10)}` : active ? 'running' : ''}
               </text>
             </g>
           )
