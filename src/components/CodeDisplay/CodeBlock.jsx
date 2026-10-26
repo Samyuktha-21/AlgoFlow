@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, Copy } from 'lucide-react'
-import Prism from 'prismjs'
+import Prism from './prismGlobal'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-c'
 import 'prismjs/components/prism-cpp'

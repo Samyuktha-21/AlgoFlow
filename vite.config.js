@@ -8,6 +8,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes('prismGlobal')) return 'prism'
           if (!id.includes('node_modules')) return
           if (id.includes('firebase') || id.includes('@firebase')) return 'firebase'
           if (id.includes('/d3') || id.includes('d3-')) return 'd3'
