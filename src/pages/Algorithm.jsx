@@ -569,7 +569,7 @@ export default function Algorithm() {
 
           {/* ── Page title ── */}
           <div>
-            <div className="flex items-center gap-3 mb-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-1">
               <h1 style={{ fontSize:24, fontWeight:700, color: textPrimary }}>{metadata.name}</h1>
               <span style={{
                 fontSize:11, padding:'3px 10px', borderRadius:20, fontWeight:600,

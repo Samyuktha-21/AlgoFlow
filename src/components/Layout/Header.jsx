@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame, Trophy, GitCompare, ScanSearch } from 'lucide-react'
+import { Zap, MessageSquare, Sun, Moon, Gamepad2, Code2, LayoutDashboard, LogOut, ChevronDown, Flame, Trophy, GitCompare, ScanSearch, Menu, X, Search } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { useProgress } from '../../context/ProgressContext'
 import { SearchTriggerHeader } from '../Search/SearchTrigger'
+import { openSearch } from '../Search/searchOpener'
 
 const GLASS = {
   background: 'var(--chrome-bg)',
@@ -156,6 +157,67 @@ function LoginButton() {
   )
 }
 
+/* Below the full-row breakpoint the nav buttons collapse into this menu, so
+   the header never overflows the viewport on tablets and phones. */
+function MobileMenu({ items }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey) }
+  }, [open])
+
+  return (
+    <div ref={ref} className="min-[1400px]:hidden" style={{ position: 'relative', flexShrink: 0 }}>
+      <button
+        type="button"
+        className="nav-btn"
+        onClick={() => setOpen(o => !o)}
+        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-expanded={open}
+        style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: 34, height: 34, borderRadius: 6,
+          background: 'var(--chrome-btn-bg)', border: '1px solid var(--chrome-btn-border)',
+          color: 'var(--chrome-text)', cursor: 'pointer',
+        }}
+      >
+        {open ? <X size={16} /> : <Menu size={16} />}
+      </button>
+      {open && (
+        <div role="menu" style={{
+          position: 'absolute', right: 0, top: 'calc(100% + 8px)', width: 230,
+          background: 'var(--chrome-bg)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid var(--chrome-border)', borderRadius: 10, padding: 6,
+          boxShadow: '0 8px 30px rgba(0,0,0,0.35)', zIndex: 60,
+          display: 'flex', flexDirection: 'column', gap: 2,
+        }}>
+          {items.map(({ key, Icon, label, onClick }) => (
+            <button
+              key={key}
+              type="button"
+              role="menuitem"
+              onClick={() => { setOpen(false); onClick() }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 7,
+                fontSize: 14, fontWeight: 600, color: 'var(--chrome-text)', background: 'transparent',
+                border: 'none', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
+              }}
+            >
+              <Icon size={15} /> {label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const LogoMark = () => (
   <img
     src="/logo.svg"
@@ -185,68 +247,43 @@ export default function Header({ isHomepage }) {
     else navigate('/practice')
   }
 
-  const interviewBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={handleInterview} style={navBtn(big)}>
-      <Zap size={big ? 13 : 12} /> Interview
-    </button>
-  )
-  const discussionBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={handleDiscussion} style={navBtn(big)}>
-      <MessageSquare size={big ? 13 : 12} /> Discussion
-    </button>
-  )
-  const playBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={handlePlay} style={navBtn(big)}>
-      <Gamepad2 size={big ? 13 : 12} /> Test Yourself
-    </button>
-  )
-  const practiceBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={handlePractice} style={navBtn(big)}>
-      <Code2 size={big ? 13 : 12} /> Practice
-    </button>
-  )
-  const dailyBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={() => navigate('/daily')} style={navBtn(big)}>
-      <Flame size={big ? 13 : 12} /> {user && currentStreak > 0 ? `Daily · ${currentStreak}` : 'Daily'}
-    </button>
-  )
-  const compareBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={() => navigate('/compare')} style={navBtn(big)}>
-      <GitCompare size={big ? 13 : 12} /> Compare
-    </button>
-  )
-  const leaderboardBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={() => navigate('/leaderboard')} style={navBtn(big)}>
-      <Trophy size={big ? 13 : 12} /> Ranks
-    </button>
-  )
+  const navItems = [
+    { key: 'daily', Icon: Flame, label: user && currentStreak > 0 ? `Daily · ${currentStreak}` : 'Daily', onClick: () => navigate('/daily') },
+    { key: 'compare', Icon: GitCompare, label: 'Compare', onClick: () => navigate('/compare') },
+    { key: 'ranks', Icon: Trophy, label: 'Ranks', onClick: () => navigate('/leaderboard') },
+    { key: 'practice', Icon: Code2, label: 'Practice', onClick: handlePractice },
+    { key: 'visualize', Icon: ScanSearch, label: 'Visualize Code', onClick: () => navigate('/visualize-code') },
+    { key: 'play', Icon: Gamepad2, label: 'Test Yourself', onClick: handlePlay },
+    { key: 'interview', Icon: Zap, label: 'Interview', onClick: handleInterview },
+    { key: 'discussion', Icon: MessageSquare, label: 'Discussion', onClick: handleDiscussion },
+  ]
+  const menuItems = [{ key: 'search', Icon: Search, label: 'Search algorithms', onClick: openSearch }, ...navItems]
 
-  const visualizeBtn = (big) => (
-    <button type="button" className="nav-btn" onClick={() => navigate('/visualize-code')} style={navBtn(big)}>
-      <ScanSearch size={big ? 13 : 12} /> Visualize Code
-    </button>
+  /* Full button row only where it fits; MobileMenu covers narrower screens. */
+  const navRow = (big) => (
+    <div className="hidden min-[1400px]:flex items-center gap-2">
+      {navItems.map(({ key, Icon, label, onClick }) => (
+        <button key={key} type="button" className="nav-btn" onClick={onClick} style={navBtn(big)}>
+          <Icon size={big ? 13 : 12} /> {label}
+        </button>
+      ))}
+    </div>
   )
 
   /* Homepage header — minimal overlay (always dark, over the dark hero) */
   if (isHomepage) {
     return (
       <header className="absolute top-0 left-0 right-0 z-50" style={FORCE_DARK_CHROME}>
-        <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2.5">
             <LogoMark />
             <span className="font-bold text-xl tracking-tight text-white"
               style={{ fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
           </Link>
           <div className="flex items-center gap-2">
-            {dailyBtn(false)}
-            {compareBtn(false)}
-            {leaderboardBtn(false)}
-            {practiceBtn(false)}
-            {visualizeBtn(false)}
-            {playBtn(false)}
-            {interviewBtn(false)}
-            {discussionBtn(false)}
+            {navRow(false)}
             <LoginButton />
+            <MobileMenu items={menuItems} />
           </div>
         </div>
       </header>
@@ -256,7 +293,7 @@ export default function Header({ isHomepage }) {
   /* Non-homepage header */
   return (
     <header className="sticky top-0 z-50" style={GLASS}>
-      <div className="max-w-[1400px] mx-auto px-5 h-14 flex items-center gap-3">
+      <div className="max-w-[1400px] mx-auto px-3 sm:px-5 h-14 flex items-center gap-3">
         <Link to="/" className="flex items-center gap-2 flex-shrink-0">
           <LogoMark />
           <span className="font-bold text-base" style={{ color: 'var(--chrome-text)', fontFamily: "'General Sans', 'Inter', sans-serif" }}>AlgoFlow</span>
@@ -265,17 +302,11 @@ export default function Header({ isHomepage }) {
         <div style={{ flex: 1 }} />
 
         <div className="flex items-center gap-2 flex-shrink-0">
-          <SearchTriggerHeader />
-          {dailyBtn(true)}
-          {compareBtn(true)}
-          {leaderboardBtn(true)}
-          {practiceBtn(true)}
-          {visualizeBtn(true)}
-          {playBtn(true)}
-          {interviewBtn(true)}
-          {discussionBtn(true)}
+          <div className="hidden md:block"><SearchTriggerHeader /></div>
+          {navRow(true)}
           <ThemeToggle />
           <LoginButton />
+          <MobileMenu items={menuItems} />
         </div>
       </div>
     </header>
