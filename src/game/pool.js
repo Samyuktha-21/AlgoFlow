@@ -17,7 +17,7 @@ export function buildPool(selectedCategoryIds) {
     : Object.keys(registry)
   const pool = []
   for (const categoryId of cats) {
-    for (const algorithmId of (registry[categoryId] || [])) {
+    for (const { id: algorithmId } of (registry[categoryId] || [])) {
       const meta = metaModules[metaPath(categoryId, algorithmId)]
       const metadata = meta?.default || meta
       if (!metadata) continue
