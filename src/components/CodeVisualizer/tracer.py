@@ -6,9 +6,14 @@ frame's variables, and every reachable object (lists, dicts, class instances)
 in a shared heap so the UI can draw arrays, trees, linked lists and graphs.
 """
 import sys
+import os
 import json
 import io
 import collections
+
+# the worker has no DOM: Pyodide's default matplotlib backend would crash on
+# import, so plotting code runs headless (plt.show() becomes a no-op)
+os.environ.setdefault("MPLBACKEND", "Agg")
 
 MAX_STEPS = 1500
 MAX_ITEMS = 60          # elements kept per list / dict / set
@@ -47,8 +52,70 @@ def _run(code, emit=None):
     def short(s):
         return s if len(s) <= MAX_STR else s[:MAX_STR - 1] + "…"
 
-    def encode(v, heap):
-        """Primitive -> {"p": value}; container/object -> {"ref": n} + heap entry."""
+    def synth(heap, entry):
+        """Heap entry for a temporary view (an ndarray row) that has no
+        object of its own worth an id; negative keys never clash with ref_id."""
+        k = -(len(heap) + 1)
+        heap[k] = entry
+        return {"ref": k}
+
+    def encode_ml(v, heap):
+        """numpy / pandas values -> the same shapes as plain Python ones
+        (scalars -> primitives, 1-D -> list, 2-D -> list of rows, DataFrame
+        -> table). Returns None for anything else."""
+        np = sys.modules.get("numpy")
+        if np is not None:
+            if isinstance(v, np.generic):
+                return encode(v.item(), heap)
+            if isinstance(v, np.ndarray):
+                if v.ndim == 0:
+                    return encode(v.item(), heap)
+                n = ref_id(v)
+                if n in heap:
+                    return {"ref": n}
+                heap[n] = None
+                shape = list(v.shape)
+                meta = {"cls": "ndarray", "dtype": str(v.dtype), "shape": shape}
+                if v.ndim == 1:
+                    heap[n] = {"kind": "list", "items": [encode(x, heap) for x in v[:MAX_ITEMS].tolist()],
+                               "len": shape[0], **meta}
+                elif v.ndim == 2:
+                    rows = [synth(heap, {"kind": "list", "items": [encode(x, heap) for x in row],
+                                         "len": shape[1]})
+                            for row in v[:MAX_ITEMS, :MAX_ITEMS].tolist()]
+                    heap[n] = {"kind": "list", "items": rows, "len": shape[0], **meta}
+                else:
+                    heap[n] = {"kind": "other", "text": f"ndarray shape={tuple(shape)} dtype={v.dtype}", **meta}
+                return {"ref": n}
+        pd = sys.modules.get("pandas")
+        if pd is not None:
+            if isinstance(v, pd.Series):
+                n = ref_id(v)
+                if n in heap:
+                    return {"ref": n}
+                heap[n] = None
+                heap[n] = {"kind": "list", "items": [encode(x, heap) for x in v.iloc[:MAX_ITEMS].tolist()],
+                           "len": len(v), "cls": "Series", "name": short(str(v.name)) if v.name is not None else None,
+                           "index": [short(str(i)) for i in v.index[:MAX_ITEMS]]}
+                return {"ref": n}
+            if isinstance(v, pd.DataFrame):
+                n = ref_id(v)
+                if n in heap:
+                    return {"ref": n}
+                heap[n] = None
+                part = v.iloc[:MAX_ITEMS, :MAX_ITEMS]
+                heap[n] = {"kind": "table", "cls": "DataFrame",
+                           "columns": [short(str(c)) for c in part.columns],
+                           "index": [short(str(i)) for i in part.index],
+                           "rows": [[encode(x, heap) for x in row] for row in part.values.tolist()],
+                           "len": len(v), "shape": list(v.shape)}
+                return {"ref": n}
+        return None
+
+    def encode(v, heap, lib=False):
+        """Primitive -> {"p": value}; container/object -> {"ref": n} + heap entry.
+        `lib` marks fields of a library object: those are shown one level
+        deep only, so a model's internals don't flood the heap."""
         if v is None or isinstance(v, (bool, int, float)):
             if isinstance(v, float) and (v != v or v in (float("inf"), float("-inf"))):
                 return {"p": repr(v)}
@@ -57,6 +124,9 @@ def _run(code, emit=None):
             return {"p": short(v), "str": True}
         if callable(v) or isinstance(v, type) or type(v).__name__ == "module":
             return None
+        ml = encode_ml(v, heap)
+        if ml is not None:
+            return ml
         n = ref_id(v)
         if n in heap:
             return {"ref": n}
@@ -77,6 +147,19 @@ def _run(code, emit=None):
             except Exception:
                 pass
             heap[n] = {"kind": "set", "items": [encode(x, heap) for x in items], "len": len(v)}
+        elif hasattr(v, "__dict__") and type(v).__module__ != "__main__":
+            # library object (e.g. a scikit-learn model): public fields only,
+            # nested library objects collapse to their repr
+            if lib:
+                heap[n] = {"kind": "other", "text": short(repr(v))}
+                return {"ref": n}
+            fields = {}
+            for k, x in list(vars(v).items())[:MAX_ITEMS]:
+                if not k.startswith("_"):
+                    e = encode(x, heap, True)
+                    if e is not None:
+                        fields[k] = e
+            heap[n] = {"kind": "obj", "cls": type(v).__name__, "fields": fields, "lib": True}
         elif hasattr(v, "__dict__"):
             fields = {}
             for k, x in vars(v).items():

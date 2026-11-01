@@ -39,7 +39,7 @@ const truncatedNote = (shown, len) => (len > shown ? `showing ${shown} of ${len}
 function ArrayView({ v }) {
   const changed = new Set(v.changed)
   return (
-    <Card title={v.title} kind="array" note={truncatedNote(v.items.length, v.len)}>
+    <Card title={v.title} kind={v.label || 'array'} note={truncatedNote(v.items.length, v.len)}>
       {v.items.length === 0 ? <Empty /> : (
         <div style={{ display: 'flex', gap: 6, paddingBottom: 4 }}>
           {v.items.map((it, i) => {
@@ -47,7 +47,7 @@ function ArrayView({ v }) {
             return (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                 <div style={cellStyle(changed.has(i), ptrs.length > 0)}>{it}</div>
-                <span style={{ fontSize: 10, color: C.muted }}>{i}</span>
+                <span style={{ fontSize: 10, color: C.muted }}>{v.indexLabels?.[i] ?? i}</span>
                 <div style={{ minHeight: 16, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   {ptrs.map(p => (
                     <span key={p.name} style={{ fontSize: 11, fontWeight: 700, color: C.accent, fontFamily: 'ui-monospace, monospace', lineHeight: 1.2 }}>
@@ -102,12 +102,12 @@ function QueueView({ v }) {
 function GridView({ v }) {
   const head = (on) => ({ fontSize: 10, color: on ? C.accent : C.muted, fontWeight: on ? 700 : 500, paddingRight: 4 })
   return (
-    <Card title={v.title} kind="grid">
+    <Card title={v.title} kind={v.label || 'grid'} note={truncatedNote(v.rows.length, v.len)}>
       <table style={{ borderCollapse: 'separate', borderSpacing: 3 }}>
         <thead>
           <tr>
             <th />
-            {v.rows[0]?.cells.map((_, j) => <th key={j} style={head(j === v.col)}>{j}</th>)}
+            {v.rows[0]?.cells.map((_, j) => <th key={j} style={head(j === v.col)}>{v.colLabels?.[j] ?? j}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -115,7 +115,7 @@ function GridView({ v }) {
             const changed = new Set(row.changed)
             return (
               <tr key={i}>
-                <td style={head(i === v.row)}>{i}</td>
+                <td style={head(i === v.row)}>{v.rowLabels?.[i] ?? i}</td>
                 {row.cells.map((c, j) => (
                   <td key={j} style={{ ...cellStyle(changed.has(j), i === v.row && (v.col == null || j === v.col)), display: 'table-cell', textAlign: 'center', minWidth: 34, height: 32, fontSize: 13 }}>{c}</td>
                 ))}

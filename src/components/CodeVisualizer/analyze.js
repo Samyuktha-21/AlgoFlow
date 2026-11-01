@@ -22,7 +22,10 @@ export const primText = (e) => {
   if (e.p === null) return 'None'
   if (e.p === true) return 'True'
   if (e.p === false) return 'False'
-  return e.str ? `'${e.p}'` : String(e.p)
+  if (e.str) return `'${e.p}'`
+  // ML code is full of floats like 0.30000000000000004: 6 significant digits
+  if (typeof e.p === 'number' && !Number.isInteger(e.p)) return String(Number(e.p.toPrecision(6)))
+  return String(e.p)
 }
 
 function nodeValue(obj) {
@@ -34,6 +37,8 @@ function nodeValue(obj) {
 const isTreeNode = (o) => o?.kind === 'obj' && ('left' in o.fields || 'right' in o.fields)
 const isListNode = (o) => o?.kind === 'obj' && 'next' in o.fields && !isTreeNode(o)
 const isSeq = (o) => o && (o.kind === 'list' || o.kind === 'tuple' || o.kind === 'deque')
+/* Card label for numpy / pandas values, e.g. "ndarray float64 3×2" */
+const mlLabel = (o) => (o.cls === 'ndarray' ? `ndarray ${o.dtype} ${o.shape.join('×')}` : o.cls === 'Series' ? 'pandas Series' : null)
 
 /* Every heap object referenced by a variable, tagged with the names pointing
    at it and the top-most frame that holds it (for index pointers). */
@@ -231,18 +236,19 @@ export function analyzeStep(step, prevStep) {
       const allRows = o.items.length > 0 && subs.every(s => isSeq(s) && s.items.every(isPrim))
       const nodeItems = o.items.length > 0 && subs.every(s => isTreeNode(s) || isListNode(s))
 
-      if (allRows && (anyName(GRAPH_NAME) || new Set(subs.map(s => s.items.length)).size > 1)) {
+      if (allRows && !o.cls && (anyName(GRAPH_NAME) || new Set(subs.map(s => s.items.length)).size > 1)) {
         views.push({ type: 'graph', key: `g${r.ref}`, title, ...buildGraph(heap, o, step, false) })
       } else if (allRows) {
         const prevRows = prev && isSeq(prev) ? prev.items.map(it => (it && 'ref' in it ? prevStep.heap[it.ref] : null)) : []
         const rows = subs.map((s, i) => ({ cells: s.items.map(primText), changed: changedIndices(s, prevRows[i]) }))
         const cols = Math.max(0, ...rows.map(x => x.cells.length))
         const pick = (re, len) => arrayPointers(r.frame, len).find(p => re.test(p.name))?.index ?? null
-        views.push({ type: 'grid', key: `d${r.ref}`, title, rows, row: pick(/^(i|r|row|x)$/i, rows.length), col: pick(/^(j|c|col|y)$/i, cols) })
+        views.push({ type: 'grid', key: `d${r.ref}`, title, label: mlLabel(o), len: o.len, rows, row: pick(/^(i|r|row|x)$/i, rows.length), col: pick(/^(j|c|col|y)$/i, cols) })
       } else if (allPrim || nodeItems || o.items.length === 0) {
         const items = o.items.map(it => (isPrim(it) ? primText(it) : nodeValue(heap[it.ref]) ))
         const base = { key: `a${r.ref}`, title, items, len: o.len, changed: allPrim ? changedIndices(o, prev) : [] }
-        if (anyName(STACK_NAME)) views.push({ type: 'stack', ...base })
+        if (o.cls) views.push({ type: 'array', ...base, label: mlLabel(o), indexLabels: o.index, pointers: arrayPointers(r.frame, o.items.length) })
+        else if (anyName(STACK_NAME)) views.push({ type: 'stack', ...base })
         else if (o.kind === 'deque' || anyName(QUEUE_NAME)) views.push({ type: 'queue', ...base })
         else views.push({ type: 'array', ...base, pointers: arrayPointers(r.frame, o.items.length) })
       } else {
@@ -256,6 +262,14 @@ export function analyzeStep(step, prevStep) {
       } else {
         views.push({ type: 'dict', key: `m${r.ref}`, title, rows: o.entries.map(([k, v]) => [describe(k, heap), describe(v, heap)]), len: o.len })
       }
+    } else if (o.kind === 'table') {
+      const prevRows = prev?.kind === 'table' ? prev.rows : []
+      const rows = o.rows.map((cells, i) => ({
+        cells: cells.map(primText),
+        changed: cells.map((c, j) => j).filter(j => prevRows[i] && primText(prevRows[i][j]) !== primText(o.rows[i][j])),
+      }))
+      views.push({ type: 'grid', key: `d${r.ref}`, title, label: `DataFrame ${o.shape.join('×')}`, len: o.len,
+        rows, colLabels: o.columns, rowLabels: o.index, row: null, col: null })
     } else if (o.kind === 'set') {
       views.push({ type: 'set', key: `s${r.ref}`, title, items: o.items.map(it => describe(it, heap)), len: o.len })
     } else if (o.kind === 'obj') {
@@ -274,6 +288,8 @@ export function describe(enc, heap) {
   if (isPrim(enc)) return primText(enc)
   const o = heap?.[enc.ref]
   if (!o) return '…'
+  if (o.cls === 'ndarray' && o.shape.length > 1) return `ndarray(${o.shape.join('×')})`
+  if (o.kind === 'table') return `DataFrame(${o.shape.join('×')})`
   if (isSeq(o)) {
     if (o.items.length > 0 && !o.items.some(isPrim)) return `${o.kind}[${o.len}] of ${describe(o.items[0], heap).startsWith('[') ? 'lists' : 'items'}`
     const inner = o.items.slice(0, 6).map(it => (isPrim(it) ? primText(it) : '…')).join(', ')
@@ -282,7 +298,7 @@ export function describe(enc, heap) {
   }
   if (o.kind === 'set') return `{${o.items.slice(0, 6).map(it => (isPrim(it) ? primText(it) : '…')).join(', ')}${o.len > 6 ? ', …' : ''}}`
   if (o.kind === 'dict') return `{${o.len} keys}`
-  if (o.kind === 'obj') return `${o.cls}(${nodeValue(o)})`
+  if (o.kind === 'obj') return o.lib ? o.cls : `${o.cls}(${nodeValue(o)})`
   return o.text || o.kind
 }
 
